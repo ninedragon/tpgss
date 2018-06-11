@@ -1,5 +1,6 @@
 package com.zz.core.mybatis;
 
+import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,6 +21,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 
 import com.zz.common.utils.LoggerUtils;
 import com.zz.common.utils.StringUtils;
+import com.zz.core.config.QQConfig;
 import com.zz.core.mybatis.page.MysqlDialect;
 import com.zz.core.mybatis.page.Pagination;
 
@@ -32,6 +35,28 @@ public class BaseMybatisDao<T> extends SqlSessionDaoSupport {
 	final static String DEFAULT_SQL_ID = "findAll";
 	/**默认的查询Count sql id**/
 	final static String DEFAULT_COUNT_SQL_ID = "findCount";
+	private final static String FILE_NAME = "/jdbc.properties";
+	/**
+	 * 配置文件
+	 */
+	private static Properties prop = null;
+	private static 	String driver;
+	private static 	String jdbcUrl;
+	private static 	String username;
+	private static 	String password;
+	static{
+		prop = new Properties();
+		try {
+		 prop.load(BaseMybatisDao.class.getResourceAsStream(FILE_NAME));
+		 driver= prop.getProperty("jdbc.mysql.driver");
+		 jdbcUrl= prop.getProperty("jdbc.mysql.url");
+		 username= prop.getProperty("jdbc.mysql.username");
+		 password= prop.getProperty("jdbc.mysql.password");			
+		} catch (IOException e) {
+			LoggerUtils.fmtError(BaseMybatisDao.class,e, "加载文件异常，文件路径：%s", FILE_NAME);
+		}
+		
+	}
 	public BaseMybatisDao() {
 		try {
 			Object genericClz = getClass().getGenericSuperclass();
@@ -94,8 +119,8 @@ public class BaseMybatisDao<T> extends SqlSessionDaoSupport {
 		try {
 			Connection conn = this.getSqlSession().getConnection();
 //			if(null == conn){
-				Class.forName("com.mysql.jdbc.Driver");
-				conn = DriverManager.getConnection("jdbc:mysql://10.20.13.143:3306/test?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true", "root", "root123");// 获取连接
+				Class.forName(driver);
+				conn = DriverManager.getConnection(jdbcUrl, username, password);// 获取连接
 				conn.setAutoCommit(false);// 关闭自动提交，不然conn.commit()运行到这句会报错
 //			}
 			List<?> resultList = this.getSqlSession().selectList(sqlId, params);
@@ -195,9 +220,9 @@ public class BaseMybatisDao<T> extends SqlSessionDaoSupport {
 		try {
     			Connection conn = this.getSqlSession().getConnection();
 //    			if(null == conn){
-    				Class.forName("com.mysql.jdbc.Driver");
-    				conn = DriverManager.getConnection("jdbc:mysql://10.20.13.143:3306/test?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true", "root", "root123");// 获取连接
-    				conn.setAutoCommit(false);// 关闭自动提交，不然conn.commit()运行到这句会报错
+    			Class.forName(driver);
+				conn = DriverManager.getConnection(jdbcUrl, username, password);// 获取连接
+				conn.setAutoCommit(false);// 关闭自动提交，不然conn.commit()运行到这句会报错
 //    			}
 			List resultList = this.getSqlSession().selectList(sqlId, params); 
 
