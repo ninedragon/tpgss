@@ -97,7 +97,7 @@
 			*/
 			function selectPermissionById(id){
 				var load = layer.load();
-				$.post("<%=basePath%>/permission/control.shtml",{id:id},function(result){
+				$.post("<%=basePath%>/permission/control",{id:id},function(result){
 					$('#selectRoleId').val(id);
 					layer.close(load);
 					if(result && result.length){

@@ -53,7 +53,7 @@
 				});
 				//单击新增
 				$("span.icon01").on('click',function(){
-					$.post('<%=basePath%>/member/ajax_getFindUsersBy.shtml',{id:null},function(result){
+					$.post('<%=basePath%>/member/ajax_getFindUsersBy',{id:null},function(result){
 						$("#divContent").html(result);
 						obj.operate = "save";
 						$("#titleSpan").html("新增居民信息");
@@ -70,7 +70,7 @@
 			}
 			//编辑
 			function edit(id){
-					$.post('<%=basePath%>/member/ajax_getFindUsersBy.shtml',{id:id},function(result){
+					$.post('<%=basePath%>/member/ajax_getFindUsersBy',{id:id},function(result){
 						$("#divContent").html(result);
 						obj.operate = "edit";
 						$("#titleSpan").html("修改居民信息");

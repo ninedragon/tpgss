@@ -97,7 +97,7 @@
 			*/
 			function selectRoleById(id){
 				var load = layer.load();
-				$.post("<%=basePath%>/role/allotRole.shtml",{id:id},function(result){
+				$.post("<%=basePath%>/role/allotRole",{id:id},function(result){
 					$('#selectUserId').val(id);
 					layer.close(load);
 					if(result && result.length){
