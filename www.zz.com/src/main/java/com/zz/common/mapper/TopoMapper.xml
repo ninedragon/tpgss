@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zz.common.dao.TopoMapper">
+  <resultMap id="BaseResultMap" type="com.zz.common.model.Topo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="pid" jdbcType="BIGINT" property="pid" />
+    <result column="C_DistrictBCDId" jdbcType="VARCHAR" property="cDistrictbcdid" />
+    <result column="C_AddressId" jdbcType="VARCHAR" property="cAddressid" />
+    <result column="C_ChannelNum" jdbcType="INTEGER" property="cChannelnum" />
+    <result column="C_HardwareVer" jdbcType="VARCHAR" property="cHardwarever" />
+    <result column="C_SoftwareVer" jdbcType="VARCHAR" property="cSoftwarever" />
+    <result column="C_FixIP" jdbcType="VARCHAR" property="cFixip" />
+    <result column="C_SoftUpdateDate" jdbcType="VARCHAR" property="cSoftupdatedate" />
+    <result column="C_InstallDate" jdbcType="VARCHAR" property="cInstalldate" />
+    <result column="C_Desp" jdbcType="VARCHAR" property="cDesp" />
+    <result column="nbDeviceId" jdbcType="VARCHAR" property="nbdeviceid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, type, pid, C_DistrictBCDId, C_AddressId, C_ChannelNum, C_HardwareVer, C_SoftwareVer, 
+    C_FixIP, C_SoftUpdateDate, C_InstallDate, C_Desp, nbDeviceId
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_topo
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_topo
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zz.common.model.Topo">
+    insert into t_topo (id, type, pid, 
+      C_DistrictBCDId, C_AddressId, C_ChannelNum, 
+      C_HardwareVer, C_SoftwareVer, C_FixIP, 
+      C_SoftUpdateDate, C_InstallDate, C_Desp, 
+      nbDeviceId)
+    values (#{id,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}, #{pid,jdbcType=BIGINT}, 
+      #{cDistrictbcdid,jdbcType=VARCHAR}, #{cAddressid,jdbcType=VARCHAR}, #{cChannelnum,jdbcType=INTEGER}, 
+      #{cHardwarever,jdbcType=VARCHAR}, #{cSoftwarever,jdbcType=VARCHAR}, #{cFixip,jdbcType=VARCHAR}, 
+      #{cSoftupdatedate,jdbcType=VARCHAR}, #{cInstalldate,jdbcType=VARCHAR}, #{cDesp,jdbcType=VARCHAR}, 
+      #{nbdeviceid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zz.common.model.Topo">
+    insert into t_topo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="cDistrictbcdid != null">
+        C_DistrictBCDId,
+      </if>
+      <if test="cAddressid != null">
+        C_AddressId,
+      </if>
+      <if test="cChannelnum != null">
+        C_ChannelNum,
+      </if>
+      <if test="cHardwarever != null">
+        C_HardwareVer,
+      </if>
+      <if test="cSoftwarever != null">
+        C_SoftwareVer,
+      </if>
+      <if test="cFixip != null">
+        C_FixIP,
+      </if>
+      <if test="cSoftupdatedate != null">
+        C_SoftUpdateDate,
+      </if>
+      <if test="cInstalldate != null">
+        C_InstallDate,
+      </if>
+      <if test="cDesp != null">
+        C_Desp,
+      </if>
+      <if test="nbdeviceid != null">
+        nbDeviceId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null">
+        #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="cDistrictbcdid != null">
+        #{cDistrictbcdid,jdbcType=VARCHAR},
+      </if>
+      <if test="cAddressid != null">
+        #{cAddressid,jdbcType=VARCHAR},
+      </if>
+      <if test="cChannelnum != null">
+        #{cChannelnum,jdbcType=INTEGER},
+      </if>
+      <if test="cHardwarever != null">
+        #{cHardwarever,jdbcType=VARCHAR},
+      </if>
+      <if test="cSoftwarever != null">
+        #{cSoftwarever,jdbcType=VARCHAR},
+      </if>
+      <if test="cFixip != null">
+        #{cFixip,jdbcType=VARCHAR},
+      </if>
+      <if test="cSoftupdatedate != null">
+        #{cSoftupdatedate,jdbcType=VARCHAR},
+      </if>
+      <if test="cInstalldate != null">
+        #{cInstalldate,jdbcType=VARCHAR},
+      </if>
+      <if test="cDesp != null">
+        #{cDesp,jdbcType=VARCHAR},
+      </if>
+      <if test="nbdeviceid != null">
+        #{nbdeviceid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zz.common.model.Topo">
+    update t_topo
+    <set>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="cDistrictbcdid != null">
+        C_DistrictBCDId = #{cDistrictbcdid,jdbcType=VARCHAR},
+      </if>
+      <if test="cAddressid != null">
+        C_AddressId = #{cAddressid,jdbcType=VARCHAR},
+      </if>
+      <if test="cChannelnum != null">
+        C_ChannelNum = #{cChannelnum,jdbcType=INTEGER},
+      </if>
+      <if test="cHardwarever != null">
+        C_HardwareVer = #{cHardwarever,jdbcType=VARCHAR},
+      </if>
+      <if test="cSoftwarever != null">
+        C_SoftwareVer = #{cSoftwarever,jdbcType=VARCHAR},
+      </if>
+      <if test="cFixip != null">
+        C_FixIP = #{cFixip,jdbcType=VARCHAR},
+      </if>
+      <if test="cSoftupdatedate != null">
+        C_SoftUpdateDate = #{cSoftupdatedate,jdbcType=VARCHAR},
+      </if>
+      <if test="cInstalldate != null">
+        C_InstallDate = #{cInstalldate,jdbcType=VARCHAR},
+      </if>
+      <if test="cDesp != null">
+        C_Desp = #{cDesp,jdbcType=VARCHAR},
+      </if>
+      <if test="nbdeviceid != null">
+        nbDeviceId = #{nbdeviceid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zz.common.model.Topo">
+    update t_topo
+    set type = #{type,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=BIGINT},
+      C_DistrictBCDId = #{cDistrictbcdid,jdbcType=VARCHAR},
+      C_AddressId = #{cAddressid,jdbcType=VARCHAR},
+      C_ChannelNum = #{cChannelnum,jdbcType=INTEGER},
+      C_HardwareVer = #{cHardwarever,jdbcType=VARCHAR},
+      C_SoftwareVer = #{cSoftwarever,jdbcType=VARCHAR},
+      C_FixIP = #{cFixip,jdbcType=VARCHAR},
+      C_SoftUpdateDate = #{cSoftupdatedate,jdbcType=VARCHAR},
+      C_InstallDate = #{cInstalldate,jdbcType=VARCHAR},
+      C_Desp = #{cDesp,jdbcType=VARCHAR},
+      nbDeviceId = #{nbdeviceid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

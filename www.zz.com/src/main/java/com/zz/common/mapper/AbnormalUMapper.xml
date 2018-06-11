@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zz.common.dao.AbnormalUMapper">
+  <resultMap id="BaseResultMap" type="com.zz.common.model.AbnormalU">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="C_DistrictBCDId" jdbcType="VARCHAR" property="cDistrictbcdid" />
+    <result column="C_AddressId" jdbcType="INTEGER" property="cAddressid" />
+    <result column="C_FrameCmdId" jdbcType="VARCHAR" property="cFramecmdid" />
+    <result column="ua" jdbcType="REAL" property="ua" />
+    <result column="ub" jdbcType="REAL" property="ub" />
+    <result column="uc" jdbcType="REAL" property="uc" />
+    <result column="C_RecordInsertTime" jdbcType="TIMESTAMP" property="cRecordinserttime" />
+    <result column="occurTime" jdbcType="TIMESTAMP" property="occurtime" />
+    <result column="C_FaultId" jdbcType="INTEGER" property="cFaultid" />
+    <result column="is_abnormal" jdbcType="BIT" property="isAbnormal" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, C_DistrictBCDId, C_AddressId, C_FrameCmdId, ua, ub, uc, C_RecordInsertTime, occurTime, 
+    C_FaultId, is_abnormal
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_abnormal_u
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="listAbnormalU" parameterType="com.zz.analysisAndDisplay.bo.WarnBO" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_abnormal_u
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_abnormal_u
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zz.common.model.AbnormalU">
+    insert into t_abnormal_u (id, C_DistrictBCDId, C_AddressId, 
+      C_FrameCmdId, ua, ub, uc, 
+      C_RecordInsertTime, occurTime, C_FaultId, 
+      is_abnormal)
+    values (#{id,jdbcType=INTEGER}, #{cDistrictbcdid,jdbcType=VARCHAR}, #{cAddressid,jdbcType=INTEGER}, 
+      #{cFramecmdid,jdbcType=VARCHAR}, #{ua,jdbcType=REAL}, #{ub,jdbcType=REAL}, #{uc,jdbcType=REAL}, 
+      #{cRecordinserttime,jdbcType=TIMESTAMP}, #{occurtime,jdbcType=TIMESTAMP}, #{cFaultid,jdbcType=INTEGER}, 
+      #{isAbnormal,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zz.common.model.AbnormalU">
+    insert into t_abnormal_u
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cDistrictbcdid != null">
+        C_DistrictBCDId,
+      </if>
+      <if test="cAddressid != null">
+        C_AddressId,
+      </if>
+      <if test="cFramecmdid != null">
+        C_FrameCmdId,
+      </if>
+      <if test="ua != null">
+        ua,
+      </if>
+      <if test="ub != null">
+        ub,
+      </if>
+      <if test="uc != null">
+        uc,
+      </if>
+      <if test="cRecordinserttime != null">
+        C_RecordInsertTime,
+      </if>
+      <if test="occurtime != null">
+        occurTime,
+      </if>
+      <if test="cFaultid != null">
+        C_FaultId,
+      </if>
+      <if test="isAbnormal != null">
+        is_abnormal,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cDistrictbcdid != null">
+        #{cDistrictbcdid,jdbcType=VARCHAR},
+      </if>
+      <if test="cAddressid != null">
+        #{cAddressid,jdbcType=INTEGER},
+      </if>
+      <if test="cFramecmdid != null">
+        #{cFramecmdid,jdbcType=VARCHAR},
+      </if>
+      <if test="ua != null">
+        #{ua,jdbcType=REAL},
+      </if>
+      <if test="ub != null">
+        #{ub,jdbcType=REAL},
+      </if>
+      <if test="uc != null">
+        #{uc,jdbcType=REAL},
+      </if>
+      <if test="cRecordinserttime != null">
+        #{cRecordinserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="occurtime != null">
+        #{occurtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cFaultid != null">
+        #{cFaultid,jdbcType=INTEGER},
+      </if>
+      <if test="isAbnormal != null">
+        #{isAbnormal,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zz.common.model.AbnormalU">
+    update t_abnormal_u
+    <set>
+      <if test="cDistrictbcdid != null">
+        C_DistrictBCDId = #{cDistrictbcdid,jdbcType=VARCHAR},
+      </if>
+      <if test="cAddressid != null">
+        C_AddressId = #{cAddressid,jdbcType=INTEGER},
+      </if>
+      <if test="cFramecmdid != null">
+        C_FrameCmdId = #{cFramecmdid,jdbcType=VARCHAR},
+      </if>
+      <if test="ua != null">
+        ua = #{ua,jdbcType=REAL},
+      </if>
+      <if test="ub != null">
+        ub = #{ub,jdbcType=REAL},
+      </if>
+      <if test="uc != null">
+        uc = #{uc,jdbcType=REAL},
+      </if>
+      <if test="cRecordinserttime != null">
+        C_RecordInsertTime = #{cRecordinserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="occurtime != null">
+        occurTime = #{occurtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cFaultid != null">
+        C_FaultId = #{cFaultid,jdbcType=INTEGER},
+      </if>
+      <if test="isAbnormal != null">
+        is_abnormal = #{isAbnormal,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zz.common.model.AbnormalU">
+    update t_abnormal_u
+    set C_DistrictBCDId = #{cDistrictbcdid,jdbcType=VARCHAR},
+      C_AddressId = #{cAddressid,jdbcType=INTEGER},
+      C_FrameCmdId = #{cFramecmdid,jdbcType=VARCHAR},
+      ua = #{ua,jdbcType=REAL},
+      ub = #{ub,jdbcType=REAL},
+      uc = #{uc,jdbcType=REAL},
+      C_RecordInsertTime = #{cRecordinserttime,jdbcType=TIMESTAMP},
+      occurTime = #{occurtime,jdbcType=TIMESTAMP},
+      C_FaultId = #{cFaultid,jdbcType=INTEGER},
+      is_abnormal = #{isAbnormal,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

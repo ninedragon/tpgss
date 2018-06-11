@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zz.common.dao.AbnormalZMapper">
+  <resultMap id="BaseResultMap" type="com.zz.common.model.AbnormalZ">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="C_DistrictBCDId" jdbcType="VARCHAR" property="cDistrictbcdid" />
+    <result column="C_AddressId" jdbcType="INTEGER" property="cAddressid" />
+    <result column="C_ChannelId" jdbcType="INTEGER" property="cChannelid" />
+    <result column="C_FrameCmdId" jdbcType="VARCHAR" property="cFramecmdid" />
+    <result column="C_RecordInsertTime" jdbcType="TIMESTAMP" property="cRecordinserttime" />
+    <result column="ua" jdbcType="REAL" property="ua" />
+    <result column="ub" jdbcType="REAL" property="ub" />
+    <result column="uc" jdbcType="REAL" property="uc" />
+    <result column="p" jdbcType="REAL" property="p" />
+    <result column="q" jdbcType="REAL" property="q" />
+    <result column="i" jdbcType="REAL" property="i" />
+    <result column="C_FaultId" jdbcType="INTEGER" property="cFaultid" />
+    <result column="TSegmentId" jdbcType="INTEGER" property="tsegmentid" />
+    <result column="RecordDateBCD" jdbcType="INTEGER" property="recorddatebcd" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, C_DistrictBCDId, C_AddressId, C_ChannelId, C_FrameCmdId, C_RecordInsertTime, 
+    ua, ub, uc, p, q, i, C_FaultId, TSegmentId, RecordDateBCD
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_abnormal_z
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="listAbnormalZ" parameterType="com.zz.analysisAndDisplay.bo.WarnBO" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_abnormal_z
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_abnormal_z
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zz.common.model.AbnormalZ">
+    insert into t_abnormal_z (id, C_DistrictBCDId, C_AddressId, 
+      C_ChannelId, C_FrameCmdId, C_RecordInsertTime, 
+      ua, ub, uc, p, 
+      q, i, C_FaultId, TSegmentId, 
+      RecordDateBCD)
+    values (#{id,jdbcType=INTEGER}, #{cDistrictbcdid,jdbcType=VARCHAR}, #{cAddressid,jdbcType=INTEGER}, 
+      #{cChannelid,jdbcType=INTEGER}, #{cFramecmdid,jdbcType=VARCHAR}, #{cRecordinserttime,jdbcType=TIMESTAMP}, 
+      #{ua,jdbcType=REAL}, #{ub,jdbcType=REAL}, #{uc,jdbcType=REAL}, #{p,jdbcType=REAL}, 
+      #{q,jdbcType=REAL}, #{i,jdbcType=REAL}, #{cFaultid,jdbcType=INTEGER}, #{tsegmentid,jdbcType=INTEGER}, 
+      #{recorddatebcd,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zz.common.model.AbnormalZ">
+    insert into t_abnormal_z
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cDistrictbcdid != null">
+        C_DistrictBCDId,
+      </if>
+      <if test="cAddressid != null">
+        C_AddressId,
+      </if>
+      <if test="cChannelid != null">
+        C_ChannelId,
+      </if>
+      <if test="cFramecmdid != null">
+        C_FrameCmdId,
+      </if>
+      <if test="cRecordinserttime != null">
+        C_RecordInsertTime,
+      </if>
+      <if test="ua != null">
+        ua,
+      </if>
+      <if test="ub != null">
+        ub,
+      </if>
+      <if test="uc != null">
+        uc,
+      </if>
+      <if test="p != null">
+        p,
+      </if>
+      <if test="q != null">
+        q,
+      </if>
+      <if test="i != null">
+        i,
+      </if>
+      <if test="cFaultid != null">
+        C_FaultId,
+      </if>
+      <if test="tsegmentid != null">
+        TSegmentId,
+      </if>
+      <if test="recorddatebcd != null">
+        RecordDateBCD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cDistrictbcdid != null">
+        #{cDistrictbcdid,jdbcType=VARCHAR},
+      </if>
+      <if test="cAddressid != null">
+        #{cAddressid,jdbcType=INTEGER},
+      </if>
+      <if test="cChannelid != null">
+        #{cChannelid,jdbcType=INTEGER},
+      </if>
+      <if test="cFramecmdid != null">
+        #{cFramecmdid,jdbcType=VARCHAR},
+      </if>
+      <if test="cRecordinserttime != null">
+        #{cRecordinserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ua != null">
+        #{ua,jdbcType=REAL},
+      </if>
+      <if test="ub != null">
+        #{ub,jdbcType=REAL},
+      </if>
+      <if test="uc != null">
+        #{uc,jdbcType=REAL},
+      </if>
+      <if test="p != null">
+        #{p,jdbcType=REAL},
+      </if>
+      <if test="q != null">
+        #{q,jdbcType=REAL},
+      </if>
+      <if test="i != null">
+        #{i,jdbcType=REAL},
+      </if>
+      <if test="cFaultid != null">
+        #{cFaultid,jdbcType=INTEGER},
+      </if>
+      <if test="tsegmentid != null">
+        #{tsegmentid,jdbcType=INTEGER},
+      </if>
+      <if test="recorddatebcd != null">
+        #{recorddatebcd,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zz.common.model.AbnormalZ">
+    update t_abnormal_z
+    <set>
+      <if test="cDistrictbcdid != null">
+        C_DistrictBCDId = #{cDistrictbcdid,jdbcType=VARCHAR},
+      </if>
+      <if test="cAddressid != null">
+        C_AddressId = #{cAddressid,jdbcType=INTEGER},
+      </if>
+      <if test="cChannelid != null">
+        C_ChannelId = #{cChannelid,jdbcType=INTEGER},
+      </if>
+      <if test="cFramecmdid != null">
+        C_FrameCmdId = #{cFramecmdid,jdbcType=VARCHAR},
+      </if>
+      <if test="cRecordinserttime != null">
+        C_RecordInsertTime = #{cRecordinserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ua != null">
+        ua = #{ua,jdbcType=REAL},
+      </if>
+      <if test="ub != null">
+        ub = #{ub,jdbcType=REAL},
+      </if>
+      <if test="uc != null">
+        uc = #{uc,jdbcType=REAL},
+      </if>
+      <if test="p != null">
+        p = #{p,jdbcType=REAL},
+      </if>
+      <if test="q != null">
+        q = #{q,jdbcType=REAL},
+      </if>
+      <if test="i != null">
+        i = #{i,jdbcType=REAL},
+      </if>
+      <if test="cFaultid != null">
+        C_FaultId = #{cFaultid,jdbcType=INTEGER},
+      </if>
+      <if test="tsegmentid != null">
+        TSegmentId = #{tsegmentid,jdbcType=INTEGER},
+      </if>
+      <if test="recorddatebcd != null">
+        RecordDateBCD = #{recorddatebcd,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zz.common.model.AbnormalZ">
+    update t_abnormal_z
+    set C_DistrictBCDId = #{cDistrictbcdid,jdbcType=VARCHAR},
+      C_AddressId = #{cAddressid,jdbcType=INTEGER},
+      C_ChannelId = #{cChannelid,jdbcType=INTEGER},
+      C_FrameCmdId = #{cFramecmdid,jdbcType=VARCHAR},
+      C_RecordInsertTime = #{cRecordinserttime,jdbcType=TIMESTAMP},
+      ua = #{ua,jdbcType=REAL},
+      ub = #{ub,jdbcType=REAL},
+      uc = #{uc,jdbcType=REAL},
+      p = #{p,jdbcType=REAL},
+      q = #{q,jdbcType=REAL},
+      i = #{i,jdbcType=REAL},
+      C_FaultId = #{cFaultid,jdbcType=INTEGER},
+      TSegmentId = #{tsegmentid,jdbcType=INTEGER},
+      RecordDateBCD = #{recorddatebcd,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

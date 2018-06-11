@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zz.common.dao.LeakageIMapper">
+  <resultMap id="BaseResultMap" type="com.zz.common.model.LeakageI">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="C_DistrictBCDId" jdbcType="VARCHAR" property="cDistrictbcdid" />
+    <result column="C_AddressId" jdbcType="INTEGER" property="cAddressid" />
+    <result column="C_ChannelId" jdbcType="INTEGER" property="cChannelid" />
+    <result column="C_FaultId" jdbcType="INTEGER" property="cFaultid" />
+    <result column="TSegmentId" jdbcType="INTEGER" property="tsegmentid" />
+    <result column="C_FrameCmdId" jdbcType="VARCHAR" property="cFramecmdid" />
+    <result column="RecordDateBCD" jdbcType="INTEGER" property="recorddatebcd" />
+    <result column="i" jdbcType="REAL" property="i" />
+    <result column="C_RecordInsertTime" jdbcType="TIMESTAMP" property="cRecordinserttime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, C_DistrictBCDId, C_AddressId, C_ChannelId, C_FaultId, TSegmentId, C_FrameCmdId, 
+    RecordDateBCD, i, C_RecordInsertTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_leakage_i
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="listLeakageI" parameterType="com.zz.analysisAndDisplay.bo.WarnBO" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_leakage_i
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_leakage_i
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zz.common.model.LeakageI">
+    insert into t_leakage_i (id, C_DistrictBCDId, C_AddressId, 
+      C_ChannelId, C_FaultId, TSegmentId, 
+      C_FrameCmdId, RecordDateBCD, i, 
+      C_RecordInsertTime)
+    values (#{id,jdbcType=INTEGER}, #{cDistrictbcdid,jdbcType=VARCHAR}, #{cAddressid,jdbcType=INTEGER}, 
+      #{cChannelid,jdbcType=INTEGER}, #{cFaultid,jdbcType=INTEGER}, #{tsegmentid,jdbcType=INTEGER}, 
+      #{cFramecmdid,jdbcType=VARCHAR}, #{recorddatebcd,jdbcType=INTEGER}, #{i,jdbcType=REAL}, 
+      #{cRecordinserttime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zz.common.model.LeakageI">
+    insert into t_leakage_i
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cDistrictbcdid != null">
+        C_DistrictBCDId,
+      </if>
+      <if test="cAddressid != null">
+        C_AddressId,
+      </if>
+      <if test="cChannelid != null">
+        C_ChannelId,
+      </if>
+      <if test="cFaultid != null">
+        C_FaultId,
+      </if>
+      <if test="tsegmentid != null">
+        TSegmentId,
+      </if>
+      <if test="cFramecmdid != null">
+        C_FrameCmdId,
+      </if>
+      <if test="recorddatebcd != null">
+        RecordDateBCD,
+      </if>
+      <if test="i != null">
+        i,
+      </if>
+      <if test="cRecordinserttime != null">
+        C_RecordInsertTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cDistrictbcdid != null">
+        #{cDistrictbcdid,jdbcType=VARCHAR},
+      </if>
+      <if test="cAddressid != null">
+        #{cAddressid,jdbcType=INTEGER},
+      </if>
+      <if test="cChannelid != null">
+        #{cChannelid,jdbcType=INTEGER},
+      </if>
+      <if test="cFaultid != null">
+        #{cFaultid,jdbcType=INTEGER},
+      </if>
+      <if test="tsegmentid != null">
+        #{tsegmentid,jdbcType=INTEGER},
+      </if>
+      <if test="cFramecmdid != null">
+        #{cFramecmdid,jdbcType=VARCHAR},
+      </if>
+      <if test="recorddatebcd != null">
+        #{recorddatebcd,jdbcType=INTEGER},
+      </if>
+      <if test="i != null">
+        #{i,jdbcType=REAL},
+      </if>
+      <if test="cRecordinserttime != null">
+        #{cRecordinserttime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zz.common.model.LeakageI">
+    update t_leakage_i
+    <set>
+      <if test="cDistrictbcdid != null">
+        C_DistrictBCDId = #{cDistrictbcdid,jdbcType=VARCHAR},
+      </if>
+      <if test="cAddressid != null">
+        C_AddressId = #{cAddressid,jdbcType=INTEGER},
+      </if>
+      <if test="cChannelid != null">
+        C_ChannelId = #{cChannelid,jdbcType=INTEGER},
+      </if>
+      <if test="cFaultid != null">
+        C_FaultId = #{cFaultid,jdbcType=INTEGER},
+      </if>
+      <if test="tsegmentid != null">
+        TSegmentId = #{tsegmentid,jdbcType=INTEGER},
+      </if>
+      <if test="cFramecmdid != null">
+        C_FrameCmdId = #{cFramecmdid,jdbcType=VARCHAR},
+      </if>
+      <if test="recorddatebcd != null">
+        RecordDateBCD = #{recorddatebcd,jdbcType=INTEGER},
+      </if>
+      <if test="i != null">
+        i = #{i,jdbcType=REAL},
+      </if>
+      <if test="cRecordinserttime != null">
+        C_RecordInsertTime = #{cRecordinserttime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zz.common.model.LeakageI">
+    update t_leakage_i
+    set C_DistrictBCDId = #{cDistrictbcdid,jdbcType=VARCHAR},
+      C_AddressId = #{cAddressid,jdbcType=INTEGER},
+      C_ChannelId = #{cChannelid,jdbcType=INTEGER},
+      C_FaultId = #{cFaultid,jdbcType=INTEGER},
+      TSegmentId = #{tsegmentid,jdbcType=INTEGER},
+      C_FrameCmdId = #{cFramecmdid,jdbcType=VARCHAR},
+      RecordDateBCD = #{recorddatebcd,jdbcType=INTEGER},
+      i = #{i,jdbcType=REAL},
+      C_RecordInsertTime = #{cRecordinserttime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
