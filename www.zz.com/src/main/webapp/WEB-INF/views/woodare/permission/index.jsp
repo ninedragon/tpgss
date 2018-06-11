@@ -23,7 +23,7 @@
 	<link href="<%=basePath%>/js/common/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
 	<link href="<%=basePath%>/css/common/base.css" rel="stylesheet"/>
 	<link rel="stylesheet" type="text/css" href="<%=basePath%>/woodare/css/comm.css" />
-	<script  src="http://open.itboy.net/common/jquery/jquery1.8.3.min.js"></script>
+	<script  src="<%=basePath%>/js/common/jquery/jquery1.8.3.min.js"></script>
 	<script src="<%=basePath%>/woodare/js/menu.js"></script>
 	<script  src="<%=basePath%>/js/common/layer/layer.js"></script>
 	<script  src="<%=basePath%>/js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
