@@ -29,7 +29,13 @@
     <li onClick="location.href='<%=basePath%>/epu/showBranchboxList.shtml'">分支箱信息列表</li>
     <li onClick="location.href='<%=basePath%>/epu/showMeterboxList.shtml'">表箱信息列表</li>
     <li onClick="location.href='<%=basePath%>/ammeter/showAmList.shtml'">电表信息列表</li>
+    
     </ul>
+     <li class="<c:if test="${leftMenuview eq 6 }">  on </c:if> big-js">终端管理</li>	
+    <ul class="side-nav" <c:if test="${leftMenuview eq 6 }">  style="display:block" </c:if>> 
+     <li onClick="location.href='<%=basePath%>/nDtu/showDtuList.shtml'">ndtu设备信息列表</li>
+      <li onClick="location.href='<%=basePath%>/bDtu/showDtuList.shtml'">bdtu设备信息列表</li>
+    </ul>   
      <li class="<c:if test="${leftMenuview eq 1 }">  on </c:if>  big-js">用户中心</li>
     <ul class="side-nav" <c:if test="${leftMenuview eq 1 }">  style="display:block" </c:if>>
     	  <li onClick="location.href='<%=basePath%>/member/list.shtml'">管理列表</li>

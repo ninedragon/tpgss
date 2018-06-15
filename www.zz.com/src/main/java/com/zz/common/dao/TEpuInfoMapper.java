@@ -32,9 +32,14 @@ public interface TEpuInfoMapper {
      */
     TEpuInfo selectByPrimaryKey(String rowId);
     List<TEpuInfo> selectByEpuType( @Param("epuType")String epuType,@Param("epuDistrict")String epuDistrict);
-    List<TEpuInfo> selectDistrictId(String rowId);
-    List<TEpuInfo> selectAddressIdByDistrictId( String rowId);
-    List<TEpuInfo> selectDIstinctByChannelId( @Param("districtId")String districtId,@Param("addressId")String addressId);
+    List<TEpuInfo> selectNdtuDistrictId(String rowId);
+    List<TEpuInfo> selectNdtuAddressIdByDistrictId( String rowId);
+    List<TEpuInfo> selectNdtuDIstinctByChannelId( @Param("districtId")String districtId,@Param("addressId")String addressId);
+    
+    List<TEpuInfo> selectBdtuDistrictId(String rowId);
+    List<TEpuInfo> selectBdtuAddressIdByDistrictId( String rowId);
+    List<TEpuInfo> selectBdtuDIstinctByChannelId( @Param("districtId")String districtId,@Param("addressId")String addressId);
+    
     List<TEpuInfo> selectEpuInfoByRowId(@Param("rowId") String rowId);
     List<TEpuInfo> selectEpuInfoByMark(TEpuInfo e);
     /**

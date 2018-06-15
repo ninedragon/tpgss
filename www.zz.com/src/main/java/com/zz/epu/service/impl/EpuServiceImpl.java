@@ -112,25 +112,50 @@ public class EpuServiceImpl extends BaseMybatisDao<TEpuInfoMapper> implements Ep
 		return map;
 	}
 	
-	public Map<String, Object> selectDistrictId() {
+	public Map<String, Object> selectBdtuDistrictId() {
 
-		List<TEpuInfo>  epuInfoList = epuInfoMapper.selectDistrictId("");
+		List<TEpuInfo>  epuInfoList = epuInfoMapper.selectBdtuDistrictId("");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("epuInfoList", epuInfoList);
 		return map;
 	}
-	public Map<String, Object> selectDIstinctByChannelId(String districtId,String addressId) {
+	public Map<String, Object> selectBdtuDIstinctByChannelId(String districtId,String addressId) {
 
-		List<TEpuInfo>  epuInfoList = epuInfoMapper.selectDIstinctByChannelId(districtId,addressId);
+		List<TEpuInfo>  epuInfoList = epuInfoMapper.selectBdtuDIstinctByChannelId(districtId,addressId);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("epuInfoList", epuInfoList);
 		return map;
 	}
 	
 	
-	public Map<String, Object> selectAddressIdByDistrictId(String districtId) {
+	public Map<String, Object> selectBdtuAddressIdByDistrictId(String districtId) {
 
-		List<TEpuInfo>  epuInfoList = epuInfoMapper.selectAddressIdByDistrictId(districtId);
+		List<TEpuInfo>  epuInfoList = epuInfoMapper.selectBdtuAddressIdByDistrictId(districtId);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("epuInfoList", epuInfoList);
+		return map;
+	}
+	
+	
+	public Map<String, Object> selectNdtuDistrictId() {
+
+		List<TEpuInfo>  epuInfoList = epuInfoMapper.selectNdtuDistrictId("");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("epuInfoList", epuInfoList);
+		return map;
+	}
+	public Map<String, Object> selectNdtuDIstinctByChannelId(String districtId,String addressId) {
+
+		List<TEpuInfo>  epuInfoList = epuInfoMapper.selectNdtuDIstinctByChannelId(districtId,addressId);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("epuInfoList", epuInfoList);
+		return map;
+	}
+	
+	
+	public Map<String, Object> selectNdtuAddressIdByDistrictId(String districtId) {
+
+		List<TEpuInfo>  epuInfoList = epuInfoMapper.selectNdtuAddressIdByDistrictId(districtId);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("epuInfoList", epuInfoList);
 		return map;

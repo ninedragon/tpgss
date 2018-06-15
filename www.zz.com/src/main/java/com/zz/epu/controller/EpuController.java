@@ -228,23 +228,43 @@ public class EpuController extends BaseController {
 		return epuService.getCityDistrict(cityId);
 	}
 	
-	@RequestMapping("selectDistrictId")
+	@RequestMapping("selectBdtuDistrictId")
 	@ResponseBody
-	public Object selectDistrictId() {
-		return epuService.selectDistrictId();
+	public Object selectBdtuDistrictId() {
+		return epuService.selectBdtuDistrictId();
 	}
 	
-	@RequestMapping("selectAddressIdByDistrictId")
+	@RequestMapping("selectBdtuAddressIdByDistrictId")
 	@ResponseBody
-	public Object selectAddressIdByDistrictId(String districtId) {
-		return epuService.selectAddressIdByDistrictId(districtId);
+	public Object selectBdtuAddressIdByDistrictId(String districtId) {
+		return epuService.selectBdtuAddressIdByDistrictId(districtId);
 	}
 	
-	@RequestMapping("selectDIstinctByChannelId")
+	@RequestMapping("selectBdtuDIstinctByChannelId")
 	@ResponseBody
-	public Object selectDIstinctByChannelId(String districtId,String addressId)
+	public Object selectBdtuDIstinctByChannelId(String districtId,String addressId)
  {
-		return epuService.selectDIstinctByChannelId(districtId, addressId);
+		return epuService.selectBdtuDIstinctByChannelId(districtId, addressId);
+	}
+	
+	
+	@RequestMapping("selectNdtuDistrictId")
+	@ResponseBody
+	public Object selectNdtuDistrictId() {
+		return epuService.selectNdtuDistrictId();
+	}
+	
+	@RequestMapping("selectNdtuAddressIdByDistrictId")
+	@ResponseBody
+	public Object selectNdtuAddressIdByDistrictId(String districtId) {
+		return epuService.selectNdtuAddressIdByDistrictId(districtId);
+	}
+	
+	@RequestMapping("selectNdtuDIstinctByChannelId")
+	@ResponseBody
+	public Object selectNdtuDIstinctByChannelId(String districtId,String addressId)
+ {
+		return epuService.selectNdtuDIstinctByChannelId(districtId, addressId);
 	}
 	/**
 	 * 插入数据

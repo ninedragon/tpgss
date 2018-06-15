@@ -259,9 +259,9 @@
 			 
                     $.ajax({
   			                type: "post",
-  			                url:  "<%=basePath%>/epu/selectDistrictId.shtml",
+  			                url:  "<%=basePath%>/epu/selectBdtuDistrictId.shtml",
   			                data: {
-  			                   
+  			                     epuType:'0' 
   			                },
   			                dataType: "json",
   			                async:false,
@@ -359,7 +359,7 @@
 						  var i = $('#saveDiv #districtId option:selected').val();			
 					  $.ajax({
 			                type: "post",
-			                url:  "<%=basePath%>/epu/selectAddressIdByDistrictId.shtml",
+			                url:  "<%=basePath%>/epu/selectBdtuAddressIdByDistrictId.shtml",
 			                data: {
 			                    "districtId": i
 			                },
@@ -385,7 +385,7 @@
 						  var addressId = $('#saveDiv #addressId option:selected').val();		
 					  $.ajax({
 			                type: "post",
-			                url:  "<%=basePath%>/epu/selectDIstinctByChannelId.shtml",
+			                url:  "<%=basePath%>/epu/selectBdtuDIstinctByChannelId.shtml",
 			                data: {
 			                    districtId: districtId,
 			                    addressId:addressId
@@ -682,9 +682,9 @@
 		     
 			                	   $.ajax({
 			   			                type: "post",
-			   			                url:  "<%=basePath%>/epu/selectDistrictId.shtml",
+			   			                url:  "<%=basePath%>/epu/selectBdtuDistrictId.shtml",
 			   			                data: {
-			   			                   
+			   			                     epuType:'0' 
 			   			                },
 			   			                dataType: "json",
 			   			                async:false,
@@ -711,7 +711,7 @@
 			                	   
 			                	   $.ajax({
 						                type: "post",
-						                url:  "<%=basePath%>/epu/selectAddressIdByDistrictId.shtml",
+						                url:  "<%=basePath%>/epu/selectBdtuAddressIdByDistrictId.shtml",
 						                data: {
 						                    districtId: epuEdit.districtId
 						                },
@@ -740,7 +740,7 @@
 			                	  
 			                	   $.ajax({
 			   			                type: "post",
-			   			                url:  "<%=basePath%>/epu/selectDIstinctByChannelId.shtml",
+			   			                url:  "<%=basePath%>/epu/selectBdtuDIstinctByChannelId.shtml",
 			   			                data: {
 			   			                 districtId: epuEdit.districtId,
 			   			                  addressId: epuEdit.addressId
@@ -851,7 +851,7 @@
 						  var i = $('#saveDiv #districtId option:selected').val();			
 					  $.ajax({
 			                type: "post",
-			                url:  "<%=basePath%>/epu/selectAddressIdByDistrictId.shtml",
+			                url:  "<%=basePath%>/epu/selectBdtuAddressIdByDistrictId.shtml",
 			                data: {
 			                    "districtId": i
 			                },
@@ -878,7 +878,7 @@
 						  var addressId = $('#saveDiv #addressId option:selected').val();		
 					  $.ajax({
 			                type: "post",
-			                url:  "<%=basePath%>/epu/selectDIstinctByChannelId.shtml",
+			                url:  "<%=basePath%>/epu/selectBdtuDIstinctByChannelId.shtml",
 			                data: {
 			                    districtId: districtId,
 			                    addressId:addressId
