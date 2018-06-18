@@ -277,9 +277,9 @@
 				
 				  $.ajax({
 			                type: "post",
-			                url:  "<%=basePath%>/epu/selectDistrictId.shtml",
+			                url:  "<%=basePath%>/epu/selectNdtuDistrictId.shtml",
 			                data: {
-			                   
+			                  epuType:'0' 
 			                },
 			                dataType: "json",
 			                async:false,
@@ -382,7 +382,7 @@
 						  var i = $('#amDiv #districtId option:selected').val();			
 					  $.ajax({
 			                type: "post",
-			                url:  "<%=basePath%>/epu/selectAddressIdByDistrictId.shtml",
+			                url:  "<%=basePath%>/epu/selectNdtuAddressIdByDistrictId.shtml",
 			                data: {
 			                    "districtId": i
 			                },
@@ -409,7 +409,7 @@
 						  var addressId = $('#amDiv #addressId option:selected').val();		
 					  $.ajax({
 			                type: "post",
-			                url:  "<%=basePath%>/epu/selectDIstinctByChannelId.shtml",
+			                url:  "<%=basePath%>/epu/selectNdtuDIstinctByChannelId.shtml",
 			                data: {
 			                    districtId: districtId,
 			                    addressId:addressId
@@ -699,9 +699,9 @@
 		     
 			                	   $.ajax({
 			   			                type: "post",
-			   			                url:  "<%=basePath%>/epu/selectDistrictId.shtml",
+			   			                url:  "<%=basePath%>/epu/selectNdtuDistrictId.shtml",
 			   			                data: {
-			   			                   
+			   			                     epuType:'0' 
 			   			                },
 			   			                dataType: "json",
 			   			                async:false,
@@ -728,7 +728,7 @@
 			       
 			                	   $.ajax({
 						                type: "post",
-						                url:  "<%=basePath%>/epu/selectAddressIdByDistrictId.shtml",
+						                url:  "<%=basePath%>/epu/selectNdtuAddressIdByDistrictId.shtml",
 						                data: {
 						                    districtId: amEdit.districtId
 						                },
@@ -757,7 +757,7 @@
 			                	   
 			                	   $.ajax({
 						                type: "post",
-						                url:  "<%=basePath%>/epu/selectDIstinctByChannelId.shtml",
+						                url:  "<%=basePath%>/epu/selectNdtuDIstinctByChannelId.shtml",
 						                data: {
 						                    districtId: amEdit.districtId,
 						                    addressId:amEdit.addressId
@@ -872,7 +872,7 @@
 						  var i = $('#amDiv #districtId option:selected').val();			
 					  $.ajax({
 			                type: "post",
-			                url:  "<%=basePath%>/epu/selectAddressIdByDistrictId.shtml",
+			                url:  "<%=basePath%>/epu/selectNdtuAddressIdByDistrictId.shtml",
 			                data: {
 			                    "districtId": i
 			                },
@@ -899,7 +899,7 @@
 						  var addressId = $('#amDiv #addressId option:selected').val();		
 					  $.ajax({
 			                type: "post",
-			                url:  "<%=basePath%>/epu/selectDIstinctByChannelId.shtml",
+			                url:  "<%=basePath%>/epu/selectNdtuDIstinctByChannelId.shtml",
 			                data: {
 			                    districtId: districtId,
 			                    addressId:addressId

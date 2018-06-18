@@ -63,12 +63,20 @@ public interface EpuService {
 			public Map<String, Object> getParentEpu(String epuType,String epuDistrict);
 			
 			// 获取所有查询条件
-	 public Map<String, Object> selectDistrictId();
+	 public Map<String, Object> selectBdtuDistrictId();
 	 
-	 public Map<String, Object> selectDIstinctByChannelId(String districtId,String addressId);
+	 public Map<String, Object> selectBdtuDIstinctByChannelId(String districtId,String addressId);
 	 
 		// 获取所有查询条件
-	 public Map<String, Object> selectAddressIdByDistrictId(String districtId);
+	 public Map<String, Object> selectBdtuAddressIdByDistrictId(String districtId);
+	 
+		// 获取所有查询条件
+	 public Map<String, Object> selectNdtuDistrictId();
+	 
+	 public Map<String, Object> selectNdtuDIstinctByChannelId(String districtId,String addressId);
+	 
+		// 获取所有查询条件
+	 public Map<String, Object> selectNdtuAddressIdByDistrictId(String districtId);
 						
 	// 获取所有查询条件
 	 public Map<String, Object> updateEpuInfo(TEpuInfo tEpuInfo,String flag);
