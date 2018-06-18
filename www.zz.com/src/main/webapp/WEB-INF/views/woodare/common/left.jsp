@@ -15,6 +15,10 @@
     <ul class="<c:if test="${leftMenuview eq 5 }">  on </c:if> big-js" <c:if test="${leftMenuview eq 5 }">  style="display:block" </c:if>>
     <li onClick="location.href='<%=basePath%>/epu/allShowList.shtml'">实时监控</li>
     </ul>
+     <li class="<c:if test="${leftMenuview eq 6 }">  on </c:if> big-js">故障定位管理</li>
+    <ul class="side-nav"  <c:if test="${leftMenuview eq 6 }">  style="display:block" </c:if>>
+    	<li onClick="location.href='<%=basePath%>/fault/init.shtml'">故障定位列表管理</li>
+    </ul>
 	  <li class="<c:if test="${leftMenuview eq 3 }">  on </c:if> big-js">用电曲线数据</li>
     <ul class="side-nav"  <c:if test="${leftMenuview eq 3 }">  style="display:block" </c:if>>
     	<li onClick="location.href='<%=basePath%>/edata/zong.shtml'">总体能耗数据</li>
