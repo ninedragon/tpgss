@@ -43,7 +43,7 @@
 			            type: 'POST',
 			            dataType: 'json',
 			            async:false,
-			            data: {			          
+			            data: {	 		          
 			            	epuName: $("#epuName").val(),
 			            	falutOccurrenceTime: $("#falutOccurrenceTime").val(),
 			            	falutReason: $("#falutReason").val(),

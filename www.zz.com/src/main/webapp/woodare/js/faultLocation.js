@@ -4,7 +4,7 @@ var dataTemp =
     "key": "3f95ae7a-f99c-45f4-b82f-7f0b2093f186",
     "faultType":"0",//0short表示短路，1ableakage异常漏电，2pahseLoss缺相，3powerFailure停电
     "occur_time":"2014-05-24 09:46:22",//故障发生时间
-    "is_cancelled":"1",//是否被取消，1表示是，前端需要用这个做查询筛选
+    "is_cancelled":"1",//是否被取消，1表示是，前端需要用这个做查询筛选 
     "is_repaired":"0",//是否被修复，1表示是，前端需要用这个做查询筛选
     "repair_time":"2014-05-25 09:46:22"//故障修复时间
 

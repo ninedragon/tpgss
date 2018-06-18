@@ -124,7 +124,7 @@ public class FaultController extends BaseController {
 		    String isCancelled= (String) mapIsCancelled.get(json.get("is_cancelled"));
 		    json.put("isCancelled", isCancelled);
 		    if(("".equals(param_epuName) || null == param_epuName) && ("".equals(param_falutReason) || null == param_falutReason)){
-		    	newArray.add(json);
+		    	newArray.add(json); 
 		    }else if((!"".equals(param_epuName) && null != param_epuName) && (!"".equals(param_falutReason) && null != param_falutReason)){
 		    	 if((faultType.equals(param_falutReason) || faultType == param_falutReason) && epuName.indexOf(param_epuName) !=-1){
 				    	newArray.add(json);
