@@ -1,33 +1,23 @@
-<%@ page language="java"  pageEncoding="UTF-8"%>
-<%--shiro 标签 --%>
-<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>  
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<% 
-	String path = request.getContextPath();
-	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
- %> 
-
 <!DOCTYPE html>
 <!-- <html> -->
   <head>
-    <base href="<%=basePath%>">
+    <base href="${basePath}">
     
     <title>V2-电表信息列表</title>
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<link   rel="icon" href="<%=basePath%>/favicon.ico" type="image/x-icon" />
-	<link   rel="shortcut icon" href="<%=basePath%>/favicon.ico" />
-	<link href="<%=basePath%>/js/common/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
-	<link href="<%=basePath%>/css/common/base.css" rel="stylesheet"/>
-	<link rel="stylesheet" type="text/css" href="<%=basePath%>/woodare/css/comm.css" />
-		<script src="<%=basePath%>/js/common/jquery/jquery1.8.3.min.js"></script>
-	<script src="<%=basePath%>/woodare/js/menu.js"></script>
-	<script  src="<%=basePath%>/js/common/layer/layer.js"></script>
-	<script  src="<%=basePath%>/js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<script  src="<%=basePath%>/js/shiro.demo.js"></script>
+	<link   rel="icon" href="${basePath}/favicon.ico" type="image/x-icon" />
+	<link   rel="shortcut icon" href="${basePath}/favicon.ico" />
+	<link href="${basePath}/js/common/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="${basePath}/css/common/base.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="${basePath}/woodare/css/comm.css" />
+		<script src="${basePath}/js/common/jquery/jquery1.8.3.min.js"></script>
+	<script src="${basePath}/woodare/js/menu.js"></script>
+	<script  src="${basePath}/js/common/layer/layer.js"></script>
+	<script  src="${basePath}/js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script  src="${basePath}/js/shiro.demo.js"></script>
 			<script >
 			so.init(function(){
 				//全选
@@ -51,7 +41,7 @@
 			so.initProvince= function initProvince() {
 		            $.ajax({
 		                type: "post",
-		                url:  "<%=basePath%>/epu/getProvinces.shtml",
+		                url:  "${basePath}/epu/getProvinces.shtml",
 		                data: {
 		                },
 		                async:false,
@@ -72,7 +62,7 @@
 			so._delete= function _delete(ids){
 				var index = layer.confirm("确定需要删除这"+ ids.length +"个电表？",function(){
 					var load = layer.load();
-					$.post('<%=basePath%>/ammeter/delEpuInfo.shtml',{rowIds:ids.join(',')},function(result){
+					$.post('${basePath}/ammeter/delEpuInfo.shtml',{rowIds:ids.join(',')},function(result){
 						layer.close(load);
 						if(result && result.status != 200){
 							return layer.msg(result.message,so.default),!0;
@@ -81,7 +71,7 @@
 							setTimeout(function(){
 								$('#formId').submit();
 							},1000);
-							 window.location="<%=basePath%>/ammeter/showAmList.shtml";
+							 window.location="${basePath}/ammeter/showAmList.shtml";
 						}
 					},'json');
 					layer.close(index);
@@ -92,7 +82,7 @@
 					  var i = $('#epuProvince option:selected').val();			
 				  $.ajax({
 		                type: "post",
-		                url:  "<%=basePath%>/epu/getCity.shtml",
+		                url:  "${basePath}/epu/getCity.shtml",
 		                data: {
 		                    "provinceId": i,
 		                    'districtFlag': 0
@@ -117,7 +107,7 @@
 								// 第四级
 								$.ajax({
 									type : "post",
-									url : "<%=basePath%>/epu/getCityDistrict.shtml",
+									url : "${basePath}/epu/getCityDistrict.shtml",
 									data : {
 										"cityId" : i
 									},
@@ -141,13 +131,13 @@
 				 
 			 };
 			  so.editEpuInfo=function editEpuInfo(rowId) {				 
-				 window.location="<%=basePath%>/ammeter/editInit.shtml?rowId=" + rowId;
+				 window.location="${basePath}/ammeter/editInit.shtml?rowId=" + rowId;
 			 };
-			<%-- so.delEpuInfo=function delEpuInfo(rowId) {				
+			<#-- so.delEpuInfo=function delEpuInfo(rowId) {				
 				if(confirm('确实要删除该内容吗?')){
 	   				  $("#loadingDiv").show();
 	   				 $.ajax({
-	   		  			    url:"<%=basePath%>/ammeter/delEpuInfo.shtml",
+	   		  			    url:"${basePath}/ammeter/delEpuInfo.shtml",
 	   		  			    type:'POST',
 	   		  			    dataType:'json',
 	   		  			    data:{rowIds:rowId},
@@ -157,7 +147,7 @@
 	   		  			    	$("#loadingDiv").hide();
 	   		  			    	}else{ 
 	   		  			     	layer.msg("删除成功!",function(){});
-	   		  					 window.location="<%=basePath%>/ammeter/showAmList.shtml";
+	   		  					 window.location="${basePath}/ammeter/showAmList.shtml";
 	   		  			    	$("#loadingDiv").hide();
 	   		  			    	}
 	   		  			    }
@@ -165,12 +155,12 @@
 	   		  			  });
 	   			  }				  
 
-			 };--%>
+			 };-->
 			  function initList(pageNo) {
 			    	 $("#loadingDiv").show(); 
 
 			        $.ajax({
-			            url: "<%=basePath%>/ammeter/queryEpuList.shtml",
+			            url: "${basePath}/ammeter/queryEpuList.shtml",
 			            type: 'POST',
 			            dataType: 'json',
 			            async:false,
@@ -255,7 +245,7 @@
 			amAdd.initProvince= function initProvince() {
 		            $.ajax({
 		                type: "post",
-		                url:  "<%=basePath%>/epu/getProvinces.shtml",
+		                url:  "${basePath}/epu/getProvinces.shtml",
 		                data: {
 		                },
 		                async:false,
@@ -277,7 +267,7 @@
 				
 				  $.ajax({
 			                type: "post",
-			                url:  "<%=basePath%>/epu/selectNdtuDistrictId.shtml",
+			                url:  "${basePath}/epu/selectNdtuDistrictId.shtml",
 			                data: {
 			                  epuType:'0' 
 			                },
@@ -306,7 +296,7 @@
 					  var i = $('#amDiv #epuProvince option:selected').val();			
 				  $.ajax({
 		                type: "post",
-		                url:  "<%=basePath%>/epu/getCity.shtml",
+		                url:  "${basePath}/epu/getCity.shtml",
 		                data: {
 		                    "provinceId": i,
 		                    'districtFlag': 0
@@ -330,7 +320,7 @@
 								// 第四级
 								$.ajax({
 									type : "post",
-									url : "<%=basePath%>/epu/getCityDistrict.shtml",
+									url : "${basePath}/epu/getCityDistrict.shtml",
 									data : {
 										"cityId" : i
 									},
@@ -357,7 +347,7 @@
 						  var i = $('#amDiv #epuDistrict option:selected').val();			
 					  $.ajax({
 			                type: "post",
-			                url:  "<%=basePath%>/ammeter/selectEpuNameByAm.shtml",
+			                url:  "${basePath}/ammeter/selectEpuNameByAm.shtml",
 			                data: {
 			                    "epuDistrict": i
 			                },
@@ -382,7 +372,7 @@
 						  var i = $('#amDiv #districtId option:selected').val();			
 					  $.ajax({
 			                type: "post",
-			                url:  "<%=basePath%>/epu/selectNdtuAddressIdByDistrictId.shtml",
+			                url:  "${basePath}/epu/selectNdtuAddressIdByDistrictId.shtml",
 			                data: {
 			                    "districtId": i
 			                },
@@ -409,7 +399,7 @@
 						  var addressId = $('#amDiv #addressId option:selected').val();		
 					  $.ajax({
 			                type: "post",
-			                url:  "<%=basePath%>/epu/selectNdtuDIstinctByChannelId.shtml",
+			                url:  "${basePath}/epu/selectNdtuDIstinctByChannelId.shtml",
 			                data: {
 			                    districtId: districtId,
 			                    addressId:addressId
@@ -499,7 +489,7 @@
 					var phaseRemark=$("#amDiv #phaseRemark").val();
 					$("#loadingDiv").show();
 					$.ajax({
-						url : "<%=basePath%>/ammeter/updateEpuInfo.shtml",
+						url : "${basePath}/ammeter/updateEpuInfo.shtml",
 						type : 'POST',
 						dataType : 'json',
 						async : false,
@@ -519,7 +509,7 @@
 						},
 						success : function(data) {
 							   $("#loadingDiv").hide();
-								window.location="<%=basePath%>/ammeter/showAmList.shtml";
+								window.location="${basePath}/ammeter/showAmList.shtml";
 						
 						}
 			
@@ -579,7 +569,7 @@
 				// 省份
 		            $.ajax({
 		                type: "post",
-		                url:  "<%=basePath%>/epu/getProvinces.shtml",
+		                url:  "${basePath}/epu/getProvinces.shtml",
 		                data: {
 		                },
 		                async:false,
@@ -608,7 +598,7 @@
 		         // 城市
 		            $.ajax({
 		                type: "post",
-		                url:  "<%=basePath%>/epu/getCity.shtml",
+		                url:  "${basePath}/epu/getCity.shtml",
 		                data: {
 		                    "provinceId": amEdit.epuProvince,
 		                    'districtFlag': 0
@@ -638,7 +628,7 @@
 		         // 区域
 		        	$.ajax({
 						type : "post",
-						url : "<%=basePath%>/epu/getCityDistrict.shtml",
+						url : "${basePath}/epu/getCityDistrict.shtml",
 						data : {
 							"cityId" : amEdit.epuCity
 						},
@@ -667,7 +657,7 @@
 		         
 		        	  $.ajax({
 			                type: "post",
-			                url:  "<%=basePath%>/ammeter/selectEpuNameByAm.shtml",
+			                url:  "${basePath}/ammeter/selectEpuNameByAm.shtml",
 			                data: {
 			                    "epuDistrict": amEdit.epuDistrict
 			                },
@@ -699,7 +689,7 @@
 		     
 			                	   $.ajax({
 			   			                type: "post",
-			   			                url:  "<%=basePath%>/epu/selectNdtuDistrictId.shtml",
+			   			                url:  "${basePath}/epu/selectNdtuDistrictId.shtml",
 			   			                data: {
 			   			                     epuType:'0' 
 			   			                },
@@ -728,7 +718,7 @@
 			       
 			                	   $.ajax({
 						                type: "post",
-						                url:  "<%=basePath%>/epu/selectNdtuAddressIdByDistrictId.shtml",
+						                url:  "${basePath}/epu/selectNdtuAddressIdByDistrictId.shtml",
 						                data: {
 						                    districtId: amEdit.districtId
 						                },
@@ -757,7 +747,7 @@
 			                	   
 			                	   $.ajax({
 						                type: "post",
-						                url:  "<%=basePath%>/epu/selectNdtuDIstinctByChannelId.shtml",
+						                url:  "${basePath}/epu/selectNdtuDIstinctByChannelId.shtml",
 						                data: {
 						                    districtId: amEdit.districtId,
 						                    addressId:amEdit.addressId
@@ -796,7 +786,7 @@
 					  var i = $('#amDiv #epuProvince option:selected').val();			
 				  $.ajax({
 		                type: "post",
-		                url:  "<%=basePath%>/epu/getCity.shtml",
+		                url:  "${basePath}/epu/getCity.shtml",
 		                data: {
 		                    "provinceId": i,
 		                    'districtFlag': 0
@@ -820,7 +810,7 @@
 								// 第四级
 								$.ajax({
 									type : "post",
-									url : "<%=basePath%>/epu/getCityDistrict.shtml",
+									url : "${basePath}/epu/getCityDistrict.shtml",
 									data : {
 										"cityId" : i
 									},
@@ -847,7 +837,7 @@
 						  var i = $('#amDiv #epuDistrict option:selected').val();			
 					  $.ajax({
 			                type: "post",
-			                url:  "<%=basePath%>/ammeter/selectEpuNameByAm.shtml",
+			                url:  "${basePath}/ammeter/selectEpuNameByAm.shtml",
 			                data: {
 			                    "epuDistrict": i
 			                },
@@ -872,7 +862,7 @@
 						  var i = $('#amDiv #districtId option:selected').val();			
 					  $.ajax({
 			                type: "post",
-			                url:  "<%=basePath%>/epu/selectNdtuAddressIdByDistrictId.shtml",
+			                url:  "${basePath}/epu/selectNdtuAddressIdByDistrictId.shtml",
 			                data: {
 			                    "districtId": i
 			                },
@@ -899,7 +889,7 @@
 						  var addressId = $('#amDiv #addressId option:selected').val();		
 					  $.ajax({
 			                type: "post",
-			                url:  "<%=basePath%>/epu/selectNdtuDIstinctByChannelId.shtml",
+			                url:  "${basePath}/epu/selectNdtuDIstinctByChannelId.shtml",
 			                data: {
 			                    districtId: districtId,
 			                    addressId:addressId
@@ -989,7 +979,7 @@
 						var phaseRemark=$("#amDiv #phaseRemark").val();
 						$("#loadingDiv").show();
 						$.ajax({
-							url : "<%=basePath%>/ammeter/updateEpuInfo.shtml",
+							url : "${basePath}/ammeter/updateEpuInfo.shtml",
 							type : 'POST',
 							dataType : 'json',
 							async : false,
@@ -1009,7 +999,7 @@
 							},
 							success : function(data) {
 								   $("#loadingDiv").hide();
-									window.location="<%=basePath%>/ammeter/showAmList.shtml";
+									window.location="${basePath}/ammeter/showAmList.shtml";
 							
 							}
 				
@@ -1022,7 +1012,7 @@
 			  
 							$("#loadingDiv").show();		 
 						$.ajax({
-							url : "<%=basePath%>/ammeter/editInit.shtml",
+							url : "${basePath}/ammeter/editInit.shtml",
 							type : 'POST',
 							dataType : 'json',
 							async : false,
@@ -1061,12 +1051,12 @@
   
   <body>
    <!--页眉开始-->
-	<%--引入头部<@_top.top 3/>--%>
-	<jsp:include page="../common/top.jsp"></jsp:include>
+   <!--页眉开始-->
+	<@_top.top 1/>
 	<!--页眉结束/-->
 
 	<!--左侧导航开始-->
-	<jsp:include page="../common/left.jsp"></jsp:include>
+	<@_left.top 1/>
 	<!--左侧导航结束/-->
 
 <!--主体开始-->
@@ -1097,11 +1087,11 @@
     	    	
         <lable>       
         	<span>设备名称 </span>
-            <input  id="ammeterName" name ="ammeterName" type="text"  value="${(empty ammeterName)? '' : ammeterName}">
+            <input  id="ammeterName" name ="ammeterName" type="text"  value="${ammeterName!''}">
     	</lable>
         <lable>
         	<span>关联终端</span>
-            <input  id="districtId" name="districtId" type="text" value="${(empty districtId)? '' : districtId}">
+            <input  id="districtId" name="districtId" type="text" value="${districtId!''}">
     	</lable>       
         <div class="but-nav">
         	<button type="button"  onclick="javascript:initList();"       class="btn btn-primary" style="background-color: #169274;">查询</button>
@@ -1140,13 +1130,6 @@
 	<!--表格结束/-->
     
 <!--     分页开始 -->
-<%-- 	<c:if test="${!empty page }">
-        <c:if test="${!empty page.list }">
-	   		 <div class="pagination pull-right">
-				${page.pageHtml}
-			 </div>
-		</c:if>
-	</c:if> --%>
 	
 	 <div class="pagination pull-right">
      </div>
@@ -1188,7 +1171,11 @@
             </lable>
              <lable>
                <span>电表号</span>
-                <input name="ammeterId"  id="ammeterId"  value="${epuInfo.ammeterId}" type="text" class="text request" title="电表号" maxlength="100">
+                <#if epuInfo??>
+                <input name="ammeterId"  id="ammeterId"  value="${epuInfo.ammeterId!''}" type="text" class="text request" title="电表号" maxlength="100">
+                <#else>
+                  <input name="ammeterId"  id="ammeterId"  value="" type="text" class="text request" title="电表号" maxlength="100">
+                </#if>
             </lable>
             
             <lable>

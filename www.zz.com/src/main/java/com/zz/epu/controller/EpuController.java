@@ -80,7 +80,7 @@ public class EpuController extends BaseController {
 	@RequestMapping(value="showSubstainList")
 	public ModelAndView showSubstainList(ModelMap map){	
 		
-		ModelAndView modelAndView = new  ModelAndView("woodare/substain/showList");
+		ModelAndView modelAndView = new  ModelAndView("substain/showList");
 		modelAndView.addObject("leftMenuview", "4");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
 		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
 		modelAndView.addObject("token", token);//左侧上方管理员信息
@@ -90,7 +90,7 @@ public class EpuController extends BaseController {
 	@RequestMapping(value="showOutgoingcabinetList")
 	public ModelAndView showOutgoingcabinetList(ModelMap map){	
 		
-		ModelAndView modelAndView = new  ModelAndView("woodare/outgoingcabinet/showList");
+		ModelAndView modelAndView = new  ModelAndView("outgoingcabinet/showList");
 		modelAndView.addObject("leftMenuview", "4");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
 		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
 		modelAndView.addObject("token", token);//左侧上方管理员信息
@@ -101,7 +101,7 @@ public class EpuController extends BaseController {
 	@RequestMapping(value="showBranchboxList")
 	public ModelAndView showBranchboxList(ModelMap map){	
 		
-		ModelAndView modelAndView = new  ModelAndView("woodare/branchbox/showList");
+		ModelAndView modelAndView = new  ModelAndView("branchbox/showList");
 		modelAndView.addObject("leftMenuview", "4");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
 		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
 		modelAndView.addObject("token", token);//左侧上方管理员信息
@@ -112,7 +112,7 @@ public class EpuController extends BaseController {
 	@RequestMapping(value="showMeterboxList")
 	public ModelAndView showMeterboxList(ModelMap map){	
 		
-		ModelAndView modelAndView = new  ModelAndView("woodare/meterbox/showList");
+		ModelAndView modelAndView = new  ModelAndView("meterbox/showList");
 		modelAndView.addObject("leftMenuview", "4");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
 		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
 		modelAndView.addObject("token", token);//左侧上方管理员信息
@@ -122,7 +122,7 @@ public class EpuController extends BaseController {
 	@RequestMapping(value="allShowList")
 	public ModelAndView allShowList(ModelMap map,String substainRowId){	
 		
-		ModelAndView modelAndView = new  ModelAndView("woodare/show/allShowList");
+		ModelAndView modelAndView = new  ModelAndView("show/allShowList");
 		modelAndView.addObject("leftMenuview", "5");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
 		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
 		modelAndView.addObject("token", token);//左侧上方管理员信息

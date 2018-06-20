@@ -42,7 +42,7 @@ public class RoleController extends BaseController {
 		modelMap.put("findContent", findContent);
 		Pagination<URole> page = roleService.findPage(modelMap,pageNo,pageSize);
 		String action = request.getParameter("action");
-		if("yes".equals(action)){//原始
+		/*if("yes".equals(action)){//原始
 			return new ModelAndView("role/index","page",page);
 		}else{
 			ModelAndView modelAndView = new ModelAndView("woodare/role/index");
@@ -51,7 +51,13 @@ public class RoleController extends BaseController {
 			modelAndView.addObject("token", token);
 			modelAndView.addObject("page", page);
 			return modelAndView;
-		}
+		}*/
+		ModelAndView modelAndView = new ModelAndView("role/index");
+		modelAndView.addObject("leftMenuview", "2");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
+		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
+		modelAndView.addObject("token", token);
+		modelAndView.addObject("page", page);
+		return modelAndView;
 		//张智 woodareCode end
 	}
 	/**

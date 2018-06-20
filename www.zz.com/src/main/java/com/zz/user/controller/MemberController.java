@@ -1,6 +1,5 @@
 package com.zz.user.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,37 +50,22 @@ public class MemberController extends BaseController {
 		map.put("findContent", findContent);
 		Pagination<UUser> page = userService.findByPage(map,pageNo,30);
 		map.put("page", page);
-		String action = request.getParameter("action");
-		if("yes".equals(action)){//原始
-		return new ModelAndView("member/list");
-		}else{
-			//张智 woodareCode begin
-			ModelAndView modelAndView = new ModelAndView("woodare/member/list");
-			modelAndView.addObject("leftMenuview", "1");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
-			UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
-			modelAndView.addObject("token", token);
-			return modelAndView;
-		}
-		//张智 woodareCode end
+		ModelAndView modelAndView = new ModelAndView("member/list");
+		modelAndView.addObject("leftMenuview", "1");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
+		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
+		modelAndView.addObject("token", token);
+		return modelAndView;
 	}
 	@RequestMapping(value="list2")
 	public ModelAndView list2(ModelMap map,HttpServletRequest request){
-		String action = request.getParameter("action");
-		if("yes".equals(action)){//原始
-		return new ModelAndView("member/list2");
-		}else{
-			//张智 woodareCode begin
-			//传递查询条件
-			this.setQueryParamMap(map,request);
-			Pagination<UUser> page = userService.findByPage(map,pageNo,30);
-			ModelAndView modelAndView = new ModelAndView("woodare/member/list2");
-			modelAndView.addObject("leftMenuview", "1");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
-			UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
-			modelAndView.addObject("token", token);
-			map.put("page", page);
-			return modelAndView;
-		}
-		//张智 woodareCode end
+		this.setQueryParamMap(map,request);
+		Pagination<UUser> page = userService.findByPage(map,pageNo,30);
+		ModelAndView modelAndView = new ModelAndView("member/list2");
+		modelAndView.addObject("leftMenuview", "1");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
+		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
+		modelAndView.addObject("token", token);
+		map.put("page", page);
+		return modelAndView;
 	}
 	
 	private void setQueryParamMap(ModelMap map,HttpServletRequest request){
@@ -136,19 +120,12 @@ public class MemberController extends BaseController {
 	@RequestMapping(value="online")
 	public ModelAndView online(HttpServletRequest request){
 		List<UserOnlineBo> list = customSessionManager.getAllUser();
-		String action = request.getParameter("action");
-		if("yes".equals(action)){//原始
-		return new ModelAndView("member/online","list",list);
-		}else{
-			//张智 woodareCode begin
-			ModelAndView modelAndView = new ModelAndView("woodare/member/online");
-			modelAndView.addObject("leftMenuview", "1");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
-			modelAndView.addObject("list", list);
-			UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
-			modelAndView.addObject("token", token);
-			return modelAndView;
-		}
-		//张智 woodareCode end
+		ModelAndView modelAndView = new ModelAndView("member/online");
+		modelAndView.addObject("leftMenuview", "1");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
+		modelAndView.addObject("list", list);
+		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
+		modelAndView.addObject("token", token);
+		return modelAndView;
 	}
 	/**
 	 * 在线用户详情
@@ -157,19 +134,12 @@ public class MemberController extends BaseController {
 	@RequestMapping(value="onlineDetails/{sessionId}",method=RequestMethod.GET)
 	public ModelAndView onlineDetails(@PathVariable("sessionId")String sessionId,HttpServletRequest request	){
 		UserOnlineBo bo = customSessionManager.getSession(sessionId);
-		String action = request.getParameter("action");
-		if("yes".equals(action)){//原始
-		return new ModelAndView("member/onlineDetails","bo",bo);
-		}else{
-			//张智 woodareCode begin
-			ModelAndView modelAndView = new ModelAndView("woodare/member/onlineDetails");
-			modelAndView.addObject("leftMenuview", "1");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
-			modelAndView.addObject("bo", bo);
-			UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
-			modelAndView.addObject("token", token);
-			return modelAndView;
-		}
-		//张智 woodareCode end
+		ModelAndView modelAndView = new ModelAndView("member/onlineDetails");
+		modelAndView.addObject("leftMenuview", "1");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
+		modelAndView.addObject("bo", bo);
+		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
+		modelAndView.addObject("token", token);
+		return modelAndView;
 	}
 	/**
 	 * 改变Session状态

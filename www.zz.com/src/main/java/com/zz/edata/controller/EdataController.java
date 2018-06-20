@@ -74,8 +74,35 @@ public class EdataController extends BaseController {
 		List<String> filelist = edataService.listFilePath();
 		modelMap.put("filelist", filelist);
 //		张智 woodareCode begin
-		String action = request.getParameter("action");
-		if("yes".equals(action)){//原始
+//		String action = request.getParameter("action");
+
+//		ModelAndView modelAndView = new ModelAndView("edata/zongIndex");
+		ModelAndView modelAndView = new ModelAndView("edata/zong");
+		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
+		modelAndView.addObject("token", token);
+		modelAndView.addObject("leftMenuview", "3");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
+		List<Map<String, Object>> timeList = new ArrayList<Map<String, Object>>();
+		for (int i = 0; i < 97; i++) {
+			int ivalue= i / 4;
+			String numStr1 = "" + ivalue;
+			if(ivalue <= 9){
+				numStr1 = "0" + ivalue;
+			}
+			Map<String, Object>  map= new HashMap<String, Object>();
+			map.put("numStr1", numStr1);
+			int itemp = (i%4) * (15);
+			String numStr2 = ""+ itemp;
+			if(itemp == 0){
+				numStr2 = "00";
+			}
+			map.put("count", i);
+			map.put("dateHm", numStr1 +":"+numStr2);
+			timeList.add(map);
+		}
+		modelAndView.addObject("timeList", timeList);
+		return modelAndView;	
+		
+		/*if("yes".equals(action)){//原始
 		return new ModelAndView("edata/zong");
 		}else{
 //			ModelAndView modelAndView = new ModelAndView("edata/zongIndex");
@@ -103,7 +130,7 @@ public class EdataController extends BaseController {
 			}
 			modelAndView.addObject("timeList", timeList);
 			return modelAndView;
-		}
+		}*/
 	}
 	// 【1.1】得到有日期的数据
 	
@@ -211,47 +238,30 @@ public class EdataController extends BaseController {
 		modelMap.put("dlist", dlist);
 		modelMap.put("eglist", eglist);
 		
-//		张智 woodareCode begin
-		String action = request.getParameter("action");
-		if("yes".equals(action)){//原始
-		return new ModelAndView("edata/fenxiang");
-		}else{
-			ModelAndView modelAndView = new ModelAndView("woodare/edata/fenxiang");
-			UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
-			modelAndView.addObject("token", token);
-			modelAndView.addObject("leftMenuview", "3");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
-			List<Map<String, Object>> timeList = new ArrayList<Map<String, Object>>();
-			for (int i = 0; i < 97; i++) {
-				int ivalue= i / 4;
-				String numStr1 = "" + ivalue;
-				if(ivalue <= 9){
-					numStr1 = "0" + ivalue;
-				}
-				Map<String, Object>  map= new HashMap<String, Object>();
-				map.put("numStr1", numStr1);
-				int itemp = (i%4) * (15);
-				String numStr2 = ""+ itemp;
-				if(itemp == 0){
-					numStr2 = "00";
-				}
-				map.put("count", i);
-				map.put("dateHm", numStr1 +":"+numStr2);
-				timeList.add(map);
+		ModelAndView modelAndView = new ModelAndView("edata/fenxiang");
+		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
+		modelAndView.addObject("token", token);
+		modelAndView.addObject("leftMenuview", "3");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
+		List<Map<String, Object>> timeList = new ArrayList<Map<String, Object>>();
+		for (int i = 0; i < 97; i++) {
+			int ivalue= i / 4;
+			String numStr1 = "" + ivalue;
+			if(ivalue <= 9){
+				numStr1 = "0" + ivalue;
 			}
-			modelAndView.addObject("timeList", timeList);
-			return modelAndView;
+			Map<String, Object>  map= new HashMap<String, Object>();
+			map.put("numStr1", numStr1);
+			int itemp = (i%4) * (15);
+			String numStr2 = ""+ itemp;
+			if(itemp == 0){
+				numStr2 = "00";
+			}
+			map.put("count", i);
+			map.put("dateHm", numStr1 +":"+numStr2);
+			timeList.add(map);
 		}
-//		张智 woodareCode end
-		// } else {
-		// List<Deviceinfo> dlist = edataService.findAllDistrict();
-		// List<Eeclassificationgrp> eglist = edataService.findAllGroup();
-		// dealADR(opEegrpBO);
-		// List<Opdata> olist = edataService.findOpdatasByGrp(opEegrpBO);
-		// modelMap.put("olist", olist);
-		// modelMap.put("dlist", dlist);
-		// modelMap.put("eglist", eglist);
-		// return new ModelAndView("edata/fenxiang");
-		// }
+		modelAndView.addObject("timeList", timeList);
+		return modelAndView;
 	}
 
 	@RequestMapping(value = "getFendataDraw", method = RequestMethod.POST)
@@ -339,47 +349,39 @@ public class EdataController extends BaseController {
 		modelMap.put("dlist", dlist);
 		modelMap.put("eglist", eglist);
 		modelMap.put("testinfo", "testinfo");
-//		return new ModelAndView("edata/yuanshi");
-//		张智 woodareCode begin
-		String action = request.getParameter("action");
-		if("yes".equals(action)){//原始
-		return new ModelAndView("edata/yuanshi");
-		}else{
-			ModelAndView modelAndView = new ModelAndView("woodare/edata/yuanshi");
-			UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
-			modelAndView.addObject("token", token);
-			modelAndView.addObject("leftMenuview", "3");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
-			List listEE = edataService.listEE();
-			modelAndView.addObject("listEE", listEE);
-			List<Map<String, Object>> timeList = new ArrayList<Map<String, Object>>();
-			String numStr1 = "";
-			String numStr2 = "";
-			String numStr3 = "";
-			for (int i = 1; i <= 96; i++) {
-				int ivalue= i / 4;
-				numStr1 = "" + ivalue;
-				if(ivalue <= 9){
-					numStr1 = "0" + ivalue;
-				}
-				Map<String, Object>  map= new HashMap<String, Object>();
-				map.put("numStr1", numStr1);
-				int itemp = (i%4) * (15);
-				numStr2 = ""+ itemp;
-				if(itemp == 0){
-					numStr2 = "00";
-				}
-				numStr3 = ""+ i;
-				if(i <= 9){
-					numStr3 = "0"+i;
-				}
-				map.put("count", i);
-				map.put("dateHm", numStr3 + "-[" + numStr1 +":" + numStr2 +"]");
-				timeList.add(map);
+		ModelAndView modelAndView = new ModelAndView("edata/yuanshi");
+		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
+		modelAndView.addObject("token", token);
+		modelAndView.addObject("leftMenuview", "3");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
+		List listEE = edataService.listEE();
+		modelAndView.addObject("listEE", listEE);
+		List<Map<String, Object>> timeList = new ArrayList<Map<String, Object>>();
+		String numStr1 = "";
+		String numStr2 = "";
+		String numStr3 = "";
+		for (int i = 1; i <= 96; i++) {
+			int ivalue= i / 4;
+			numStr1 = "" + ivalue;
+			if(ivalue <= 9){
+				numStr1 = "0" + ivalue;
 			}
-			modelAndView.addObject("timeList", timeList);
-			return modelAndView;
+			Map<String, Object>  map= new HashMap<String, Object>();
+			map.put("numStr1", numStr1);
+			int itemp = (i%4) * (15);
+			numStr2 = ""+ itemp;
+			if(itemp == 0){
+				numStr2 = "00";
+			}
+			numStr3 = ""+ i;
+			if(i <= 9){
+				numStr3 = "0"+i;
+			}
+			map.put("count", i);
+			map.put("dateHm", numStr3 + "-[" + numStr1 +":" + numStr2 +"]");
+			timeList.add(map);
 		}
-//		张智 woodareCode end
+		modelAndView.addObject("timeList", timeList);
+		return modelAndView;
 	}
 
 	@RequestMapping(value = "getYuanshiV31", method = RequestMethod.POST)
@@ -407,6 +409,10 @@ public class EdataController extends BaseController {
 	@RequestMapping(value = "yuanshij")
 	public ModelAndView yuanshij(ModelMap modelMap, Integer pageNo,
 			String findContent, OpEegrpBO opEegrpBO,HttpServletRequest request) {
+				ModelAndView modelAndView = new ModelAndView("edata/yuanshij");
+				UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
+				modelAndView.addObject("token", token);
+				modelAndView.addObject("leftMenuview", "3");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
 		if (opEegrpBO.getcAddressid() == null
 				&& opEegrpBO.getcChannelid() == null
 				&& opEegrpBO.getcEegrpid() == null
@@ -416,7 +422,7 @@ public class EdataController extends BaseController {
 			modelMap.put("dlist", dlist);
 			modelMap.put("eglist", eglist);
 			modelMap.put("testinfo", "testinfo");
-			return new ModelAndView("edata/yuanshij");
+			return modelAndView;
 		} else {
 			List<Deviceinfo> dlist = edataService.findAllDistrict();
 			List<Eeclassificationgrp> eglist = edataService.findAllGroup();
@@ -425,48 +431,36 @@ public class EdataController extends BaseController {
 			modelMap.put("olist", olist);
 			modelMap.put("dlist", dlist);
 			modelMap.put("eglist", eglist);
-		}
-//		return new ModelAndView("edata/yuanshij");
-//		张智 woodareCode begin
-		String action = request.getParameter("action");
-		if("yes".equals(action)){//原始
-			return new ModelAndView("edata/yuanshij");
-		}else{
-			ModelAndView modelAndView = new ModelAndView("woodare/edata/yuanshij");
-			UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
-			modelAndView.addObject("token", token);
-			modelAndView.addObject("leftMenuview", "3");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
-			List listEE = edataService.listEE();
-			modelAndView.addObject("listEE", listEE);
-			List<Map<String, Object>> timeList = new ArrayList<Map<String, Object>>();
-			String numStr1 = "";
-			String numStr2 = "";
-			String numStr3 = "";
-			for (int i = 1; i <= 96; i++) {
-				int ivalue= i / 4;
-				numStr1 = "" + ivalue;
-				if(ivalue <= 9){
-					numStr1 = "0" + ivalue;
-				}
-				Map<String, Object>  map= new HashMap<String, Object>();
-				map.put("numStr1", numStr1);
-				int itemp = (i%4) * (15);
-				numStr2 = ""+ itemp;
-				if(itemp == 0){
-					numStr2 = "00";
-		}
-				numStr3 = ""+ i;
-				if(i <= 9){
-					numStr3 = "0"+i;
-				}
-				map.put("count", i);
-				map.put("dateHm", numStr3 + "-[" + numStr1 +":" + numStr2 +"]");
-				timeList.add(map);
+		}		
+		List listEE = edataService.listEE();
+		modelAndView.addObject("listEE", listEE);
+		List<Map<String, Object>> timeList = new ArrayList<Map<String, Object>>();
+		String numStr1 = "";
+		String numStr2 = "";
+		String numStr3 = "";
+		for (int i = 1; i <= 96; i++) {
+			int ivalue= i / 4;
+			numStr1 = "" + ivalue;
+			if(ivalue <= 9){
+				numStr1 = "0" + ivalue;
 			}
-			modelAndView.addObject("timeList", timeList);
-			return modelAndView;
+			Map<String, Object>  map= new HashMap<String, Object>();
+			map.put("numStr1", numStr1);
+			int itemp = (i%4) * (15);
+			numStr2 = ""+ itemp;
+			if(itemp == 0){
+				numStr2 = "00";
+	}
+			numStr3 = ""+ i;
+			if(i <= 9){
+				numStr3 = "0"+i;
+			}
+			map.put("count", i);
+			map.put("dateHm", numStr3 + "-[" + numStr1 +":" + numStr2 +"]");
+			timeList.add(map);
 		}
-//		张智 woodareCode end
+		modelAndView.addObject("timeList", timeList);
+		return modelAndView;
 	}
 
 	@RequestMapping(value = "getYuanshiV41", method = RequestMethod.POST)

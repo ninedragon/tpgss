@@ -43,7 +43,7 @@ public class NdtuController extends BaseController {
 	@RequestMapping(value="showDtuList")
 	public ModelAndView showDtuList(ModelMap map){	
 		
-		ModelAndView modelAndView = new  ModelAndView("woodare/dtu/showNdtuList");
+		ModelAndView modelAndView = new  ModelAndView("dtu/showNdtuList");
 		modelAndView.addObject("leftMenuview", "6");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控 6终端管理
 		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
 		modelAndView.addObject("token", token);//左侧上方管理员信息
