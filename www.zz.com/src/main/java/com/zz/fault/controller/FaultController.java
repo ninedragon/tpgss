@@ -64,7 +64,7 @@ public class FaultController extends BaseController {
 	public ModelAndView init(ModelMap map){	
 		
 		ModelAndView modelAndView = new  ModelAndView("woodare/fault/index");
-		modelAndView.addObject("leftMenuview", "6");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控6故障定位
+		modelAndView.addObject("leftMenuview", "7");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控7故障定位
 		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
 		modelAndView.addObject("token", token);//左侧上方管理员信息
 		modelAndView.addObject("falutReasonMap", this.getFalutReason());

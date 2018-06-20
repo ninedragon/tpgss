@@ -39,6 +39,10 @@
      <li onClick="location.href='${basePath}/nDtu/showDtuList.shtml'">ndtu设备信息列表</li>
       <li onClick="location.href='${basePath}/bDtu/showDtuList.shtml'">bdtu设备信息列表</li>
     </ul>
+      <li class="<#if leftMenuview == '7' >  on </#if> big-js">故障定位管理</li>
+    <ul class="side-nav"  <#if leftMenuview == '7'>  style="display:block" </#if>>
+    	<li onClick="location.href='${basePath}/fault/init.shtml'">故障定位列表管理</li>
+    </ul>
       <li class="all">用户注册和登录</li>
 	<#--拥有 角色888888（管理员） ||  100001（用户中心）-->
 	<@shiro.hasAnyRoles name='888888,100001'>          
