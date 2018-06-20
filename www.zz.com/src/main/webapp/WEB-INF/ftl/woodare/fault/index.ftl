@@ -126,7 +126,7 @@
 					        <#list jsonArrayFalutReason as x>
                                  <option value="${x.key}">${x.value}</option>
                             </#list>	
-				 </#if>  
+				 </#if>   
             </select>
     	</lable>
         <div class="but-nav">
