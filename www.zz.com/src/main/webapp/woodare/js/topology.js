@@ -89,11 +89,16 @@ function clickScale(param){
 
 
 $(function() {
+	//内部按钮
+	$(".a-hov span").click(function(){
+		$(".a-hov span").removeClass("on");
+		$(this).addClass("on");
+	});
 	  //绑定事件
 	var obj =  parent.$(".all li[class='on']");
 	var rowId = obj.attr("id").replace("tab_","");
 	parent.$("#" + rowId + "tabShow").scroll(function(){
-	 	    $(".gj").css("top", ($(this).scrollTop() ));
-    		$(".gj").css("left", ($(this).scrollLeft() ));
+	 	    $(".box").css("top", ($(this).scrollTop() ));
+    		$(".box").css("left", ($(this).scrollLeft() ));
 	 });
 });
