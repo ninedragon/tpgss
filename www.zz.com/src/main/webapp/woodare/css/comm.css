@@ -51,7 +51,7 @@ ul.left-nav{ width:200px; position:absolute; left:0px; top:0px; bottom:0px; back
 ul.left-nav .all-line{ width:100%; float:left; display:none;}
 ul.left-nav h4{ width:100%; float:left; height:40px; line-height:40px; font-size:16px; color:#FFF; text-indent:5%; font-weight:bold; background-color:#00796a; margin:0px 0px 40px 0px;}
 ul.left-nav li{ width:100%; height:50px; line-height:50px; float:left; border-bottom:1px solid #52565a; font-size:14px; color:#FFF; text-align:left; text-indent:12%; cursor:pointer; background:url(../image/icon01.png) no-repeat 5% center; background-size:8px;}
-ul.left-nav li.all{ background:none; font-size:16px; text-indent:5%;background-color:teal;}
+ul.left-nav li.all{ background:none; font-size:16px; text-indent:5%;}
 ul.left-nav li.on{ background:#00796a url(../image/icon02.png) no-repeat 5% center; background-size:8px;}
 ul.left-nav ul.side-nav{ display:none; width:100%; float:left; background-color:#252934;}
 ul.left-nav ul.side-nav li{ width:100%; height:50px; line-height:50px; float:left; border-bottom:1px solid #52565a; font-size:14px; color:#FFF; text-align:left; text-indent:20%; cursor:pointer; background:none; position:relative;}
