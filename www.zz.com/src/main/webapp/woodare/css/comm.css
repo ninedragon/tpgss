@@ -48,8 +48,10 @@ img{ cursor:pointer; border:0;}
 /* 左侧导航
 ---------------------------------------- */
 ul.left-nav{ width:200px; position:absolute; left:0px; top:0px; bottom:0px; background-color:#3d4955; z-index:2}
+ul.left-nav .all-line{ width:100%; float:left; display:none;}
 ul.left-nav h4{ width:100%; float:left; height:40px; line-height:40px; font-size:16px; color:#FFF; text-indent:5%; font-weight:bold; background-color:#00796a; margin:0px 0px 40px 0px;}
 ul.left-nav li{ width:100%; height:50px; line-height:50px; float:left; border-bottom:1px solid #52565a; font-size:14px; color:#FFF; text-align:left; text-indent:12%; cursor:pointer; background:url(../image/icon01.png) no-repeat 5% center; background-size:8px;}
+ul.left-nav li.all{ background:none; font-size:16px; text-indent:5%;background-color:teal;}
 ul.left-nav li.on{ background:#00796a url(../image/icon02.png) no-repeat 5% center; background-size:8px;}
 ul.left-nav ul.side-nav{ display:none; width:100%; float:left; background-color:#252934;}
 ul.left-nav ul.side-nav li{ width:100%; height:50px; line-height:50px; float:left; border-bottom:1px solid #52565a; font-size:14px; color:#FFF; text-align:left; text-indent:20%; cursor:pointer; background:none; position:relative;}
@@ -172,13 +174,7 @@ ul.left-nav ul.side-nav li:last-child{ border:0px;}
 
 /* 动态数据
 ---------------------------------------- */
-.data-bar {
-    position: absolute;
-    left: 206px;
-    top: -50px;
-    right: 15px;
-    bottom: 0px;
-}
+.data-bar{ position:absolute; left:206px; top:-50px; right:15px; bottom:0px;}
 .data-bar .head{ width:100%; float:left; height:40px; border-bottom:1px solid #EEE;}
 .data-bar h4{ width:120px; height:39px; line-height:39px; float:left; border:1px solid #EEE; border-bottom:0px; -webkit-border-radius:5px 5px 0px 0px; font-size:13px; cursor:pointer; font-weight:normal; padding:0px; text-align:center;}
 .data-bar h4.on{ background-color:#00796a; color:#FFF;}
@@ -195,19 +191,14 @@ ul.left-nav ul.side-nav li:last-child{ border:0px;}
 .data-bar span.right{ float:right; background:url(../image/p02.png) no-repeat center center; margin:0px 0px 0px 5px;}
 
 
-.data-bar .box {
-    width: 100%;
-    position: absolute;
-    left: 0px;
-    top: 60px;
-    bottom: 15px;
-    float: left;
-    overflow: auto;
-}
-.data-bar .gj{ width:400px; height:48px; position:absolute; left:0px; top:0px;}
-.data-bar .gj font.jian{ width:40px; height:40px; float:left; background:url(../image/p04.png) no-repeat center center; text-indent:-999px; background-size:20px; overflow:hidden; cursor:pointer;}
-.data-bar .gj font.jia{ width:40px; height:40px; float:left; background:url(../image/p05.png) no-repeat center center; text-indent:-999px; background-size:20px; overflow:hidden; cursor:pointer;}
-.data-bar .gj input{ width:20px; height:20px; float:left; border:1px solid #000; border-radius:5px; margin:10px 0px 0px 0px; text-align:center; font-size:12px; background-color:#FFF;}
+.data-bar .box{ width:100%; position:absolute; left:0px; top:60px; bottom:15px; float:left; overflow:auto;}
+.data-bar .gj{ height:48px; position:absolute; left:0px; top:0px;}
+.data-bar .gj font.jian{ width:30px; height:30px; float:left; background:#fff url(../image/p04.png) no-repeat center center; text-indent:-999px; background-size:20px; overflow:hidden; cursor:pointer; border:1px solid #CDCDCD; margin:5px; -webkit-border-radius:50%; background-size:15px}
+.data-bar .gj font.jia{ width:30px; height:30px; float:left; background:#fff url(../image/p05.png) no-repeat center center; text-indent:-999px; background-size:20px; overflow:hidden; cursor:pointer; border:1px solid #CDCDCD; margin:5px; -webkit-border-radius:50%; background-size:15px}
+.data-bar .gj input{ width:30px; height:30px; float:left; border:1px solid #CDCDCD; border-radius:5px; margin:5px 0px 0px 0px; text-align:center; font-size:12px; background-color:#FFF;}
+.data-bar .a-hov{ height:48px; position:absolute; left:120px; top:0px;}
+.data-bar .a-hov span{ width:auto; height:30px; line-height:30px; float:left; border:1px solid #CDCDCD; border-radius:5px; margin:5px 0px 0px 0px; text-align:center; font-size:12px; background-color:#FFF; padding:0px 10px; display:block;}
+.data-bar .a-hov span.on{ width:auto; height:30px; line-height:30px; float:left; border:1px solid #CDCDCD; border-radius:5px; margin:5px 0px 0px 0px; text-align:center; font-size:12px; background-color:#00796a; padding:0px 10px; display:block; color:#FFF;}
 
 /* 资料编辑
 ---------------------------------------- */

@@ -2,6 +2,7 @@
 <#if index ==1 >
 <ul class="left-nav">
 	<h4>末端电网感知系统</h4>
+	 <li class="all">设备管理</li>
 	<ul class="<#if leftMenuview=='4'>  on </#if> big-js" <#if leftMenuview=='4'>  style="display:block" </#if>>
     <li onClick="location.href='${basePath}/epu/allShowList.shtml'">实时监控</li>
     </ul>
@@ -32,11 +33,13 @@
     <li onClick="location.href='${basePath}/epu/showMeterboxList.shtml'">表箱信息列表</li>
     <li onClick="location.href='${basePath}/ammeter/showAmList.shtml'">电表信息列表</li>
     </ul>
+     <li class="all">资产管理</li>
      <li class="<#if leftMenuview=='6'>   on </#if> big-js">终端管理</li>	
        <ul class="side-nav" <#if leftMenuview=='6'>  style="display:block" </#if>>
      <li onClick="location.href='${basePath}/nDtu/showDtuList.shtml'">ndtu设备信息列表</li>
       <li onClick="location.href='${basePath}/bDtu/showDtuList.shtml'">bdtu设备信息列表</li>
     </ul>
+      <li class="all">用户注册和登录</li>
 	<#--拥有 角色888888（管理员） ||  100001（用户中心）-->
 	<@shiro.hasAnyRoles name='888888,100001'>          
 		<li class="<#if leftMenuview=='1'>   on </#if>  big-js">用户中心</li>
