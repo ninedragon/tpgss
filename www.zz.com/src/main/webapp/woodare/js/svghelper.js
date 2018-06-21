@@ -28,7 +28,7 @@ function drawSvg(svgModelData, el) {
 		getChildren(this);
 	});
 	var w1 = 0;
-	var leftPad = 300;
+	var leftPad = 500;
 	var x1 = leftPad;
 	var x2 = leftPad;
 	var x3 = leftPad;
@@ -107,7 +107,7 @@ function drawSvg(svgModelData, el) {
 			this._x = tmpX;
 			this._y = 300;
 			createBox(layerSnap, this.rowId, this._x, this._y,this.epuName, cids1);
-			x2 += Math.max( this.width, w3 );
+			x2 += Math.max( this.width, w3 )+ 120;//加120 控制间距
 			x3 = Math.max(x2, x3);
 			x4 = Math.max(x4, x3);
 			w2 += Math.max( this.width, w3 );
@@ -116,7 +116,7 @@ function drawSvg(svgModelData, el) {
 			var py = this._y;
 			var gird = 300 / (cids1.length + 1);
 			var half = cids1.length / 2 
-			var h = 20;
+			var h = 80;
 			var tempX = this._x;
 			var tempY = this._y;
 			var tempCount = $(this.children).length;
@@ -137,7 +137,28 @@ function drawSvg(svgModelData, el) {
 					h: h
 				});
 				//展示table信息
-				showTabData(layerSnap,this.rowId,tempX,tempY,tempCount,index);
+				 for(var k =0;k < uipqData.length;k++){
+					 var json = uipqData[k];
+					 var type = json["type"];
+					 var key = json["key"];
+					 if(type == "branchBox" && key == this.rowId){//找到对应的分支箱
+						 var  ua = json["ua"];
+						 var  ia = json["ia"];
+						 var  pa = json["pa"];
+						 var qa = json["qa"];
+						 var ub = json["ub"];
+						 var ib = json["ib"];
+						 var pb = json["pb"];
+						 var qb = json["qb"];
+						 var uc = json["uc"];
+						 var ic = json["ic"];
+						 var pc = json["pc"];
+						 var qc = json["qc"];
+						 showTabData(layerSnap,this.rowId,tempX,tempY,tempCount,index,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
+						  break;
+					 }
+				 }
+			
 			});
 		});
 		//M0001
@@ -208,23 +229,31 @@ function drawSvg(svgModelData, el) {
 			}
 			$("#wd").val(zoom);//文本框内容缩放级别值
 		},
-		boxError: function(id) {
-			updateBox(id, "error-box");
+		boxError: function(boxErrorArray) {
+			for(var i = 0;i < boxErrorArray.length; i++){
+				updateBox(boxErrorArray[i], "error-box");
+			}
 		},
 		boxWarning: function(id) {
 			updateBox(id, "warning-box");
 		},
-		boxClear: function(id) {
-			updateBox(id, "");
+		boxClear: function(boxErrorArray) {
+			for(var i = 0;i < boxErrorArray.length; i++){
+				updateBox(boxErrorArray[i], "");
+			}
 		},
-		kaiguanxianError: function(id) {
-			updateKaiguanxian(id, "error");
+		kaiguanxianError: function(kaiguanxianErrorArray) {
+			for(var i = 0;i < kaiguanxianErrorArray.length; i++){
+				updateKaiguanxian(kaiguanxianErrorArray[i], "error");
+			}
 		},
 		kaiguanxianWarning: function(id) {
 			updateKaiguanxian(id, "warning");
 		},
-		kaiguanxianClear: function(id) {
-			updateKaiguanxian(id, "");
+		kaiguanxianClear: function(kaiguanxianErrorArray) {
+			for(var i = 0;i < kaiguanxianErrorArray.length; i++){
+				updateKaiguanxian(kaiguanxianErrorArray[i], "");
+			}
 		}
 	}
 }
@@ -335,91 +364,106 @@ function createLineEl(layer, position) {
 
 
 
-function setCabinetsXTable(layerSnap,id,cabinetsX,cabinetsY){
-//	
+function setCabinetsXTable(layerSnap,id,cabinetsX,cabinetsY,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc){
 	var idTableNull_X = cabinetsX;
 	var idTableNull_Y = cabinetsY - 150;
-	setCreateUseEl(layerSnap,"idTableNull" + id, "tableList1",idTableNull_X + 32,idTableNull_Y);//空框
+	setCreateUseEl(layerSnap,"idTitleNull" + id, "tableList1",idTableNull_X + 32,idTableNull_Y);//空框
 	
-	var idTableU_X = cabinetsX +58;
-	var idTableU_Y = cabinetsY -150;
-	setCreateUseEl(layerSnap,"idTableU" + id, "tableList",idTableU_X,idTableU_Y);//u框
-	splitRemarks(layerSnap,"idTableUtxt" + id,"U",idTableU_X + 37,idTableU_Y+22,"fText",18);//U文字
-	setCreateUseEl(layerSnap,"idTableU" + id, "tableList",idTableU_X,idTableU_Y);//u框
+	var idTableU_X = cabinetsX + 58;
+	var idTableU_Y = cabinetsY - 150;
+	setCreateUseEl(layerSnap,"idTitleU" + id, "tableList",idTableU_X,idTableU_Y);//u框
+	splitRemarks(layerSnap,"idTitleUtxt" + id,"U",idTableU_X + 37,idTableU_Y+22,"fText",18);//U文字
 	
-	var idTableI_X = idTableU_X +58;
-	var idTableI_Y = cabinetsY -150;
-	setCreateUseEl(layerSnap,"idTableU" + id, "tableList",idTableI_X,idTableI_Y);//i框
-	splitRemarks(layerSnap,"idTableUtxt" + id,"I",idTableI_X + 37,idTableI_Y+22,"fText",18);//I文字
+	var idTableI_X = idTableU_X + 58;
+	var idTableI_Y = cabinetsY - 150;
+	setCreateUseEl(layerSnap,"idTitleI" + id, "tableList",idTableI_X,idTableI_Y);//i框
+	splitRemarks(layerSnap,"idTitleItxt" + id,"I",idTableI_X + 37,idTableI_Y+22,"fText",18);//I文字
 	
-	var idTableP_X = idTableI_X +58;
-	var idTableP_Y = cabinetsY -150;
-	setCreateUseEl(layerSnap,"idTableU" + id, "tableList",idTableP_X,idTableP_Y);//P框
-	splitRemarks(layerSnap,"idTableUtxt" + id,"P",idTableP_X + 37,idTableP_Y+22,"fText",18);//P文字
+	var idTableP_X = idTableI_X + 58;
+	var idTableP_Y = cabinetsY - 150;
+	setCreateUseEl(layerSnap,"idTitleQ" + id, "tableList",idTableP_X,idTableP_Y);//Q框
+	splitRemarks(layerSnap,"idTitleQtxt" + id,"Q",idTableP_X + 37,idTableP_Y+22,"fText",18);//Q文字
+	
+	var idTableQ_X = idTableP_X + 58;
+	var idTableQ_Y = cabinetsY - 150;
+	setCreateUseEl(layerSnap,"idTitleP" + id, "tableList",idTableQ_X,idTableQ_Y);//P框
+	splitRemarks(layerSnap,"idTitlePtxt" + id,"P",idTableQ_X+37,idTableQ_Y+22,"fText",18);//P文字
 	
 	var idTableA_X = idTableNull_X;
-	var idTableA_Y = idTableNull_Y+ 26;
+	var idTableA_Y = idTableNull_Y + 26;
 	
-	var idTableAU_X = idTableA_X +58;
-	var idTableAU_Y = idTableNull_Y+ 26;
-	setCreateUseEl(layerSnap,"idTableU" + id, "tableList",idTableAU_X,idTableAU_Y);//au框
-	splitRemarks(layerSnap,"idTableUtxt" + id,"5261.23",idTableAU_X + 55,idTableAU_Y+22,"fText",14);//I文字
+	var idTableAU_X = idTableA_X + 58;
+	var idTableAU_Y = idTableNull_Y + 26;
+	setCreateUseEl(layerSnap,"idUA" + id, "tableList",idTableAU_X,idTableAU_Y);//ua框
+	splitRemarks(layerSnap,"idUAtxt" + id,ua,idTableAU_X + 55,idTableAU_Y+22,"fText",14);//ua文字
 	
-	setCreateUseEl(layerSnap,"idTableUtxtzA" + id, "tableList1",idTableNull_X  + 32,idTableAU_Y);//空框
-	splitRemarks(layerSnap,"idTableUtxtz" + id,"A",idTableAU_X - 5 ,idTableAU_Y+22,"fText",18);//A
+	setCreateUseEl(layerSnap,"idTitleUANulltxt" + id, "tableList1",idTableNull_X  + 32,idTableAU_Y);//空框
+	splitRemarks(layerSnap,"idTitleUAtxt" + id,"A",idTableAU_X - 5 ,idTableAU_Y+22,"fText",18);//A
 	
-	var idTableAI_X = idTableAU_X +58;
-	var idTableAI_Y = idTableNull_Y+ 26;
-	setCreateUseEl(layerSnap,"idTableU" + id, "tableList",idTableAI_X,idTableAI_Y);//au框
-	splitRemarks(layerSnap,"idTableUtxt" + id,"5261.23",idTableAI_X + 55,idTableAI_Y+22,"fText",14);//U文字
+	var idTableAI_X = idTableAU_X + 58;
+	var idTableAI_Y = idTableNull_Y + 26;
+	setCreateUseEl(layerSnap,"idIA" + id, "tableList",idTableAI_X,idTableAI_Y);//ia框
+	splitRemarks(layerSnap,"idIAtxt" + id,ia,idTableAI_X + 55,idTableAI_Y+22,"fText",14);//ia文字
 	
-	var idTableAP_X = idTableAI_X +58;
-	var idTableAP_Y = idTableNull_Y+ 26;
-	setCreateUseEl(layerSnap,"idTableU" + id, "tableList",idTableAP_X,idTableAP_Y);//au框
-	splitRemarks(layerSnap,"idTableUtxt" + id,"5261.23",idTableAP_X + 55,idTableAP_Y+22,"kV110",14);//P文字
+	var idTableAQ_X = idTableAI_X + 58;
+	var idTableAQ_Y = idTableNull_Y + 26;
+	setCreateUseEl(layerSnap,"idQA" + id, "tableList",idTableAQ_X,idTableAQ_Y);//qa框
+	splitRemarks(layerSnap,"idQAtxt" + id,qa,idTableAQ_X + 55,idTableAQ_Y+22,"fText",14);//qa文字
 
+	var idTableAP_X = idTableAQ_X + 58;
+	var idTableAP_Y = idTableNull_Y + 26;
+	setCreateUseEl(layerSnap,"idPA" + id, "tableList",idTableAP_X,idTableAP_Y);//pa框
+	splitRemarks(layerSnap,"idPAtxt" + id,pa,idTableAP_X + 55,idTableAP_Y+22,"kV110",14);//pa文字
 	
 	
 	
-	var idTableBU_X = idTableA_X +58;
-	var idTableBU_Y = idTableNull_Y+ 52;
-	setCreateUseEl(layerSnap,"idTableU" + id, "tableList",idTableBU_X,idTableBU_Y);//au框
-	splitRemarks(layerSnap,"idTableUtxt" + id,"1",idTableBU_X + 55,idTableBU_Y+22,"fText",14);//I文字
+	var idTableBU_X = idTableA_X + 58;
+	var idTableBU_Y = idTableNull_Y + 52;
+	setCreateUseEl(layerSnap,"idUB" + id, "tableList",idTableBU_X,idTableBU_Y);//ub框
+	splitRemarks(layerSnap,"idUBtxt" + id,ub,idTableBU_X + 55,idTableBU_Y + 22,"fText",14);//ub文字
 	
-	setCreateUseEl(layerSnap,"idTableUtxtzB" + id, "tableList1",idTableNull_X + 32,idTableBU_Y);//空框
-	splitRemarks(layerSnap,"idTableUtxtz" + id,"B",idTableBU_X - 5,idTableBU_Y+22,"fText",18);//B
+	setCreateUseEl(layerSnap,"idTitleUBNull" + id, "tableList1",idTableNull_X + 32,idTableBU_Y);//空框
+	splitRemarks(layerSnap,"idTitleUBNulltxt" + id,"B",idTableBU_X - 5,idTableBU_Y + 22,"fText",18);//B
 	
-	var idTableBI_X = idTableBU_X +58;
-	var idTableBI_Y = idTableNull_Y+ 52;
-	setCreateUseEl(layerSnap,"idTableU" + id, "tableList",idTableBI_X,idTableBI_Y);//au框
-	splitRemarks(layerSnap,"idTableUtxt" + id,"11",idTableBI_X + 55,idTableBI_Y+22,"fText",14);//U文字
+	var idTableBI_X = idTableBU_X + 58;
+	var idTableBI_Y = idTableNull_Y + 52;
+	setCreateUseEl(layerSnap,"idIB" + id, "tableList",idTableBI_X,idTableBI_Y);//ib框
+	splitRemarks(layerSnap,"idIBtxt" + id,ib,idTableBI_X + 55,idTableBI_Y + 22,"fText",14);//ib文字
 	
-	var idTableBP_X = idTableBI_X +58;
-	var idTableBP_Y = idTableNull_Y+ 52;
-	setCreateUseEl(layerSnap,"idTableU" + id, "tableList",idTableBP_X,idTableBP_Y);//au框
-	splitRemarks(layerSnap,"idTableUtxt" + id,"111",idTableBP_X + 55,idTableBP_Y+22,"kV110",14);//P文字
+	var idTableBQ_X = idTableBI_X + 58;
+	var idTableBQ_Y = idTableNull_Y + 52;
+	setCreateUseEl(layerSnap,"idQB" + id, "tableList",idTableBQ_X,idTableBQ_Y);//qb框
+	splitRemarks(layerSnap,"idQBtxt" + id,qb,idTableBQ_X + 55,idTableBQ_Y + 22,"fText",14);//qb文字
 
+	var idTableBP_X = idTableBQ_X + 58;
+	var idTableBP_Y = idTableNull_Y + 52;
+	setCreateUseEl(layerSnap,"idPB" + id, "tableList",idTableBP_X,idTableBP_Y);//pb框
+	splitRemarks(layerSnap,"idPBtxt" + id,pb,idTableBP_X + 55,idTableBP_Y + 22,"kV110",14);//pb文字
 	
 	
 	
+	var idTableCU_X = idTableA_X + 58;
+	var idTableCU_Y = idTableNull_Y + 78;
+	setCreateUseEl(layerSnap,"idUC" + id, "tableList",idTableCU_X,idTableCU_Y);//uc框
+	splitRemarks(layerSnap,"idUCtxt" + id,uc,idTableCU_X + 55,idTableCU_Y + 22,"fText",14);//uc文字
 	
-	var idTableCU_X = idTableA_X +58;
-	var idTableCU_Y = idTableNull_Y+ 78;
-	setCreateUseEl(layerSnap,"idTableU" + id, "tableList",idTableCU_X,idTableCU_Y);//au框
-	splitRemarks(layerSnap,"idTableUtxt" + id,"1121",idTableCU_X + 55,idTableCU_Y+22,"fText",14);//I文字
+	setCreateUseEl(layerSnap,"idTitleUcNull" + id, "tableList1",idTableNull_X + 32,idTableCU_Y);//空框
+	splitRemarks(layerSnap,"idTitleUcNulltxt" + id,"C",idTableCU_X - 5,idTableCU_Y + 22,"fText",18);//C
 	
-	setCreateUseEl(layerSnap,"idTableUtxtzC" + id, "tableList1",idTableNull_X + 32,idTableCU_Y);//空框
-	splitRemarks(layerSnap,"idTableUtxtz" + id,"C",idTableCU_X - 5,idTableCU_Y+22,"fText",18);//C
+	var idTableCI_X = idTableCU_X + 58;
+	var idTableCI_Y = idTableNull_Y + 78;
+	setCreateUseEl(layerSnap,"idIC" + id, "tableList",idTableCI_X,idTableCI_Y);//ic框
+	splitRemarks(layerSnap,"idICtxt" + id,ic,idTableCI_X + 55,idTableCI_Y + 22,"fText",14);//ic文字
 	
-	var idTableCI_X = idTableCU_X +58;
-	var idTableCI_Y = idTableNull_Y+ 78;
-	setCreateUseEl(layerSnap,"idTableU" + id, "tableList",idTableCI_X,idTableCI_Y);//au框
-	splitRemarks(layerSnap,"idTableUtxt" + id,"11",idTableCI_X + 55,idTableCI_Y+22,"fText",14);//U文字
+	var idTableCQ_X = idTableCI_X + 58;
+	var idTableCQ_Y = idTableNull_Y + 78;
+	setCreateUseEl(layerSnap,"idQC" + id, "tableList",idTableCQ_X,idTableCQ_Y);//qc框
+	splitRemarks(layerSnap,"idQCtxt" + id,qc,idTableCQ_X + 55,idTableCQ_Y + 22,"fText",14);//qc文字
 	
-	var idTableCP_X = idTableCI_X +58;
-	var idTableCP_Y = idTableNull_Y+ 78;
-	setCreateUseEl(layerSnap,"idTableU" + id, "tableList",idTableCP_X,idTableCP_Y);//au框
-	splitRemarks(layerSnap,"idTableUtxt" + id,"111",idTableCP_X + 55,idTableCP_Y+22,"kV110",14);//P文字
+	var idTableCP_X = idTableCQ_X + 58;
+	var idTableCP_Y = idTableNull_Y + 78;
+	setCreateUseEl(layerSnap,"idPC" + id, "tableList",idTableCP_X,idTableCP_Y);//pc框
+	splitRemarks(layerSnap,"idPCtxt" + id,pc,idTableCP_X + 55,idTableCP_Y + 22,"kV110",14);//pc文字
 }
 
 /**
@@ -519,82 +563,82 @@ function createUseEl(layer, data, position) {
 /*
  *展示分支箱TABLE信息 
  ***/
-function showTabData(layerSnap,rowId,tempX,tempY,tempCount,index){
+function showTabData(layerSnap,rowId,tempX,tempY,tempCount,index,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc){
 	if(tempCount == 1){
-		setCabinetsXTable(layerSnap,rowId,tempX + 300, tempY + 200);
+		setCabinetsXTable(layerSnap,rowId,tempX + 300, tempY + 200,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 	}else if(tempCount == 2){
 		switch((index+1)){
 			case 1:
-				setCabinetsXTable(layerSnap,rowId,tempX - 280, tempY + 200);
+				setCabinetsXTable(layerSnap,rowId,tempX - 350, tempY + 200,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 				break;
 			case 2:
-				setCabinetsXTable(layerSnap,rowId,tempX + 280, tempY + 200);
+				setCabinetsXTable(layerSnap,rowId,tempX + 280, tempY + 200,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 				break;
 		}
 	}else if(tempCount == 3){
 		switch((index+1)){
 			case 1:
-				setCabinetsXTable(layerSnap,rowId,tempX - 280, tempY + 200);
+				setCabinetsXTable(layerSnap,rowId,tempX - 350, tempY + 200,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 				break;
 			case 2:
-				setCabinetsXTable(layerSnap,rowId,tempX + 150, tempY + 10);
+				setCabinetsXTable(layerSnap,rowId,tempX + 150, tempY + 10,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 				break;
 			case 3:
-				setCabinetsXTable(layerSnap,rowId,tempX + 280, tempY + 200);
+				setCabinetsXTable(layerSnap,rowId,tempX + 280, tempY + 200,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 				break;
 		}
 	}else if(tempCount == 4){
 		switch((index+1)){
 			case 1:
-				setCabinetsXTable(layerSnap,rowId,tempX - 280, tempY + 200);
+				setCabinetsXTable(layerSnap,rowId,tempX - 350, tempY + 200,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 				break;
 			case 2:
-				setCabinetsXTable(layerSnap,rowId,tempX - 80, tempY + 10);
+				setCabinetsXTable(layerSnap,rowId,tempX - 80, tempY + 10,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 				break;
 			case 3:
-				setCabinetsXTable(layerSnap,rowId,tempX + 150, tempY + 10);
+				setCabinetsXTable(layerSnap,rowId,tempX + 150, tempY + 10,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 				break;
 			case 4:
-				setCabinetsXTable(layerSnap,rowId,tempX + 280, tempY + 200);
+				setCabinetsXTable(layerSnap,rowId,tempX + 280, tempY + 200,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 				break;
 		}
 	}else if(tempCount == 5){
 		switch((index+1)){
 			case 1:
-				setCabinetsXTable(layerSnap,rowId,tempX - 350, tempY + 200);
+				setCabinetsXTable(layerSnap,rowId,tempX - 350, tempY + 200,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 				break;
 			case 2:
-				setCabinetsXTable(layerSnap,rowId,tempX - 190, tempY + 10);
+				setCabinetsXTable(layerSnap,rowId,tempX - 190, tempY + 10,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 				break;
 			case 3:
-				setCabinetsXTable(layerSnap,rowId,tempX + 30, tempY + 10);
+				setCabinetsXTable(layerSnap,rowId,tempX + 30, tempY + 10,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 				break;
 			case 4:
-				setCabinetsXTable(layerSnap,rowId,tempX + 250, tempY + 10);
+				setCabinetsXTable(layerSnap,rowId,tempX + 250, tempY + 10,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 				break;
 			case 5:
-				setCabinetsXTable(layerSnap,rowId,tempX + 350, tempY + 200);
+				setCabinetsXTable(layerSnap,rowId,tempX + 350, tempY + 200,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 				break;
 		}
 	}else if(tempCount == 6){
 		switch((index+1)){
 		case 1:
-			setCabinetsXTable(layerSnap,rowId,tempX - 400, tempY + 200);
+			setCabinetsXTable(layerSnap,rowId,tempX - 400, tempY + 200,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 			break;
 		case 2:
-			setCabinetsXTable(layerSnap,rowId,tempX - 350, tempY + 10);
+			setCabinetsXTable(layerSnap,rowId,tempX - 350, tempY + 10,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 			break;
 		case 3:
-			setCabinetsXTable(layerSnap,rowId,tempX - 140, tempY + 10);
+			setCabinetsXTable(layerSnap,rowId,tempX - 140, tempY + 10,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 			break;
 		case 4:
-			setCabinetsXTable(layerSnap,rowId,tempX + 70, tempY + 10);
+			setCabinetsXTable(layerSnap,rowId,tempX + 70, tempY + 10,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 			break;
 		case 5:
-			setCabinetsXTable(layerSnap,rowId,tempX + 280, tempY + 10);
+			setCabinetsXTable(layerSnap,rowId,tempX + 280, tempY + 10,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 			break;
 		case 6:
-			setCabinetsXTable(layerSnap,rowId,tempX + 350, tempY + 200);
+			setCabinetsXTable(layerSnap,rowId,tempX + 350, tempY + 200,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 			break;
 		}
 	}
