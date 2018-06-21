@@ -1,6 +1,6 @@
 <#macro top index>
 <#if index ==1 >
-<ul class="left-nav">
+<ul class="left-nav" style="overflow-y: auto;height: 700px;">
 	<h4>末端电网感知系统</h4>
 	 <li class="all">设备管理</li>
 	<ul class="<#if leftMenuview=='4'>  on </#if> big-js" <#if leftMenuview=='4'>  style="display:block" </#if>>
