@@ -555,15 +555,16 @@ function setCabinetsXTable(layerSnap,id,cabinetsX,cabinetsY,ua,ia,pa,qa,ub,ib,pb
 	setCreateUseEl(layerSnap,"idTitleI" + id, "tableList",idTableI_X,idTableI_Y);//i框
 	splitRemarks(layerSnap,"idTitleItxt" + id,"I",idTableI_X + 37,idTableI_Y+22,"fText",18);//I文字
 	
-	var idTableQ_X = idTableI_X +58;
+	var idTableP_X = idTableI_X +58;
+	var idTableP_Y = cabinetsY -150;
+	setCreateUseEl(layerSnap,"idTableU" + id, "tableList",idTableP_X,idTableP_Y);//P框
+	splitRemarks(layerSnap,"idTitlePtxt" + id,"P",idTableP_X + 37,idTableP_Y+22,"fText",18);//P文字
+	
+	var idTableQ_X = idTableP_X +58;
 	var idTableQ_Y = cabinetsY -150;
 	setCreateUseEl(layerSnap,"idTitleQ" + id, "tableList",idTableQ_X,idTableQ_Y);//Q框
 	splitRemarks(layerSnap,"idTitleQtxt" + id,"Q",idTableQ_X + 37,idTableQ_Y+22,"fText",18);//Q文字
 	
-	var idTableP_X = idTableQ_X +58;
-	var idTableP_Y = cabinetsY -150;
-	setCreateUseEl(layerSnap,"idTableU" + id, "tableList",idTableP_X,idTableP_Y);//P框
-	splitRemarks(layerSnap,"idTitlePtxt" + id,"P",idTableP_X + 37,idTableP_Y+22,"fText",18);//P文字
 	
 	
 	var idTableA_X = idTableNull_X;
@@ -582,15 +583,17 @@ function setCabinetsXTable(layerSnap,id,cabinetsX,cabinetsY,ua,ia,pa,qa,ub,ib,pb
 	setCreateUseEl(layerSnap,"idIA" + id, "tableList",idTableAI_X,idTableAI_Y);//ia框
 	splitRemarks(layerSnap,"idIAtxt" + id,ia,idTableAI_X + 55,idTableAI_Y+22,"fText",14);//ia文字
 	
-	var idTableAQ_X = idTableAI_X +58;
+	var idTableAP_X = idTableAI_X +58;
+	var idTableAP_Y = idTableNull_Y+ 26;
+	setCreateUseEl(layerSnap,"idPA" + id, "tableList",idTableAP_X,idTableAP_Y);//pa框
+	splitRemarks(layerSnap,"idPAtxt" + id,pa,idTableAP_X + 55,idTableAP_Y+22,"fText",14);//pa文字
+	
+	var idTableAQ_X =  idTableAP_X+58;
 	var idTableAQ_Y = idTableNull_Y+ 26;
 	setCreateUseEl(layerSnap,"idQA" + id, "tableList",idTableAQ_X,idTableAQ_Y);//qa框
 	splitRemarks(layerSnap,"idQAtxt" + id,qa,idTableAQ_X + 55,idTableAQ_Y+22,"fText",14);//qa文字
 
-	var idTableAP_X = idTableAQ_X +58;
-	var idTableAP_Y = idTableNull_Y+ 26;
-	setCreateUseEl(layerSnap,"idPA" + id, "tableList",idTableAP_X,idTableAP_Y);//pa框
-	splitRemarks(layerSnap,"idPAtxt" + id,pa,idTableAP_X + 55,idTableAP_Y+22,"kV110",14);//pa文字
+
 
 	
 	
@@ -608,16 +611,18 @@ function setCabinetsXTable(layerSnap,id,cabinetsX,cabinetsY,ua,ia,pa,qa,ub,ib,pb
 	setCreateUseEl(layerSnap,"idIB" + id, "tableList",idTableBI_X,idTableBI_Y);//IB框
 	splitRemarks(layerSnap,"idIBtxt" + id,ib,idTableBI_X + 55,idTableBI_Y+22,"fText",14);//ib文字
 	
-	var idTableBQ_X = idTableBI_X +58;
+	
+	var idTableBP_X = idTableBI_X +58;
+	var idTableBP_Y = idTableNull_Y+ 52;
+	setCreateUseEl(layerSnap,"idPB" + id, "tableList",idTableBP_X,idTableBP_Y);//pb框
+	splitRemarks(layerSnap,"idPBtxt" + id,pb,idTableBP_X + 55,idTableBP_Y+22,"fText",14);//pb文字
+	
+	var idTableBQ_X = idTableBP_X +58;
 	var idTableBQ_Y = idTableNull_Y+ 52;
 	setCreateUseEl(layerSnap,"idQB" + id, "tableList",idTableBQ_X,idTableBQ_Y);//bq框
 	splitRemarks(layerSnap,"idQBtxt" + id,qb,idTableBQ_X + 55,idTableBQ_Y+22,"fText",14);//qb文字
 
-	
-	var idTableBP_X = idTableBQ_X +58;
-	var idTableBP_Y = idTableNull_Y+ 52;
-	setCreateUseEl(layerSnap,"idPB" + id, "tableList",idTableBP_X,idTableBP_Y);//pb框
-	splitRemarks(layerSnap,"idPBtxt" + id,pb,idTableBP_X + 55,idTableBP_Y+22,"kV110",14);//pb文字
+
 
 	
 	
@@ -636,15 +641,16 @@ function setCabinetsXTable(layerSnap,id,cabinetsX,cabinetsY,ua,ia,pa,qa,ub,ib,pb
 	setCreateUseEl(layerSnap,"idIC" + id, "tableList",idTableCI_X,idTableCI_Y);//ic框
 	splitRemarks(layerSnap,"idICtxt" + id,ic,idTableCI_X + 55,idTableCI_Y+22,"fText",14);//ic文字
 	
-	var idTableCQ_X = idTableCI_X +58;
+	
+	var idTableCP_X = idTableCI_X +58;
+	var idTableCP_Y = idTableNull_Y+ 78;
+	setCreateUseEl(layerSnap,"idPC" + id, "tableList",idTableCP_X,idTableCP_Y);//pc框
+	splitRemarks(layerSnap,"idPCtxt" + id,pc,idTableCP_X + 55,idTableCP_Y+22,"fText",14);//pc文字
+	
+	var idTableCQ_X =  idTableCP_X+58;
 	var idTableCQ_Y = idTableNull_Y+ 78;
 	setCreateUseEl(layerSnap,"idQC" + id, "tableList",idTableCQ_X,idTableCQ_Y);//qc框
 	splitRemarks(layerSnap,"idQCtxt" + id,qc,idTableCQ_X + 55,idTableCQ_Y+22,"fText",14);//qc文字
-	
-	var idTableCP_X = idTableCQ_X +58;
-	var idTableCP_Y = idTableNull_Y+ 78;
-	setCreateUseEl(layerSnap,"idPC" + id, "tableList",idTableCP_X,idTableCP_Y);//pc框
-	splitRemarks(layerSnap,"idPCtxt" + id,pc,idTableCP_X + 55,idTableCP_Y+22,"kV110",14);//pc文字
 }
 
 

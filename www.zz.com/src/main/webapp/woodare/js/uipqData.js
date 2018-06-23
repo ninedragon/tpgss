@@ -93,7 +93,7 @@ var uipqData=[
         "uc": "220",
         "ic": "11",
         "pc": "200",
-        "qc": "200"
+        "qc": "230"
 },
 {
     "type": "meterBox",
