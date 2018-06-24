@@ -7,7 +7,7 @@ function drawSvg(svgModelData, el) {
 	d3.namespace("xmlns:cge","http://iec.ch/TC57/2005/SVG-schema#");
 	var svgSnap = d3.select(el || "body").append("svg");
 	svgSnap.attr("width", 6000)
-	   .attr("height", 1200)
+	   .attr("height", 1700)
 	   .attr("xmlns", "http://www.w3.org/2000/svg")
 	   .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
 	   .attr("xmlns:cge", "http://iec.ch/TC57/2005/SVG-schema#");
@@ -59,12 +59,12 @@ function drawSvg(svgModelData, el) {
   		            svgimg.setAttributeNS(null,"id","meterbox_" + this.rowId);
   		            svgimg.setAttributeNS(null, "visibility", "visible");
 	  		         $("#Snap_Layer").append(svgimg).find("image[id='meterbox_"+this.rowId+"']").attr("epuName",this.epuName).click(function(){
-		            	  showAmmeter(this,svgModelData);
+		            	  showAmmeter(this,svgModelData,uipqData);
 	  		         });
   		           
 					//给表箱绑定单击事件
 		        	$("#meterbox_" + this.rowId).attr("epuName",this.epuName).css("cursor", "pointer").bind("click",function(){
-		            	  showAmmeter(this,svgModelData);
+		            	  showAmmeter(this,svgModelData,uipqData);
  					});
 				});
 				//M0003
@@ -229,6 +229,9 @@ function drawSvg(svgModelData, el) {
 			}
 			$("#wd").val(zoom);//文本框内容缩放级别值
 		},
+		topoHeight:function(){
+			return svgSnap.attr("height");
+		},
 		boxError: function(boxErrorArray) {
 			for(var i = 0;i < boxErrorArray.length; i++){
 				updateBox(boxErrorArray[i], "error-box");
@@ -313,7 +316,7 @@ function createKaiguanxian(layer, id, x, y, height) {
 	g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + (y + gird + 50) + " L " + (x + 8) + "," + (y + height) + "");
 }
 
-function showAmmeter(obj,svgModelData){
+function showAmmeter(obj,svgModelData,uipqData){
 	  var txtID = $(obj).attr("id");//展示的文字ID
 	  parent.$("#tableBoxId").val(txtID.replace("meterbox_",""));//当前表箱ID
 	  var textValue = $(obj).attr("epuName");//展示的文字内容
@@ -323,7 +326,7 @@ function showAmmeter(obj,svgModelData){
       var tableBoxId = parent.$("#tableBoxId").val();//获取箱变根ID
       //只有电表TAB可以执行此动作
       parent.$("#messageAmmeter").show();
-	  iframeID.contentWindow.showTop(svgModelData,rowId,tableBoxId);
+	  iframeID.contentWindow.showTop(svgModelData,rowId,tableBoxId,uipqData);
 }
 function createMeterBox(layer, id, x, y, name) {
 	var g = layer.append("g").attr("id", "meterbox_" + id);

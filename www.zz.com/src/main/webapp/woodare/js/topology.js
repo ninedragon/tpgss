@@ -149,6 +149,7 @@ $(function() {
 	 	    $(".box").css("top", ($(this).scrollTop() ));
     		$(".box").css("left", ($(this).scrollLeft() ));
 	 });
+	$("#falutDiv").css("top",( mySvg.topoHeight()- 450)+"px");
 });
 
 /**

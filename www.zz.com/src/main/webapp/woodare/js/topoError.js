@@ -6,7 +6,7 @@ var topoError =[ {
 	        {
 	            "type": "meterBox",
 	            "key": "1952cf11-aa19-4423-ab44-15a903a36b6c",
-	             "fault_point": "1"
+	             "fault_point": "0"
 	        },
 	        {
 	            "type": "meterBox",

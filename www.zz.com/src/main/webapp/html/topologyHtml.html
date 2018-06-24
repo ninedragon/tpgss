@@ -67,5 +67,93 @@
 	<script type="text/javascript" src="../woodare/js/topoError.js"></script>
 	<script type="text/javascript" src="../woodare/js/svghelper.js"></script>
 	<script type="text/javascript" src="../woodare/js/topology.js"></script>
+	
+		<link   rel="icon" href="../favicon.ico" type="image/x-icon" />
+	<link   rel="shortcut icon" href="../favicon.ico" />
+	<link href="../js/common/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="../css/common/base.css" rel="stylesheet"/>
+	
+	<script src="../woodare/js/faultLocation.js"></script>
+<!-- 	<script  src="../js/common/layer/layer.js"></script> -->
+<!-- 	<script  src="../js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
+<!-- 	<script  src="../js/shiro.demo.js"></script> -->
+<!-- 	<script language="javascript" type="text/javascript" src="../js/My97DatePicker/WdatePicker.js"></script> -->
+	<!--主体开始-->
+	<div class="wapp-main" id="falutDiv">
+		<form method="post" action="" id="formId" class="form-inline">
+		<h4>故障定位列表</h4>	
+	    <!--搜索开始-->
+		<div class="search">
+		    	 <lable>
+	        	<span>设备名称</span>
+	               <input id="epuName" type="text" name="epuName" value="" />
+	    	</lable>
+	    	<lable>       
+	        	<span>故障原因 </span>
+	              <select id="falutReason" name="falutReason" >
+	            	<option></option>
+	            	<option value="0">短路</option>
+	            	<option value="1">异常漏电</option>
+	            	<option value="2">缺相</option>
+	            	<option value="3">停电</option>
+	            </select>
+	    	</lable>
+	        <div class="but-nav">
+	        	<button type="button"  onclick="javascript:initList();"       class="btn btn-primary" style="background-color: #169274;">查询</button>
+	        </div>
+		</div>
+	    <!--搜索结束/-->
+	    <!--表格开始-->
+	    <div class="table-box">
+	        <table width="100%">
+	            <tr>   
+								<th>设备名称</th>
+								<th>故障原因</th>
+								<th>故障发生时间</th>
+								<th>是否取消</th>
+								<th>是否修复</th>
+								<th>修复时间</th>						
+					
+	            </tr>
+	           <tbody id="faultListTable"></tbody>
+	        </table>
+	    </div>
+		<!--表格结束/-->
+	    
+	<!--     分页开始 -->
+	
+		   		 <div class="pagination pull-right">
+				 </div>
+	<!--     分页结束/ -->
+ </form>
+</div>
+<!--主体结束/-->
+<script >
+       var tbody = '';
+       var falutReasonJson = {};
+       falutReasonJson["0"] = "短路";
+       falutReasonJson["1"] = "异常漏电";
+       falutReasonJson["2"] = "缺相";
+       falutReasonJson["3"] = "停电";
+       var isFalutJson = {};
+       isFalutJson["0"] = "否";
+       isFalutJson["1"] = "是";
+       var isCancelledJson = {};
+       isCancelledJson["0"] = "否";
+       isCancelledJson["1"] = "是";
+         if (faultLocationData !=null && faultLocationData.length>0) {
+             for (var i = 0; i < faultLocationData.length; i++) {
+                 tbody += '<tr>';
+                 tbody += '<td align="center"><div>' + faultLocationData[i].name+ '</div></td>';
+                 tbody += '<td align="center"><div>' + (falutReasonJson[faultLocationData[i].faultType] ||"") + '</div></td>';
+                 tbody += '<td align="center"><div>' + faultLocationData[i].occur_time+ '</div></td>';
+                 tbody += '<td align="center"><div>' + isCancelledJson[faultLocationData[i].is_cancelled]+ '</div></td>';
+                 tbody += '<td align="center"><div>' + isFalutJson[faultLocationData[i].is_repaired] + '</div></td>';			                            
+                 tbody += '<td align="center"><div>' + faultLocationData[i].repair_time+ '</div></td>';
+                 tbody += '</tr>';			                            
+             }
+           }
+           $("#faultListTable").html(tbody);
+		</script>
 </body>
 </html>

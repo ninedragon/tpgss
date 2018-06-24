@@ -40,7 +40,7 @@
 			            	isFalut: $("#isFalut").val(),
 			            	falutRepairTime: $("#falutRepairTime").val(),
 			            	isCancelled: $("#isCancelled").val(),
-			            	stringData : JSON.stringify(dataTemp),
+			            	stringData : JSON.stringify(faultLocationData),
 			            	pageNo:pageNo,
 			            	pageSize:10
 			            },

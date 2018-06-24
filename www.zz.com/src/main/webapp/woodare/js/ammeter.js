@@ -201,7 +201,7 @@ function getRootPath_web() {
  * @param rowIdParam 箱变根
  * @param tableBoxId 表箱ID
  */
-function showTop(data,rowId,tableBoxId){
+function showTop(data,rowId,tableBoxId,uipqData){
 	svgSnap.select("g[id='ammeter_Layer']").remove();
 	var layerSnap = svgSnap.append("g").attr("id","ammeter_Layer");
 	dataTemp = data;

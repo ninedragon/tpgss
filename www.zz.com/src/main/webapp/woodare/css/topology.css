@@ -28,3 +28,87 @@
 .a-hov{ position:absolute;z-index: 999; left:120px; top:0px;}
 .a-hov span{ width:auto; height:30px; line-height:30px; float:left; border:1px solid #CDCDCD; border-radius:5px; margin:5px 0px 0px 5px; text-align:center; font-size:12px; background-color:#FFF; padding:0px 10px; display:block; cursor:pointer; }
 .a-hov span.on{ width:auto; height:30px; line-height:30px; float:left; border:1px solid #CDCDCD; border-radius:5px; margin:5px 0px 0px 5px; text-align:center; font-size:12px; background-color:#00796a; padding:0px 10px; display:block; color:#FFF; cursor:pointer; }
+
+
+
+
+/* 主体
+---------------------------------------- */
+.wapp-main{ position:absolute;z-index: 999; left:20px; right:0px; top:40px; bottom:0px;padding:15px 15px 15px 0px; z-index:1}
+.wapp-main.long{ left:15px;}
+.wapp-main h4{ font-weight:bold ;width:100%; float:left; font-size:30px; color:#333; text-align:left; border-bottom:1px solid #EEE; padding:0px 0px 10px 0px;}
+
+/* 搜索
+---------------------------------------- */
+.search{ width:100%; float:left; border-bottom:1px solid #EEE; padding:0px 0px 10px 0px;}
+.search lable{ float:left; height:32px; line-height:32px; margin:10px 20px 0px 0px;}
+.search lable span{ width:85px; float:left; font-size:14px; color:#333; text-align:left; font-weight:bold; margin:0px 10px 0px 0px;}
+.search lable span.wd01{ width:115px;}
+.search lable select{ float:left; width:132px; height:32px; font-size:14px; color:#333; text-align:left; border:1px solid #CCC; -webkit-border-radius:5px;}
+.search lable input{ float:left; width:130px; height:30px; font-size:14px; color:#333; text-align:left; border:1px solid #CCC; -webkit-border-radius:5px; text-indent:5px;}
+.search lable input.long{ width:330px;}
+.search .but-nav{ float:left; margin:10px 0px 0px 0px;}
+.search .but-nav span.but{ float:left; height:32px; line-height:32px; font-size:13px; color:#FFF; text-align:center; -webkit-border-radius:5px; background-color:#169274; padding:0px 20px; cursor:pointer; margin:0px 10px 0px 0px;}
+.search .but-nav span.but:hover{ background-color:#00796a;}
+
+/* 调用外部图表
+---------------------------------------- */
+.all-img{ width:100%; float:left; margin:20px 0px 0px 0px; border-bottom:1px solid #CCC; padding:20px 0px;}
+
+/* 其他操作
+---------------------------------------- */
+.other-nav{ width:100%; float:left; margin:20px 0px 0px 0px;}
+.other-nav .but-nav{ height:30px; float:right; border:1px solid #EEE; -webkit-border-radius:5px;}
+.other-nav .but-nav span{ width:60px; height:30px; line-height:30px; font-size:14px; color:#333; text-align:left; float:left; border-right:1px solid #EEE; cursor:pointer; text-indent:20px; padding:0px 10px 0px 0px;}
+.other-nav .but-nav span.icon01{ background: url(../image/icon11.png) no-repeat 10px center; background-size:11px;}
+.other-nav .but-nav span.icon02{ background: url(../image/icon07.png) no-repeat 10px center; background-size:13px;}
+.other-nav .but-nav span.icon03{ background: url(../image/icon08.png) no-repeat 10px center; background-size:10px;}
+.other-nav .but-nav span.icon04{ width:110px; background: url(../image/icon18.png) no-repeat 10px center; background-size:12px; text-indent:25px;}
+.other-nav .but-nav span.icon05{ width:120px; background: url(../image/icon18.png) no-repeat 10px center; background-size:12px; text-indent:25px;}
+.other-nav .but-nav span{ width:60px; height:30px; line-height:30px; font-size:14px; color:#333; text-align:center; float:left; border-right:1px solid #EEE; cursor:pointer;}
+.other-nav .but-nav span{ width:60px; height:30px; line-height:30px; font-size:14px; color:#333; text-align:center; float:left; border-right:1px solid #EEE; cursor:pointer;}
+.other-nav .but-nav span:last-child{ border:0px;}
+.other-nav .sec-box{ height:30px; float:left; border:1px solid #EEE; -webkit-border-radius:5px;}
+.other-nav .sec-box input{ width:200px; height:30px; float:left; border:0px; margin:0px 0px 0px 10px;}
+.other-nav .sec-box span{ width:60px; height:30px; line-height:30px; text-align:left; float:left; background: url(../image/icon16.png) no-repeat 5px center; background-size:15px; border-left:1px solid #EEE; text-indent:25px; cursor:pointer;}
+
+/* 表格
+---------------------------------------- */
+.table-box{ width:100%; float:left; overflow:hidden; overflow-x:auto; margin:20px 0px 0px 0px;}
+.table-box table{ float:left; border-collapse:collapse; line-height:20px; background:#f4faf6; border:solid 1px #FFF;}
+.table-box table th{ min-width:50px; background:#00796a; padding:10px 0px; color:#FFF; font-size:13px; border:solid 1px #FFF; border-width:1px 1px 1px 0px; text-align:center; font-weight:bold;}
+.table-box table tr th:last-child{ border-right:0px;}
+.table-box table tr:hover{ background-color:#EEE;}
+.table-box table tr:nth-child(odd){ background-color:#FFF;}
+.table-box table td{ height:32px; line-height:32px; max-width:300px; border:solid 1px #FFF; border-width:0px 1px 1px 0px; color:#666;font-size:13px;}
+.table-box table tr td:last-child{ border-right:0px;}
+.table-box table td font.tips01{ color:#666}
+.table-box table td font.tips02{ color:#F90}
+.table-box table td font.tips03{ color:#FF0000}
+.table-box table td span{ display:inline-block; line-height:normal; padding:5px 20px 5px 0px; cursor:pointer; text-indent:15px;}
+.table-box table td span.icon01{ background: url(../image/icon07.png) no-repeat left center; background-size:13px;}
+.table-box table td span.icon02{ background: url(../image/icon08.png) no-repeat left center; background-size:10px;}
+.table-box table td span.icon03{ background: url(../image/icon09.png) no-repeat left center; background-size:9px;}
+.table-box table td span.icon04{ background: url(../image/icon13.png) no-repeat left center; background-size:12px;}
+.table-box table td span.icon05{ background: url(../image/icon15.png) no-repeat left center; background-size:9px;}
+.table-box table td span.icon06{ background: url(../image/icon14.png) no-repeat left center; background-size:11px;}
+.table-box table td span.icon07{ background: url(../image/icon17.png) no-repeat left center; background-size:13px;}
+
+/* 分页
+---------------------------------------- */
+.paging{ width:100%; height:50px; float:left;}
+.paging .box{ float:right; margin:0px 20px 0px 0px;}
+.paging .box a{ width:30px; height:30px; line-height:30px; text-align:center; font-size:12px; color:#505050; float:left; text-decoration:none; background-color:#ebebeb; -webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px; margin:10px 5px 0px 0px;}
+.paging .box a.ps{ width:50px;}
+.paging .box a.pl{ width:30px; background:#ebebeb url(../image/p01.png) no-repeat center center;}
+.paging .box a.pr{ width:30px; background:#ebebeb url(../image/p02.png) no-repeat center center;}
+.paging .box a.on{ width:30px; background-color:#00796a; color:#FFF;}
+.paging .input-box{ float:right; line-height:30px; margin:10px 20px 0px 0px; font-size:12px;}
+.paging span{ float:left;}
+.paging .gob{ width:50px; height:30px;}
+.paging .gob a{ width:50px; height:30px; float:left; background: url(../image/p03.png) no-repeat center center;}
+.paging .input{ width:30px; height:25px; border:solid 1px #bfbfbf; -webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px; float:left; margin:2px 5px;}
+.paging input{ width:28px; height:25px; line-height:25px; margin:0px 0px 0px 0px; border:0px; float:left; color:#696969; font-size:12px; text-align:center;}
+.search .but-nav{ float:left; margin:10px 0px 0px 0px;}
+.search .but-nav span.but{ float:left; height:32px; line-height:32px; font-size:13px; color:#FFF; text-align:center; -webkit-border-radius:5px; background-color:#169274; padding:0px 20px; cursor:pointer; margin:0px 10px 0px 0px;}
+.search .but-nav span.but:hover{ background-color:#00796a;}
