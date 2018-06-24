@@ -153,7 +153,7 @@
 	            for (var i = 0; i < faultLocationData.length; i++) {
 	             var json = faultLocationData[i];
 	            	var faultType = json["faultType"];
-	            	var epuName = json["name"];
+	            	var epuName = json["epuName"];
 	             	  if(("" == param_epuName || null == param_epuName) && ("" == param_falutReason|| null == param_falutReason)){
 					    	newArray.push(json); 
 					    }else if((""!= param_epuName && null != param_epuName) && ("" != param_falutReason && null != param_falutReason)){
@@ -173,7 +173,7 @@
 	             for (var i = 0; i < newArray.length; i++) {
 	             	var json = newArray[i];
 	                 tbody += '<tr>';
-	                 tbody += '<td align="center"><div>' + json.name+ '</div></td>';
+	                 tbody += '<td align="center"><div>' + json.epuName+ '</div></td>';
 	                 tbody += '<td align="center"><div>' + (falutReasonJson[json.faultType] ||"") + '</div></td>';
 	                 tbody += '<td align="center"><div>' + json.occur_time+ '</div></td>';
 	                 tbody += '<td align="center"><div>' + isCancelledJson[json.is_cancelled]+ '</div></td>';
