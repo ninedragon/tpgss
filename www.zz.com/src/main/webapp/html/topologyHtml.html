@@ -74,10 +74,10 @@
 	<link href="../css/common/base.css" rel="stylesheet"/>
 	
 	<script src="../woodare/js/faultLocation.js"></script>
-<!-- 	<script  src="../js/common/layer/layer.js"></script> -->
-<!-- 	<script  src="../js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
-<!-- 	<script  src="../js/shiro.demo.js"></script> -->
-<!-- 	<script language="javascript" type="text/javascript" src="../js/My97DatePicker/WdatePicker.js"></script> -->
+	<script  src="../js/common/layer/layer.js"></script>
+	<script  src="../js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script  src="../js/shiro.demo.js"></script>
+	<script language="javascript" type="text/javascript" src="../js/My97DatePicker/WdatePicker.js"></script>
 	<!--主体开始-->
 	<div class="wapp-main" id="falutDiv">
 		<form method="post" action="" id="formId" class="form-inline">
@@ -129,31 +129,62 @@
 </div>
 <!--主体结束/-->
 <script >
-       var tbody = '';
-       var falutReasonJson = {};
-       falutReasonJson["0"] = "短路";
-       falutReasonJson["1"] = "异常漏电";
-       falutReasonJson["2"] = "缺相";
-       falutReasonJson["3"] = "停电";
-       var isFalutJson = {};
-       isFalutJson["0"] = "否";
-       isFalutJson["1"] = "是";
-       var isCancelledJson = {};
-       isCancelledJson["0"] = "否";
-       isCancelledJson["1"] = "是";
-         if (faultLocationData !=null && faultLocationData.length>0) {
-             for (var i = 0; i < faultLocationData.length; i++) {
-                 tbody += '<tr>';
-                 tbody += '<td align="center"><div>' + faultLocationData[i].name+ '</div></td>';
-                 tbody += '<td align="center"><div>' + (falutReasonJson[faultLocationData[i].faultType] ||"") + '</div></td>';
-                 tbody += '<td align="center"><div>' + faultLocationData[i].occur_time+ '</div></td>';
-                 tbody += '<td align="center"><div>' + isCancelledJson[faultLocationData[i].is_cancelled]+ '</div></td>';
-                 tbody += '<td align="center"><div>' + isFalutJson[faultLocationData[i].is_repaired] + '</div></td>';			                            
-                 tbody += '<td align="center"><div>' + faultLocationData[i].repair_time+ '</div></td>';
-                 tbody += '</tr>';			                            
-             }
+		so.init(function(){
+				 initList();
+		});
+		 function initList(pageNo) {
+		 	var param_epuName = $("#epuName").val();
+		 	var param_falutReason = $("#falutReason").val();
+			$("#loadingDiv").show(); 
+	        var tbody = '';
+	        var falutReasonJson = {};
+	        falutReasonJson["0"] = "短路";
+	        falutReasonJson["1"] = "异常漏电";
+	        falutReasonJson["2"] = "缺相";
+	        falutReasonJson["3"] = "停电";
+	        var isFalutJson = {};
+	        isFalutJson["0"] = "否";
+	        isFalutJson["1"] = "是";
+	        var isCancelledJson = {};
+	        isCancelledJson["0"] = "否";
+	        isCancelledJson["1"] = "是";
+	         if (faultLocationData !=null && faultLocationData.length>0) {
+	         	var newArray = new Array();
+	            for (var i = 0; i < faultLocationData.length; i++) {
+	             var json = faultLocationData[i];
+	            	var faultType = json["faultType"];
+	            	var epuName = json["name"];
+	             	  if(("" == param_epuName || null == param_epuName) && ("" == param_falutReason|| null == param_falutReason)){
+					    	newArray.push(json); 
+					    }else if((""!= param_epuName && null != param_epuName) && ("" != param_falutReason && null != param_falutReason)){
+					    	 if((faultType == param_falutReason || faultType == param_falutReason) && epuName.indexOf(param_epuName) !=-1){
+							    	newArray.push(json);
+							  }
+					    }else if(("" == param_epuName || null == param_epuName) && ("" != param_falutReason&& null != param_falutReason)){
+					    	if(faultType == param_falutReason || faultType == param_falutReason){
+						    	newArray.push(json);
+						    }
+					    }else if(("" != param_epuName&& null != param_epuName) && ("" == param_falutReason  || null == param_falutReason)){
+					    	if(epuName.indexOf(param_epuName) !=-1 ){
+						    	newArray.push(json);
+						    }
+					    }
+	             }
+	             for (var i = 0; i < newArray.length; i++) {
+	             	var json = newArray[i];
+	                 tbody += '<tr>';
+	                 tbody += '<td align="center"><div>' + json.name+ '</div></td>';
+	                 tbody += '<td align="center"><div>' + (falutReasonJson[json.faultType] ||"") + '</div></td>';
+	                 tbody += '<td align="center"><div>' + json.occur_time+ '</div></td>';
+	                 tbody += '<td align="center"><div>' + isCancelledJson[json.is_cancelled]+ '</div></td>';
+	                 tbody += '<td align="center"><div>' + isFalutJson[json.is_repaired] + '</div></td>';			                            
+	                 tbody += '<td align="center"><div>' + json.repair_time+ '</div></td>';
+	                 tbody += '</tr>';			                            
+	             }
+	           }
+	           $("#faultListTable").html(tbody);
+	           $("#loadingDiv").hide(); 
            }
-           $("#faultListTable").html(tbody);
 		</script>
 </body>
 </html>

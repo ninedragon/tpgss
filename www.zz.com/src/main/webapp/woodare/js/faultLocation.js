@@ -45,7 +45,7 @@ var faultLocationData =
     "type": "meter",
     "name":"上海南汇电表2211",
     "key": "bdb2ccda-d56d-4bae-a44b-147094e3c68f",
-    "faultType":"4" ,
+    "faultType":"3" ,
      "occur_time":"2018-05-25 09:46:22",//故障发生时间
     "is_cancelled":"1",//是否被取消，1表示是
     "is_repaired":"0",//是否被修复，1表示是
