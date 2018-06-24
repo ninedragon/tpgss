@@ -247,8 +247,11 @@ function drawSvg(svgModelData, el) {
 				updateKaiguanxian(kaiguanxianErrorArray[i], "error");
 			}
 		},
-		kaiguanxianWarning: function(id) {
-			updateKaiguanxian(id, "warning");
+		kaiguanxianWarning: function(kaiguanxianWarningArray) {
+			for(var i = 0;i < kaiguanxianWarningArray.length; i++){
+				updateKaiguanxian(kaiguanxianWarningArray[i], "warning");
+			}
+			
 		},
 		kaiguanxianClear: function(kaiguanxianErrorArray) {
 			for(var i = 0;i < kaiguanxianErrorArray.length; i++){

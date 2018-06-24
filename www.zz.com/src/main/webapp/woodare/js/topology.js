@@ -44,6 +44,8 @@ function showTop(rowId){
 	        		 dataTemp = allData;
 	        		 var wd = parseFloat($("#wd").val() || 1) ;
 	        		 mySvg.scale(wd);
+	        		 
+	        		 //展示topo错误数据
 //	        		 /**
 //	        		 以下方法 参数 都是 ID
 //	        		 boxError: 出线柜/分支箱  整体状态 标红, 
@@ -53,12 +55,38 @@ function showTop(rowId){
 //	        		 kaiguanxianWarning: 开关线 标蓝,
 //	        		 kaiguanxianClear: 开关线 恢复
 //	        		 **/
-//	        		 var intervalObj = setInterval(function(){
-//	        		 	if(mySvg){
-//	        		 		mySvg.kaiguanxianError("0ce0ccf1-8049-4572-9ac3-709ad695cbf4");//表箱ID
-//	        		 		mySvg.boxError("92f47bd1-649e-402c-91e8-c74301905edd");//出线柜ID
-//	        		 	}
-//	        		 },5000);//5秒
+	        		 for(var i=0;i < topoError.length;i++){
+	        			 var json = topoError[i];
+	        			 var fault_type = json["fault_type"];
+	        			 var key = json["key"];
+	        			 if(fault_type =="1" || fault_type == 1){//1、	branchbox fault type为1的时候用蓝色标识 ，不用判断下级设备
+	        				 var kaiguanxianWarningArray = new Array();
+	        				 kaiguanxianWarningArray.push(key);
+	        				 mySvg.kaiguanxianWarning(kaiguanxianWarningArray);//开关线 标蓝
+	        				 continue;
+	        			 }else if(fault_type =="0" || fault_type == 0){//2、	branchbox fault type为0的时候用红色标识，判断下级设备的fault point，为1的时候标红，否则是黑
+	        				 var kaiguanxianErrorArray = new Array();
+	        				 kaiguanxianErrorArray.push(key);
+	        				 var rel = json["rel"];
+	        				 for(var k = 0;k < rel.length;k++){//判断下级设备的fault point，为1的时候标红，否则是黑
+	        					 var relJson = rel[k];
+	        					 var rel_fault_point = relJson["fault_point"];
+	        					 var rel_key = relJson["key"];
+	        					 if(rel_fault_point =="1" || rel_fault_point == 1 ){
+	        						 kaiguanxianErrorArray.push(rel_key);
+	        					 }else{
+	        						 var kaiguanxianClearArray = new Array();
+	    	        				 kaiguanxianClearArray.push(rel_key);
+	    	        				mySvg.kaiguanxianClear(kaiguanxianClearArray);//清空样式  默认黑色
+	        					 }
+	        				 }
+	        				 mySvg.kaiguanxianError(kaiguanxianErrorArray);//开关线  标红
+	        			 }else{
+	        				 var kaiguanxianClearArray = new Array();
+	        				 kaiguanxianClearArray.push(key);
+	        				 mySvg.kaiguanxianClear(kaiguanxianClearArray);//清空样式  默认黑色
+	        			 }
+	        		 }
 	        	 }
 	        } 
 		});
