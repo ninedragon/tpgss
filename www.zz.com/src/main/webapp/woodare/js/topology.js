@@ -19,7 +19,7 @@ function getRootPath_web() {
 var mySvg = null;
 var dataTemp = null;
 var javaScriptObj = {
-		substationId:null
+		substationId:null//箱变ID
 }
 /**
  * 展示拓扑
@@ -60,31 +60,25 @@ function showTop(rowId){
 	        			 var fault_type = json["fault_type"];
 	        			 var key = json["key"];
 	        			 if(fault_type =="1" || fault_type == 1){//1、	branchbox fault type为1的时候用蓝色标识 ，不用判断下级设备
-	        				 var kaiguanxianWarningArray = new Array();
-	        				 kaiguanxianWarningArray.push(key);
-	        				 mySvg.kaiguanxianWarning(kaiguanxianWarningArray);//开关线 标蓝
+	        				 mySvg.kaiguanxianWarning(new Array(json));//开关线 标蓝
 	        				 continue;
 	        			 }else if(fault_type =="0" || fault_type == 0){//2、	branchbox fault type为0的时候用红色标识，判断下级设备的fault point，为1的时候标红，否则是黑
 	        				 var kaiguanxianErrorArray = new Array();
-	        				 kaiguanxianErrorArray.push(key);
+	        				 kaiguanxianErrorArray.push(json);
 	        				 var rel = json["rel"];
 	        				 for(var k = 0;k < rel.length;k++){//判断下级设备的fault point，为1的时候标红，否则是黑
 	        					 var relJson = rel[k];
 	        					 var rel_fault_point = relJson["fault_point"];
 	        					 var rel_key = relJson["key"];
 	        					 if(rel_fault_point =="1" || rel_fault_point == 1 ){
-	        						 kaiguanxianErrorArray.push(rel_key);
+	        						 kaiguanxianErrorArray.push(relJson);
 	        					 }else{
-	        						 var kaiguanxianClearArray = new Array();
-	    	        				 kaiguanxianClearArray.push(rel_key);
-	    	        				mySvg.kaiguanxianClear(kaiguanxianClearArray);//清空样式  默认黑色
+	    	        				mySvg.kaiguanxianClear(new Array(relJson));//清空样式  默认黑色
 	        					 }
 	        				 }
 	        				 mySvg.kaiguanxianError(kaiguanxianErrorArray);//开关线  标红
 	        			 }else{
-	        				 var kaiguanxianClearArray = new Array();
-	        				 kaiguanxianClearArray.push(key);
-	        				 mySvg.kaiguanxianClear(kaiguanxianClearArray);//清空样式  默认黑色
+	        				 mySvg.kaiguanxianClear(new Array(json));//清空样式  默认黑色
 	        			 }
 	        		 }
 	        	 }
@@ -168,17 +162,48 @@ function faultClick(selectedFlag){
 	 kaiguanxianClear: 开关线 恢复
 	 **/
 	var kaiguanxianErrorArray = new Array();
-	kaiguanxianErrorArray.push("1305ca7c-463d-4aea-ae0c-7dc712470ab4");
-	kaiguanxianErrorArray.push("b758d4ca-7b31-41e3-99f3-231904a78198");
-	
 	var boxErrorArray = new Array();
-	boxErrorArray.push("372d7733-da1a-4a6e-b993-70560a92b1d4");
-	boxErrorArray.push("45a86a64-902a-43c6-98b4-034c0f50ebd4");
-	if(!selectedFlag){
+	
+	var kaiguanxianErrorClearArray = new Array();
+	var boxErrorClearArray = new Array();
+	if(null != faultNowData && faultNowData.length > 0){
+		for(var tempI= 0;tempI < faultNowData.length;tempI++){
+			var faultNowJson = faultNowData[tempI];
+			var type = faultNowJson["type"] || "";
+			var faultType = faultNowJson["faultType"] || "";
+			var key = faultNowJson["key"] || "";
+			var epuName = faultNowJson["epuName"] || "";
+			var is_repaired = faultNowJson["is_repaired"] || "";//是否被修复，1表示是
+			var is_cancelled = faultNowJson["is_cancelled"] || "";//是否被取消，1表示是
+			if(is_repaired != "1" ){//未修复
+				if(type == "branchBox"){//分支箱
+					boxErrorArray.push(faultNowJson);
+				}
+				if(type == "meterBox"){//表箱ID
+					kaiguanxianErrorArray.push(faultNowJson);
+				}
+			}else if(is_repaired == "1"){//修复
+				if(type == "branchBox"){//分支箱
+					boxErrorClearArray.push(faultNowJson);
+				}
+				if(type == "meterBox"){//表箱ID
+					kaiguanxianErrorClearArray.push(faultNowJson);
+				}
+			}
+		}
+	}
+	
+	if(!selectedFlag){//点击时故障定位时，显示故障渲染
 		mySvg.kaiguanxianError(kaiguanxianErrorArray);//开关线 标红,
 		mySvg.boxError(boxErrorArray);//出线柜/分支箱  整体状态 标红, 
 	}else{
-		mySvg.kaiguanxianClear(kaiguanxianErrorArray);//开关线 标红,
-		mySvg.boxClear(boxErrorArray);//出线柜/分支箱  整体状态 标红, 
+		mySvg.kaiguanxianClear(kaiguanxianErrorArray);//清理开关线渲染颜色等
+		mySvg.boxClear(boxErrorArray);//清理出线柜/分支箱  渲染颜色等, 
+	}
+	if(null != boxErrorClearArray && boxErrorClearArray.length > 0 ){
+		mySvg.boxClear(boxErrorClearArray);//清理出线柜/分支箱  渲染颜色等,
+	}
+	if(null != kaiguanxianErrorClearArray && kaiguanxianErrorClearArray.length > 0 ){
+		mySvg.kaiguanxianClear(kaiguanxianErrorClearArray);//清理开关线渲染颜色等
 	}
 }

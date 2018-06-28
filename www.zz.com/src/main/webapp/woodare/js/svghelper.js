@@ -56,16 +56,11 @@ function drawSvg(svgModelData, el) {
   		            svgimg.setAttributeNS("http://www.w3.org/1999/xlink","href", "../woodare/image/boxImg.png");
   		            svgimg.setAttributeNS(null,"x", (this._x - 4));
   		            svgimg.setAttributeNS(null,"y", (this._y - 6));
-  		            svgimg.setAttributeNS(null,"id","meterbox_" + this.rowId);
+  		            svgimg.setAttributeNS(null,"id","meterboxImg_" + this.rowId);
   		            svgimg.setAttributeNS(null, "visibility", "visible");
-	  		         $("#Snap_Layer").append(svgimg).find("image[id='meterbox_"+this.rowId+"']").attr("epuName",this.epuName).click(function(){
+	  		         $("#Snap_Layer").append(svgimg).find("image[id='meterbox_"+this.rowId+"'],image[id='meterboxImg_"+this.rowId+"']").attr("epuName",this.epuName).click(function(){
 		            	  showAmmeter(this,svgModelData,uipqData);
 	  		         });
-  		           
-					//给表箱绑定单击事件
-		        	$("#meterbox_" + this.rowId).attr("epuName",this.epuName).css("cursor", "pointer").bind("click",function(){
-		            	  showAmmeter(this,svgModelData,uipqData);
- 					});
 				});
 				//M0003
 				var tmpX = x3 + (w4 > this.width ? ((w4 - this.width) / 2) : 0);
@@ -94,10 +89,11 @@ function drawSvg(svgModelData, el) {
 					createLineEl(layerSnap, {
 						x:this._x + 45,
 						y:this._y,
+						id:this.rowId,
 						x2: px + (index + 1) * gird,
 						y2: py + 180,
 						h: h
-					});
+					},"M0003");
 				});
 				
 			});
@@ -234,7 +230,19 @@ function drawSvg(svgModelData, el) {
 		},
 		boxError: function(boxErrorArray) {
 			for(var i = 0;i < boxErrorArray.length; i++){
-				updateBox(boxErrorArray[i], "error-box");
+				var json = boxErrorArray[i];
+				var type = json["type"];
+				var key = json["key"];
+				var epuName = json["epuName"];
+				var faultType = json["faultType"];
+				var faultTypeName = getFaultTypeName(faultType);
+				updateBox(key, "error-box");
+				if(null != faultTypeName && ""!=faultTypeName){
+					$("#textPath_" + key).text(epuName +"故障原因:" + faultTypeName);
+				}else{
+					$("#textPath_" + key).text(epuName +"故障原因:topo错误数据");
+				}
+				$("#textPath_" + key).attr("class","error");
 			}
 		},
 		boxWarning: function(id) {
@@ -242,23 +250,58 @@ function drawSvg(svgModelData, el) {
 		},
 		boxClear: function(boxErrorArray) {
 			for(var i = 0;i < boxErrorArray.length; i++){
-				updateBox(boxErrorArray[i], "");
+				var json = boxErrorArray[i];
+				var type = json["type"];
+				var key = json["key"];
+				var epuName = json["epuName"];
+				var faultType = json["faultType"];
+				updateBox(key, "");
+				$("#textPath_" + key).text(epuName).attr("class","");
 			}
 		},
 		kaiguanxianError: function(kaiguanxianErrorArray) {
 			for(var i = 0;i < kaiguanxianErrorArray.length; i++){
-				updateKaiguanxian(kaiguanxianErrorArray[i], "error");
+				var json = kaiguanxianErrorArray[i];
+				var type = json["type"];
+				var key = json["key"];
+				var epuName = json["epuName"];
+				var faultType = json["faultType"];
+				var faultTypeName = getFaultTypeName(faultType);
+				updateKaiguanxian(key, "error");
+				$("#kaiguanxianTemp_" + key).find("rect").attr("class","error");
+				$("#kaiguanxianTemp_" + key).find("path").attr("class","error");
+				$("#Snap_Layer").find("image[id='meterboxImg_"+key+"']").attr("href","../woodare/image/boxImgError.png");
+				var count = $("#meterbox_"+key).find("text").length||0;
+				$("#meterbox_" + key).find("text").attr("class","error");
+				if(null != faultTypeName && faultTypeName != ""){
+					$("#meterbox_" + key).find("text").eq((count - 1)).text("故障原因:" + faultTypeName);
+				}else{
+					$("#meterbox_" + key).find("text").eq((count - 1)).text("故障原因:topo错误数据");
+				}
 			}
 		},
 		kaiguanxianWarning: function(kaiguanxianWarningArray) {
 			for(var i = 0;i < kaiguanxianWarningArray.length; i++){
-				updateKaiguanxian(kaiguanxianWarningArray[i], "warning");
+				var json = kaiguanxianWarningArray[i];
+				var key = json["key"];
+				updateKaiguanxian(key, "warning");
 			}
 			
 		},
 		kaiguanxianClear: function(kaiguanxianErrorArray) {
 			for(var i = 0;i < kaiguanxianErrorArray.length; i++){
-				updateKaiguanxian(kaiguanxianErrorArray[i], "");
+				var json = kaiguanxianErrorArray[i];
+				var type = json["type"];
+				var key = json["key"];
+				var epuName = json["epuName"];
+				var faultType = json["faultType"];
+				updateKaiguanxian(key, "");
+				$("#kaiguanxianTemp_" + key).find("rect").attr("class","");
+				$("#kaiguanxianTemp_" + key).find("path").attr("class","");
+				$("#Snap_Layer").find("image[id='meterboxImg_"+key+"']").attr("href","../woodare/image/boxImg.png");
+				var count = $("#meterbox_"+key).find("text").length||0;
+				$("#meterbox_" + key).find("text").attr("class","");
+				$("#meterbox_" + key).find("text").eq((count - 1)).text("");
 			}
 		}
 	}
@@ -285,7 +328,7 @@ function createXiangbian(layer, id, x, y) {
 	var useage = g.append('use').attr("width", grid).attr("height", grid).attr("transform","scale(1) translate(" + transX + " " + transY + ") rotate(0 " + rotateX + " " + rotateY + ")").attr("xlink:href", "#EnergyConsumer_PD_单电源用户_2" ).attr("x", x).attr("y", y);
 }
 
-function createBox(layer, id, x, y, name, lines) {
+function createBox(layer, id, x, y, name, lines,type) {
 	var g = layer.append("g").attr("id", "chuxiangui_" + id);
 	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("stroke-dasharray","5,5").attr("fill","none").attr("x", x).attr("y", y).attr("width", 300).attr("height", 180).attr("id", "chuxiangui_rect_" + id);
 
@@ -301,10 +344,11 @@ function createBox(layer, id, x, y, name, lines) {
 		});
 		g.append('path').attr("d", "M" + start + "," + (y + 30) + " L" + end + "," + (y + 30)).attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none");
 		g.append('path').attr("d", "M" + (x + 150) + "," + (y) + " L" + (x + 150)  + "," + (y + 30)).attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none");
+		
 	}
-	g.append('path').attr("id", "chuxiangui_text_" + id).attr("d", "M" + (x - 30) + "," + y + " L" + (x - 30) + "," + (y + 180)).attr("stroke-width", 0);
+	g.append('path').attr("id", "chuxiangui_text_" + id).attr("d", "M" + (x - 30) + "," + y + " L" + (x - 30) + "," + (y + 300)).attr("stroke-width", 0);
 	var txt = g.append('text').attr("font-size", "20").attr("stroke", "rgb(0,0,0)").attr("fill","rgb(0,0,0)");
-	txt.append('textPath').attr("xlink:href","#chuxiangui_text_" + id).text(name);
+	txt.append('textPath').attr("id","textPath_"+id).attr("xlink:href","#chuxiangui_text_" + id).text(name);
 }
 
 function createKaiguanxian(layer, id, x, y, height) {
@@ -318,7 +362,7 @@ function createKaiguanxian(layer, id, x, y, height) {
 
 function showAmmeter(obj,svgModelData,uipqData){
 	  var txtID = $(obj).attr("id");//展示的文字ID
-	  parent.$("#tableBoxId").val(txtID.replace("meterbox_",""));//当前表箱ID
+	  parent.$("#tableBoxId").val(txtID.replace("meterbox_","").replace("meterboxImg_",""));//当前表箱ID
 	  var textValue = $(obj).attr("epuName");//展示的文字内容
 	  parent.$("#tableBoxName").attr("title",textValue + "单线图").text(textValue + "单线图");//TAB
 	  var rowId = parent.$("#rowId").val();//获取箱变根ID
@@ -328,6 +372,8 @@ function showAmmeter(obj,svgModelData,uipqData){
       parent.$("#messageAmmeter").show();
 	  iframeID.contentWindow.showTop(svgModelData,rowId,tableBoxId,uipqData);
 }
+
+
 function createMeterBox(layer, id, x, y, name) {
 	var g = layer.append("g").attr("id", "meterbox_" + id);
 //	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x).attr("y", y).attr("width", 90).attr("height", 90).attr("id", "meterbox_rect_" + id);
@@ -343,19 +389,23 @@ function createMeterBox(layer, id, x, y, name) {
 //	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x + 40).attr("y", y + 60).attr("width", 10).attr("height", 10);
 //	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x + 60).attr("y", y + 60).attr("width", 10).attr("height", 10);
 //	
+	var k = 0;
 	if (name && name.length) {
 		var size = 8;
 		for (var i = 0; i < name.length / size; i++) {
 			g.append('text').attr("font-size", "14").attr("stroke", "rgb(0,0,0)").attr("fill","rgb(0,0,0)").text(name.substring(i*size, i*size+size)).attr("x",x ).attr("y",y + 108 + 20 * i);
+			k++;
 		}
+		g.append('text').attr("font-size", "14").attr("stroke", "rgb(0,0,0)").attr("fill","rgb(0,0,0)").text("").attr("x",x ).attr("y",y + 108 + 20 * (k));
 	}
-	
 }
 
 
-function createLineEl(layer, position) {
-//	console.log(position);
+function createLineEl(layer, position,type) {
 	var g = layer.append("g");
+	if(type == "M0003"){
+		g = g.attr("id", "kaiguanxianTemp_" + (position.id|| ""));
+	}
 	var x = position.x;
 	var y = position.y;
 	var x2 = position.x2;
@@ -656,6 +706,25 @@ function showTabData(layerSnap,rowId,tempX,tempY,tempCount,index,ua,ia,pa,qa,ub,
 			break;
 		}
 	}
+}
+
+ function getFaultTypeName(faultType) {
+	var faultTypeName = "";
+	switch(faultType){
+	case "0":
+		faultTypeName = "短路";
+		break;
+	case "1":
+		faultTypeName = "异常漏电";
+		break;
+	case "2":
+		faultTypeName = "缺相";
+		break;
+	case "3":
+		faultTypeName = "停电";
+		break;
+	}
+	return faultTypeName;
 }
 
 return {

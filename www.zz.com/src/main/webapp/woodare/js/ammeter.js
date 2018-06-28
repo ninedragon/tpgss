@@ -43,11 +43,7 @@ function createUseEl(layer, data, position) {
 	var rotate = position.rotate
 	var rotateX = x + grid / 2;
 	var rotateY = y + grid / 2;
-	var useage = g.append('use').attr("width", grid).attr("height", grid).attr("transform","scale(" + position.scale + ") translate(" + transX + " " + transY + ") rotate(" + position.rotate + " " + rotateX + " " + rotateY + ")").attr("xlink:href", "#" + symbol.id ).attr("x", x).attr("y", y).attr("class", data.cls);
-	if (lbss && data.type == 'Disconnector') {
-		var connect = g.append('use').attr("width", grid).attr("height", grid).attr("transform","scale(" + position.scale + ") translate(" + transX + " " + transY + ") rotate(" + position.rotate + " " + rotateX + " " + rotateY + ")").attr("xlink:href", "#Disconnector_PD_刀闸@1").attr("x", x).attr("y", y).attr("class", "hide");
-		lbss.push([useage, connect ]);
-	}
+	 g.append('use').attr("width", grid).attr("height", grid).attr("transform","scale(" + position.scale + ") translate(" + transX + " " + transY + ") rotate(" + position.rotate + " " + rotateX + " " + rotateY + ")").attr("xlink:href", "#" + symbol.id ).attr("x", x).attr("y", y).attr("class", data.cls);
 }
 
 function createLineEl(layer, data, position) {
@@ -72,82 +68,6 @@ function getSymbolByType(type) {
 	};
 	var id = "";
 	switch(type) {
-	case 'Substation':
-		data = {
-			id: "Substation_PD_变电站",
-			x: 8,
-			y: 12,
-			txt: 'bkkV110',
-			size:28,
-			r: [0, 0]
-		};
-		break;
-	case 'Breaker':
-		data = {
-			id: "Breaker_PD_变电站出线开关@1",
-			x: 8,
-			y: 8,
-			r: [0, 90]
-		};
-		break;
-	case 'Terminal':
-		data = {
-			id: "Pole_PD_直线砼杆0000",
-			x: 32,
-			y: 32,
-			r: [0, 0]
-		};
-		break;
-		
-	case 'NZQG':
-		data = {
-			id: "Pole_PD_耐张砼杆",//连接点圈
-			x: 26,
-			y: 26,
-			r: [0, 0]
-		};
-		break;
-		
-	case 'PowerTransformer':
-		data = {
-			id: "Transformer_PD_综合变压器",
-			x: 12,
-			y: 12,
-			r: [0, 90]
-		};
-		break;
-	case 'EnergyConsumer':
-		data = {
-			id: "EnergyConsumer_PD_单电源用户",//箱变
-			x: 8,
-			y: 8,
-			r: [0, 90]
-		};
-		break;
-	case 'LoadBreakSwitch':
-		data = {
-			id: "Breaker_PD_断路器@0",
-			x: 22,
-			y: 22,
-			r: [0, 90]
-		};
-		break;
-	case 'LoadBreakSwitchRed'://红色
-		data = {
-			id: "Breaker_PD_断路器@1",
-			x: 22,
-			y: 22,
-			r: [0, 90]
-		};
-		break;
-	case 'LoadBreakSwitchBlue'://蓝色
-		data = {
-			id: "Breaker_PD_断路器@2",
-			x: 22,
-			y: 22,
-			r: [0, 90]
-		};
-		break;
 	case 'TableBox':
 		data = {
 			id: "TableBox_PD_表箱",
@@ -211,18 +131,6 @@ function showTop(data,rowId,tableBoxId,uipqData){
 //	 M0003 分支箱
 //	 M0004 表箱
 	if((null != rowId && "" != rowId ) && (null != tableBoxId && "" != tableBoxId )){
-//		 $.ajax({
-//             type: "post",
-//             url:  getRootPath_web()+"/epu/getEupInfosTree.shtml",
-//	         data: {
-//	        	 rootId: rowId
-//	         },
-////             async:false,
-//             dataType: "json",
-//             cache: false,
-//             error: function (a,b,c) {
-//             },
-//             success: function (data) {
 				setScale(svgSnap,1);
             	 if(null != data && data.length > 0){
      	         	var branchBoxDifference = 100;//差值
@@ -262,13 +170,21 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	        			 			var x_name = x_json["ammeterName"];//电表名称
 	        			 			//展示电表 
 	        			 			ammeterX = ammeterX + gird;
-	 	    						setCreateUseEl(layerSnap,"id" + x_rowId, "TableBox",ammeterX,ammeterY);
-	 	    						splitRemarks(layerSnap,"idTitle" + x_rowId,"电表",ammeterX + 50,ammeterY + 40,"fText",16);//电表标题
+	        			 			 var svgimg = document.createElementNS('http://www.w3.org/2000/svg','image');
+	        		  		            svgimg.setAttributeNS(null,"height","45");
+	        		  		            svgimg.setAttributeNS(null,"width","45");
+	        		  		            svgimg.setAttributeNS(null,"cursor","pointer");
+	        		  		            svgimg.setAttributeNS("http://www.w3.org/1999/xlink","href", "../woodare/image/meter.png");
+	        		  		            svgimg.setAttributeNS(null,"x", (ammeterX + 10));
+	        		  		            svgimg.setAttributeNS(null,"y",(ammeterY + 10));
+	        		  		            svgimg.setAttributeNS(null,"id","meterImg_"+x_rowId);
+	        		  		            svgimg.setAttributeNS(null, "visibility", "visible");
+	        		  		            $("#ammeter_Layer").append(svgimg);
 	 	    						//电表文本引入
 	    		        			 var ammeterTxtX = ammeterX + 70;
 	    		        			 var ammeterTxtY = ammeterY + 35;
 	    		        			 var textNewlineArr = textNewline(x_name,6,ammeterTxtX-20,ammeterTxtY + 20,20);
-	    		    		         splitRemarks(layerSnap,"idTxt" + x_rowId,textNewlineArr[0],0 ,0,"fText",12,true);//电表文本文本内容
+	    		    		         splitRemarks(layerSnap,"meterText_" + x_rowId,textNewlineArr[0],0 ,0,"fText",12,true);//电表文本文本内容
 	    		    		         //table
 	    		    		         var table_ammeterY = textNewlineArr[1] + 180;
 	    		    		         for(var k = 0;k < uipqData.length;k++){
@@ -289,7 +205,7 @@ function showTop(data,rowId,tableBoxId,uipqData){
 		 		    		        	splitRemarks(layerSnap,"ammeterTxtID","电表",45,(ammeterY + 40),"fText",20);
 	 		    		        	 //引入电表与分支箱线
 	    		        			 createLineEl(layerSnap, {
-			    		        			id :"idLine" + x_rowId,
+			    		        			id :"meterLine_" + x_rowId,
 			    		        			type: "TableBox"
 			    		        		}, {
 			    		        			x: ammeterX + 32,//下宽度
@@ -315,6 +231,7 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	  		    		        			y: branchBoxLineY2,//下高
 	  		    		        			x2: branchBoxLineX,//上宽度
 	  		    		        			y2: branchBoxLineY,//上高
+	  		    		        			id:x_rowId,
 	  		    		        			scale: 1
 	  		    		        		};
 	     		        			 setPos(layerSnap,pos);
@@ -344,14 +261,22 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	    		        	 return false;
 	    		        }
 	    		       //表箱
-	    		         setCreateUseEl(layerSnap,"id" + i_epuParentId, "TableBox",tempBranchBoxX -35,cabinetsY);
 	    		         //文本内容
-	    		         var tableBoTxtX = tempBranchBoxX + 10;
-	    		         var tableBoTxtY = cabinetsY + 35;
-	    		         splitRemarks(layerSnap,"idTitle" + i_epuParentId,"表箱",tableBoTxtX+5,tableBoTxtY+5,"fText",16);//标题
+	    		         var tableBoTxtX = tempBranchBoxX - 25;
+	    		         var tableBoTxtY = cabinetsY + 10;
+	    		         var svgimg = document.createElementNS('http://www.w3.org/2000/svg','image');
+		  		            svgimg.setAttributeNS(null,"height","45");
+		  		            svgimg.setAttributeNS(null,"width","45");
+		  		            svgimg.setAttributeNS(null,"cursor","pointer");
+		  		            svgimg.setAttributeNS("http://www.w3.org/1999/xlink","href", "../woodare/image/tableBox.png");
+		  		            svgimg.setAttributeNS(null,"x", (tableBoTxtX));
+		  		            svgimg.setAttributeNS(null,"y",(tableBoTxtY));
+		  		            svgimg.setAttributeNS(null,"id","meterBoxImg_"+i_epuParentId);
+		  		            svgimg.setAttributeNS(null, "visibility", "visible");
+		  		            $("#ammeter_Layer").append(svgimg);
 	    		         var i_epuName = i_json["epuName"]||"";
-	    		         var textNewlineArr = textNewline(i_epuName,6,tableBoTxtX+20,tableBoTxtY + 20,20);
-	    		         splitRemarks(layerSnap,"idTxt" + i_epuParentId,textNewlineArr[0],0 ,0,"fText",12,true);//表箱文本内容
+	    		         var textNewlineArr = textNewline(i_epuName,6,tableBoTxtX- 50,tableBoTxtY-5,20);
+	    		         splitRemarks(layerSnap,"meterBoxText_" + i_epuParentId,textNewlineArr[0],0 ,0,"fText",12,true);//表箱文本内容
 	    		         //table
 	    		       //展示table信息
 	    				 for(var k = 0;k < uipqData.length;k++){
@@ -371,7 +296,7 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	    						 var ic = json["ic"];
 	    						 var pc = json["pc"];
 	    						 var qc = json["qc"];
-	    						 setCabinetsXTable(layerSnap,i_epuParentId,tempBranchBoxX+30,cabinetsY + 150,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
+	    						 setCabinetsXTable(layerSnap,i_epuParentId,tempBranchBoxX+30,cabinetsY + 160,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 	    						  break;
 	    					 }
 	    				 }
@@ -397,7 +322,7 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	    		        		var lowerBranchBoxX = tempBranchBoxX;//下宽度
 	    		        		var lowerBranchBoxY = tempBranchBoxLineY;//下高
 	    		        		 createLineEl(layerSnap, {
-	    		        			id :"idLines" + i_epuParentId,
+	    		        			id : i_epuParentId +"_meterBox_line",
 	    		        			type: "TableBox"
 	    		        		}, {
 	    		        			x: lowerBranchBoxX,//下宽度
@@ -411,12 +336,13 @@ function showTop(data,rowId,tableBoxId,uipqData){
 		    		        			y: lowerCabinetsLineY1,//下高(分线箱上处高度)
 		    		        			x2: lowerCabinetsLineX,//上宽度
 		    		        			y2: lowerCabinetsLineY,//上高
+		    		        			id:i_epuParentId,
 		    		        			scale: 1
 		    		        		};
 	    		        		 setPos(layerSnap,pos);
 	    		        	 }else{//没有表箱的默认
  	 	    		        	 createLineEl(layerSnap, {
-			    		        			id :"idLines" + i_epuParentId,
+ 	 	    		        		id : i_epuParentId +"_meterBox_line",
 			    		        			type: "TableBox"
 			    		        		}, {
 			    		        			x: tempBranchBoxX,//下宽度
@@ -428,7 +354,6 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	 	    		        	 }
      			   }
             	}
-//         });
 	}
 	 var widthVal = (ammeterX + 350);
 	 var heightVal = (table_ammeterY + 150);
@@ -436,7 +361,8 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	 svgSnap.attr("width", widthVal).attr("height", heightVal)
 	 parent.$("#tableBoxDiv").css("height", "auto");
 	 parent.$(".ammeter").css("width", (widthVal + 20)+"px").css("height", (heightVal - 150)+ "px");
-//	 parent.$(".but-nav").css("left", (widthVal * 0.1)+"px");
+	 //执行故障渲染
+	 setFalut(rowId);
 } 
 
 
@@ -444,7 +370,7 @@ function setPos(lay,pos){
 	
 	if (pos.x != pos.x2 && pos.y != pos.y2) {
 		createLineEl(lay,{
-//			id: n.id + "_line_1"
+			id: pos.id + "_line_1"
 		}, {
 			scale: pos.scale,
 			x: pos.x ,
@@ -453,7 +379,7 @@ function setPos(lay,pos){
 			y2: pos.y
 		});
 		createLineEl(lay,{
-//			id: n.id + "_line_2"
+			id: pos.id + "_line_2"
 		}, {
 			scale: pos.scale,
 			x: pos.x2 ,
@@ -463,7 +389,7 @@ function setPos(lay,pos){
 		});
 	} else {
 		createLineEl(lay,{
-//			id: n.id + "_line"
+			id: pos.id + "_line"
 		}, pos);
 	}
 }
@@ -723,6 +649,10 @@ function textNewline(strParam,start,x,y,number)
 		y += number;
 		newStr += "<tspan x=\"" + x + "\" y=\"" + y + "\">" + arrs[i] + "</tspan>";
 	}
+	y += number;
+	newStr += "<tspan x=\"" + x + "\" y=\"" + y + "\"></tspan>";
+	y += number;
+	newStr += "<tspan x=\"" + x + "\" y=\"" + y + "\"></tspan>";
 	return [newStr,y];
 }
 
@@ -760,6 +690,138 @@ function setScale(svgSnap,zoom){
 	svgSnap.attr("transform","scale(" + zoom + " " + zoom + ") translate(" + x + " " + y + ")");
 }
 
+/**
+ * 电表故障渲染
+ * @param rowId 箱变ID
+ */
+function setFalut(rowId){
+	var faultNowMeterArray = new Array();
+	var faultNowMeterBoxArray = new Array();
+	if(null != faultNowData && faultNowData.length > 0){
+		for(var tempI= 0;tempI < faultNowData.length;tempI++){
+			var faultNowJson = faultNowData[tempI];
+			var type = faultNowJson["type"];
+			if(type == "meter"){//表箱ID
+				faultNowMeterArray.push(faultNowJson);
+			}
+			if(type == "meterBox"){//表箱ID
+				faultNowMeterBoxArray.push(faultNowJson);
+			}
+		}
+	}
+	if($.trim( $(window.parent.$("#"+rowId+"Iframe")).contents().find(".a-hov span[class='on']").text()) == "故障定位"){//主面板点击了故障定位,则渲染电表故障
+		//处理表箱
+		for(var i = 0;i < faultNowMeterBoxArray.length ;i++){
+			var json = faultNowMeterBoxArray[i];
+			var key = json["key"]|| "";
+			var faultType = json["faultType"];
+			var epuName = json["epuName"];
+			var faultTypeName = getFaultTypeName(faultType);
+			//找到异常表箱图标，设置
+			$("#ammeter_Layer").find("image[id='meterBoxImg_"+key+"']").attr("href","../woodare/image/tableBoxError.png");
+			var count = $("#meterBoxText_"+key).find("text tspan").length||0;
+			if(null != faultTypeName && faultTypeName != ""){
+				$("#meterBoxText_" + key+ " text").find("tspan").eq((count - 2)).text("故障原因:" );
+				$("#meterBoxText_" + key+ " text").find("tspan").eq((count - 1)).text(faultTypeName);
+			}
+			updateClass("meterBoxText_"+key+" text", "error");
+			
+			updateClass(key+"_meterBox_line", "error");
+			updateClass(key+"_line", "error");
+		}
+		//处理电表
+		for(var i = 0;i < faultNowMeterArray.length ;i++){
+			var json = faultNowMeterArray[i];
+			var key = json["key"]|| "";
+			var faultType = json["faultType"];
+			var epuName = json["epuName"];
+			var faultTypeName = getFaultTypeName(faultType);
+			//找到异常电表图标，设置
+			$("#ammeter_Layer").find("image[id='meterImg_"+key+"']").attr("href","../woodare/image/meterError.png");
+			var count = $("#meterText_"+key).find("text tspan").length||0;
+			if(null != faultTypeName && faultTypeName != ""){
+				$("#meterText_" + key+ " text").find("tspan").eq((count - 2)).text("故障原因:" );
+				$("#meterText_" + key+ " text").find("tspan").eq((count - 1)).text(faultTypeName);
+			}
+			updateClass("meterText_" + key+ " text", "error");
+			
+			updateClass("meterLine_" +key, "error");
+			updateClass(key + "_line_1", "error");
+			updateClass(key + "_line_2", "error");
+			updateClass(key + "_line", "error");
+		
+		}
+	}else{//主面板未点击了故障定位,则清除渲染电表故障
+		//处理表箱
+		for(var i = 0;i < faultNowMeterBoxArray.length ;i++){
+			var json = faultNowMeterBoxArray[i];
+			var key = json["key"]|| "";
+			var faultType = json["faultType"];
+			var epuName = json["epuName"];
+			var faultTypeName = getFaultTypeName(faultType);
+			//找到异常表箱图标，设置
+			$("#ammeter_Layer").find("image[id='meterBoxImg_"+key+"']").attr("href","../woodare/image/tableBox.png");
+			var count = $("#meterBoxText_"+key).find("text tspan").length||0;
+			if(null != faultTypeName && faultTypeName != ""){
+				$("#meterBoxText_" + key+ " text").find("tspan").eq((count - 2)).text("");
+				$("#meterBoxText_" + key+ " text").find("tspan").eq((count - 1)).text("");
+			}
+			updateClass("meterBoxText_"+key+" text", "fText");
+			
+			updateClass(key+"_meterBox_line", "fText");
+			updateClass(key+"_line", "fText");
+		}
+		//处理电表
+		for(var i = 0;i < faultNowMeterArray.length ;i++){
+			var json = faultNowMeterArray[i];
+			var key = json["key"]|| "";
+			var faultType = json["faultType"];
+			var epuName = json["epuName"];
+			var faultTypeName = getFaultTypeName(faultType);
+			$("#ammeter_Layer").find("image[id='meterImg_"+key+"']").attr("href","../woodare/image/meter.png");
+			var count = $("#meterText_"+key).find("text tspan").length||0;
+			
+			$("#meterText_" + key+ " text").find("tspan").eq((count - 2)).text("");
+			$("#meterText_" + key+ " text").find("tspan").eq((count - 1)).text("");
+			
+			updateClass("meterText_" + key+ " text", "fText");
+			
+			updateClass("meterLine_" +key, "fText");
+			updateClass(key + "_line_1", "fText");
+			updateClass(key + "_line_2", "fText");
+			updateClass(key + "_line", "fText");
+		}
+
+	}
+}
+
+function getFaultTypeName(faultType) {
+	var faultTypeName = "";
+	switch(faultType){
+	case "0":
+		faultTypeName = "短路";
+		break;
+	case "1":
+		faultTypeName = "异常漏电";
+		break;
+	case "2":
+		faultTypeName = "缺相";
+		break;
+	case "3":
+		faultTypeName = "停电";
+		break;
+	}
+	return faultTypeName;
+}
+
+/*
+ * 更新样式
+ * **/
+function updateClass(key, cls) {
+	$("#" + key).attr("class",cls);
+	$("#" + key).find("rect").attr("class",cls);
+	$("#" + key).find("path").attr("class",cls);
+}
 $(function() {
 	  //绑定事件
 	parent.$("#tableBoxDiv").scroll(function(){
@@ -767,3 +829,4 @@ $(function() {
   		$(".gj").css("left", ($(this).scrollLeft() ));
 	 });
 });
+
