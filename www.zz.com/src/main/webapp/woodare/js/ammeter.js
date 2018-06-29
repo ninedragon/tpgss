@@ -202,7 +202,9 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	    		    					 }
 	    		    				 }
 	    		    		 		//电表分割备注
-		 		    		        	splitRemarks(layerSnap,"ammeterTxtID","电表",45,(ammeterY + 40),"fText",20);
+	    		    		         if(x == 0){
+		 		    		        	splitRemarks(layerSnap,"ammeterTxtID","电表",70,(ammeterY + 40),"fText",24);
+	    		    		         }
 	 		    		        	 //引入电表与分支箱线
 	    		        			 createLineEl(layerSnap, {
 			    		        			id :"meterLine_" + x_rowId,
@@ -302,7 +304,7 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	    				 }
 	    		         
 	    		        	//出线柜分割备注
-	    		        	splitRemarks(layerSnap,"cabinetsID","表箱",45,(cabinetsY+40),"fText",20);
+	    		        	splitRemarks(layerSnap,"cabinetsID","表箱",70,(cabinetsY+40),"fText",24);
 	    		        	//出线柜往下画线
 	    		        	var lowerCabinetsLineX = tempBranchBoxX;//下宽度（出线柜下处宽度）
 	    		        	var lowerCabinetsLineY = cabinetsY + 100;//下高（分线柜下处高度）
@@ -357,10 +359,13 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	}
 	 var widthVal = (ammeterX + 350);
 	 var heightVal = (table_ammeterY + 150);
-	 parent.$("#tab3Iframe").attr("width", widthVal).attr("height", heightVal);
-	 svgSnap.attr("width", widthVal).attr("height", heightVal)
+	 var temp = heightVal + 400;
+	 parent.$("#tab3Iframe").attr("width", widthVal).attr("height", temp);
+	 svgSnap.attr("width", widthVal).attr("height", temp)
 	 parent.$("#tableBoxDiv").css("height", "auto");
 	 parent.$(".ammeter").css("width", (widthVal + 20)+"px").css("height", (heightVal - 150)+ "px");
+	 
+		$("#falutDiv").css("top",( temp - 500)+"px");
 	 //执行故障渲染
 	 setFalut(rowId);
 } 
