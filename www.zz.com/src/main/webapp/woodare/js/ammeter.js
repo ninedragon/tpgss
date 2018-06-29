@@ -3,7 +3,7 @@ d3.namespace("xmlns:cge","http://iec.ch/TC57/2005/SVG-schema#");
 
 var lbss = [];
 var svgSnap = d3.select("body").append("svg");
-var svg_width = 10000;
+var svg_width = 10000; 
 svgSnap.attr("width", svg_width - 25)
    .attr("height", 3960)
    .attr("xmlns", "http://www.w3.org/2000/svg")

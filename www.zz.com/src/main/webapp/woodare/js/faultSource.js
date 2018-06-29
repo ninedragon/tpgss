@@ -2,7 +2,7 @@ var faultSourceData = {
 	    "t_ableakage_i": [
 	                      {
 	                          "id": 19,
-	                          "epuName": "上海南汇电表1",
+	                          "epuName": "上海南汇电表z1",
 	                          "C_DistrictBCDId": "2721",
 	                          "C_AddressId": 1,
 	                          "C_ChannelId": 1,
