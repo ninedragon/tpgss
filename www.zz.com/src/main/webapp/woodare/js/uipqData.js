@@ -81,7 +81,7 @@ var uipqData=[
 },
 {
     "type": "meterBox",
-    "key": "1952cf11-aa19-4423-ab44-15a903a36b6c",
+    "key": "f5435f0a-25b8-4fb8-84ef-5cd9835c942c",
         "ua": "220",
         "ia": "11",
         "pa": "200",
@@ -97,7 +97,7 @@ var uipqData=[
 },
 {
     "type": "meterBox",
-    "key": "2ee4fddb-ef9f-4874-baf7-0697af97a63b",
+    "key": "2fe9e586-1373-4aaa-a900-7aeb9702c47c",
         "ua": "230",
         "ia": "12",
         "pa": "210",

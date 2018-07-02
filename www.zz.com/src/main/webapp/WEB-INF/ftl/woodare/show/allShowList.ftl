@@ -259,6 +259,7 @@
 </script>
   </head>
   <input type="hidden" id="tableBoxId" name="tableBoxId"  value=""/>
+  <input type="hidden" id="branchBoxId" name="branchBoxId"  value=""/>
   <body>
    <!--页眉开始-->
    <!--页眉开始-->
@@ -312,7 +313,20 @@
 	    <!--动态信息结束/-->
 	</div>
 	<!--主体结束/-->
-	<!--弹层开始-->
+	<!--分支箱弹层开始-->
+	<div class="wapp-layer"  id="messageBranchBox" >
+		<div class="box tips mrr branchBox" style="left:30%;">
+	    	<h4 style="text-indent:0%; "><label style="width:90%" ><p id='branchBoxName' style="word-wrap:break-word; word-break:break-all;padding: 0px 0px 0px 10px;"></p></label><span class="close-js" onclick="$('#messageBranchBox').hide();">关闭</span></h4>
+	       <div class="edit mrr"  id="branchBoxDiv">
+			<iframe id="tab4Iframe" src="${basePath}/html/branchBox.html" frameborder="0" scrolling="no"></iframe>
+	       </div>
+       <div class="but-nav" style=" position: absolute; left:0px; bottom:30px; height:32px;">
+           <span class="but" onclick="$('#messageBranchBox').hide();">关&nbsp;&nbsp;闭</span>
+        </div>
+	    </div>
+	</div> 
+	<!--分支箱弹层结束/-->
+    <!--电表弹层开始-->
 	<div class="wapp-layer"  id="messageAmmeter" >
 		<div class="box tips mrr ammeter" style="left:30%;">
 	    	<h4 style="text-indent:0%; "><label style="width:90%" ><p id='tableBoxName' style="word-wrap:break-word; word-break:break-all;padding: 0px 0px 0px 10px;"></p></label><span class="close-js" onclick="$('#messageAmmeter').hide();">关闭</span></h4>
@@ -324,7 +338,7 @@
         </div>
 	    </div>
 	</div> 
-	<!--弹层结束/-->
+	<!--电表弹层开始-->
 	<!--loading开始-->
 	<div class="loading">
 		<div class="spinner">加载中

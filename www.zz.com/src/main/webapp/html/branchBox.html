@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!--[if IE 7]> <html lang="en" class="ie7"> <![endif]-->
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>分支箱列表</title>
+	<meta charset="utf-8">
+	<meta name="keywords" content="拓扑图 iOS Android ipa apk iPad iPhone">
+	<meta name="description" content="拓扑图">
+	<meta property="og:type" content="webpage">
+	<meta property="og:url" content="http://www.woodare.com">
+	<meta property="og:title" content="拓扑图">
+	<meta property="og:description" content="拓扑图">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-title" content="拓扑图">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no minimal-ui">
+	<link rel="dns-prefetch" href="http://www.woodare.com">
+	
+	<link   rel="icon" href="../favicon.ico" type="image/x-icon" />
+	<link   rel="shortcut icon" href="../favicon.ico" />
+	<link href="../js/common/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="../css/common/base.css" rel="stylesheet"/>
+	<link rel="stylesheet" href="../woodare/css/topology.css">
+	
+	<script type="text/javascript" src="../woodare/js/jquery-3.3.1.min.js"></script>
+	<script src="../woodare/js/faultSource.js"></script>
+	<script  src="../js/common/layer/layer.js"></script>
+	<script  src="../js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script  src="../js/shiro.demo.js"></script>
+	<script language="javascript" type="text/javascript" src="../js/My97DatePicker/WdatePicker.js"></script>
+	<script src="../woodare/js/branchBox.js"></script>
+  </head>
+  <body>
+	<!--主体开始-->
+	<div class="wapp-main" id="falutDiv" style="top:1px;">
+		<div id="uipqDiv"></div>
+		<!--表格结束/-->
+		<h4>分线箱故障来源列表</h4>	
+		
+		<form method="post" action="" id="formId" class="form-inline">
+	    <!--搜索开始-->
+		<div class="search">
+		    	 <lable>
+	        	<span>设备名称</span>
+	               <input id="epuName" type="text" name="epuName" value="" />
+	    	</lable>
+	    	<lable>       
+	        	<span>故障原因 </span>
+	              <select id="falutReason" name="falutReason" ></select>
+	    	</lable>
+	        <div class="but-nav">
+	        	<button type="button"  onclick="javascript:initList();"       class="btn btn-primary" style="background-color: #169274;">查询</button>
+	        </div>
+		</div>
+	    <!--搜索结束/-->
+	    <!--表格开始-->
+	    <div class="table-box">
+	        <table width="100%">
+	            <tr>   
+								<th>设备名称</th>
+								<th>故障原因</th>
+								<th>故障发生时间</th>					
+	            </tr>
+	           <tbody id="faultListTable"></tbody>
+	        </table>
+	    </div>
+		<!--表格结束/-->
+	    
+	<!--     分页开始 -->
+	
+		   		 <div class="pagination pull-right">
+				 </div>
+	<!--     分页结束/ -->
+ </form>
+</div>
+<!--主体结束/-->
+  </body>
+</html>

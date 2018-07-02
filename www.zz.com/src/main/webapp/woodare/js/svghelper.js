@@ -58,7 +58,7 @@ function drawSvg(svgModelData, el) {
   		            svgimg.setAttributeNS(null,"y", (this._y - 6));
   		            svgimg.setAttributeNS(null,"id","meterboxImg_" + this.rowId);
   		            svgimg.setAttributeNS(null, "visibility", "visible");
-	  		         $("#Snap_Layer").append(svgimg).find("image[id='meterbox_"+this.rowId+"'],image[id='meterboxImg_"+this.rowId+"']").attr("epuName",this.epuName).click(function(){
+	  		         $("#Snap_Layer").append(svgimg).find("g[id='meterbox_"+this.rowId+"'],image[id='meterboxImg_"+this.rowId+"']").attr("epuName",this.epuName).click(function(){
 		            	  showAmmeter(this,svgModelData,uipqData);
 	  		         });
 				});
@@ -66,7 +66,7 @@ function drawSvg(svgModelData, el) {
 				var tmpX = x3 + (w4 > this.width ? ((w4 - this.width) / 2) : 0);
 				this._x = tmpX;
 				this._y = 600;
-				createBox(layerSnap, this.rowId, this._x, this._y, this.epuName, cIds);
+				createBox(layerSnap, this.rowId, this._x, this._y, this.epuName, cIds,"M0003");
 				x3 += Math.max( this.width, w4 );
 				cids1.push(this.rowId);
 				x4 = Math.max(x4, x3);
@@ -102,7 +102,7 @@ function drawSvg(svgModelData, el) {
 			//M0002
 			this._x = tmpX;
 			this._y = 300;
-			createBox(layerSnap, this.rowId, this._x, this._y,this.epuName, cids1);
+			createBox(layerSnap, this.rowId, this._x, this._y,this.epuName, cids1,"M0002");
 			x2 += Math.max( this.width, w3 )+ 120;//加120 控制间距
 			x3 = Math.max(x2, x3);
 			x4 = Math.max(x4, x3);
@@ -270,7 +270,8 @@ function drawSvg(svgModelData, el) {
 				updateKaiguanxian(key, "error");
 				$("#kaiguanxianTemp_" + key).find("rect").attr("class","error");
 				$("#kaiguanxianTemp_" + key).find("path").attr("class","error");
-				$("#Snap_Layer").find("image[id='meterboxImg_"+key+"']").attr("href","../woodare/image/boxImgError.png");
+				$("#Snap_Layer").find("image[id='meterboxImg_"+key+"']").attr("href","../woodare/image/boxImgError.png");//电表
+				$("#Snap_Layer").find("image[id='kaiguanxianImg_"+key+"']").attr("href","../woodare/image/branchBoxError.png");//分支箱/出线柜
 				var count = $("#meterbox_"+key).find("text").length||0;
 				$("#meterbox_" + key).find("text").attr("class","error");
 				if(null != faultTypeName && faultTypeName != ""){
@@ -278,13 +279,15 @@ function drawSvg(svgModelData, el) {
 				}else{
 					$("#meterbox_" + key).find("text").eq((count - 1)).text("故障原因:topo错误数据");
 				}
+				
 			}
 		},
 		kaiguanxianWarning: function(kaiguanxianWarningArray) {
 			for(var i = 0;i < kaiguanxianWarningArray.length; i++){
 				var json = kaiguanxianWarningArray[i];
 				var key = json["key"];
-				updateKaiguanxian(key, "warning");
+//				updateKaiguanxian(key, "warning");
+				$("#Snap_Layer").find("image[id='kaiguanxianImg_"+key+"']").attr("href","../woodare/image/branchBoxBlueError.png");//分支箱/出线柜
 			}
 			
 		},
@@ -298,7 +301,8 @@ function drawSvg(svgModelData, el) {
 				updateKaiguanxian(key, "");
 				$("#kaiguanxianTemp_" + key).find("rect").attr("class","");
 				$("#kaiguanxianTemp_" + key).find("path").attr("class","");
-				$("#Snap_Layer").find("image[id='meterboxImg_"+key+"']").attr("href","../woodare/image/boxImg.png");
+				$("#Snap_Layer").find("image[id='meterboxImg_"+key+"']").attr("href","../woodare/image/boxImg.png");//电表
+				$("#Snap_Layer").find("image[id='kaiguanxianImg_"+key+"']").attr("href","../woodare/image/branchBox.png");//分支箱/出线柜
 				var count = $("#meterbox_"+key).find("text").length||0;
 				$("#meterbox_" + key).find("text").attr("class","");
 				$("#meterbox_" + key).find("text").eq((count - 1)).text("");
@@ -340,7 +344,12 @@ function createBox(layer, id, x, y, name, lines,type) {
 			var ix = x + gird * (index + 1) - 8;
 			start = Math.min(start, ix + 8);
 			end = Math.max(end, ix + 8);
-			createKaiguanxian(g, item, ix, y + 30, 150);
+//			if(type == "M0003"){
+//				createBranchBoxXian(g, item, ix, y + 30, 150,type,name);
+//			}else{
+//				createKaiguanxian(g, item, ix, y + 30, 150);
+//			}
+			createBranchBoxXian(g, item, ix, y + 30, 150,type,name,lines);
 		});
 		g.append('path').attr("d", "M" + start + "," + (y + 30) + " L" + end + "," + (y + 30)).attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none");
 		g.append('path').attr("d", "M" + (x + 150) + "," + (y) + " L" + (x + 150)  + "," + (y + 30)).attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none");
@@ -351,15 +360,39 @@ function createBox(layer, id, x, y, name, lines,type) {
 	txt.append('textPath').attr("id","textPath_"+id).attr("xlink:href","#chuxiangui_text_" + id).text(name);
 }
 
-function createKaiguanxian(layer, id, x, y, height) {
+//function createKaiguanxian(layer, id, x, y, height) {
+//	height = height || 180;
+//	var g = layer.append("g").attr("id", "kaiguanxian_" + id);
+//	var gird = (height - 50) / 2;
+//	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x).attr("y", y + gird).attr("width", 16).attr("height", 50);
+//	g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + y + " L " + (x + 8) + "," + (y + gird) + "");
+//	g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + (y + gird + 50) + " L " + (x + 8) + "," + (y + height) + "");
+//}
+
+function createBranchBoxXian(layer, id, x, y, height,type,name,lines) {
 	height = height || 180;
 	var g = layer.append("g").attr("id", "kaiguanxian_" + id);
 	var gird = (height - 50) / 2;
-	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x).attr("y", y + gird).attr("width", 16).attr("height", 50);
-	g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + y + " L " + (x + 8) + "," + (y + gird) + "");
-	g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + (y + gird + 50) + " L " + (x + 8) + "," + (y + height) + "");
+	 var svgimg = document.createElementNS('http://www.w3.org/2000/svg','image');
+       svgimg.setAttributeNS(null,"height","50");
+       svgimg.setAttributeNS(null,"width","50");
+       svgimg.setAttributeNS(null,"cursor","pointer");
+       svgimg.setAttributeNS("http://www.w3.org/1999/xlink","href", "../woodare/image/branchBox.png");
+       svgimg.setAttributeNS(null,"x", (x -17));
+       svgimg.setAttributeNS(null,"y", (y +50));
+       svgimg.setAttributeNS(null,"id","kaiguanxianImg_" + id);
+       svgimg.setAttributeNS(null, "visibility", "visible");
+	    $("#Snap_Layer").append(svgimg).find("image[id='kaiguanxianImg_"+id+"']").attr("epuName",name).click(function(){
+	    	if(type == "M0003"){//分支箱的弹出层单击事件
+	    	  showBranchBox(this,uipqData,id);
+	    	}
+	    });
+	    g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + y + " L " + (x + 8) + "," + (y + gird) + "");
+	    g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + (y + gird + 50) + " L " + (x + 8) + "," + (y + height) + "");
 }
-
+/*
+ * 展示电表层
+ * **/
 function showAmmeter(obj,svgModelData,uipqData){
 	  var txtID = $(obj).attr("id");//展示的文字ID
 	  parent.$("#tableBoxId").val(txtID.replace("meterbox_","").replace("meterboxImg_",""));//当前表箱ID
@@ -372,10 +405,26 @@ function showAmmeter(obj,svgModelData,uipqData){
       parent.$("#messageAmmeter").show();
 	  iframeID.contentWindow.showTop(svgModelData,rowId,tableBoxId,uipqData);
 }
+/*
+ * 展示分支箱
+ * **/
+function showBranchBox(obj,uipqData,meterboxId){
+	var meterboxEpuName = $("#meterbox_" + meterboxId).attr("name");
+	  var branchBoxId = $(obj).attr("id");//展示的文字ID
+	  parent.$("#branchBoxId").val(branchBoxId.replace("kaiguanxianImg_",""));//当前分支箱ID
+//	  var textValue = $(obj).attr("epuName");//展示的文字内容
+	  parent.$("#branchBoxName").attr("title",meterboxEpuName).text(meterboxEpuName);//TAB
+	  var rowId = parent.$("#rowId").val();//获取箱变根ID
+	  var tableBoxId = parent.$("#tableBoxId").val();//获取箱变根ID
+	  parent.$("#messageBranchBox").show();
+	  var iframeID  = parent.$("#tab4Iframe")[0];//获取iframe的ID
+	  iframeID.contentWindow.showList(rowId,tableBoxId,uipqData,branchBoxId,meterboxId,meterboxEpuName);
+}
+
 
 
 function createMeterBox(layer, id, x, y, name) {
-	var g = layer.append("g").attr("id", "meterbox_" + id);
+	var g = layer.append("g").attr("id", "meterbox_" + id).attr("name", name);
 //	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x).attr("y", y).attr("width", 90).attr("height", 90).attr("id", "meterbox_rect_" + id);
 //	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x + 20).attr("y", y + 20).attr("width", 10).attr("height", 10);
 //	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x + 40).attr("y", y + 20).attr("width", 10).attr("height", 10);
@@ -731,3 +780,4 @@ return {
 	drawSvg : drawSvg
 }
 })();
+
