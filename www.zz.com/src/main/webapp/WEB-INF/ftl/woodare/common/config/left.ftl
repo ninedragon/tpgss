@@ -1,7 +1,7 @@
 <#macro top index>
 <#if index ==1 >
 <ul class="left-nav" style="overflow-y: auto;height: 700px;">
-	<h4>末端电网感知系统</h4> 
+	<h4>末端电网感知系统</h4>
 	 <li class="all">分析展示</li>
 	<ul class="<#if leftMenuview=='4'>  on </#if> big-js" <#if leftMenuview=='4'>  style="display:block" </#if>>
     <li onClick="location.href='${basePath}/epu/allShowList.shtml'">实时监控</li>
