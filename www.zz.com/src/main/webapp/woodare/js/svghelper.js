@@ -236,6 +236,7 @@ function drawSvg(svgModelData, el) {
 				var epuName = json["epuName"];
 				var faultType = json["faultType"];
 				var faultTypeName = getFaultTypeName(faultType);
+				$("#Snap_Layer").find("image[id='kaiguanxianImg_"+key+"']").attr("href","../woodare/image/branchBoxError.png");//分支箱/出线柜
 				updateBox(key, "error-box");
 				if(null != faultTypeName && ""!=faultTypeName){
 					$("#textPath_" + key).text(epuName +"故障原因:" + faultTypeName);
@@ -256,6 +257,7 @@ function drawSvg(svgModelData, el) {
 				var epuName = json["epuName"];
 				var faultType = json["faultType"];
 				updateBox(key, "");
+				$("#Snap_Layer").find("image[id='kaiguanxianImg_"+key+"']").attr("href","../woodare/image/branchBox.png");//分支箱/出线柜
 				$("#textPath_" + key).text(epuName).attr("class","");
 			}
 		},
@@ -286,7 +288,7 @@ function drawSvg(svgModelData, el) {
 			for(var i = 0;i < kaiguanxianWarningArray.length; i++){
 				var json = kaiguanxianWarningArray[i];
 				var key = json["key"];
-//				updateKaiguanxian(key, "warning");
+				updateKaiguanxian(key, "warning");
 				$("#Snap_Layer").find("image[id='kaiguanxianImg_"+key+"']").attr("href","../woodare/image/branchBoxBlueError.png");//分支箱/出线柜
 			}
 			

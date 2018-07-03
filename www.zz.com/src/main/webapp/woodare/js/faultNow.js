@@ -2,7 +2,7 @@ var faultNowData = [
 {   "id":"3",//一个故障对象的id
     "type": "branchBox",
     "key": "45a86a64-902a-43c6-98b4-034c0f50ebd4",
-    "epuName":"上海南汇分支箱12",
+    "epuName":"南京南汇分支箱12",
     "faultType":"2",//0short表示短路，1ableakage异常漏电，2pahseLoss缺相，3powerFailure停电
      "occur_time":"2018-5-25 09:46:22",//故障发生时间
     "is_cancelled":"1",//是否被取消，1表示是，这个在当前故障信息可能用到，先保留
@@ -12,7 +12,7 @@ var faultNowData = [
 {   "id":"4",
     "type": "meterBox",
     "key": "b758d4ca-7b31-41e3-99f3-231904a78198",
-    "epuName":"上海南汇表箱121",
+    "epuName":"南京南汇表箱121",
     "faultType":"3",
      "occur_time":"2018-5-25 09:46:22",//故障发生时间
     "is_cancelled":"1",//是否被取消，1表示是
@@ -23,7 +23,7 @@ var faultNowData = [
 {   "id":"4",
     "type": "meterBox",
     "key": "f5435f0a-25b8-4fb8-84ef-5cd9835c942c",
-    "epuName":"上海南汇表箱122",
+    "epuName":"南京南汇表箱122",
     "faultType":"3",
      "occur_time":"2018-5-25 09:46:22",//故障发生时间
     "is_cancelled":"1",//是否被取消，1表示是
@@ -67,7 +67,7 @@ var faultNowData = [
 {   "id":"9",
     "type": "meter",
     "key": "0d6cc6f7-e3cf-4209-b488-512d8316c97d",
-    "epuName":"上海南汇电表1221",
+    "epuName":"南京南汇电表1221",
     "faultType":"1" ,
      "occur_time":"2018-5-25 09:46:22",//故障发生时间
     "is_cancelled":"1",//是否被取消，1表示是

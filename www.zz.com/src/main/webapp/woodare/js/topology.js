@@ -62,7 +62,8 @@ function showTop(rowId){
 	        			 if(fault_type =="1" || fault_type == 1){//1、	branchbox fault type为1的时候用蓝色标识 ，不用判断下级设备
 	        				 mySvg.kaiguanxianWarning(new Array(json));//开关线 标蓝
 	        				 continue;
-	        			 }else if(fault_type =="0" || fault_type == 0){//2、	branchbox fault type为0的时候用红色标识，判断下级设备的fault point，为1的时候标红，否则是黑
+	        			 }
+	        			 else if(fault_type =="0" || fault_type == 0){//2、	branchbox fault type为0的时候用红色标识，判断下级设备的fault point，为1的时候标红，否则是黑
 	        				 var kaiguanxianErrorArray = new Array();
 	        				 kaiguanxianErrorArray.push(json);
 	        				 var rel = json["rel"];

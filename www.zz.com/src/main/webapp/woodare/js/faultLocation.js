@@ -1,7 +1,7 @@
 var faultLocationData = 
 [{   "id":"1",//一个故障对象的id
     "type": "substain",
-    "epuName":"上海南汇箱变1",
+    "epuName":"南京南汇箱变1",
     "key": "3f95ae7a-f99c-45f4-b82f-7f0b2093f186",
     "faultType":"0",//0short表示短路，1ableakage异常漏电，2pahseLoss缺相，3powerFailure停电
     "occur_time":"2014-05-24 09:46:22",//故障发生时间
@@ -12,7 +12,7 @@ var faultLocationData =
 },
 {   "id":"2",
     "type": "outgoingCabinet",
-    "epuName":"上海南汇出线柜1",
+    "epuName":"南京南汇出线柜1",
     "key": "8b1cec1b-5d75-4673-b5b5-e7d26bea26a6",
     "faultType":"1",
     "occur_time":"2013-03-22 09:46:22",//故障发生时间
@@ -22,7 +22,7 @@ var faultLocationData =
 },
 {   "id":"3",
     "type": "branchBox",
-    "epuName":"上海南汇分支箱21",
+    "epuName":"南京南汇分支箱21",
     "key": "372d7733-da1a-4a6e-b993-70560a92b1d4",
     "faultType":"2",
      "occur_time":"2018-05-25 09:46:22",//故障发生时间
@@ -32,7 +32,7 @@ var faultLocationData =
 },
 {   "id":"4",
     "type": "meterBox",
-    "name":"上海南汇表箱212",
+    "name":"南京南汇表箱212",
     "key": "1305ca7c-463d-4aea-ae0c-7dc712470ab4",
     "faultType":"3",
      "occur_time":"2017-05-25 09:46:22",//故障发生时间
@@ -43,7 +43,7 @@ var faultLocationData =
 },
 {   "id":"5",
     "type": "meter",
-    "epuName":"上海南汇电表2211",
+    "epuName":"南京南汇电表2211",
     "key": "bdb2ccda-d56d-4bae-a44b-147094e3c68f",
     "faultType":"3" ,
      "occur_time":"2018-05-25 09:46:22",//故障发生时间
