@@ -32,7 +32,7 @@ var faultLocationData =
 },
 {   "id":"4",
     "type": "meterBox",
-    "name":"南京南汇表箱212",
+    "epuName":"南京南汇表箱212",
     "key": "1305ca7c-463d-4aea-ae0c-7dc712470ab4",
     "faultType":"3",
      "occur_time":"2017-05-25 09:46:22",//故障发生时间

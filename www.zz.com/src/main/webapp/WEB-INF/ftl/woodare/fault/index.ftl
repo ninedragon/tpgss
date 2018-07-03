@@ -43,14 +43,13 @@
     	</lable>
     	<lable>       
         	<span>故障原因 </span>
-              <select id="falutReason" name="falutReason" >
-            	<option></option>
-				 <#if falutReasonMap?exists>
-					        <#list jsonArrayFalutReason as x>
-                                 <option value="${x.key}">${x.value}</option>
-                            </#list>	
-				 </#if>   
-            </select>
+                <select id="falutReason" name="falutReason" >
+	            	<option></option>
+	            	<option value="0">短路</option>
+	            	<option value="1">异常漏电</option>
+	            	<option value="2">缺相</option>
+	            	<option value="3">停电</option>
+	            </select>
     	</lable>
         <div class="but-nav">
         	<button type="button"  onclick="javascript:initList();"       class="btn btn-primary" style="background-color: #169274;">查询</button>
