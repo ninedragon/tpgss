@@ -19,83 +19,6 @@
 	<script  src="${basePath}/js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script  src="${basePath}/js/shiro.demo.js"></script>
 	<script language="javascript" type="text/javascript" src="${basePath}/js/My97DatePicker/WdatePicker.js"></script>
-	<script >
-			so.init(function(){
-				 initList();
-				
-			});
-		
-			  function initList(pageNo) {
-			    	 $("#loadingDiv").show(); 
-					
-			        $.ajax({
-			            url: "${basePath}/fault/queryEpuList.shtml",
-			            type: 'POST',
-			            dataType: 'json',
-			            async:false,
-			            data: {	 		          
-			            	epuName: $("#epuName").val(),
-			            	falutOccurrenceTime: $("#falutOccurrenceTime").val(),
-			            	falutReason: $("#falutReason").val(),
-			            	isFalut: $("#isFalut").val(),
-			            	falutRepairTime: $("#falutRepairTime").val(),
-			            	isCancelled: $("#isCancelled").val(),
-			            	stringData : JSON.stringify(faultLocationData),
-			            	pageNo:pageNo,
-			            	pageSize:10
-			            },
-			            success: function (data) {
-			            	var page=data.page;
-			                if (page != null ) {
-			                    var epuList = page.list;
-			                   
-			                    if (epuList!=null && epuList.length>0) {
-			                    	 var tbody = '';
-			                        for (var i = 0; i < epuList.length; i++) {
-			                            tbody += '<tr>';
-			                            tbody += '<td align="center"><div>' + epuList[i].epuName+ '</div></td>';
-			                            tbody += '<td align="center"><div>' + (epuList[i].falutReason ||"") + '</div></td>';
-			                            tbody += '<td align="center"><div>' + epuList[i].occur_time+ '</div></td>';
-			                            tbody += '<td align="center"><div>' + epuList[i].isCancelled+ '</div></td>';
-			                            tbody += '<td align="center"><div>' + epuList[i].isFalut + '</div></td>';			                            
-			                            tbody += '<td align="center"><div>' + epuList[i].repair_time+ '</div></td>';
-			                            tbody += '</tr>';			                            
-			                        }
-			                        $("#faultListTable").html(tbody);
-			                         // var pageHtml=page.pageHtml.replace(new RegExp("_submitform","gm"),"javascript:so.initList");
-			                         var a = page.pageHtml;
-									var b = a.substring(0,a.lastIndexOf('\<script'));  
-			                        var pageHtml=b.replace(/_submitform/g,'initList');
-			                       $(".pagination").html(pageHtml);
-			                         $("#loadingDiv").hide(); 
-			                    }else
-			                    {
-			                    	  $("#faultListTable").html('');
-			                    }
-			                    //分页
-			                   // TRADEZONE_MANAGE_PAGE.totalCount = data.recordsTotal;
-			                } else {
-			                    //分页
-			                    //TRADEZONE_MANAGE_PAGE.totalCount = 0;
-			                }
-			               // PAGINATION_UTIL.callbackObj = TRADEZONE_MANAGE_PAGE; //一定要有这句
-			                //PAGINATION_UTIL.inputName = "startPage";//一个页面有多个列表时需要这个值不一样
-			                //PAGINATION_UTIL.pagination(currentPage);
-			            },
-			            error: function () {
-			                //分页
-			              /*   TRADEZONE_MANAGE_PAGE.totalCount = 0;
-			                PAGINATION_UTIL.callbackObj = TRADEZONE_MANAGE_PAGE; //一定要有这句
-			                //PAGINATION_UTIL.inputName = "startPage";//一个页面有多个列表时需要这个值不一样
-			                PAGINATION_UTIL.pagination(currentPage); */ 
-			                $("#loadingDiv").hide();
-			            }
-			        });
-
-			    };
-			 
-		</script>
-		
   </head>
   
   <body>
@@ -159,6 +82,65 @@
  </form>
 </div>
 <!--主体结束/-->
+<!--主体结束/-->
+<script >
+		so.init(function(){
+				 initList();
+		});
+		 function initList(pageNo) {
+		 	var param_epuName = $("#epuName").val();
+		 	var param_falutReason = $("#falutReason").val();
+			$("#loadingDiv").show(); 
+	        var tbody = '';
+	        var falutReasonJson = {};
+	        falutReasonJson["0"] = "短路";
+	        falutReasonJson["1"] = "异常漏电";
+	        falutReasonJson["2"] = "缺相";
+	        falutReasonJson["3"] = "停电";
+	        var isFalutJson = {};
+	        isFalutJson["0"] = "否";
+	        isFalutJson["1"] = "是";
+	        var isCancelledJson = {};
+	        isCancelledJson["0"] = "否";
+	        isCancelledJson["1"] = "是";
+	         if (faultLocationData !=null && faultLocationData.length>0) {
+	         	var newArray = new Array();
+	            for (var i = 0; i < faultLocationData.length; i++) {
+	             var json = faultLocationData[i];
+	            	var faultType = json["faultType"];
+	            	var epuName = json["epuName"];
+	             	  if(("" == param_epuName || null == param_epuName) && ("" == param_falutReason|| null == param_falutReason)){
+					    	newArray.push(json); 
+					    }else if((""!= param_epuName && null != param_epuName) && ("" != param_falutReason && null != param_falutReason)){
+					    	 if((faultType == param_falutReason || faultType == param_falutReason) && epuName.indexOf(param_epuName) !=-1){
+							    	newArray.push(json);
+							  }
+					    }else if(("" == param_epuName || null == param_epuName) && ("" != param_falutReason&& null != param_falutReason)){
+					    	if(faultType == param_falutReason || faultType == param_falutReason){
+						    	newArray.push(json);
+						    }
+					    }else if(("" != param_epuName&& null != param_epuName) && ("" == param_falutReason  || null == param_falutReason)){
+					    	if(epuName.indexOf(param_epuName) !=-1 ){
+						    	newArray.push(json);
+						    }
+					    }
+	             }
+	             for (var i = 0; i < newArray.length; i++) {
+	             	var json = newArray[i];
+	                 tbody += '<tr>';
+	                 tbody += '<td align="center"><div>' + json.epuName+ '</div></td>';
+	                 tbody += '<td align="center"><div>' + (falutReasonJson[json.faultType] ||"") + '</div></td>';
+	                 tbody += '<td align="center"><div>' + json.occur_time+ '</div></td>';
+	                 tbody += '<td align="center"><div>' + isCancelledJson[json.is_cancelled]+ '</div></td>';
+	                 tbody += '<td align="center"><div>' + isFalutJson[json.is_repaired] + '</div></td>';			                            
+	                 tbody += '<td align="center"><div>' + json.repair_time+ '</div></td>';
+	                 tbody += '</tr>';			                            
+	             }
+	           }
+	           $("#faultListTable").html(tbody);
+	           $("#loadingDiv").hide(); 
+           }
+		</script>
 </body>
 </html>
 
