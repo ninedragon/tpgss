@@ -65,7 +65,7 @@ function drawSvg(svgModelData, el) {
 				//M0003
 				var tmpX = x3 + (w4 > this.width ? ((w4 - this.width) / 2) : 0);
 				this._x = tmpX;
-				this._y = 600;
+				this._y = 650;
 				createBox(layerSnap, this.rowId, this._x, this._y, this.epuName, cIds,"M0003");
 				x3 += Math.max( this.width, w4 );
 				cids1.push(this.rowId);
@@ -93,7 +93,7 @@ function drawSvg(svgModelData, el) {
 						x2: px + (index + 1) * gird,
 						y2: py + 180,
 						h: h
-					},"M0003");
+					});
 				});
 				
 			});
@@ -128,6 +128,7 @@ function drawSvg(svgModelData, el) {
 				createLineEl(layerSnap, {
 					x:this._x + 150,
 					y:this._y,
+					id: this.rowId,
 					x2: px + (index + 1) * gird,
 					y2: py + 180,
 					h: h
@@ -174,6 +175,7 @@ function drawSvg(svgModelData, el) {
 			createLineEl(layerSnap, {
 				x:this._x + 150,
 				y:this._y,
+				id:this.rowId,
 				x2: px + 64,
 				y2: py + 112,
 				h: 20
@@ -270,8 +272,8 @@ function drawSvg(svgModelData, el) {
 				var faultType = json["faultType"];
 				var faultTypeName = getFaultTypeName(faultType);
 				updateKaiguanxian(key, "error");
-				$("#kaiguanxianTemp_" + key).find("rect").attr("class","error");
-				$("#kaiguanxianTemp_" + key).find("path").attr("class","error");
+				$("#kaiguanxian_line_" + key).find("rect").attr("class","error");
+				$("#kaiguanxian_line_" + key).find("path").attr("class","error");
 				$("#Snap_Layer").find("image[id='meterboxImg_"+key+"']").attr("href","../woodare/image/boxImgError.png");//电表
 				$("#Snap_Layer").find("image[id='kaiguanxianImg_"+key+"']").attr("href","../woodare/image/branchBoxError.png");//分支箱/出线柜
 				var count = $("#meterbox_"+key).find("text").length||0;
@@ -301,8 +303,8 @@ function drawSvg(svgModelData, el) {
 				var epuName = json["epuName"];
 				var faultType = json["faultType"];
 				updateKaiguanxian(key, "");
-				$("#kaiguanxianTemp_" + key).find("rect").attr("class","");
-				$("#kaiguanxianTemp_" + key).find("path").attr("class","");
+				$("#kaiguanxian_line_" + key).find("rect").attr("class","");
+				$("#kaiguanxian_line_" + key).find("path").attr("class","");
 				$("#Snap_Layer").find("image[id='meterboxImg_"+key+"']").attr("href","../woodare/image/boxImg.png");//电表
 				$("#Snap_Layer").find("image[id='kaiguanxianImg_"+key+"']").attr("href","../woodare/image/branchBox.png");//分支箱/出线柜
 				var count = $("#meterbox_"+key).find("text").length||0;
@@ -315,12 +317,26 @@ function drawSvg(svgModelData, el) {
 
 //
 function updateBox(id, cls) {
-	$("#chuxiangui_rect_" + id).attr("class",cls);
+	$("#chuxiangui_rect_" + id).attr("class",cls);//包围虚线框样式调整
+	
+	$("#kaiguanxian_" + id).find("rect").attr("class",cls);
+	$("#kaiguanxian_" + id).find("path").attr("class",cls);
+	$("#kaiguanxian_line_" + id).find("rect").attr("class",cls);
+	$("#kaiguanxian_line_" + id).find("path").attr("class",cls);
+	
+	$("#chuxiangui_line01_" + id).find("rect").attr("class",cls);
+	$("#chuxiangui_line01_" + id).find("path").attr("class",cls);
 }
 
 function updateKaiguanxian(id, cls) {
 	$("#kaiguanxian_" + id).find("rect").attr("class",cls);
 	$("#kaiguanxian_" + id).find("path").attr("class",cls);
+	
+	$("#kaiguanxian_line_" + id).find("rect").attr("class",cls);
+	$("#kaiguanxian_line_" + id).find("path").attr("class",cls);
+	
+	$("#chuxiangui_line01_" + id).find("rect").attr("class",cls);
+	$("#chuxiangui_line01_" + id).find("path").attr("class",cls);
 }
 
 
@@ -338,6 +354,9 @@ function createBox(layer, id, x, y, name, lines,type) {
 	var g = layer.append("g").attr("id", "chuxiangui_" + id);
 	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("stroke-dasharray","5,5").attr("fill","none").attr("x", x).attr("y", y).attr("width", 300).attr("height", 180).attr("id", "chuxiangui_rect_" + id);
 
+	g.append('path').attr("id", "chuxiangui_text_" + id).attr("d", "M" + (x - 30) + "," + y + " L" + (x - 30) + "," + (y + 300)).attr("stroke-width", 0);
+	var txt = g.append('text').attr("font-size", "18").attr("stroke", "rgb(0,0,0)").attr("fill","rgb(0,0,0)");
+	txt.append('textPath').attr("id","textPath_"+id).attr("xlink:href","#chuxiangui_text_" + id).text(name);
 	if (lines && lines.length) {
 		var start = x + 180;
 		var end = x;
@@ -346,20 +365,18 @@ function createBox(layer, id, x, y, name, lines,type) {
 			var ix = x + gird * (index + 1) - 8;
 			start = Math.min(start, ix + 8);
 			end = Math.max(end, ix + 8);
-//			if(type == "M0003"){
-//				createBranchBoxXian(g, item, ix, y + 30, 150,type,name);
-//			}else{
-//				createKaiguanxian(g, item, ix, y + 30, 150);
-//			}
 			createBranchBoxXian(g, item, ix, y + 30, 150,type,name,lines);
+//			var gTemp = g.append("g").attr("id", "chuxiangui_line02_" + item);
+//			if(type =="M0003"){
+//				alert(name+":"+lines.length+"=="+"chuxiangui_line02_" + item)
+//			}
+//			gTemp.append('path').attr("d", "M" + start + "," + (y + 30) + " L" + end + "," + (y + 30)).attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none");
 		});
+		var g = layer.append("g").attr("id", "chuxiangui_line01_" + id);
 		g.append('path').attr("d", "M" + start + "," + (y + 30) + " L" + end + "," + (y + 30)).attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none");
 		g.append('path').attr("d", "M" + (x + 150) + "," + (y) + " L" + (x + 150)  + "," + (y + 30)).attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none");
 		
 	}
-	g.append('path').attr("id", "chuxiangui_text_" + id).attr("d", "M" + (x - 30) + "," + y + " L" + (x - 30) + "," + (y + 300)).attr("stroke-width", 0);
-	var txt = g.append('text').attr("font-size", "20").attr("stroke", "rgb(0,0,0)").attr("fill","rgb(0,0,0)");
-	txt.append('textPath').attr("id","textPath_"+id).attr("xlink:href","#chuxiangui_text_" + id).text(name);
 }
 
 //function createKaiguanxian(layer, id, x, y, height) {
@@ -452,11 +469,9 @@ function createMeterBox(layer, id, x, y, name) {
 }
 
 
-function createLineEl(layer, position,type) {
+function createLineEl(layer, position) {
 	var g = layer.append("g");
-	if(type == "M0003"){
-		g = g.attr("id", "kaiguanxianTemp_" + (position.id|| ""));
-	}
+	g = g.attr("id", "kaiguanxian_line_" + (position.id|| ""));
 	var x = position.x;
 	var y = position.y;
 	var x2 = position.x2;
