@@ -6,6 +6,10 @@
 	<ul class="<#if leftMenuview=='4'>  on </#if> big-js" <#if leftMenuview=='4'>  style="display:block" </#if>>
     <li onClick="location.href='${basePath}/epu/allShowList.shtml'">实时监控</li>
     </ul>
+     <li class="<#if leftMenuview == '7' >  on </#if> big-js">故障定位管理</li>
+    <ul class="side-nav"  <#if leftMenuview == '7'>  style="display:block" </#if>>
+    	<li onClick="location.href='${basePath}/fault/init.shtml'">故障定位列表管理</li>
+    </ul>
 	<#--拥有 active888888（管理员） ||  100003（权限频道） edata数据的展示-->
 	 <@shiro.hasAnyRoles name='888888,100001,200001'>
 		<li class="<#if leftMenuview=='3'>  on </#if> big-js">用电曲线数据</li>
@@ -39,10 +43,6 @@
     <li onClick="location.href='${basePath}/epu/showBranchboxList.shtml'">分支箱信息列表</li>
     <li onClick="location.href='${basePath}/epu/showMeterboxList.shtml'">表箱信息列表</li>
     <li onClick="location.href='${basePath}/ammeter/showAmList.shtml'">电表信息列表</li>
-    </ul>
-      <li class="<#if leftMenuview == '7' >  on </#if> big-js">故障定位管理</li>
-    <ul class="side-nav"  <#if leftMenuview == '7'>  style="display:block" </#if>>
-    	<li onClick="location.href='${basePath}/fault/init.shtml'">故障定位列表管理</li>
     </ul>
       <li class="all">用户管理</li>
 	<#--拥有 角色888888（管理员） ||  100001（用户中心）-->
