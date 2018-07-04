@@ -170,16 +170,8 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	        			 			var x_name = x_json["ammeterName"];//电表名称
 	        			 			//展示电表 
 	        			 			ammeterX = ammeterX + gird;
-	        			 			 var svgimg = document.createElementNS('http://www.w3.org/2000/svg','image');
-	        		  		            svgimg.setAttributeNS(null,"height","45");
-	        		  		            svgimg.setAttributeNS(null,"width","45");
-	        		  		            svgimg.setAttributeNS(null,"cursor","pointer");
-	        		  		            svgimg.setAttributeNS("http://www.w3.org/1999/xlink","href", "../woodare/image/meter.png");
-	        		  		            svgimg.setAttributeNS(null,"x", (ammeterX + 10));
-	        		  		            svgimg.setAttributeNS(null,"y",(ammeterY + 10));
-	        		  		            svgimg.setAttributeNS(null,"id","meterImg_"+x_rowId);
-	        		  		            svgimg.setAttributeNS(null, "visibility", "visible");
-	        		  		            $("#ammeter_Layer").append(svgimg);
+	        		  		        var svgimg = setSvgimg("45","45", "../woodare/image/meter.png", (ammeterX + 10),(ammeterY + 10),("meterImg_"+x_rowId));
+	        		  		        $("#ammeter_Layer").append(svgimg);
 	 	    						//电表文本引入
 	    		        			 var ammeterTxtX = ammeterX + 70;
 	    		        			 var ammeterTxtY = ammeterY + 35;
@@ -266,16 +258,8 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	    		         //文本内容
 	    		         var tableBoTxtX = tempBranchBoxX - 25;
 	    		         var tableBoTxtY = cabinetsY + 10;
-	    		         var svgimg = document.createElementNS('http://www.w3.org/2000/svg','image');
-		  		            svgimg.setAttributeNS(null,"height","45");
-		  		            svgimg.setAttributeNS(null,"width","45");
-		  		            svgimg.setAttributeNS(null,"cursor","pointer");
-		  		            svgimg.setAttributeNS("http://www.w3.org/1999/xlink","href", "../woodare/image/tableBox.png");
-		  		            svgimg.setAttributeNS(null,"x", (tableBoTxtX));
-		  		            svgimg.setAttributeNS(null,"y",(tableBoTxtY));
-		  		            svgimg.setAttributeNS(null,"id","meterBoxImg_"+i_epuParentId);
-		  		            svgimg.setAttributeNS(null, "visibility", "visible");
-		  		            $("#ammeter_Layer").append(svgimg);
+	    		         var svgimg = setSvgimg("45","45", "../woodare/image/tableBox.png",(tableBoTxtX),(tableBoTxtY),("meterBoxImg_"+i_epuParentId));
+		  		         $("#ammeter_Layer").append(svgimg);
 	    		         var i_epuName = i_json["epuName"]||"";
 	    		         var textNewlineArr = textNewline(i_epuName,6,tableBoTxtX- 50,tableBoTxtY-5,20);
 	    		         splitRemarks(layerSnap,"meterBoxText_" + i_epuParentId,textNewlineArr[0],0 ,0,"fText",12,true);//表箱文本内容
@@ -951,6 +935,28 @@ function updateClass(key, cls) {
 	$("#" + key).find("rect").attr("class",cls);
 	$("#" + key).find("path").attr("class",cls);
 }
+/**
+ * 获取组织的SVG图片
+ * height:高度
+ * width:宽度
+ * srcPath:图片地址
+ * x:X坐标
+ * y:Y坐标
+ * id:图片绑定元素ID
+ * **/
+function setSvgimg(height,width,srcPath,x,y,id){
+   var svgimg = document.createElementNS('http://www.w3.org/2000/svg','image');
+   svgimg.setAttributeNS(null,"height",height);
+   svgimg.setAttributeNS(null,"width",width);
+   svgimg.setAttributeNS(null,"cursor","pointer");
+   svgimg.setAttributeNS("http://www.w3.org/1999/xlink","href", srcPath);
+   svgimg.setAttributeNS(null,"x", x);
+   svgimg.setAttributeNS(null,"y",y);
+   svgimg.setAttributeNS(null,"id",id);
+   svgimg.setAttributeNS(null, "visibility", "visible");
+   return svgimg;
+}
+
 $(function() {
 	  //绑定事件
 	parent.$("#tableBoxDiv").scroll(function(){

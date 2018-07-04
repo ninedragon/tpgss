@@ -49,15 +49,7 @@ function drawSvg(svgModelData, el) {
 					x4 += this.width;
 					w4 += this.width;
 					cIds.push(this.rowId);
-					 var svgimg = document.createElementNS('http://www.w3.org/2000/svg','image');
-  		            svgimg.setAttributeNS(null,"height","100");
-  		            svgimg.setAttributeNS(null,"width","100");
-  		            svgimg.setAttributeNS(null,"cursor","pointer");
-  		            svgimg.setAttributeNS("http://www.w3.org/1999/xlink","href", "../woodare/image/boxImg.png");
-  		            svgimg.setAttributeNS(null,"x", (this._x - 4));
-  		            svgimg.setAttributeNS(null,"y", (this._y - 6));
-  		            svgimg.setAttributeNS(null,"id","meterboxImg_" + this.rowId);
-  		            svgimg.setAttributeNS(null, "visibility", "visible");
+  		          	var svgimg =  setSvgimg("100","100","../woodare/image/boxImg.png",(this._x - 4),(this._y - 6),"meterboxImg_" + this.rowId);
 	  		         $("#Snap_Layer").append(svgimg).find("g[id='meterbox_"+this.rowId+"'],image[id='meterboxImg_"+this.rowId+"']").attr("epuName",this.epuName).click(function(){
 		            	  showAmmeter(this,svgModelData,uipqData);
 	  		         });
@@ -392,22 +384,14 @@ function createBranchBoxXian(layer, id, x, y, height,type,name,lines) {
 	height = height || 180;
 	var g = layer.append("g").attr("id", "kaiguanxian_" + id);
 	var gird = (height - 50) / 2;
-	 var svgimg = document.createElementNS('http://www.w3.org/2000/svg','image');
-       svgimg.setAttributeNS(null,"height","50");
-       svgimg.setAttributeNS(null,"width","50");
-       svgimg.setAttributeNS(null,"cursor","pointer");
-       svgimg.setAttributeNS("http://www.w3.org/1999/xlink","href", "../woodare/image/branchBox.png");
-       svgimg.setAttributeNS(null,"x", (x -17));
-       svgimg.setAttributeNS(null,"y", (y +50));
-       svgimg.setAttributeNS(null,"id","kaiguanxianImg_" + id);
-       svgimg.setAttributeNS(null, "visibility", "visible");
-	    $("#Snap_Layer").append(svgimg).find("image[id='kaiguanxianImg_"+id+"']").attr("epuName",name).click(function(){
-	    	if(type == "M0003"){//分支箱的弹出层单击事件
-	    	  showBranchBox(this,uipqData,id);
-	    	}
-	    });
-	    g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + y + " L " + (x + 8) + "," + (y + gird) + "");
-	    g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + (y + gird + 50) + " L " + (x + 8) + "," + (y + height) + "");
+    var svgimg =  setSvgimg("50","50","../woodare/image/branchBox.png",(x -17),(y +50),"kaiguanxianImg_" + id);
+    $("#Snap_Layer").append(svgimg).find("image[id='kaiguanxianImg_"+id+"']").attr("epuName",name).click(function(){
+    	if(type == "M0003"){//分支箱的弹出层单击事件
+    	  showBranchBox(this,uipqData,id);
+    	}
+    });
+    g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + y + " L " + (x + 8) + "," + (y + gird) + "");
+    g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + (y + gird + 50) + " L " + (x + 8) + "," + (y + height) + "");
 }
 /*
  * 展示电表层
@@ -792,7 +776,27 @@ function showTabData(layerSnap,rowId,tempX,tempY,tempCount,index,ua,ia,pa,qa,ub,
 	}
 	return faultTypeName;
 }
-
+ /**
+  * 获取组织的SVG图片
+  * height:高度
+  * width:宽度
+  * srcPath:图片地址
+  * x:X坐标
+  * y:Y坐标
+  * id:图片绑定元素ID
+  * **/
+ function setSvgimg(height,width,srcPath,x,y,id){
+    var svgimg = document.createElementNS('http://www.w3.org/2000/svg','image');
+    svgimg.setAttributeNS(null,"height",height);
+    svgimg.setAttributeNS(null,"width",width);
+    svgimg.setAttributeNS(null,"cursor","pointer");
+    svgimg.setAttributeNS("http://www.w3.org/1999/xlink","href", srcPath);
+    svgimg.setAttributeNS(null,"x", x);
+    svgimg.setAttributeNS(null,"y",y);
+    svgimg.setAttributeNS(null,"id",id);
+    svgimg.setAttributeNS(null, "visibility", "visible");
+    return svgimg;
+}
 return {
 	drawSvg : drawSvg
 }
