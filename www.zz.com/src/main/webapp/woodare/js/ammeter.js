@@ -170,6 +170,7 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	        			 			var x_name = x_json["ammeterName"];//电表名称
 	        			 			//展示电表 
 	        			 			ammeterX = ammeterX + gird;
+	        			 			//组织电表图标
 	        		  		        var svgimg = setSvgimg("45","45", "../woodare/image/meter.png", (ammeterX + 10),(ammeterY + 10),("meterImg_"+x_rowId));
 	        		  		        $("#ammeter_Layer").append(svgimg);
 	 	    						//电表文本引入
@@ -208,10 +209,9 @@ function showTop(data,rowId,tableBoxId,uipqData){
 			    		        			y2: ammeterY - 58,//上高
 			    		        			scale: 1
 			    		        		});
-	    		        			 //展示分支箱图形（正常）
+	    		        			 //展示分支箱图形
 	 	    						 branchBoxX = ammeterX;
 	 	    		        		 branchBoxY = ammeterY- branchBoxDifference;
-//	 	    		        		 setCreateUseEl(layerSnap,"branchBoxid" + i_epuParentId, "LoadBreakSwitch",branchBoxX,branchBoxY);
 	 	    		        		 //合并分支箱
 	 		    		        	 branchBoxLineX = branchBoxX + 32;//下宽度
 	 		    		        	 branchBoxLineY = branchBoxY + 50;//下高
@@ -251,13 +251,13 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	    		        	 svgSnap.attr("width", widthVal).attr("height", heightVal)
 	    		        	 parent.$(".ammeter").css("width", (widthVal + 20)+"px").css("height", (heightVal)+ "px");
 	    		        	 parent.$("#tableBoxDiv").css("height", "0px");
-//	    		        	 parent.$(".but-nav").css("left", "0px");
 	    		        	 return false;
 	    		        }
 	    		       //表箱
 	    		         //文本内容
 	    		         var tableBoTxtX = tempBranchBoxX - 25;
 	    		         var tableBoTxtY = cabinetsY + 10;
+	    		         //组织表箱图标
 	    		         var svgimg = setSvgimg("45","45", "../woodare/image/tableBox.png",(tableBoTxtX),(tableBoTxtY),("meterBoxImg_"+i_epuParentId));
 		  		         $("#ammeter_Layer").append(svgimg);
 	    		         var i_epuName = i_json["epuName"]||"";
@@ -455,7 +455,6 @@ function getNextData(paramEpuType,paramEpuParentId,data,arrayList){
 }
 
 function setCabinetsXTable(layerSnap,id,cabinetsX,cabinetsY,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc){
-//	
 	var idTableNull_X = cabinetsX;
 	var idTableNull_Y = cabinetsY - 150;
 	setCreateUseEl(layerSnap,"idTitleNull" + id, "tableList1",(idTableNull_X + 33),idTableNull_Y);//空框

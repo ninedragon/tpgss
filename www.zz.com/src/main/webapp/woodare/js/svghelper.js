@@ -49,7 +49,8 @@ function drawSvg(svgModelData, el) {
 					x4 += this.width;
 					w4 += this.width;
 					cIds.push(this.rowId);
-  		          	var svgimg =  setSvgimg("100","100","../woodare/image/boxImg.png",(this._x - 4),(this._y - 6),"meterboxImg_" + this.rowId);
+					//组织表箱图标
+  		          	var svgimg = setSvgimg("100","100","../woodare/image/boxImg.png",(this._x - 4),(this._y - 6),"meterboxImg_" + this.rowId);
 	  		         $("#Snap_Layer").append(svgimg).find("g[id='meterbox_"+this.rowId+"'],image[id='meterboxImg_"+this.rowId+"']").attr("epuName",this.epuName).click(function(){
 		            	  showAmmeter(this,svgModelData,uipqData);
 	  		         });
@@ -358,11 +359,6 @@ function createBox(layer, id, x, y, name, lines,type) {
 			start = Math.min(start, ix + 8);
 			end = Math.max(end, ix + 8);
 			createBranchBoxXian(g, item, ix, y + 30, 150,type,name,lines);
-//			var gTemp = g.append("g").attr("id", "chuxiangui_line02_" + item);
-//			if(type =="M0003"){
-//				alert(name+":"+lines.length+"=="+"chuxiangui_line02_" + item)
-//			}
-//			gTemp.append('path').attr("d", "M" + start + "," + (y + 30) + " L" + end + "," + (y + 30)).attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none");
 		});
 		var g = layer.append("g").attr("id", "chuxiangui_line01_" + id);
 		g.append('path').attr("d", "M" + start + "," + (y + 30) + " L" + end + "," + (y + 30)).attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none");
@@ -371,19 +367,14 @@ function createBox(layer, id, x, y, name, lines,type) {
 	}
 }
 
-//function createKaiguanxian(layer, id, x, y, height) {
-//	height = height || 180;
-//	var g = layer.append("g").attr("id", "kaiguanxian_" + id);
-//	var gird = (height - 50) / 2;
-//	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x).attr("y", y + gird).attr("width", 16).attr("height", 50);
-//	g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + y + " L " + (x + 8) + "," + (y + gird) + "");
-//	g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + (y + gird + 50) + " L " + (x + 8) + "," + (y + height) + "");
-//}
-
+/**
+ * 创建分支箱/出线柜内的节点
+ * **/
 function createBranchBoxXian(layer, id, x, y, height,type,name,lines) {
 	height = height || 180;
 	var g = layer.append("g").attr("id", "kaiguanxian_" + id);
 	var gird = (height - 50) / 2;
+	//组织分支箱/出线柜节点图标
     var svgimg =  setSvgimg("50","50","../woodare/image/branchBox.png",(x -17),(y +50),"kaiguanxianImg_" + id);
     $("#Snap_Layer").append(svgimg).find("image[id='kaiguanxianImg_"+id+"']").attr("epuName",name).click(function(){
     	if(type == "M0003"){//分支箱的弹出层单击事件
@@ -393,9 +384,11 @@ function createBranchBoxXian(layer, id, x, y, height,type,name,lines) {
     g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + y + " L " + (x + 8) + "," + (y + gird) + "");
     g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + (y + gird + 50) + " L " + (x + 8) + "," + (y + height) + "");
 }
-/*
- * 展示电表层
- * **/
+
+/**
+ * 展示电表(弹出层)
+ * desc:1、动态设置弹出层标题 2、弹出层 3、展示列表 4、 展示拓扑信息
+ **/
 function showAmmeter(obj,svgModelData,uipqData){
 	  var txtID = $(obj).attr("id");//展示的文字ID
 	  parent.$("#tableBoxId").val(txtID.replace("meterbox_","").replace("meterboxImg_",""));//当前表箱ID
@@ -408,14 +401,15 @@ function showAmmeter(obj,svgModelData,uipqData){
       parent.$("#messageAmmeter").show();
 	  iframeID.contentWindow.showTop(svgModelData,rowId,tableBoxId,uipqData);
 }
-/*
- * 展示分支箱
- * **/
+
+/**
+ * 展示分支箱(弹出层)
+ * desc:1、动态设置弹出层标题 2、弹出层 3、展示列表
+ **/
 function showBranchBox(obj,uipqData,meterboxId){
 	var meterboxEpuName = $("#meterbox_" + meterboxId).attr("name");
 	  var branchBoxId = $(obj).attr("id");//展示的文字ID
 	  parent.$("#branchBoxId").val(branchBoxId.replace("kaiguanxianImg_",""));//当前分支箱ID
-//	  var textValue = $(obj).attr("epuName");//展示的文字内容
 	  parent.$("#branchBoxName").attr("title",meterboxEpuName).text(meterboxEpuName);//TAB
 	  var rowId = parent.$("#rowId").val();//获取箱变根ID
 	  var tableBoxId = parent.$("#tableBoxId").val();//获取箱变根ID
@@ -424,23 +418,12 @@ function showBranchBox(obj,uipqData,meterboxId){
 	  iframeID.contentWindow.showList(rowId,tableBoxId,uipqData,branchBoxId,meterboxId,meterboxEpuName);
 }
 
-
-
+/**
+ * 创建电表图标及文本展示
+ **/
 function createMeterBox(layer, id, x, y, name) {
 	var g = layer.append("g").attr("id", "meterbox_" + id).attr("name", name);
-//	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x).attr("y", y).attr("width", 90).attr("height", 90).attr("id", "meterbox_rect_" + id);
-//	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x + 20).attr("y", y + 20).attr("width", 10).attr("height", 10);
-//	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x + 40).attr("y", y + 20).attr("width", 10).attr("height", 10);
-//	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x + 60).attr("y", y + 20).attr("width", 10).attr("height", 10);
-//
-//	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x + 20).attr("y", y + 40).attr("width", 10).attr("height", 10);
-//	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x + 40).attr("y", y + 40).attr("width", 10).attr("height", 10);
-//	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x + 60).attr("y", y + 40).attr("width", 10).attr("height", 10);
-//	
-//	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x + 20).attr("y", y + 60).attr("width", 10).attr("height", 10);
-//	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x + 40).attr("y", y + 60).attr("width", 10).attr("height", 10);
-//	g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("fill","none").attr("x", x + 60).attr("y", y + 60).attr("width", 10).attr("height", 10);
-//	
+
 	var k = 0;
 	if (name && name.length) {
 		var size = 8;
@@ -452,7 +435,9 @@ function createMeterBox(layer, id, x, y, name) {
 	}
 }
 
-
+/**
+ * 创建单个连接线
+ * **/
 function createLineEl(layer, position) {
 	var g = layer.append("g");
 	g = g.attr("id", "kaiguanxian_line_" + (position.id|| ""));
@@ -467,9 +452,9 @@ function createLineEl(layer, position) {
 
 }
 
-
-
-
+/**
+ * 组织画TABLE文本
+ * **/
 function setCabinetsXTable(layerSnap,id,cabinetsX,cabinetsY,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc){
 	var idTableNull_X = cabinetsX;
 	var idTableNull_Y = cabinetsY - 150;
@@ -598,7 +583,9 @@ function splitRemarks(layerSnap,id,title,x,y,txt,size,tspan){
 	});
 }
 
-
+/**
+ * 图标类型
+ * */
 function getSymbolByType(type) {
 	var data = {
 		id: "",
@@ -642,6 +629,10 @@ function setCreateUseEl(layerSnap,id,type,x,y){
 		scale: 1
 	});
 }
+
+/**
+ * 创建SVG文本
+ * **/
 function createTextEl(layer, data, position) {
 	position.rotate =position.rotate || 0;
 	var g = layer.append("g").attr("id", data.id);
@@ -659,12 +650,15 @@ function createTextEl(layer, data, position) {
 	
 }
 
+/**
+ * 创建引入图标
+ * **/
 function createUseEl(layer, data, position) {
-	var grid =64;
+	var grid = 64;
 	position.rotate= position.rotate||0;
 	data.id = data.id || "";
 	var g = layer.append("g").attr("id", data.id);
-	var symbol = getSymbolByType(data.type)
+	var symbol = getSymbolByType(data.type);//图标类型
 	var x = position.x;
 	var y = position.y;
 	var transX = 0;
@@ -674,9 +668,10 @@ function createUseEl(layer, data, position) {
 	var rotateY = y + grid / 2;
 	var useage = g.append('use').attr("width", grid).attr("height", grid).attr("transform","scale(" + position.scale + ") translate(" + transX + " " + transY + ") rotate(" + position.rotate + " " + rotateX + " " + rotateY + ")").attr("xlink:href", "#" + symbol.id ).attr("x", x).attr("y", y).attr("class", data.cls);
 }
-/*
+
+/**
  *展示分支箱TABLE信息 
- ***/
+**/
 function showTabData(layerSnap,rowId,tempX,tempY,tempCount,index,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc){
 	if(tempCount == 1){
 		setCabinetsXTable(layerSnap,rowId,tempX + 300, tempY + 200,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
@@ -758,6 +753,9 @@ function showTabData(layerSnap,rowId,tempX,tempY,tempCount,index,ua,ia,pa,qa,ub,
 	}
 }
 
+/**
+ * 获取故障原因类型
+ * */
  function getFaultTypeName(faultType) {
 	var faultTypeName = "";
 	switch(faultType){
@@ -776,6 +774,7 @@ function showTabData(layerSnap,rowId,tempX,tempY,tempCount,index,ua,ia,pa,qa,ub,
 	}
 	return faultTypeName;
 }
+ 
  /**
   * 获取组织的SVG图片
   * height:高度
@@ -797,6 +796,7 @@ function showTabData(layerSnap,rowId,tempX,tempY,tempCount,index,ua,ia,pa,qa,ub,
     svgimg.setAttributeNS(null, "visibility", "visible");
     return svgimg;
 }
+ 
 return {
 	drawSvg : drawSvg
 }
