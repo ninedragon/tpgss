@@ -299,7 +299,7 @@
 	                </ul>
 	                <span class="right"></span>
 	            </div>
-	        	<div class="box" id="mapDivIframe" style="display: block">         
+	        	<div class="box" id="mapDivIframe" style="display: block;overflow: hidden;">         
 		            <div class="tab_css" >  
 		               <iframe  id="mapIframe" src="${basePath}/html/showMapMark.html" frameborder="0" scrolling="no"></iframe> 
 		            </div>  

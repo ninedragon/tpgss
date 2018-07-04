@@ -1,6 +1,6 @@
 <#macro top index>
 <#if index ==1 >
-<ul class="left-nav" style="overflow-y: auto;height: 700px;">
+<ul class="left-nav" style="overflow-y: auto;">
 	<h4>末端电网感知系统</h4>
 	 <li class="all">分析展示</li>
 	<ul class="<#if leftMenuview=='4'>  on </#if> big-js" <#if leftMenuview=='4'>  style="display:block" </#if>>
@@ -27,12 +27,12 @@
 	
 	
      <li class="all">终端采集</li>
-     <li class="<#if leftMenuview=='6'>   on </#if> big-js">终端管理</li>	
+     <li class="<#if leftMenuview=='6'>   on </#if> big-js">设备管理</li>	
        <ul class="side-nav" <#if leftMenuview=='6'>  style="display:block" </#if>>
      <li onClick="location.href='${basePath}/nDtu/showDtuList.shtml'">ndtu设备信息列表</li>
       <li onClick="location.href='${basePath}/bDtu/showDtuList.shtml'">bdtu设备信息列表</li>
     </ul>
-    <li class="<#if leftMenuview=='4'>   on </#if> big-js">设备管理</li>	
+    <li class="<#if leftMenuview=='4'>   on </#if> big-js">资产管理</li>	
     <ul class="side-nav" <#if leftMenuview=='4'>  style="display:block" </#if>>
     <li onClick="location.href='${basePath}/epu/showSubstainList.shtml'">箱变信息列表</li>
     <li onClick="location.href='${basePath}/epu/showOutgoingcabinetList.shtml'">出线柜信息列表</li>
