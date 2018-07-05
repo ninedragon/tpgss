@@ -127,26 +127,30 @@ function drawSvg(svgModelData, el) {
 					h: h
 				});
 				//展示table信息
-				 for(var k =0;k < uipqData.length;k++){
-					 var json = uipqData[k];
-					 var type = json["type"];
-					 var key = json["key"];
-					 if(type == "branchBox" && key == this.rowId){//找到对应的分支箱
-						 var  ua = json["ua"];
-						 var  ia = json["ia"];
-						 var  pa = json["pa"];
-						 var qa = json["qa"];
-						 var ub = json["ub"];
-						 var ib = json["ib"];
-						 var pb = json["pb"];
-						 var qb = json["qb"];
-						 var uc = json["uc"];
-						 var ic = json["ic"];
-						 var pc = json["pc"];
-						 var qc = json["qc"];
-						 showTabData(layerSnap,this.rowId,tempX,tempY,tempCount,index,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
-						  break;
-					 }
+				 if(uipqData){
+		        	 if(null != uipqData && uipqData.length > 0 ){
+						 for(var k =0;k < uipqData.length;k++){
+							 var json = uipqData[k];
+							 var type = json["type"];
+							 var key = json["key"];
+							 if(type == "branchBox" && key == this.rowId){//找到对应的分支箱
+								 var  ua = json["ua"];
+								 var  ia = json["ia"];
+								 var  pa = json["pa"];
+								 var qa = json["qa"];
+								 var ub = json["ub"];
+								 var ib = json["ib"];
+								 var pb = json["pb"];
+								 var qb = json["qb"];
+								 var uc = json["uc"];
+								 var ic = json["ic"];
+								 var pc = json["pc"];
+								 var qc = json["qc"];
+								 showTabData(layerSnap,this.rowId,tempX,tempY,tempCount,index,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
+								  break;
+							 }
+						 }
+		        	 }
 				 }
 			
 			});
