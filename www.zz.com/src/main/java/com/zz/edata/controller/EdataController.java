@@ -101,36 +101,6 @@ public class EdataController extends BaseController {
 		}
 		modelAndView.addObject("timeList", timeList);
 		return modelAndView;	
-		
-		/*if("yes".equals(action)){//原始
-		return new ModelAndView("edata/zong");
-		}else{
-//			ModelAndView modelAndView = new ModelAndView("edata/zongIndex");
-			ModelAndView modelAndView = new ModelAndView("woodare/edata/zong");
-			UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
-			modelAndView.addObject("token", token);
-			modelAndView.addObject("leftMenuview", "3");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
-			List<Map<String, Object>> timeList = new ArrayList<Map<String, Object>>();
-			for (int i = 0; i < 97; i++) {
-				int ivalue= i / 4;
-				String numStr1 = "" + ivalue;
-				if(ivalue <= 9){
-					numStr1 = "0" + ivalue;
-				}
-				Map<String, Object>  map= new HashMap<String, Object>();
-				map.put("numStr1", numStr1);
-				int itemp = (i%4) * (15);
-				String numStr2 = ""+ itemp;
-				if(itemp == 0){
-					numStr2 = "00";
-				}
-				map.put("count", i);
-				map.put("dateHm", numStr1 +":"+numStr2);
-				timeList.add(map);
-			}
-			modelAndView.addObject("timeList", timeList);
-			return modelAndView;
-		}*/
 	}
 	// 【1.1】得到有日期的数据
 	
@@ -239,30 +209,30 @@ public class EdataController extends BaseController {
 		modelMap.put("eglist", eglist);
 		
 		ModelAndView modelAndView = new ModelAndView("edata/fenxiang");
-		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
-		modelAndView.addObject("token", token);
-		modelAndView.addObject("leftMenuview", "3");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
-		List<Map<String, Object>> timeList = new ArrayList<Map<String, Object>>();
-		for (int i = 0; i < 97; i++) {
-			int ivalue= i / 4;
-			String numStr1 = "" + ivalue;
-			if(ivalue <= 9){
-				numStr1 = "0" + ivalue;
+			UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
+			modelAndView.addObject("token", token);
+			modelAndView.addObject("leftMenuview", "3");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
+			List<Map<String, Object>> timeList = new ArrayList<Map<String, Object>>();
+			for (int i = 0; i < 97; i++) {
+				int ivalue= i / 4;
+				String numStr1 = "" + ivalue;
+				if(ivalue <= 9){
+					numStr1 = "0" + ivalue;
+				}
+				Map<String, Object>  map= new HashMap<String, Object>();
+				map.put("numStr1", numStr1);
+				int itemp = (i%4) * (15);
+				String numStr2 = ""+ itemp;
+				if(itemp == 0){
+					numStr2 = "00";
+				}
+				map.put("count", i);
+				map.put("dateHm", numStr1 +":"+numStr2);
+				timeList.add(map);
 			}
-			Map<String, Object>  map= new HashMap<String, Object>();
-			map.put("numStr1", numStr1);
-			int itemp = (i%4) * (15);
-			String numStr2 = ""+ itemp;
-			if(itemp == 0){
-				numStr2 = "00";
-			}
-			map.put("count", i);
-			map.put("dateHm", numStr1 +":"+numStr2);
-			timeList.add(map);
+			modelAndView.addObject("timeList", timeList);
+			return modelAndView;
 		}
-		modelAndView.addObject("timeList", timeList);
-		return modelAndView;
-	}
 
 	@RequestMapping(value = "getFendataDraw", method = RequestMethod.POST)
 	@ResponseBody
@@ -350,39 +320,39 @@ public class EdataController extends BaseController {
 		modelMap.put("eglist", eglist);
 		modelMap.put("testinfo", "testinfo");
 		ModelAndView modelAndView = new ModelAndView("edata/yuanshi");
-		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
-		modelAndView.addObject("token", token);
-		modelAndView.addObject("leftMenuview", "3");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
-		List listEE = edataService.listEE();
-		modelAndView.addObject("listEE", listEE);
-		List<Map<String, Object>> timeList = new ArrayList<Map<String, Object>>();
-		String numStr1 = "";
-		String numStr2 = "";
-		String numStr3 = "";
-		for (int i = 1; i <= 96; i++) {
-			int ivalue= i / 4;
-			numStr1 = "" + ivalue;
-			if(ivalue <= 9){
-				numStr1 = "0" + ivalue;
+			UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
+			modelAndView.addObject("token", token);
+			modelAndView.addObject("leftMenuview", "3");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
+			List listEE = edataService.listEE();
+			modelAndView.addObject("listEE", listEE);
+			List<Map<String, Object>> timeList = new ArrayList<Map<String, Object>>();
+			String numStr1 = "";
+			String numStr2 = "";
+			String numStr3 = "";
+			for (int i = 1; i <= 96; i++) {
+				int ivalue= i / 4;
+				numStr1 = "" + ivalue;
+				if(ivalue <= 9){
+					numStr1 = "0" + ivalue;
+				}
+				Map<String, Object>  map= new HashMap<String, Object>();
+				map.put("numStr1", numStr1);
+				int itemp = (i%4) * (15);
+				numStr2 = ""+ itemp;
+				if(itemp == 0){
+					numStr2 = "00";
+				}
+				numStr3 = ""+ i;
+				if(i <= 9){
+					numStr3 = "0"+i;
+				}
+				map.put("count", i);
+				map.put("dateHm", numStr3 + "-[" + numStr1 +":" + numStr2 +"]");
+				timeList.add(map);
 			}
-			Map<String, Object>  map= new HashMap<String, Object>();
-			map.put("numStr1", numStr1);
-			int itemp = (i%4) * (15);
-			numStr2 = ""+ itemp;
-			if(itemp == 0){
-				numStr2 = "00";
-			}
-			numStr3 = ""+ i;
-			if(i <= 9){
-				numStr3 = "0"+i;
-			}
-			map.put("count", i);
-			map.put("dateHm", numStr3 + "-[" + numStr1 +":" + numStr2 +"]");
-			timeList.add(map);
+			modelAndView.addObject("timeList", timeList);
+			return modelAndView;
 		}
-		modelAndView.addObject("timeList", timeList);
-		return modelAndView;
-	}
 
 	@RequestMapping(value = "getYuanshiV31", method = RequestMethod.POST)
 	@ResponseBody
@@ -431,37 +401,37 @@ public class EdataController extends BaseController {
 			modelMap.put("olist", olist);
 			modelMap.put("dlist", dlist);
 			modelMap.put("eglist", eglist);
-		}		
-		List listEE = edataService.listEE();
-		modelAndView.addObject("listEE", listEE);
-		List<Map<String, Object>> timeList = new ArrayList<Map<String, Object>>();
-		String numStr1 = "";
-		String numStr2 = "";
-		String numStr3 = "";
-		for (int i = 1; i <= 96; i++) {
-			int ivalue= i / 4;
-			numStr1 = "" + ivalue;
-			if(ivalue <= 9){
-				numStr1 = "0" + ivalue;
-			}
-			Map<String, Object>  map= new HashMap<String, Object>();
-			map.put("numStr1", numStr1);
-			int itemp = (i%4) * (15);
-			numStr2 = ""+ itemp;
-			if(itemp == 0){
-				numStr2 = "00";
-	}
-			numStr3 = ""+ i;
-			if(i <= 9){
-				numStr3 = "0"+i;
-			}
-			map.put("count", i);
-			map.put("dateHm", numStr3 + "-[" + numStr1 +":" + numStr2 +"]");
-			timeList.add(map);
 		}
-		modelAndView.addObject("timeList", timeList);
-		return modelAndView;
-	}
+			List listEE = edataService.listEE();
+			modelAndView.addObject("listEE", listEE);
+			List<Map<String, Object>> timeList = new ArrayList<Map<String, Object>>();
+			String numStr1 = "";
+			String numStr2 = "";
+			String numStr3 = "";
+			for (int i = 1; i <= 96; i++) {
+				int ivalue= i / 4;
+				numStr1 = "" + ivalue;
+				if(ivalue <= 9){
+					numStr1 = "0" + ivalue;
+				}
+				Map<String, Object>  map= new HashMap<String, Object>();
+				map.put("numStr1", numStr1);
+				int itemp = (i%4) * (15);
+				numStr2 = ""+ itemp;
+				if(itemp == 0){
+					numStr2 = "00";
+		}
+				numStr3 = ""+ i;
+				if(i <= 9){
+					numStr3 = "0"+i;
+				}
+				map.put("count", i);
+				map.put("dateHm", numStr3 + "-[" + numStr1 +":" + numStr2 +"]");
+				timeList.add(map);
+			}
+			modelAndView.addObject("timeList", timeList);
+			return modelAndView;
+		}
 
 	@RequestMapping(value = "getYuanshiV41", method = RequestMethod.POST)
 	@ResponseBody

@@ -23,7 +23,7 @@ public class WSMessageService {
      * @param @param message 消息
      * @param @return 发送成功返回true，否则返回false
      */
-    public Boolean sendToAllTerminal(String userId,String message){   
+    public Boolean sendToAllTerminal(String userId,String message){
         logger.info("向用户{}的消息：{}",userId,message);
         if(webSocketChat.sendMessageToUser(userId,message)){
             return true;

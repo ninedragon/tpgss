@@ -61,25 +61,12 @@ public class PermissionController extends BaseController {
 	public ModelAndView index(String findContent,ModelMap modelMap,Integer pageNo,HttpServletRequest request){
 		modelMap.put("findContent", findContent);
 		Pagination<UPermission> permissions = permissionService.findPage(modelMap,pageNo,pageSize);
-		//张智 woodareCode begin
-		/*	String action = request.getParameter("action");
-		if("yes".equals(action)){//原始
-		return new ModelAndView("permission/index","page",permissions);
-		}else{
-			ModelAndView modelAndView = new ModelAndView("woodare/permission/index");
-			modelAndView.addObject("leftMenuview", "2");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
-			UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
-			modelAndView.addObject("token", token);
-			modelAndView.addObject("page", permissions);
-			return modelAndView;
-		}*/
 		ModelAndView modelAndView = new ModelAndView("permission/index");
 		modelAndView.addObject("leftMenuview", "2");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
 		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
 		modelAndView.addObject("token", token);
 		modelAndView.addObject("page", permissions);
 		return modelAndView;
-		//张智 woodareCode end
 	}
 	/**
 	 * 权限添加

@@ -104,7 +104,7 @@
         C_AddressId,
       </if>
       <if test="channelId != null">
-        C_ChannelNum,
+        C_ChannelId,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -196,7 +196,7 @@
         C_AddressId = #{addressId,jdbcType=VARCHAR},
       </if>
       <if test="channelId != null">
-        C_ChannelNum = #{channelId,jdbcType=VARCHAR},
+        C_ChannelId = #{channelId,jdbcType=VARCHAR},
       </if>
     </set>
     where meterId = #{rowId,jdbcType=VARCHAR}
@@ -237,7 +237,7 @@
 	am.DEL_FLAG,
 	am.C_DistrictBCDId as district_id,
 	am.C_AddressId as address_id,
-	am.C_ChannelNum as channel_id,
+	am.C_ChannelId as channel_id,
 	epu.epu_province,
 	epu.epu_city,
 	epu.epu_district,
@@ -266,7 +266,7 @@
         and (
         LOWER(am.C_DistrictBCDId) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%")) or
         LOWER(am.C_AddressId) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%")) or
-        LOWER(am.C_ChannelNum) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%"))
+        LOWER(am.C_ChannelId) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%"))
         )
       </if>	
     order by am.CREATE_TIME desc
@@ -296,7 +296,7 @@
         and (
         LOWER(am.C_DistrictBCDId) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%")) or
         LOWER(am.C_AddressId) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%")) or
-        LOWER(am.C_ChannelNum) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%"))
+        LOWER(am.C_ChannelId) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%"))
         )
       </if>		
   </select> 
@@ -315,7 +315,7 @@
 	am.DEL_FLAG,
 	am.C_DistrictBCDId as district_id,
 	am.C_AddressId as address_id,
-	am.C_ChannelNum as channel_id,
+	am.C_ChannelId as channel_id,
 	epu.epu_province,
 	epu.epu_city, 
 	epu.epu_district,

@@ -320,7 +320,8 @@ public class SubscribeNotification {
         data = JsonUtil.jsonString2SimpleObj(responseLogin.getContent(), data.getClass());
         return data.get("accessToken");
     }
-    public static void main(String[] args) {
-		
-	}
+    public static void main(String[] args) throws Exception {
+        SubscribeNotification subscribeNotification = new SubscribeNotification();
+        subscribeNotification.subscribeNotification("1");
+    }
 }

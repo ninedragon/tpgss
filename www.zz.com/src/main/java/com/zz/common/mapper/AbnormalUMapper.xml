@@ -43,7 +43,7 @@
       #{cRecordinserttime,jdbcType=TIMESTAMP}, #{occurtime,jdbcType=TIMESTAMP}, #{cFaultid,jdbcType=INTEGER}, 
       #{isAbnormal,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="com.zz.common.model.AbnormalU">
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"  parameterType="com.zz.common.model.AbnormalU">
     insert into t_abnormal_u
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

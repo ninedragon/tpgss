@@ -43,5 +43,5 @@ public interface TAmmeterInfoMapper {
     
     List<TAmmeterInfo> selectEpuNameByAm(@Param("epuDistrict") String epuDistrict);
     
-    List<TAmmeterInfo> selectEpuInfoByRowId(@Param("rowId") String rowId,@Param("epuId") String epuId);
+    List<TAmmeterInfo> selectEpuInfoByRowId(@Param("rowId") String rowId, @Param("epuId") String epuId);
 }

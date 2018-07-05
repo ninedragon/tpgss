@@ -38,27 +38,15 @@ public class RoleController extends BaseController {
 	 */
 	@RequestMapping(value="index")
 	public ModelAndView index(String findContent,ModelMap modelMap,HttpServletRequest request){
-//		//张智 woodareCode begin
 		modelMap.put("findContent", findContent);
 		Pagination<URole> page = roleService.findPage(modelMap,pageNo,pageSize);
 		String action = request.getParameter("action");
-		/*if("yes".equals(action)){//原始
-			return new ModelAndView("role/index","page",page);
-		}else{
-			ModelAndView modelAndView = new ModelAndView("woodare/role/index");
-			modelAndView.addObject("leftMenuview", "2");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
-			UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
-			modelAndView.addObject("token", token);
-			modelAndView.addObject("page", page);
-			return modelAndView;
-		}*/
 		ModelAndView modelAndView = new ModelAndView("role/index");
 		modelAndView.addObject("leftMenuview", "2");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
 		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
 		modelAndView.addObject("token", token);
 		modelAndView.addObject("page", page);
 		return modelAndView;
-		//张智 woodareCode end
 	}
 	/**
 	 * 角色添加
@@ -95,18 +83,11 @@ public class RoleController extends BaseController {
 	 */
 	@RequestMapping(value="mypermission",method=RequestMethod.GET)
 	public ModelAndView mypermission(HttpServletRequest request){
-//		张智 woodareCode begin
-		String action = request.getParameter("action");
-		if("yes".equals(action)){//原始
-		return new ModelAndView("permission/mypermission");
-		}else{
-			ModelAndView modelAndView =  new ModelAndView("woodare/permission/mypermission");
-			modelAndView.addObject("leftMenuview", "0");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
-			UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
-			modelAndView.addObject("token", token);
-			return modelAndView;
-		}
-		//张智 woodareCode end
+		ModelAndView modelAndView =  new ModelAndView("permission/mypermission");
+		modelAndView.addObject("leftMenuview", "0");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
+		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
+		modelAndView.addObject("token", token);
+		return modelAndView;
 	}
 	/**
 	 * 我的权限 bootstrap tree data

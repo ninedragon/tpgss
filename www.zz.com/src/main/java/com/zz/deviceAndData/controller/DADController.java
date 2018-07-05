@@ -1,10 +1,17 @@
 package com.zz.deviceAndData.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.zz.deviceAndData.service.ImpedanceService;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -33,6 +40,8 @@ public class DADController extends BaseController {
 	EdataService edataService;
 	@Autowired
 	UUserService userService;
+	@Autowired
+	ImpedanceService impedanceService;
 	private String filename;
 
 	/**
@@ -70,6 +79,7 @@ public class DADController extends BaseController {
 		
 		
 	}
+
     
 	// 【1.2】basecallback controller
 	@RequestMapping(value = "callUrl", method = RequestMethod.POST)
@@ -103,5 +113,248 @@ public class DADController extends BaseController {
 		msgmap.put("isSuccess", "发送命令正常");
 		return msgmap;
 		
+	}
+
+	//【2】模拟终端发送信号
+	//【2.1】发送A3信号
+	@RequestMapping(value = "sendA3")
+	@ResponseBody
+	String sendA3()  {
+		//, @RequestBody NDTUData ndtudata
+		Date nowtime = new Date();
+		SimpleDateFormat format0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String time = format0.format(nowtime.getTime());// 这个就是把时间戳经过处理得到期望格式的时间
+		System.out.println(
+				time + "  INFO " + "34356 " + "---" + " [sendA3]" + "sendA3");
+		// 【1】发送请求到服务器
+		String url = "http://222.95.248.179:8081/zz/fetch/updateDeviceData";
+		// POST的URL
+		HttpPost httppost = new HttpPost(url);
+		// 建立HttpPost对象
+		// 建立一个NameValuePair数组，用于存储欲传送的参数
+		// 添加参数
+		//【2】转化为json数据
+		//数据为三个数据都很小
+		String json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681A001A0068A321270100000101180626155409BF90FD3DF82B2D3EBC984E3E9B16\"},\"eventTime\":\"20180626T075437Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		//2、使用JSONArray
+		try {
+			httppost.setEntity(new StringEntity(json, "application/json", "UTF-8"));
+			// 设置编码
+			HttpResponse response = new DefaultHttpClient().execute(httppost);
+			// 发送Post,并返回一个HttpResponse对象
+			if (response.getStatusLine().getStatusCode() == 200) {// 如果状态码为200,就是正常返回
+//				String result = EntityUtils.toString(				.getEntity());
+				// 【1】dataFetch校验格式
+
+				// 【2】dataAnalysis
+
+				// 【3】dataWrite
+
+				// dataCollectionService.dataProcess(ndtudata);
+
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return "ok";
+	}
+
+	//【2.2】发送A32信号,缺相数据
+	@RequestMapping(value = "sendA32")
+	@ResponseBody
+	String sendA32()  {
+		//, @RequestBody NDTUData ndtudata
+		Date nowtime = new Date();
+		SimpleDateFormat format0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String time = format0.format(nowtime.getTime());// 这个就是把时间戳经过处理得到期望格式的时间
+		System.out.println(
+				time + "  INFO " + "34356 " + "---" + " [sendA3]" + "sendA3");
+		// 【1】发送请求到服务器
+		String url = "http://222.95.248.179:8081/zz/fetch/updateDeviceData";
+		// POST的URL
+		HttpPost httppost = new HttpPost(url);
+		// 建立HttpPost对象
+		// 建立一个NameValuePair数组，用于存储欲传送的参数
+		// 添加参数
+		//【2】转化为json数据
+		//数据为三个数据都很小
+		String json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0002681A001A0068A321270100000101180626212248B7276B437AC9C73C1ED2CD3D8916\"},\"eventTime\":\"20180626T132321Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		//2、使用JSONArray
+		try {
+			httppost.setEntity(new StringEntity(json, "application/json", "UTF-8"));
+			// 设置编码
+			HttpResponse response = new DefaultHttpClient().execute(httppost);
+			// 发送Post,并返回一个HttpResponse对象
+			if (response.getStatusLine().getStatusCode() == 200) {// 如果状态码为200,就是正常返回
+//				String result = EntityUtils.toString(				.getEntity());
+				// 【1】dataFetch校验格式
+
+				// 【2】dataAnalysis
+
+				// 【3】dataWrite
+
+				// dataCollectionService.dataProcess(ndtudata);
+
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return "ok";
+	}
+
+	//【2.3】发送A33信号，超限数据
+	@RequestMapping(value = "sendA33")
+	@ResponseBody
+	String sendA33()  {
+		//, @RequestBody NDTUData ndtudata
+		Date nowtime = new Date();
+		SimpleDateFormat format0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String time = format0.format(nowtime.getTime());// 这个就是把时间戳经过处理得到期望格式的时间
+		System.out.println(
+				time + "  INFO " + "34356 " + "---" + " [sendA3]" + "sendA3");
+		// 【1】发送请求到服务器
+		String url = "http://222.95.248.179:8081/zz/fetch/updateDeviceData";
+		// POST的URL
+		HttpPost httppost = new HttpPost(url);
+		// 建立HttpPost对象
+		// 建立一个NameValuePair数组，用于存储欲传送的参数
+		// 添加参数
+		//【2】转化为json数据
+		//数据为三个数据都很小
+		String json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681A001A0068A321270100000101180626155409BF90FD3DF82B2D3EBC984E3E9B16\"},\"eventTime\":\"20180626T075437Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		//2、使用JSONArray
+		try {
+			httppost.setEntity(new StringEntity(json, "application/json", "UTF-8"));
+			// 设置编码
+			HttpResponse response = new DefaultHttpClient().execute(httppost);
+			// 发送Post,并返回一个HttpResponse对象
+			if (response.getStatusLine().getStatusCode() == 200) {// 如果状态码为200,就是正常返回
+//				String result = EntityUtils.toString(				.getEntity());
+				// 【1】dataFetch校验格式
+
+				// 【2】dataAnalysis
+
+				// 【3】dataWrite
+
+				// dataCollectionService.dataProcess(ndtudata);
+
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return "ok";
+	}
+
+	//【2.3】发送A34信号，电压恢复数据
+	@RequestMapping(value = "sendA34")
+	@ResponseBody
+	String sendA34()  {
+		//, @RequestBody NDTUData ndtudata
+		Date nowtime = new Date();
+		SimpleDateFormat format0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String time = format0.format(nowtime.getTime());// 这个就是把时间戳经过处理得到期望格式的时间
+		System.out.println(
+				time + "  INFO " + "34356 " + "---" + " [sendA3]" + "sendA3");
+		// 【1】发送请求到服务器
+		String url = "http://222.95.248.179:8081/zz/fetch/updateDeviceData";
+		// POST的URL
+		HttpPost httppost = new HttpPost(url);
+		// 建立HttpPost对象
+		// 建立一个NameValuePair数组，用于存储欲传送的参数
+		// 添加参数
+		//【2】转化为json数据
+		//数据为三个数据都很小
+		String json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681A001A0068A321270100000100180626155409BF90FD3DF82B2D3EBC984E3E9A16\"},\"eventTime\":\"20180626T075437Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		//2、使用JSONArray
+		try {
+			httppost.setEntity(new StringEntity(json, "application/json", "UTF-8"));
+			// 设置编码
+			HttpResponse response = new DefaultHttpClient().execute(httppost);
+			// 发送Post,并返回一个HttpResponse对象
+			if (response.getStatusLine().getStatusCode() == 200) {// 如果状态码为200,就是正常返回
+//				String result = EntityUtils.toString(				.getEntity());
+				// 【1】dataFetch校验格式
+
+				// 【2】dataAnalysis
+
+				// 【3】dataWrite
+
+				// dataCollectionService.dataProcess(ndtudata);
+
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return "ok";
+	}
+
+	//【2.5】发送A0信号，短路信号
+	@RequestMapping(value = "sendA0")
+	@ResponseBody
+	String sendA0()  {
+		//, @RequestBody NDTUData ndtudata
+        String	json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681300130068A021270100000101061806281355015856273DB216\"},\"eventTime\":\"20180628T060120Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		return sendA(json);
+	}
+
+
+	//【2.6】发送A2信号，发送异常漏电数据
+	@RequestMapping(value = "sendA2")
+	@ResponseBody
+	String sendA2()  {
+		//, @RequestBody NDTUData ndtudata
+//		String	json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0006681400140068A2212701000001010A0118062814302200000000A416\"},\"eventTime\":\"20180628T063434Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		String json="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0006681400140068A2212701000001010C011806281524008440E93F6516\"},\"eventTime\":\"20180628T073047Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		return sendA(json);
+	}
+	/*
+	* 发送json数据
+	* */
+	private String sendA(String json) {
+		Date nowtime = new Date();
+		SimpleDateFormat format0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String time = format0.format(nowtime.getTime());// 这个就是把时间戳经过处理得到期望格式的时间
+		System.out.println(
+				time + "  INFO " + "34356 " + "---" + " [sendA3]" + "sendA3");
+		// 【1】发送请求到服务器
+		String url = "http://222.95.248.179:8081/zz/fetch/updateDeviceData";
+		// POST的URL
+		HttpPost httppost = new HttpPost(url);
+		// 建立HttpPost对象
+		// 建立一个NameValuePair数组，用于存储欲传送的参数
+		// 添加参数
+		//【2】转化为json数据
+		//数据为三个数据都很小
+
+		//2、使用JSONArray
+		try {
+			httppost.setEntity(new StringEntity(json, "application/json", "UTF-8"));
+			// 设置编码
+			HttpResponse response = new DefaultHttpClient().execute(httppost);
+			// 发送Post,并返回一个HttpResponse对象
+			if (response.getStatusLine().getStatusCode() == 200) {// 如果状态码为200,就是正常返回
+//				String result = EntityUtils.toString(				.getEntity());
+				// 【1】dataFetch校验格式
+
+				// 【2】dataAnalysis
+
+				// 【3】dataWrite
+
+				// dataCollectionService.dataProcess(ndtudata);
+
+			}
+		} catch (Exception e) {
+		}
+		return "ok";
+	}
+
+	@RequestMapping(value = "calZ")
+	@ResponseBody
+	public String calZ(String json) {
+//		impedanceService.calImpedance(1);
+		return "1";
 	}
 }

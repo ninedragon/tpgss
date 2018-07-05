@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zz.common.dao.t_meterMapper" >
+  <resultMap id="BaseResultMap" type="com.zz.common.model.t_meter" >
+    <id column="meterId" property="meterId" jdbcType="VARCHAR" />
+    <result column="meterBoxId" property="meterBoxId" jdbcType="VARCHAR" />
+    <result column="meter_name" property="meter_name" jdbcType="VARCHAR" />
+    <result column="house_id" property="house_id" jdbcType="VARCHAR" />
+    <result column="phase_remark" property="phase_remark" jdbcType="VARCHAR" />
+    <result column="C_DistrictBCDId" property="c_DistrictBCDId" jdbcType="VARCHAR" />
+    <result column="C_AddressId" property="c_AddressId" jdbcType="VARCHAR" />
+    <result column="C_ChannelId" property="c_ChannelId" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="CREATE_TIME" jdbcType="TIMESTAMP" />
+    <result column="CREATE_ID" property="CREATE_ID" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="UPDATE_TIME" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_ID" property="UPDATE_ID" jdbcType="VARCHAR" />
+    <result column="DEL_FLAG" property="DEL_FLAG" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    meterId, meterBoxId, meter_name, house_id, phase_remark, C_DistrictBCDId, C_AddressId, 
+    C_ChannelId, CREATE_TIME, CREATE_ID, UPDATE_TIME, UPDATE_ID, DEL_FLAG
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zz.common.model.t_meterExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_meter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_meter
+    where meterId = #{meterId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_meter
+    where meterId = #{meterId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zz.common.model.t_meterExample" >
+    delete from t_meter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zz.common.model.t_meter" >
+    insert into t_meter (meterId, meterBoxId, meter_name, 
+      house_id, phase_remark, C_DistrictBCDId, 
+      C_AddressId, C_ChannelId, CREATE_TIME, 
+      CREATE_ID, UPDATE_TIME, UPDATE_ID, 
+      DEL_FLAG)
+    values (#{meterId,jdbcType=VARCHAR}, #{meterBoxId,jdbcType=VARCHAR}, #{meter_name,jdbcType=VARCHAR}, 
+      #{house_id,jdbcType=VARCHAR}, #{phase_remark,jdbcType=VARCHAR}, #{c_DistrictBCDId,jdbcType=VARCHAR}, 
+      #{c_AddressId,jdbcType=VARCHAR}, #{c_ChannelId,jdbcType=INTEGER}, #{CREATE_TIME,jdbcType=TIMESTAMP}, 
+      #{CREATE_ID,jdbcType=VARCHAR}, #{UPDATE_TIME,jdbcType=TIMESTAMP}, #{UPDATE_ID,jdbcType=VARCHAR}, 
+      #{DEL_FLAG,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zz.common.model.t_meter" >
+    insert into t_meter
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="meterId != null" >
+        meterId,
+      </if>
+      <if test="meterBoxId != null" >
+        meterBoxId,
+      </if>
+      <if test="meter_name != null" >
+        meter_name,
+      </if>
+      <if test="house_id != null" >
+        house_id,
+      </if>
+      <if test="phase_remark != null" >
+        phase_remark,
+      </if>
+      <if test="c_DistrictBCDId != null" >
+        C_DistrictBCDId,
+      </if>
+      <if test="c_AddressId != null" >
+        C_AddressId,
+      </if>
+      <if test="c_ChannelId != null" >
+        C_ChannelId,
+      </if>
+      <if test="CREATE_TIME != null" >
+        CREATE_TIME,
+      </if>
+      <if test="CREATE_ID != null" >
+        CREATE_ID,
+      </if>
+      <if test="UPDATE_TIME != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="UPDATE_ID != null" >
+        UPDATE_ID,
+      </if>
+      <if test="DEL_FLAG != null" >
+        DEL_FLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="meterId != null" >
+        #{meterId,jdbcType=VARCHAR},
+      </if>
+      <if test="meterBoxId != null" >
+        #{meterBoxId,jdbcType=VARCHAR},
+      </if>
+      <if test="meter_name != null" >
+        #{meter_name,jdbcType=VARCHAR},
+      </if>
+      <if test="house_id != null" >
+        #{house_id,jdbcType=VARCHAR},
+      </if>
+      <if test="phase_remark != null" >
+        #{phase_remark,jdbcType=VARCHAR},
+      </if>
+      <if test="c_DistrictBCDId != null" >
+        #{c_DistrictBCDId,jdbcType=VARCHAR},
+      </if>
+      <if test="c_AddressId != null" >
+        #{c_AddressId,jdbcType=VARCHAR},
+      </if>
+      <if test="c_ChannelId != null" >
+        #{c_ChannelId,jdbcType=INTEGER},
+      </if>
+      <if test="CREATE_TIME != null" >
+        #{CREATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="CREATE_ID != null" >
+        #{CREATE_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="UPDATE_TIME != null" >
+        #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="UPDATE_ID != null" >
+        #{UPDATE_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="DEL_FLAG != null" >
+        #{DEL_FLAG,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zz.common.model.t_meterExample" resultType="java.lang.Integer" >
+    select count(*) from t_meter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_meter
+    <set >
+      <if test="record.meterId != null" >
+        meterId = #{record.meterId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meterBoxId != null" >
+        meterBoxId = #{record.meterBoxId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meter_name != null" >
+        meter_name = #{record.meter_name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.house_id != null" >
+        house_id = #{record.house_id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phase_remark != null" >
+        phase_remark = #{record.phase_remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.c_DistrictBCDId != null" >
+        C_DistrictBCDId = #{record.c_DistrictBCDId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.c_AddressId != null" >
+        C_AddressId = #{record.c_AddressId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.c_ChannelId != null" >
+        C_ChannelId = #{record.c_ChannelId,jdbcType=INTEGER},
+      </if>
+      <if test="record.CREATE_TIME != null" >
+        CREATE_TIME = #{record.CREATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.CREATE_ID != null" >
+        CREATE_ID = #{record.CREATE_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="record.UPDATE_TIME != null" >
+        UPDATE_TIME = #{record.UPDATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.UPDATE_ID != null" >
+        UPDATE_ID = #{record.UPDATE_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="record.DEL_FLAG != null" >
+        DEL_FLAG = #{record.DEL_FLAG,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_meter
+    set meterId = #{record.meterId,jdbcType=VARCHAR},
+      meterBoxId = #{record.meterBoxId,jdbcType=VARCHAR},
+      meter_name = #{record.meter_name,jdbcType=VARCHAR},
+      house_id = #{record.house_id,jdbcType=VARCHAR},
+      phase_remark = #{record.phase_remark,jdbcType=VARCHAR},
+      C_DistrictBCDId = #{record.c_DistrictBCDId,jdbcType=VARCHAR},
+      C_AddressId = #{record.c_AddressId,jdbcType=VARCHAR},
+      C_ChannelId = #{record.c_ChannelId,jdbcType=INTEGER},
+      CREATE_TIME = #{record.CREATE_TIME,jdbcType=TIMESTAMP},
+      CREATE_ID = #{record.CREATE_ID,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.UPDATE_TIME,jdbcType=TIMESTAMP},
+      UPDATE_ID = #{record.UPDATE_ID,jdbcType=VARCHAR},
+      DEL_FLAG = #{record.DEL_FLAG,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zz.common.model.t_meter" >
+    update t_meter
+    <set >
+      <if test="meterBoxId != null" >
+        meterBoxId = #{meterBoxId,jdbcType=VARCHAR},
+      </if>
+      <if test="meter_name != null" >
+        meter_name = #{meter_name,jdbcType=VARCHAR},
+      </if>
+      <if test="house_id != null" >
+        house_id = #{house_id,jdbcType=VARCHAR},
+      </if>
+      <if test="phase_remark != null" >
+        phase_remark = #{phase_remark,jdbcType=VARCHAR},
+      </if>
+      <if test="c_DistrictBCDId != null" >
+        C_DistrictBCDId = #{c_DistrictBCDId,jdbcType=VARCHAR},
+      </if>
+      <if test="c_AddressId != null" >
+        C_AddressId = #{c_AddressId,jdbcType=VARCHAR},
+      </if>
+      <if test="c_ChannelId != null" >
+        C_ChannelId = #{c_ChannelId,jdbcType=INTEGER},
+      </if>
+      <if test="CREATE_TIME != null" >
+        CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="CREATE_ID != null" >
+        CREATE_ID = #{CREATE_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="UPDATE_TIME != null" >
+        UPDATE_TIME = #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="UPDATE_ID != null" >
+        UPDATE_ID = #{UPDATE_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="DEL_FLAG != null" >
+        DEL_FLAG = #{DEL_FLAG,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where meterId = #{meterId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zz.common.model.t_meter" >
+    update t_meter
+    set meterBoxId = #{meterBoxId,jdbcType=VARCHAR},
+      meter_name = #{meter_name,jdbcType=VARCHAR},
+      house_id = #{house_id,jdbcType=VARCHAR},
+      phase_remark = #{phase_remark,jdbcType=VARCHAR},
+      C_DistrictBCDId = #{c_DistrictBCDId,jdbcType=VARCHAR},
+      C_AddressId = #{c_AddressId,jdbcType=VARCHAR},
+      C_ChannelId = #{c_ChannelId,jdbcType=INTEGER},
+      CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
+      CREATE_ID = #{CREATE_ID,jdbcType=VARCHAR},
+      UPDATE_TIME = #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      UPDATE_ID = #{UPDATE_ID,jdbcType=VARCHAR},
+      DEL_FLAG = #{DEL_FLAG,jdbcType=VARCHAR}
+    where meterId = #{meterId,jdbcType=VARCHAR}
+  </update>
+</mapper>

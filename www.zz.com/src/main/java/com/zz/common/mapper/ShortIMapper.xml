@@ -43,7 +43,7 @@
       #{i,jdbcType=REAL}, #{cRecordinserttime,jdbcType=TIMESTAMP}, #{occurtime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.zz.common.model.ShortI">
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.zz.common.model.ShortI">
     insert into t_short_i
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

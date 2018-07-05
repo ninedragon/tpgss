@@ -51,22 +51,22 @@ public class MemberController extends BaseController {
 		Pagination<UUser> page = userService.findByPage(map,pageNo,30);
 		map.put("page", page);
 		ModelAndView modelAndView = new ModelAndView("member/list");
-		modelAndView.addObject("leftMenuview", "1");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
-		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
-		modelAndView.addObject("token", token);
-		return modelAndView;
-	}
+			modelAndView.addObject("leftMenuview", "1");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
+			UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
+			modelAndView.addObject("token", token);
+			return modelAndView;
+		}
 	@RequestMapping(value="list2")
 	public ModelAndView list2(ModelMap map,HttpServletRequest request){
-		this.setQueryParamMap(map,request);
-		Pagination<UUser> page = userService.findByPage(map,pageNo,30);
+			this.setQueryParamMap(map,request);
+			Pagination<UUser> page = userService.findByPage(map,pageNo,30);
 		ModelAndView modelAndView = new ModelAndView("member/list2");
-		modelAndView.addObject("leftMenuview", "1");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
-		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
-		modelAndView.addObject("token", token);
-		map.put("page", page);
-		return modelAndView;
-	}
+			modelAndView.addObject("leftMenuview", "1");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
+			UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
+			modelAndView.addObject("token", token);
+			map.put("page", page);
+			return modelAndView;
+		}
 	
 	private void setQueryParamMap(ModelMap map,HttpServletRequest request){
 		String nickname = request.getParameter("nickname");
@@ -121,12 +121,12 @@ public class MemberController extends BaseController {
 	public ModelAndView online(HttpServletRequest request){
 		List<UserOnlineBo> list = customSessionManager.getAllUser();
 		ModelAndView modelAndView = new ModelAndView("member/online");
-		modelAndView.addObject("leftMenuview", "1");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
-		modelAndView.addObject("list", list);
-		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
-		modelAndView.addObject("token", token);
-		return modelAndView;
-	}
+			modelAndView.addObject("leftMenuview", "1");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
+			modelAndView.addObject("list", list);
+			UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
+			modelAndView.addObject("token", token);
+			return modelAndView;
+		}
 	/**
 	 * 在线用户详情
 	 * @return
@@ -135,12 +135,12 @@ public class MemberController extends BaseController {
 	public ModelAndView onlineDetails(@PathVariable("sessionId")String sessionId,HttpServletRequest request	){
 		UserOnlineBo bo = customSessionManager.getSession(sessionId);
 		ModelAndView modelAndView = new ModelAndView("member/onlineDetails");
-		modelAndView.addObject("leftMenuview", "1");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
-		modelAndView.addObject("bo", bo);
-		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
-		modelAndView.addObject("token", token);
-		return modelAndView;
-	}
+			modelAndView.addObject("leftMenuview", "1");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
+			modelAndView.addObject("bo", bo);
+			UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
+			modelAndView.addObject("token", token);
+			return modelAndView;
+		}
 	/**
 	 * 改变Session状态
 	 * @param status
@@ -182,7 +182,7 @@ public class MemberController extends BaseController {
 	@RequestMapping(value="ajax_getFindUsersBy",method=RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView ajax_getFindUsersBy(Long id){
-		ModelAndView modelAndView = new ModelAndView("woodare/member/editInfo");
+		ModelAndView modelAndView = new ModelAndView("member/editInfo");
 		UUser uUser  = new UUser();
 		if(null != id && !"".equals(id)){
 			uUser  = userService.selectByPrimaryKey(id);

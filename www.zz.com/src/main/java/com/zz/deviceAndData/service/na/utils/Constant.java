@@ -30,7 +30,8 @@ public class Constant {
      *please replace the IP and Port of your Application deployment environment address, when you use the demo.
      */
 //    public static final String CALLBACK_BASE_URL = "http://117.62.172.216:8081";//公司自己电脑
-    public static final String CALLBACK_BASE_URL = "http://122.112.227.234:8080";//ningjuip
+//    public static final String CALLBACK_BASE_URL = "http://122.112.227.234:8080";//ningjuip
+    public static final String CALLBACK_BASE_URL = "http://122.112.215.2:8080";//ftloginip
     //http://222.95.249.114:8081
 
     /*

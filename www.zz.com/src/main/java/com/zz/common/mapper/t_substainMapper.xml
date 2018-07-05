@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zz.common.dao.t_substainMapper" >
+  <resultMap id="BaseResultMap" type="com.zz.common.model.t_substain" >
+    <id column="substainId" property="substainId" jdbcType="VARCHAR" />
+    <result column="epu_name" property="epu_name" jdbcType="VARCHAR" />
+    <result column="epu_local" property="epu_local" jdbcType="VARCHAR" />
+    <result column="epu_province" property="epu_province" jdbcType="VARCHAR" />
+    <result column="epu_city" property="epu_city" jdbcType="VARCHAR" />
+    <result column="epu_district" property="epu_district" jdbcType="VARCHAR" />
+    <result column="epu_xscale" property="epu_xscale" jdbcType="DOUBLE" />
+    <result column="epu_yscale" property="epu_yscale" jdbcType="DOUBLE" />
+    <result column="CREATE_TIME" property="CREATE_TIME" jdbcType="TIMESTAMP" />
+    <result column="CREATE_ID" property="CREATE_ID" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="UPDATE_TIME" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_ID" property="UPDATE_ID" jdbcType="VARCHAR" />
+    <result column="DEL_FLAG" property="DEL_FLAG" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    substainId, epu_name, epu_local, epu_province, epu_city, epu_district, epu_xscale, 
+    epu_yscale, CREATE_TIME, CREATE_ID, UPDATE_TIME, UPDATE_ID, DEL_FLAG
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zz.common.model.t_substainExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_substain
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_substain
+    where substainId = #{substainId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_substain
+    where substainId = #{substainId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zz.common.model.t_substainExample" >
+    delete from t_substain
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zz.common.model.t_substain" >
+    insert into t_substain (substainId, epu_name, epu_local, 
+      epu_province, epu_city, epu_district, 
+      epu_xscale, epu_yscale, CREATE_TIME, 
+      CREATE_ID, UPDATE_TIME, UPDATE_ID, 
+      DEL_FLAG)
+    values (#{substainId,jdbcType=VARCHAR}, #{epu_name,jdbcType=VARCHAR}, #{epu_local,jdbcType=VARCHAR}, 
+      #{epu_province,jdbcType=VARCHAR}, #{epu_city,jdbcType=VARCHAR}, #{epu_district,jdbcType=VARCHAR}, 
+      #{epu_xscale,jdbcType=DOUBLE}, #{epu_yscale,jdbcType=DOUBLE}, #{CREATE_TIME,jdbcType=TIMESTAMP}, 
+      #{CREATE_ID,jdbcType=VARCHAR}, #{UPDATE_TIME,jdbcType=TIMESTAMP}, #{UPDATE_ID,jdbcType=VARCHAR}, 
+      #{DEL_FLAG,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zz.common.model.t_substain" >
+    insert into t_substain
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="substainId != null" >
+        substainId,
+      </if>
+      <if test="epu_name != null" >
+        epu_name,
+      </if>
+      <if test="epu_local != null" >
+        epu_local,
+      </if>
+      <if test="epu_province != null" >
+        epu_province,
+      </if>
+      <if test="epu_city != null" >
+        epu_city,
+      </if>
+      <if test="epu_district != null" >
+        epu_district,
+      </if>
+      <if test="epu_xscale != null" >
+        epu_xscale,
+      </if>
+      <if test="epu_yscale != null" >
+        epu_yscale,
+      </if>
+      <if test="CREATE_TIME != null" >
+        CREATE_TIME,
+      </if>
+      <if test="CREATE_ID != null" >
+        CREATE_ID,
+      </if>
+      <if test="UPDATE_TIME != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="UPDATE_ID != null" >
+        UPDATE_ID,
+      </if>
+      <if test="DEL_FLAG != null" >
+        DEL_FLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="substainId != null" >
+        #{substainId,jdbcType=VARCHAR},
+      </if>
+      <if test="epu_name != null" >
+        #{epu_name,jdbcType=VARCHAR},
+      </if>
+      <if test="epu_local != null" >
+        #{epu_local,jdbcType=VARCHAR},
+      </if>
+      <if test="epu_province != null" >
+        #{epu_province,jdbcType=VARCHAR},
+      </if>
+      <if test="epu_city != null" >
+        #{epu_city,jdbcType=VARCHAR},
+      </if>
+      <if test="epu_district != null" >
+        #{epu_district,jdbcType=VARCHAR},
+      </if>
+      <if test="epu_xscale != null" >
+        #{epu_xscale,jdbcType=DOUBLE},
+      </if>
+      <if test="epu_yscale != null" >
+        #{epu_yscale,jdbcType=DOUBLE},
+      </if>
+      <if test="CREATE_TIME != null" >
+        #{CREATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="CREATE_ID != null" >
+        #{CREATE_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="UPDATE_TIME != null" >
+        #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="UPDATE_ID != null" >
+        #{UPDATE_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="DEL_FLAG != null" >
+        #{DEL_FLAG,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zz.common.model.t_substainExample" resultType="java.lang.Integer" >
+    select count(*) from t_substain
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_substain
+    <set >
+      <if test="record.substainId != null" >
+        substainId = #{record.substainId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.epu_name != null" >
+        epu_name = #{record.epu_name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.epu_local != null" >
+        epu_local = #{record.epu_local,jdbcType=VARCHAR},
+      </if>
+      <if test="record.epu_province != null" >
+        epu_province = #{record.epu_province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.epu_city != null" >
+        epu_city = #{record.epu_city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.epu_district != null" >
+        epu_district = #{record.epu_district,jdbcType=VARCHAR},
+      </if>
+      <if test="record.epu_xscale != null" >
+        epu_xscale = #{record.epu_xscale,jdbcType=DOUBLE},
+      </if>
+      <if test="record.epu_yscale != null" >
+        epu_yscale = #{record.epu_yscale,jdbcType=DOUBLE},
+      </if>
+      <if test="record.CREATE_TIME != null" >
+        CREATE_TIME = #{record.CREATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.CREATE_ID != null" >
+        CREATE_ID = #{record.CREATE_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="record.UPDATE_TIME != null" >
+        UPDATE_TIME = #{record.UPDATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.UPDATE_ID != null" >
+        UPDATE_ID = #{record.UPDATE_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="record.DEL_FLAG != null" >
+        DEL_FLAG = #{record.DEL_FLAG,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_substain
+    set substainId = #{record.substainId,jdbcType=VARCHAR},
+      epu_name = #{record.epu_name,jdbcType=VARCHAR},
+      epu_local = #{record.epu_local,jdbcType=VARCHAR},
+      epu_province = #{record.epu_province,jdbcType=VARCHAR},
+      epu_city = #{record.epu_city,jdbcType=VARCHAR},
+      epu_district = #{record.epu_district,jdbcType=VARCHAR},
+      epu_xscale = #{record.epu_xscale,jdbcType=DOUBLE},
+      epu_yscale = #{record.epu_yscale,jdbcType=DOUBLE},
+      CREATE_TIME = #{record.CREATE_TIME,jdbcType=TIMESTAMP},
+      CREATE_ID = #{record.CREATE_ID,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.UPDATE_TIME,jdbcType=TIMESTAMP},
+      UPDATE_ID = #{record.UPDATE_ID,jdbcType=VARCHAR},
+      DEL_FLAG = #{record.DEL_FLAG,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zz.common.model.t_substain" >
+    update t_substain
+    <set >
+      <if test="epu_name != null" >
+        epu_name = #{epu_name,jdbcType=VARCHAR},
+      </if>
+      <if test="epu_local != null" >
+        epu_local = #{epu_local,jdbcType=VARCHAR},
+      </if>
+      <if test="epu_province != null" >
+        epu_province = #{epu_province,jdbcType=VARCHAR},
+      </if>
+      <if test="epu_city != null" >
+        epu_city = #{epu_city,jdbcType=VARCHAR},
+      </if>
+      <if test="epu_district != null" >
+        epu_district = #{epu_district,jdbcType=VARCHAR},
+      </if>
+      <if test="epu_xscale != null" >
+        epu_xscale = #{epu_xscale,jdbcType=DOUBLE},
+      </if>
+      <if test="epu_yscale != null" >
+        epu_yscale = #{epu_yscale,jdbcType=DOUBLE},
+      </if>
+      <if test="CREATE_TIME != null" >
+        CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="CREATE_ID != null" >
+        CREATE_ID = #{CREATE_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="UPDATE_TIME != null" >
+        UPDATE_TIME = #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      </if>
+      <if test="UPDATE_ID != null" >
+        UPDATE_ID = #{UPDATE_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="DEL_FLAG != null" >
+        DEL_FLAG = #{DEL_FLAG,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where substainId = #{substainId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zz.common.model.t_substain" >
+    update t_substain
+    set epu_name = #{epu_name,jdbcType=VARCHAR},
+      epu_local = #{epu_local,jdbcType=VARCHAR},
+      epu_province = #{epu_province,jdbcType=VARCHAR},
+      epu_city = #{epu_city,jdbcType=VARCHAR},
+      epu_district = #{epu_district,jdbcType=VARCHAR},
+      epu_xscale = #{epu_xscale,jdbcType=DOUBLE},
+      epu_yscale = #{epu_yscale,jdbcType=DOUBLE},
+      CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
+      CREATE_ID = #{CREATE_ID,jdbcType=VARCHAR},
+      UPDATE_TIME = #{UPDATE_TIME,jdbcType=TIMESTAMP},
+      UPDATE_ID = #{UPDATE_ID,jdbcType=VARCHAR},
+      DEL_FLAG = #{DEL_FLAG,jdbcType=VARCHAR}
+    where substainId = #{substainId,jdbcType=VARCHAR}
+  </update>
+</mapper>

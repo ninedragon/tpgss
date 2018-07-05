@@ -111,7 +111,7 @@
 
 <!--主体开始-->
 <div class="wapp-main">
-	<h4>权限分配-阶跃</h4>	
+	<h4>权限分配</h4>	
 	<form method="post" action="" id="formId" class="form-inline">
     <!--搜索开始-->
 	<div class="search">

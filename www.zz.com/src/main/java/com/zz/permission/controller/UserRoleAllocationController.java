@@ -43,24 +43,12 @@ public class UserRoleAllocationController extends BaseController {
 		modelMap.put("findContent", findContent);
 		Pagination<UserRoleAllocationBo> boPage = userService.findUserAndRole(modelMap,pageNo,pageSize);
 		modelMap.put("page", boPage);
-		String action = request.getParameter("action");
-		/*if("yes".equals(action)){//原始
-		return new ModelAndView("role/allocation");
-		}else{
-			ModelAndView modelAndView = new ModelAndView("woodare/role/allocation");
-			modelAndView.addObject("leftMenuview", "2");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
-			UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
-			modelAndView.addObject("token", token);
-			modelAndView.addObject("page", boPage);
-			return modelAndView;
-		}*/
 		ModelAndView modelAndView = new ModelAndView("role/allocation");
 		modelAndView.addObject("leftMenuview", "2");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
 		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
 		modelAndView.addObject("token", token);
 		modelAndView.addObject("page", boPage);
 		return modelAndView;
-		//张智 woodareCode end
 	}
 	
 	/**

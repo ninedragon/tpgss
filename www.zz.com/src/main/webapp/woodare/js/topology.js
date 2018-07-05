@@ -81,7 +81,7 @@ function showTop(rowId){
 	        			 }else{
 	        				 mySvg.kaiguanxianClear(new Array(json));//清空样式  默认黑色
 	        			 }
-	        		 }
+	        		 	}
 	        	 }
 	        } 
 		});
@@ -146,7 +146,6 @@ $(function() {
 	 });
 	$("#falutDiv").css("top",( mySvg.topoHeight()- 450)+"px");
 });
-
 /**
  * 故障定位
  * selectedFlag: true 删除故障渲染  false 添加故障渲染
@@ -177,7 +176,7 @@ function faultClick(selectedFlag){
 			var is_repaired = faultNowJson["is_repaired"] || "";//是否被修复，1表示是
 			var is_cancelled = faultNowJson["is_cancelled"] || "";//是否被取消，1表示是
 			if(is_repaired != "1" ){//未修复
-				if(type == "branchBox"){//分支箱
+				if(type == "branchBox" || type == "outgoingCabinet"){//分支箱
 					boxErrorArray.push(faultNowJson);
 				}
 				if(type == "meterBox"){//表箱ID

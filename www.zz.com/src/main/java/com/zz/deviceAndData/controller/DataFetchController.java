@@ -10,7 +10,9 @@ import java.util.Map;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.fastjson.JSON;
 import com.zz.analysisAndDisplay.controller.MessageController;
+import com.zz.deviceAndData.utils.HexStringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -56,10 +58,17 @@ import com.zz.deviceAndData.service.DataCollectionService;
 	@RequestMapping(value = "updateDeviceData")
 	@ResponseBody
 	String updateDeviceData(HttpServletRequest request, @RequestBody NDTUData ndtudata) throws IOException {
-		
+		int[] buff = HexStringUtil.hexString2ints(ndtudata.getService().getData().getReportData().substring(4));
+		if(buff[6]==0xA2) {
+			String json = JSON.toJSONString(ndtudata);
+			System.out.println(json);
+
+		}
+		if(buff[6]==0xA0) {
+			String json = JSON.toJSONString(ndtudata);
+			System.out.println(json);
+		}
 		Date nowtime = new Date();
-		MessageController.loop=false;
-		MessageController.data="event occur!";
 		SimpleDateFormat format0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		String time = format0.format(nowtime.getTime());// 这个就是把时间戳经过处理得到期望格式的时间
 		System.out.println(

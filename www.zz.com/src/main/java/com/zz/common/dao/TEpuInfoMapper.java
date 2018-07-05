@@ -31,7 +31,7 @@ public interface TEpuInfoMapper {
      * @mbggenerated
      */
     TEpuInfo selectByPrimaryKey(String rowId);
-    List<TEpuInfo> selectByEpuType( @Param("epuType")String epuType,@Param("epuDistrict")String epuDistrict);
+    List<TEpuInfo> selectByEpuType(@Param("epuType") String epuType, @Param("epuDistrict") String epuDistrict);
     List<TEpuInfo> selectNdtuDistrictId(String rowId);
     List<TEpuInfo> selectNdtuAddressIdByDistrictId( String rowId);
     List<TEpuInfo> selectNdtuDIstinctByChannelId( @Param("districtId")String districtId,@Param("addressId")String addressId);
@@ -52,7 +52,7 @@ public interface TEpuInfoMapper {
     
     int delMarkByRowId(@Param("rowId") String rowId);
     
-    List<TEpuInfo>  checkEpName(@Param("epuName") String epuName,@Param("epuDistrict") String epuDistrict,@Param("epuType")String epuType);
+    List<TEpuInfo>  checkEpName(@Param("epuName") String epuName, @Param("epuDistrict") String epuDistrict, @Param("epuType") String epuType);
     
     List<TEpuInfo> selectEpuInfos(TEpuInfo epuInfo);
 }

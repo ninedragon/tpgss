@@ -24,7 +24,7 @@ public interface TSyCityInfoMapper {
 	List<TSyCityInfoBean> getCityDistrict(String provinceId);
 	
 	// 根据市获取区
-	List<TSyCityInfoBean> getCityDistrictByEp(@Param("epuCity")  String epuCity);
+	List<TSyCityInfoBean> getCityDistrictByEp(@Param("epuCity") String epuCity);
 
 	// 获取当前市的code码
 	String getCityInfocode(String citycode);

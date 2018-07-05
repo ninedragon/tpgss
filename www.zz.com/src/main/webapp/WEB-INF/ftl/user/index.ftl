@@ -18,7 +18,7 @@
 			<div class="row">
 				<@_left.user 1/>
 				<div class="col-md-10">
-					<h2>个人资料aa</h2>
+					<h2>个人资料</h2>
 					<hr>
 					<table class="table table-bordered">
 						<tr>

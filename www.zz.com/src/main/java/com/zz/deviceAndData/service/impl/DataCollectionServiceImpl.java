@@ -1,26 +1,18 @@
 package com.zz.deviceAndData.service.impl;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import com.zz.analysisAndDisplay.socket.WSServer;
+import com.zz.analysisAndDisplay.controller.MessageController;
+import com.zz.common.dao.*;
+import com.zz.common.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.zz.common.dao.AbleakageIMapper;
-import com.zz.common.dao.AbnormalUMapper;
-import com.zz.common.dao.AbnormalZMapper;
-import com.zz.common.dao.LeakageIMapper;
-import com.zz.common.dao.OpdataMapper;
-import com.zz.common.dao.PowerQualityMapper;
-import com.zz.common.dao.ShortIMapper;
-import com.zz.common.model.AbleakageI;
-import com.zz.common.model.AbnormalU;
-import com.zz.common.model.AbnormalZ;
-import com.zz.common.model.LeakageI;
-import com.zz.common.model.Opdata;
-import com.zz.common.model.PowerQuality;
-import com.zz.common.model.ShortI;
 import com.zz.common.utils.DateUtil;
 import com.zz.deviceAndData.bo.NDTUData;
 import com.zz.deviceAndData.service.DataCollectionService;
@@ -33,6 +25,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     private static final int NO_SUCH_OBJECT = -1;
     private static final int RIGTHFORMAT = 0;
     private static final int SUCCESSPROCESS = 0;
+    private Logger logger = LoggerFactory.getLogger(DataCollectionServiceImpl.class);
 
     @Autowired
     OpdataMapper opdataMapper;
@@ -45,18 +38,38 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Autowired
     AbnormalUMapper abnormalUMapper;
     @Autowired
-    AbnormalZMapper abnormalZMapper;
+    t_abnormal_zMapper t_abnormalZMapper1;
     @Autowired
     PowerQualityMapper powerQualityMapper;
+    @Autowired
+    t_bdtuMapper t_bdtuMapper1;
+    @Autowired
+    t_fault_baseMapper t_fault_baseMapper1;
+    @Autowired
+    t_fault_nowMapper t_fault_nowMapper1;
+    @Autowired
+    t_fault_sourceMapper t_fault_sourceMapper1;
+    @Autowired
+    t_ndtuMapper t_ndtuMapper1;
+    @Autowired
+    t_meterMapper t_meterMapper1;
+    @Autowired
+    t_meterboxMapper t_meterboxMapper1;
+    @Autowired
+    t_branchboxMapper t_branchboxMapper1;
+    @Autowired
+    t_outgoingcabinetMapper t_outgoingcabinetMapper1;
+    @Autowired
+    t_substainMapper t_substainMapper1;
+
     @Override
     public int dataProcess(NDTUData ndtudata) {
         // 三步处理
-        if (WRONGFORMAT == dataFetch(ndtudata)) {
+        if (WRONGFORMAT == dataValidation(ndtudata)) {
             return WRONGFORMAT;
         }
         ;
-        dataAnalysis(ndtudata);
-        // dataWrite(ndtudata);
+        dealReceiveData(ndtudata);
         return SUCCESSPROCESS;
     }
 
@@ -67,7 +80,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
      * deviceAndData.bo.NDTUData) 数据获取判断是否合法
      */
     @Override
-    public int dataFetch(NDTUData ndtudata) {
+    public int dataValidation(NDTUData ndtudata) {
         // 判断是否合法等
         // 0表示合法，-1表示非法
         int[] buff = HexStringUtil.hexString2ints(ndtudata.getService().getData().getReportData().substring(4));
@@ -75,7 +88,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     }
 
 	/*
-	 * (non-Javadoc)
+     * (non-Javadoc)
 	 *
 	 * @see com.zz.deviceAndData.service.DataCollectionService#DataWrite()
 	 * 写入数据库操作
@@ -89,36 +102,393 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     }
 
 	/*
-	 * (non-Javadoc)
+     * (non-Javadoc)
 	 *
 	 * @see com.zz.deviceAndData.service.DataCollectionService#DataAnalysis()
 	 * 根据控制码处理不同的流程
 	 */
 
     @Override
-        public int insertData(Object object) {
+    public int insertData(Object object) {
+        int errorCode = 0;
         String className = object.getClass().getSimpleName();
         switch (className) {
             case "Opdata":
                 return opdataMapper.insertSelective((Opdata) object);
             case "ShortI":// 短路电流
-                int errorCode=shortIMapper.insertSelective((ShortI) object);
-                WSServer.loop=false;
-                WSServer.data="event occur!";
+                shortIMapper.insertSelective((ShortI) object);
+                String shortIrecordId = ((ShortI) object).getId() + "";
+                if (true) {// 【1】异常产生
+                    insertShortIFault(object, shortIrecordId);// 11表示短路
+                } else {
+                    logger.error("终端上报的异常漏电数据在20mA和30mA之间，终端程序可能出现异常");
+                }
                 return errorCode;
             case "LeakageI":// 正常漏电电流
                 return leakageIMapper.insertSelective((LeakageI) object);
             case "AbleakageI":// 异常漏电电流
-                return ableakageIMapper.insertSelective((AbleakageI) object);
+                ableakageIMapper.insertSelective((AbleakageI) object);
+                String ableakageIrecordId = ((AbleakageI) object).getId() + "";
+                AbleakageI ableakageI = (AbleakageI) object;//object每次都要写转换看着累，就先转了算了
+                Boolean isLeakageAbnormal = (ableakageI).getIsAbnormal();
+                //其实终端已经做过异常，恢复异常校验，但是再校验也没什么的
+                Float abnormalBound = 0.03f;// 漏电超过30mA被认为异常
+                Float normalBound = 0.02f;// 电流恢复为20mA被认为恢复
+                Boolean isAbLeakage = (ableakageI.getI() >= abnormalBound);
+                Boolean isNormal = (ableakageI.getI() <= normalBound);
+                if (isLeakageAbnormal) {// 【1】异常产生
+                    if (isAbLeakage) {// 【1.1】异常漏电上报走的流程
+                        insertAbLeakageFault(object, ableakageIrecordId, 12);
+                    }
+                } else if (isNormal) {// 【2】异常被修复
+                    //【2.1】故障修改：只需要更新now故障表就行，没有问题的话
+                    //【2.2】通知websocket服务端
+                    updateFault(object);
+                } else {
+                    logger.error("终端上报的异常漏电数据在20mA和30mA之间，终端程序可能出现异常");
+                }
+                return errorCode;
             case "AbnormalU":// 异常电压
-                return abnormalUMapper.insertSelective((AbnormalU) object);
+                abnormalUMapper.insertSelective((AbnormalU) object);
+                String recordId = ((AbnormalU) object).getId() + "";
+                AbnormalU abnormalU = (AbnormalU) object;//object每次都要写转换看着累，就先转了算了
+                Boolean isAbnormal = (abnormalU).getIsAbnormal();
+                Float uaBound = 100f;// a 相临界值
+                Float ubcBound = 100f;// b 相临界值
+                Float uabcAbnoramlMax = 240f;// 电压最大值
+                Float uabcAbnoramlMin = 200f;// 电压最小值
+                Boolean isPowerFailure = (abnormalU.getUa() <= ubcBound);
+                Boolean isPhaseLoss = (abnormalU.getUb() <= ubcBound) || (abnormalU.getUc() <= ubcBound);
+                Boolean isOverFlow = (abnormalU.getUa() < uabcAbnoramlMin) || (abnormalU.getUa() > uabcAbnoramlMax) || (abnormalU.getUb() < uabcAbnoramlMin) || (abnormalU.getUb() > uabcAbnoramlMax) || (abnormalU.getUc() < uabcAbnoramlMin) || (abnormalU.getUc() > uabcAbnoramlMax);
+//                停电：A相电压小于100V时认为停电；
+//                缺相：B、C相电压小于100V时认为缺相；
+//                电压超限：A、B、C三相电压小于200V或大于240V时认为电压异常（不存在以上两种的情况下）；
+                int deviceType = Integer.parseInt(abnormalU.getcAddressid().toString().substring(0, 1));
+                if (deviceType == 1) {// 表示ndtu
+                    if (isAbnormal) {// 【1】异常产生
+                        if (isPowerFailure) {// 【1.1】停电上报走的流程
+
+                            insertFaultPowerFailure(object, recordId, 21);// TODO: 2018/6/27 以后可能把停电缺相超限方法分开
+                        } else if (isPhaseLoss)//
+                        {
+                            System.out.println("缺相");// 目前看来逻辑好像和停电是一样的
+                            insertFaultPowerFailure(object, recordId, 22);
+                        } else if (isOverFlow) {
+                            System.out.println("超限");// 目前看来逻辑好像和停电是一样的
+                            insertFaultPowerFailure(object, recordId, 23);
+                        }
+                    } else {// 【2】异常被修复
+                        //【2.1】故障修改：只需要更新now故障表就行，没有问题的话
+                        //【2.2】通知websocket服务端
+                        updateFault(object);
+
+
+                    }
+                }else if(deviceType==2){// 表示bdtu
+                    if (isAbnormal) {// 【1】异常产生
+                        if (isPowerFailure) {// 【1.1】停电上报走的流程
+
+                            insertFaultPowerFailure(object, recordId, 31);// TODO: 2018/6/27 以后可能把停电缺相超限方法分开
+                        } else if (isPhaseLoss)//
+                        {
+                            System.out.println("缺相");// 目前看来逻辑好像和停电是一样的
+                            insertFaultPowerFailure(object, recordId, 32);
+                        } else if (isOverFlow) {
+                            System.out.println("超限");// 目前看来逻辑好像和停电是一样的
+                            insertFaultPowerFailure(object, recordId, 33);
+                        }
+                    } else {// 【2】异常被修复
+                        //【2.1】故障修改：只需要更新now故障表就行，没有问题的话
+                        //【2.2】通知websocket服务端
+                        updateFault(object);
+
+
+                    }
+                }
+
+                return errorCode;
             case "AbnormalZ":// 异常阻抗
-                return abnormalZMapper.insertSelective((AbnormalZ) object);
+                return t_abnormalZMapper1.insertSelective((t_abnormal_z) object);
             case "PowerQuality":// 电能质量
                 return powerQualityMapper.insertSelective((PowerQuality) object);
             default:
                 return NO_SUCH_OBJECT;
         }
+    }
+
+    private void insertAbLeakageFault(Object object, String recordId, int fault_type) {
+        {
+            // 【1】插入base表
+            t_fault_base t_fault_base1 = new t_fault_base();
+            AbleakageI ableakageI = (AbleakageI) object;
+            //【1.1】判断类型是bdtu还是
+            int deviceType = Integer.parseInt(ableakageI.getcAddressid().toString().substring(0, 1));
+            if (deviceType == 1)//1表示是ndtu,2表示bdtu。目前为了测试数据
+            {
+                t_fault_base1.setType(1);//表示表出现故障
+                t_meterExample t_meterExample1 = new t_meterExample();
+                t_meterExample.Criteria criteria = t_meterExample1.createCriteria();
+                criteria.andC_AddressIdEqualTo(ableakageI.getcAddressid().toString()).andC_DistrictBCDIdEqualTo(ableakageI.getcDistrictbcdid()).andC_ChannelIdEqualTo(ableakageI.getcChannelid());
+                List<t_meter> t_meterList = t_meterMapper1.selectByExample(t_meterExample1);
+                if (t_meterList.size() > 0) {
+                    t_fault_base1.setKey_id(t_meterList.get(0).getMeterBoxId().toString());
+                }// TODO: 2018/6/25 目前在想到底是否要查ndtu表得到type
+                t_fault_base1.setFault_type(fault_type);
+            } else {
+
+            }
+            t_fault_base1.setOccur_time(ableakageI.getOccurtime());
+            t_fault_base1.setIs_cancelled(0);//否
+            t_fault_base1.setRepair_time(null);
+            t_fault_base1.setIs_repaired(0);//否
+            // 【2】先查下有没有同样的故障
+            t_fault_baseExample t_fault_baseExample1 = new t_fault_baseExample();
+            t_fault_baseExample.Criteria criteria = t_fault_baseExample1.createCriteria();
+            criteria.andTypeEqualTo(t_fault_base1.getType()).andKey_idEqualTo(t_fault_base1.getKey_id()).andFault_typeEqualTo(t_fault_base1.getFault_type());
+            List<t_fault_base> t_fault_bases = t_fault_baseMapper1.selectByExample(t_fault_baseExample1);
+            t_fault_baseMapper1.insertSelective(t_fault_base1);
+            long id = t_fault_base1.getId();
+            // 【2】插入now可选表,判断是不是同一个故障，不是则插入t_fault_now,是则不做变化
+            t_fault_now t_fault_now1 = new t_fault_now();
+            // 目前采用将不同的设备采用address区分
+            Boolean isSame = false;
+            //【2.1】根据给定的去数据库查，查得到就认定有相同的
+
+            if (t_fault_bases.size() > 0) {
+                isSame = true;
+            }
+            if (!isSame) {
+                t_fault_now1.setType(t_fault_base1.getType());//表示表箱出现故障
+                t_fault_now1.setKey_id(t_fault_base1.getKey_id());
+                t_fault_now1.setFault_type(t_fault_base1.getFault_type());
+                t_fault_now1.setOccur_time(t_fault_base1.getOccur_time());
+                t_fault_now1.setIs_cancelled(t_fault_base1.getIs_cancelled());//否
+                t_fault_now1.setRepair_time(t_fault_base1.getRepair_time());
+                t_fault_now1.setIs_repaired(t_fault_base1.getIs_repaired());//否
+                t_fault_now1.setFault_base_id(id + "");
+                t_fault_nowMapper1.insertSelective(t_fault_now1);
+                noticeServer(t_fault_now1);
+                // 【3】插入source表
+                // 【3.1】记录故障id，recordid，name
+                t_fault_source t_fault_source1 = new t_fault_source();
+                t_fault_source1.setFault_id(t_fault_now1.getId() + "");
+                t_fault_source1.setTable_name("3");
+                t_fault_source1.setRecord_id(recordId);
+                t_fault_sourceMapper1.insertSelective(t_fault_source1);
+            } else {
+                // 【3.1】如果相同也要将source表添加该条记录，now表其实和
+                t_fault_source t_fault_source1 = new t_fault_source();
+                long nowid = t_fault_bases.get(0).getId();// TODO: 2018/6/27 在无重复的时候无问题，重复的时候会出现问题
+                t_fault_source1.setFault_id(nowid + "");
+                t_fault_source1.setTable_name("3");
+                t_fault_source1.setRecord_id(recordId);
+                t_fault_sourceMapper1.insertSelective(t_fault_source1);
+            }
+        }
+    }
+
+    /*
+    * 插入短路故障逻辑
+    * */
+    private void insertShortIFault(Object object, String recordId) {
+        // 【1】插入base表
+        t_fault_base t_fault_base1 = new t_fault_base();
+        ShortI shortI = (ShortI) object;
+        //【1.1】判断类型是bdtu还是
+        int deviceType = Integer.parseInt(shortI.getcAddressid().toString().substring(0, 1));
+        if (deviceType == 1)//1表示是ndtu,2表示bdtu。目前为了测试数据
+        {
+            t_fault_base1.setType(1);//表示表出现故障
+            t_meterExample t_meterExample1 = new t_meterExample();
+            t_meterExample.Criteria criteria = t_meterExample1.createCriteria();
+            criteria.andC_AddressIdEqualTo(shortI.getcAddressid().toString()).andC_DistrictBCDIdEqualTo(shortI.getcDistrictbcdid()).andC_ChannelIdEqualTo(shortI.getcChannelid());
+            List<t_meter> t_metersList = t_meterMapper1.selectByExample(t_meterExample1);//在资产相关表中查出id
+            t_fault_base1.setKey_id(t_metersList.get(0).getMeterId().toString());// TODO: 2018/6/25 目前在想到底是否要查ndtu表得到type
+            t_fault_base1.setFault_type(11);// 表示短路
+
+        } else {
+            t_fault_base1.setType(3);//表示分支箱异常
+            t_branchboxExample t_branchboxExample1 = new t_branchboxExample();
+            t_branchboxExample.Criteria criteria = t_branchboxExample1.createCriteria();
+            criteria.andC_AddressIdEqualTo(shortI.getcAddressid().toString()).andC_DistrictBCDIdEqualTo(shortI.getcDistrictbcdid()).andC_ChannelIdEqualTo(shortI.getcChannelid());
+            List<t_branchbox> t_branchboxList = t_branchboxMapper1.selectByExample(t_branchboxExample1);//在资产相关表中查出id
+            t_fault_base1.setKey_id(t_branchboxList.get(0).getBranchBoxId().toString());// TODO: 2018/6/25 目前在想到底是否要查ndtu表得到type
+            t_fault_base1.setFault_type(34);//表示分支箱短路
+        }
+        t_fault_base1.setOccur_time(shortI.getOccurtime());
+        t_fault_base1.setIs_cancelled(0);//否
+        t_fault_base1.setRepair_time(null);
+        t_fault_base1.setIs_repaired(0);//否
+        // 【2.1】先去数据库查一下
+        t_fault_baseExample t_fault_baseExample1 = new t_fault_baseExample();
+        t_fault_baseExample.Criteria criteria = t_fault_baseExample1.createCriteria();
+        criteria.andFault_typeEqualTo(t_fault_base1.getFault_type()).andKey_idEqualTo(t_fault_base1.getKey_id()).andFault_typeEqualTo(t_fault_base1.getFault_type());
+        List<t_fault_base> t_fault_bases = t_fault_baseMapper1.selectByExample(t_fault_baseExample1);
+        t_fault_baseMapper1.insertSelective(t_fault_base1);
+        long id = t_fault_base1.getId();
+        // 【2】插入now可选表,判断是不是同一个故障，不是则插入t_fault_now,是则不做变化
+        t_fault_now t_fault_now1 = new t_fault_now();
+        // TODO: 2018/6/25  具体识别ndtu和bdtu的代码尚不实现，目前采用将不同的设备采用address区分
+        Boolean isSame = false;// TODO:  2018/6/25 怎么判断是不是同一个故障
+        //【2.1】根据给定的去数据库查，查得到就认定有相同的
+        if (t_fault_bases.size() > 0) {
+            isSame = true;
+        }
+        if (!isSame) {
+            t_fault_now1.setType(t_fault_base1.getType());//表示表箱出现故障
+            t_fault_now1.setKey_id(t_fault_base1.getKey_id());
+            t_fault_now1.setFault_type(t_fault_base1.getFault_type());
+            t_fault_now1.setOccur_time(t_fault_base1.getOccur_time());
+            t_fault_now1.setIs_cancelled(t_fault_base1.getIs_cancelled());//否
+            t_fault_now1.setRepair_time(t_fault_base1.getRepair_time());
+            t_fault_now1.setIs_repaired(t_fault_base1.getIs_repaired());//否
+            t_fault_now1.setFault_base_id(id + "");
+            t_fault_nowMapper1.insertSelective(t_fault_now1);
+            noticeServer(t_fault_now1);
+            // 【3】插入source表
+            // 【3.1】记录故障id，recordid，name
+            t_fault_source t_fault_source1 = new t_fault_source();
+            t_fault_source1.setFault_id(t_fault_now1.getId() + "");
+            t_fault_source1.setTable_name("1");
+            t_fault_source1.setRecord_id(recordId);
+            t_fault_sourceMapper1.insertSelective(t_fault_source1);
+        } else {
+            // 【3.1】如果相同也要将source表添加该条记录，now表其实和
+            t_fault_source t_fault_source1 = new t_fault_source();
+            long nowid = t_fault_bases.get(0).getId();// TODO: 2018/6/27 在无重复的时候无问题，重复的时候会出现问题
+            t_fault_source1.setFault_id(nowid + "");
+            t_fault_source1.setTable_name("1");
+            t_fault_source1.setRecord_id(recordId);
+            t_fault_sourceMapper1.insertSelective(t_fault_source1);
+        }
+    }
+
+    private void updateFault(Object object) {
+        //找到那个更新
+        //扩展，可能因为别的问题，找不到，如果找不到需要打出日志
+        // 【1】插入base表
+        t_fault_base t_fault_base1 = new t_fault_base();
+        AbnormalU abnormalU = (AbnormalU) object;
+        //【1.1】判断类型是bdtu还是
+        int deviceType = Integer.parseInt(abnormalU.getcAddressid().toString().substring(0, 1));
+        if (deviceType == 1)//1表示是ndtu,2表示bdtu。目前为了测试数据
+        {
+            t_fault_base1.setType(2);//表示表箱出现故障
+            t_ndtuExample t_ndtuExample1 = new t_ndtuExample();
+            t_ndtuExample.Criteria criteria = t_ndtuExample1.createCriteria();
+            criteria.andC_AddressIdEqualTo(abnormalU.getcAddressid().toString()).andC_DistrictBCDIdEqualTo(abnormalU.getcDistrictbcdid());
+            List<t_ndtu> t_ndtusList = t_ndtuMapper1.selectByExample(t_ndtuExample1);
+            t_fault_base1.setKey_id(t_ndtusList.get(0).getId().toString());// TODO: 2018/6/25 目前在想到底是否要查ndtu表得到type
+
+        } else {
+            t_fault_base1.setType(3);//表示出线柜出现故障
+            t_bdtuExample t_bdtuExample1 = new t_bdtuExample();
+            t_bdtuExample.Criteria criteria = t_bdtuExample1.createCriteria();
+            criteria.andC_AddressIdEqualTo(abnormalU.getcAddressid().toString()).andC_DistrictBCDIdEqualTo(abnormalU.getcDistrictbcdid());
+            List<t_bdtu> t_bdtusList = t_bdtuMapper1.selectByExample(t_bdtuExample1);
+            t_fault_base1.setKey_id(t_bdtusList.get(0).getId().toString());// TODO: 2018/6/25 目前在想到底是否要查bdtu表得到type
+        }
+        t_fault_nowExample t_fault_nowExample1 = new t_fault_nowExample();
+        t_fault_nowExample.Criteria criteria = t_fault_nowExample1.createCriteria();
+        List list1 = new ArrayList(1);
+        list1.add(21);
+        list1.add(22);
+        list1.add(23);
+        criteria.andFault_typeIn(list1).andKey_idEqualTo(t_fault_base1.getKey_id()).andTypeEqualTo(t_fault_base1.getType());
+        t_fault_now paramsMap = new t_fault_now();
+        paramsMap.setIs_repaired(1);
+        // TODO: 2018/6/27 修复异常后怎么通知前端 1.先查出来哪些修复了 2.再把这些通知前端。
+        List<t_fault_now> t_fault_nows = t_fault_nowMapper1.selectByExample(t_fault_nowExample1);
+
+        int updateCode = t_fault_nowMapper1.updateByExampleSelective(paramsMap, t_fault_nowExample1);
+
+        if (updateCode == 0) {
+            logger.error("终端上传的电压异常故障在数据库中无匹配，导致无法将故障置为恢复");
+        } else {
+//            HashMap<Object, Object> objectObjectHashMap = new HashMap<>();记录数据的list
+            noticeServer(t_fault_nows);
+            logger.info("数据库中有" + updateCode + "条故障被修复");
+        }
+    }
+
+    // 增加停电故障
+    private void insertFaultPowerFailure(Object object, String recordId, int fault_type) {
+        // 【1】插入base表
+        t_fault_base t_fault_base1 = new t_fault_base();
+        AbnormalU abnormalU = (AbnormalU) object;
+        //【1.1】判断类型是bdtu还是
+        int deviceType = Integer.parseInt(abnormalU.getcAddressid().toString().substring(0, 1));
+        if (deviceType == 1)//1表示是ndtu,2表示bdtu。目前为了测试数据
+        {
+            t_fault_base1.setType(2);//表示表箱出现故障
+            t_meterboxExample t_meterboxExample1 = new t_meterboxExample();
+            t_meterboxExample.Criteria criteria = t_meterboxExample1.createCriteria();
+            criteria.andC_AddressIdEqualTo(abnormalU.getcAddressid().toString()).andC_DistrictBCDIdEqualTo(abnormalU.getcDistrictbcdid());
+            List<t_meterbox> t_meterboxList = t_meterboxMapper1.selectByExample(t_meterboxExample1);
+            t_fault_base1.setKey_id(t_meterboxList.get(0).getMeterBoxId().toString());// TODO: 2018/6/25 目前在想到底是否要查ndtu表得到type
+            t_fault_base1.setFault_type(fault_type);
+        } else {
+            t_fault_base1.setType(3);//表示分支箱柜出现故障
+            t_bdtuExample t_bdtuExample1 = new t_bdtuExample();
+            t_bdtuExample.Criteria criteria = t_bdtuExample1.createCriteria();
+            criteria.andC_AddressIdEqualTo(abnormalU.getcAddressid().toString()).andC_DistrictBCDIdEqualTo(abnormalU.getcDistrictbcdid());
+            List<t_bdtu> t_bdtusList = t_bdtuMapper1.selectByExample(t_bdtuExample1);
+            t_fault_base1.setKey_id(t_bdtusList.get(0).getId().toString());// TODO: 2018/6/25 目前在想到底是否要查bdtu表得到type
+            t_fault_base1.setFault_type(fault_type);
+        }
+        t_fault_base1.setOccur_time(abnormalU.getOccurtime());
+        t_fault_base1.setIs_cancelled(0);//否
+        t_fault_base1.setRepair_time(null);
+        t_fault_base1.setIs_repaired(0);//否
+        //【2】先去数据库查有没有相同的故障
+        t_fault_baseExample t_fault_baseExample1 = new t_fault_baseExample();
+        t_fault_baseExample.Criteria criteria = t_fault_baseExample1.createCriteria();
+        criteria.andFault_typeEqualTo(t_fault_base1.getFault_type()).andKey_idEqualTo(t_fault_base1.getKey_id()).andFault_typeEqualTo(t_fault_base1.getFault_type());
+        List<t_fault_base> t_fault_bases = t_fault_baseMapper1.selectByExample(t_fault_baseExample1);
+        t_fault_baseMapper1.insertSelective(t_fault_base1);
+        long id = t_fault_base1.getId();
+        // 【2】插入now可选表,判断是不是同一个故障，不是则插入t_fault_now,是则不做变化
+        t_fault_now t_fault_now1 = new t_fault_now();
+        // TODO: 2018/6/25  具体识别ndtu和bdtu的代码尚不实现，目前采用将不同的设备采用address区分
+        Boolean isSame = false;// TODO:  2018/6/25 怎么判断是不是同一个故障
+        //【2.1】根据给定的去数据库查，查得到就认定有相同的
+
+        if (t_fault_bases.size() > 0) {
+            isSame = true;
+        }
+        if (!isSame) {
+            t_fault_now1.setType(t_fault_base1.getType());//表示表箱出现故障
+            t_fault_now1.setKey_id(t_fault_base1.getKey_id());
+            t_fault_now1.setFault_type(t_fault_base1.getFault_type());
+            t_fault_now1.setOccur_time(t_fault_base1.getOccur_time());
+            t_fault_now1.setIs_cancelled(t_fault_base1.getIs_cancelled());//否
+            t_fault_now1.setRepair_time(t_fault_base1.getRepair_time());
+            t_fault_now1.setIs_repaired(t_fault_base1.getIs_repaired());//否
+            t_fault_now1.setFault_base_id(id + "");
+            t_fault_nowMapper1.insertSelective(t_fault_now1);
+            noticeServer(t_fault_now1);
+            // 【3】插入source表
+            // 【3.1】记录故障id，recordid，name
+            t_fault_source t_fault_source1 = new t_fault_source();
+            t_fault_source1.setFault_id(t_fault_now1.getId() + "");
+            t_fault_source1.setTable_name("4");
+            t_fault_source1.setRecord_id(recordId);
+            t_fault_sourceMapper1.insertSelective(t_fault_source1);
+        } else {
+            // 【3.1】如果相同也要将source表添加该条记录，now表其实和
+            t_fault_source t_fault_source1 = new t_fault_source();
+            long nowid = t_fault_bases.get(0).getId();// TODO: 2018/6/27 在无重复的时候无问题，重复的时候会出现问题
+            t_fault_source1.setFault_id(nowid + "");
+            t_fault_source1.setTable_name("4");
+            t_fault_source1.setRecord_id(recordId);
+            t_fault_sourceMapper1.insertSelective(t_fault_source1);
+        }
+    }
+
+    // 通知到前端
+    private void noticeServer(Object object) {
+        MessageController.loop = false;
+        MessageController.data = object;
     }
 
     public static int frameFormatCheck(int[] buff) {
@@ -149,6 +519,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         return RIGTHFORMAT;
     }
 
+    @Override
     public void dealReceiveData(NDTUData ndtudata) {
         // 到这，说明已经校验成功，需要按照不同的命令字进行处理
         // 入库之后，再进行应答
@@ -296,7 +667,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
     }
 
-    /**短路电流
+    /**
+     * 短路电流
+     *
      * @param ndtudata
      * @return
      */
@@ -350,7 +723,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
     }
 
-    /**正常漏电流
+    /**
+     * 正常漏电流
+     *
      * @param ndtudata
      * @return
      */
@@ -399,7 +774,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
     }
 
-    /**异常漏电流
+    /**
+     * 异常漏电流
+     *
      * @param ndtudata
      * @return
      */
@@ -456,7 +833,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
     }
 
-    /**电压异常
+    /**
+     * 电压异常
+     *
      * @param ndtudata
      * @return
      */
@@ -486,14 +865,13 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 // 【2.1】
                 Date occurtime;
                 String occurtimeString = "20" + String.format("%02x%02x%02x%02x%02x%02x", buff[14 + 19 * i],
-                        buff[15 + 19 * i], buff[16 + 19 * i], buff[17 + 19 * i], buff[18 + 19 * i], buff[19 + 19* i]);
+                        buff[15 + 19 * i], buff[16 + 19 * i], buff[17 + 19 * i], buff[18 + 19 * i], buff[19 + 19 * i]);
                 occurtime = DateUtil.stringToDate(occurtimeString, DateUtil.DATE_PATTERN, true);
                 Date date = new Date();
                 Timestamp timeStamp = new Timestamp(date.getTime());
-                if(0x00==buff[13]){
+                if (0x00 == buff[13]) {
                     tmp.setIsAbnormal(false);
-                }
-                else if(0x01==buff[13]){
+                } else if (0x01 == buff[13]) {
                     tmp.setIsAbnormal(true);
                 }
                 tmp.setUa(Ints2floatUtil.ints2float(buff, 20 + 19 * i));
@@ -534,17 +912,17 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (iLen1 < 12)
             return false;
         try {
-            AbnormalZ tmp = new AbnormalZ();
+            t_abnormal_z tmp = new t_abnormal_z();
             Integer recorddatebcd;
             recorddatebcd = Integer.parseInt(String.format("%02x%02x%02x", buff[13], buff[14], buff[15]));
-            tmp.setcDistrictbcdid(cDistrictId);
-            tmp.setcAddressid(deviceId);
-            tmp.setcFramecmdid("A4");
-            tmp.setRecorddatebcd(recorddatebcd);
-            tmp.setTsegmentid(buff[16]);
-            tmp.setUa(Ints2floatUtil.ints2float(buff, 18 ));
-            tmp.setUb(Ints2floatUtil.ints2float(buff, 22 ));
-            tmp.setUc(Ints2floatUtil.ints2float(buff, 26 ));
+            tmp.setC_DistrictBCDId(cDistrictId);
+            tmp.setC_AddressId(deviceId);
+            tmp.setC_FrameCmdId("A4");
+            tmp.setRecordDateBCD(recorddatebcd);
+            tmp.setTSegmentId(buff[16]);
+            tmp.setUa(Ints2floatUtil.ints2float(buff, 18));
+            tmp.setUb(Ints2floatUtil.ints2float(buff, 22));
+            tmp.setUc(Ints2floatUtil.ints2float(buff, 26));
             // 【2】保存非公共信息
             for (int i = 0; (13 * i + 31) <= iLen1; i++) {// 19表示每一个电器数据的字节数，13表示电器数据的起始位置
                 // 每个漏电数据入库
@@ -552,11 +930,11 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 // 【2.1】
                 Date date = new Date();
                 Timestamp timeStamp = new Timestamp(date.getTime());
-                tmp.setcChannelid(buff[31+13*i]);
+                tmp.setC_ChannelId(buff[31 + 13 * i]);
                 tmp.setP(Ints2floatUtil.ints2float(buff, 32 + 13 * i));
                 tmp.setQ(Ints2floatUtil.ints2float(buff, 36 + 13 * i));
                 tmp.setI(Ints2floatUtil.ints2float(buff, 40 + 13 * i));
-                tmp.setcRecordinserttime(timeStamp);
+                tmp.setC_RecordInsertTime(timeStamp);
                 insertData(tmp);
             }
             return true;
@@ -565,7 +943,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             return false;
         }
     }
-    /**电能质量
+
+    /**
+     * 电能质量
+     *
      * @param ndtudata
      * @return
      */
@@ -592,9 +973,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             tmp.setcFramecmdid("A5");
             tmp.setRecorddatebcd(recorddatebcd);
             tmp.setTsegmentid(buff[16]);
-            tmp.setUa(Ints2floatUtil.ints2float(buff, 18 ));
-            tmp.setUb(Ints2floatUtil.ints2float(buff, 22 ));
-            tmp.setUc(Ints2floatUtil.ints2float(buff, 26 ));
+            tmp.setUa(Ints2floatUtil.ints2float(buff, 18));
+            tmp.setUb(Ints2floatUtil.ints2float(buff, 22));
+            tmp.setUc(Ints2floatUtil.ints2float(buff, 26));
             // 【2】保存非公共信息
             for (int i = 0; (37 * i + 31) <= iLen1; i++) {// 19表示每一个电器数据的字节数，13表示电器数据的起始位置
                 // 每个漏电数据入库
@@ -602,7 +983,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 // 【2.1】
                 Date date = new Date();
                 Timestamp timeStamp = new Timestamp(date.getTime());
-                tmp.setcChannelid(buff[31+37*i]);
+                tmp.setcChannelid(buff[31 + 37 * i]);
                 tmp.setP(Ints2floatUtil.ints2float(buff, 32 + 37 * i));
                 tmp.setQ(Ints2floatUtil.ints2float(buff, 36 + 37 * i));
                 tmp.setI1(Ints2floatUtil.ints2float(buff, 40 + 37 * i));
@@ -621,6 +1002,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             return false;
         }
     }
+
     public static void main(String[] args) {
         Opdata record = new Opdata();
         record.setcDistrictbcdid("412");

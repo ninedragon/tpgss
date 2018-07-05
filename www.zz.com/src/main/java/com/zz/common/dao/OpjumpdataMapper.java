@@ -24,7 +24,7 @@ public interface OpjumpdataMapper {
 
 
 	List<LinkedHashMap<String, Object>> listSubcompareResult(
-			SubcompareBO subcompareBO);
+            SubcompareBO subcompareBO);
 
 
 

@@ -20,5 +20,5 @@ public interface URolePermissionMapper {
 	int deleteByRid(Long id);
 	int delete(URolePermission entity);
 
-	int deleteByRids(Map<String,Object> resultMap);
+	int deleteByRids(Map<String, Object> resultMap);
 }

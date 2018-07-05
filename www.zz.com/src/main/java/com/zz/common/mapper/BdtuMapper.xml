@@ -10,6 +10,7 @@
     <result column="C_DistrictBCDId" property="cDistrictbcdid" jdbcType="VARCHAR" />
     <result column="C_AddressId" property="cAddressid" jdbcType="VARCHAR" />
     <result column="C_ChannelNum" property="cChannelnum" jdbcType="INTEGER" />
+    <result column="C_ChannelId" property="cChannelId" jdbcType="VARCHAR" />
     <result column="C_HardwareVer" property="cHardwarever" jdbcType="VARCHAR" />
     <result column="C_SoftwareVer" property="cSoftwarever" jdbcType="VARCHAR" />
     <result column="C_FixIP" property="cFixip" jdbcType="VARCHAR" />

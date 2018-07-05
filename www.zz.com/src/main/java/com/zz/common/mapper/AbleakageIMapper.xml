@@ -42,7 +42,7 @@
       #{i,jdbcType=REAL}, #{isAbnormal,jdbcType=BIT}, #{cRecordinserttime,jdbcType=TIMESTAMP}, 
       #{occurtime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.zz.common.model.AbleakageI">
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.zz.common.model.AbleakageI">
     insert into t_ableakage_i
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

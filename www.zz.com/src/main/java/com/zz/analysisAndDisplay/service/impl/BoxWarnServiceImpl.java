@@ -10,7 +10,7 @@ import com.zz.analysisAndDisplay.bo.WarnBO;
 import com.zz.analysisAndDisplay.service.BoxWarnService;
 import com.zz.common.dao.AbleakageIMapper;
 import com.zz.common.dao.AbnormalUMapper;
-import com.zz.common.dao.AbnormalZMapper;
+import com.zz.common.dao.t_abnormal_zMapper;
 import com.zz.common.dao.LeakageIMapper;
 import com.zz.common.dao.PowerQualityMapper;
 import com.zz.common.dao.ShortIMapper;
@@ -25,7 +25,7 @@ public class BoxWarnServiceImpl implements BoxWarnService {
 	@Autowired
 	AbnormalUMapper abnormalUMapper;
 	@Autowired
-	AbnormalZMapper abnormalZMapper;
+	t_abnormal_zMapper t_abnormal_zMapper;
 	@Autowired
 	PowerQualityMapper powerQualityMapper;
 	/* 列出警告数据
