@@ -972,6 +972,6 @@ $(function() {
 	  $("#falutReason").html(selectHtml); 	
 	  so.init(function(){
 			 initList();
-});
+	});
 });
 

@@ -53,7 +53,7 @@ function drawSvg(svgModelData, el) {
   		          	var svgimg = setSvgimg("100","100","../woodare/image/boxImg.png",(this._x - 4),(this._y - 6),"meterboxImg_" + this.rowId);
 	  		         $("#Snap_Layer").append(svgimg).find("g[id='meterbox_"+this.rowId+"'],image[id='meterboxImg_"+this.rowId+"']").attr("epuName",this.epuName).click(function(){
 		            	  showAmmeter(this,svgModelData,uipqData);
- 					});
+	  		         });
 				});
 				//M0003
 				var tmpX = x3 + (w4 > this.width ? ((w4 - this.width) / 2) : 0);
@@ -375,14 +375,14 @@ function createBranchBoxXian(layer, id, x, y, height,type,name,lines) {
 	var g = layer.append("g").attr("id", "kaiguanxian_" + id);
 	var gird = (height - 50) / 2;
 	//组织分支箱/出线柜节点图标
-    var svgimg =  setSvgimg("50","50","../woodare/image/branchBox.png",(x -17),(y +50),"kaiguanxianImg_" + id,type);
+    var svgimg =  setSvgimg("50","50","../woodare/image/branchBox.png",(x -17),(y +50),"kaiguanxianImg_" + id);
     $("#Snap_Layer").append(svgimg).find("image[id='kaiguanxianImg_"+id+"']").attr("epuName",name).click(function(){
     	if(type == "M0003"){//分支箱的弹出层单击事件
     	  showBranchBox(this,uipqData,id);
     	}
     });
-	g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + y + " L " + (x + 8) + "," + (y + gird) + "");
-	g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + (y + gird + 50) + " L " + (x + 8) + "," + (y + height) + "");
+    g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + y + " L " + (x + 8) + "," + (y + gird) + "");
+    g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill","none").attr("d", "M " + (x + 8) + "," + (y + gird + 50) + " L " + (x + 8) + "," + (y + height) + "");
 }
 
 /**
@@ -460,13 +460,13 @@ function setCabinetsXTable(layerSnap,id,cabinetsX,cabinetsY,ua,ia,pa,qa,ub,ib,pb
 	var idTableNull_Y = cabinetsY - 150;
 	setCreateUseEl(layerSnap,"idTitleNull" + id, "tableList1",idTableNull_X + 32,idTableNull_Y);//空框
 	
-	var idTableU_X = cabinetsX +58;
-	var idTableU_Y = cabinetsY -150;
+	var idTableU_X = cabinetsX + 58;
+	var idTableU_Y = cabinetsY - 150;
 	setCreateUseEl(layerSnap,"idTitleU" + id, "tableList",idTableU_X,idTableU_Y);//u框
 	splitRemarks(layerSnap,"idTitleUtxt" + id,"U",idTableU_X + 37,idTableU_Y+22,"fText",18);//U文字
 	
-	var idTableI_X = idTableU_X +58;
-	var idTableI_Y = cabinetsY -150;
+	var idTableI_X = idTableU_X + 58;
+	var idTableI_Y = cabinetsY - 150;
 	setCreateUseEl(layerSnap,"idTitleI" + id, "tableList",idTableI_X,idTableI_Y);//i框
 	splitRemarks(layerSnap,"idTitleItxt" + id,"I",idTableI_X + 37,idTableI_Y+22,"fText",18);//I文字
 	
@@ -481,25 +481,25 @@ function setCabinetsXTable(layerSnap,id,cabinetsX,cabinetsY,ua,ia,pa,qa,ub,ib,pb
 	setCreateUseEl(layerSnap,"idTitleQ" + id, "tableList",idTableP_X,idTableP_Y);//Q框
 	splitRemarks(layerSnap,"idTitleQtxt" + id,"Q",idTableP_X + 37,idTableP_Y+22,"fText",18);//Q文字
 	var idTableA_X = idTableNull_X;
-	var idTableA_Y = idTableNull_Y+ 26;
+	var idTableA_Y = idTableNull_Y + 26;
 	
-	var idTableAU_X = idTableA_X +58;
-	var idTableAU_Y = idTableNull_Y+ 26;
+	var idTableAU_X = idTableA_X + 58;
+	var idTableAU_Y = idTableNull_Y + 26;
 	setCreateUseEl(layerSnap,"idUA" + id, "tableList",idTableAU_X,idTableAU_Y);//ua框
 	splitRemarks(layerSnap,"idUAtxt" + id,ua,idTableAU_X + 55,idTableAU_Y+22,"fText",14);//ua文字
 	
 	setCreateUseEl(layerSnap,"idTitleUANulltxt" + id, "tableList1",idTableNull_X  + 32,idTableAU_Y);//空框
 	splitRemarks(layerSnap,"idTitleUAtxt" + id,"A",idTableAU_X - 5 ,idTableAU_Y+22,"fText",18);//A
 	
-	var idTableAI_X = idTableAU_X +58;
-	var idTableAI_Y = idTableNull_Y+ 26;
+	var idTableAI_X = idTableAU_X + 58;
+	var idTableAI_Y = idTableNull_Y + 26;
 	setCreateUseEl(layerSnap,"idIA" + id, "tableList",idTableAI_X,idTableAI_Y);//ia框
 	splitRemarks(layerSnap,"idIAtxt" + id,ia,idTableAI_X + 55,idTableAI_Y+22,"fText",14);//ia文字
 	
 	
 	
-	var idTableAP_X = idTableAI_X +58;
-	var idTableAP_Y = idTableNull_Y+ 26;
+	var idTableAP_X = idTableAI_X + 58;
+	var idTableAP_Y = idTableNull_Y + 26;
 	setCreateUseEl(layerSnap,"idPA" + id, "tableList",idTableAP_X,idTableAP_Y);//pa框
 	splitRemarks(layerSnap,"idPAtxt" + id,pa,idTableAP_X + 55,idTableAP_Y+22,"fText",14);//pa文字
 	
@@ -512,21 +512,21 @@ function setCabinetsXTable(layerSnap,id,cabinetsX,cabinetsY,ua,ia,pa,qa,ub,ib,pb
 	
 	
 	
-	var idTableBU_X = idTableA_X +58;
-	var idTableBU_Y = idTableNull_Y+ 52;
+	var idTableBU_X = idTableA_X + 58;
+	var idTableBU_Y = idTableNull_Y + 52;
 	setCreateUseEl(layerSnap,"idUB" + id, "tableList",idTableBU_X,idTableBU_Y);//ub框
 	splitRemarks(layerSnap,"idUBtxt" + id,ub,idTableBU_X + 55,idTableBU_Y + 22,"fText",14);//ub文字
 	
 	setCreateUseEl(layerSnap,"idTitleUBNull" + id, "tableList1",idTableNull_X + 32,idTableBU_Y);//空框
 	splitRemarks(layerSnap,"idTitleUBNulltxt" + id,"B",idTableBU_X - 5,idTableBU_Y + 22,"fText",18);//B
 	
-	var idTableBI_X = idTableBU_X +58;
-	var idTableBI_Y = idTableNull_Y+ 52;
+	var idTableBI_X = idTableBU_X + 58;
+	var idTableBI_Y = idTableNull_Y + 52;
 	setCreateUseEl(layerSnap,"idIB" + id, "tableList",idTableBI_X,idTableBI_Y);//ib框
 	splitRemarks(layerSnap,"idIBtxt" + id,ib,idTableBI_X + 55,idTableBI_Y + 22,"fText",14);//ib文字
 	
-	var idTableBP_X = idTableBI_X +58;
-	var idTableBP_Y = idTableNull_Y+ 52;
+	var idTableBP_X = idTableBI_X + 58;
+	var idTableBP_Y = idTableNull_Y + 52;
 	setCreateUseEl(layerSnap,"idPB" + id, "tableList",idTableBP_X,idTableBP_Y);//pb框
 	splitRemarks(layerSnap,"idPBtxt" + id,pb,idTableBP_X + 55,idTableBP_Y + 22,"fText",14);//pb文字
 	
@@ -535,26 +535,26 @@ function setCabinetsXTable(layerSnap,id,cabinetsX,cabinetsY,ua,ia,pa,qa,ub,ib,pb
 	setCreateUseEl(layerSnap,"idQB" + id, "tableList",idTableBQ_X,idTableBQ_Y);//qb框
 	splitRemarks(layerSnap,"idQBtxt" + id,qb,idTableBQ_X + 55,idTableBQ_Y + 22,"fText",14);//qb文字
 
+
 	
 	
 	
-	
-	var idTableCU_X = idTableA_X +58;
-	var idTableCU_Y = idTableNull_Y+ 78;
+	var idTableCU_X = idTableA_X + 58;
+	var idTableCU_Y = idTableNull_Y + 78;
 	setCreateUseEl(layerSnap,"idUC" + id, "tableList",idTableCU_X,idTableCU_Y);//uc框
 	splitRemarks(layerSnap,"idUCtxt" + id,uc,idTableCU_X + 55,idTableCU_Y + 22,"fText",14);//uc文字
 	
 	setCreateUseEl(layerSnap,"idTitleUcNull" + id, "tableList1",idTableNull_X + 32,idTableCU_Y);//空框
 	splitRemarks(layerSnap,"idTitleUcNulltxt" + id,"C",idTableCU_X - 5,idTableCU_Y + 22,"fText",18);//C
 	
-	var idTableCI_X = idTableCU_X +58;
-	var idTableCI_Y = idTableNull_Y+ 78;
+	var idTableCI_X = idTableCU_X + 58;
+	var idTableCI_Y = idTableNull_Y + 78;
 	setCreateUseEl(layerSnap,"idIC" + id, "tableList",idTableCI_X,idTableCI_Y);//ic框
 	splitRemarks(layerSnap,"idICtxt" + id,ic,idTableCI_X + 55,idTableCI_Y + 22,"fText",14);//ic文字
 	
 	
-	var idTableCP_X = idTableCI_X +58;
-	var idTableCP_Y = idTableNull_Y+ 78;
+	var idTableCP_X = idTableCI_X + 58;
+	var idTableCP_Y = idTableNull_Y + 78;
 	setCreateUseEl(layerSnap,"idPC" + id, "tableList",idTableCP_X,idTableCP_Y);//pc框
 	splitRemarks(layerSnap,"idPCtxt" + id,pc,idTableCP_X + 55,idTableCP_Y + 22,"fText",14);//pc文字
 	
@@ -654,7 +654,7 @@ function createTextEl(layer, data, position) {
  * 创建引入图标
  * **/
 function createUseEl(layer, data, position) {
-	var grid =64;
+	var grid = 64;
 	position.rotate= position.rotate||0;
 	data.id = data.id || "";
 	var g = layer.append("g").attr("id", data.id);
@@ -761,7 +761,7 @@ function showTabData(layerSnap,rowId,tempX,tempY,tempCount,index,ua,ia,pa,qa,ub,
 	switch(faultType){
 	case "0":
 		faultTypeName = "短路";
-			break;
+		break;
 	case "1":
 		faultTypeName = "异常漏电";
 		break;
@@ -773,7 +773,7 @@ function showTabData(layerSnap,rowId,tempX,tempY,tempCount,index,ua,ia,pa,qa,ub,
 		break;
 	}
 	return faultTypeName;
-		}
+}
  
  /**
   * 获取组织的SVG图片
@@ -784,13 +784,11 @@ function showTabData(layerSnap,rowId,tempX,tempY,tempCount,index,ua,ia,pa,qa,ub,
   * y:Y坐标
   * id:图片绑定元素ID
   * **/
- function setSvgimg(height,width,srcPath,x,y,id,type){
+ function setSvgimg(height,width,srcPath,x,y,id){
     var svgimg = document.createElementNS('http://www.w3.org/2000/svg','image');
     svgimg.setAttributeNS(null,"height",height);
     svgimg.setAttributeNS(null,"width",width);
-    if(type != "M0002"){
-    	svgimg.setAttributeNS(null,"cursor","pointer");
-	}
+    svgimg.setAttributeNS(null,"cursor","pointer");
     svgimg.setAttributeNS("http://www.w3.org/1999/xlink","href", srcPath);
     svgimg.setAttributeNS(null,"x", x);
     svgimg.setAttributeNS(null,"y",y);
@@ -798,7 +796,7 @@ function showTabData(layerSnap,rowId,tempX,tempY,tempCount,index,ua,ia,pa,qa,ub,
     svgimg.setAttributeNS(null, "visibility", "visible");
     return svgimg;
 }
-
+ 
 return {
 	drawSvg : drawSvg
 }
