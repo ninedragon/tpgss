@@ -667,7 +667,7 @@
 							}
 						}
 					});					
-							         //上级设备名称
+				//上级设备名称
 		          $.ajax({ type: "post",
 				   			                url:  "${basePath}/epu/getParentEpu.shtml",
 				   			                data: {
