@@ -180,20 +180,24 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	    		    		         splitRemarks(layerSnap,"meterText_" + x_rowId,textNewlineArr[0],0 ,0,"fText",12,true);//电表文本文本内容
 	    		    		         //table
 	    		    		         var table_ammeterY = textNewlineArr[1] + 180;
-	    		    		         for(var k = 0;k < uipqData.length;k++){
-	    		    					 var json = uipqData[k];
-	    		    					 var type = json["type"];
-	    		    					 var key = json["key"];
-	    		    					 var phase = json["phase"];
-	    		    					 if(type == "meter" && key == x_rowId && phase =="a"){//找到对应的ID
-	    		    						 var u = json["u"];
-	    		    						 var i = json["i"];
-	    		    						 var p = json["p"];
-	    		    						 var q = json["q"];
-	    		    						 setammeterTable(layerSnap,x_rowId,ammeterX-65,table_ammeterY,u,i,p,q);
-	    		    						  break;
-	    		    					 }
-	    		    				 }
+	    		    		         if(uipqData){
+	    		    		        	 if(null != uipqData && uipqData.length > 0 ){
+			    		    		         for(var k = 0;k < uipqData.length;k++){
+			    		    					 var json = uipqData[k];
+			    		    					 var type = json["type"];
+			    		    					 var key = json["key"];
+			    		    					 var phase = json["phase"];
+			    		    					 if(type == "meter" && key == x_rowId && phase =="a"){//找到对应的ID
+			    		    						 var u = json["u"];
+			    		    						 var i = json["i"];
+			    		    						 var p = json["p"];
+			    		    						 var q = json["q"];
+			    		    						 setammeterTable(layerSnap,x_rowId,ammeterX-65,table_ammeterY,u,i,p,q);
+			    		    						  break;
+			    		    					 }
+			    		    				 }
+	    		    		        	 }
+	    		    		         }
 	    		    		 		//电表分割备注
 	    		    		         if(x == 0){
 		 		    		        	splitRemarks(layerSnap,"ammeterTxtID","电表",70,(ammeterY + 40),"fText",24);
@@ -265,27 +269,31 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	    		         splitRemarks(layerSnap,"meterBoxText_" + i_epuParentId,textNewlineArr[0],0 ,0,"fText",12,true);//表箱文本内容
 	    		         //table
 	    		       //展示table信息
-	    				 for(var k = 0;k < uipqData.length;k++){
-	    					 var json = uipqData[k];
-	    					 var type = json["type"];
-	    					 var key = json["key"];
-	    					 if(type == "meterBox" && key == i_epuParentId){//找到对应的分支箱
-	    						 var  ua = json["ua"];
-	    						 var  ia = json["ia"];
-	    						 var  pa = json["pa"];
-	    						 var qa = json["qa"];
-	    						 var ub = json["ub"];
-	    						 var ib = json["ib"];
-	    						 var pb = json["pb"];
-	    						 var qb = json["qb"];
-	    						 var uc = json["uc"];
-	    						 var ic = json["ic"];
-	    						 var pc = json["pc"];
-	    						 var qc = json["qc"];
-	    						 setCabinetsXTable(layerSnap,i_epuParentId,tempBranchBoxX+30,cabinetsY + 160,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
-	    						  break;
-	    					 }
-	    				 }
+	    		         if(uipqData){
+	    		        	 if(null != uipqData && uipqData.length > 0 ){
+			    				 for(var k = 0;k < uipqData.length;k++){
+			    					 var json = uipqData[k];
+			    					 var type = json["type"];
+			    					 var key = json["key"];
+			    					 if(type == "meterBox" && key == i_epuParentId){//找到对应的分支箱
+			    						 var  ua = json["ua"];
+			    						 var  ia = json["ia"];
+			    						 var  pa = json["pa"];
+			    						 var qa = json["qa"];
+			    						 var ub = json["ub"];
+			    						 var ib = json["ib"];
+			    						 var pb = json["pb"];
+			    						 var qb = json["qb"];
+			    						 var uc = json["uc"];
+			    						 var ic = json["ic"];
+			    						 var pc = json["pc"];
+			    						 var qc = json["qc"];
+			    						 setCabinetsXTable(layerSnap,i_epuParentId,tempBranchBoxX+30,cabinetsY + 160,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
+			    						  break;
+			    					 }
+			    				 }
+	    		        	 }
+	    		         }
 	    		         
 	    		        	//出线柜分割备注
 	    		        	splitRemarks(layerSnap,"cabinetsID","表箱",70,(cabinetsY+40),"fText",24);
@@ -347,7 +355,7 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	 parent.$("#tab3Iframe").attr("width", widthVal).attr("height", temp);
 	 svgSnap.attr("width", widthVal).attr("height", temp)
 	 parent.$("#tableBoxDiv").css("height", "auto");
-	 parent.$(".ammeter").css("width", (widthVal + 20)+"px").css("height", (heightVal - 150)+ "px");
+//	 parent.$(".ammeter").css("width", (widthVal + 20)+"px").css("height", (heightVal - 150)+ "px");
 	 
 		$("#falutDiv").css("top",( temp - 500)+"px");
 	 //执行故障渲染
@@ -947,7 +955,7 @@ function setSvgimg(height,width,srcPath,x,y,id){
    var svgimg = document.createElementNS('http://www.w3.org/2000/svg','image');
    svgimg.setAttributeNS(null,"height",height);
    svgimg.setAttributeNS(null,"width",width);
-   svgimg.setAttributeNS(null,"cursor","pointer");
+//   svgimg.setAttributeNS(null,"cursor","pointer");
    svgimg.setAttributeNS("http://www.w3.org/1999/xlink","href", srcPath);
    svgimg.setAttributeNS(null,"x", x);
    svgimg.setAttributeNS(null,"y",y);
