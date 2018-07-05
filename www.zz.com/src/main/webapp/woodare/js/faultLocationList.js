@@ -13,17 +13,14 @@ function getRootPath_web() {
     var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
     return (localhostPaht + projectName);
 }
-so.init(function() {
-    so.initFaultTypeList();
-    initList();
-});
 
 so.initFaultTypeList = function initFaultTypeList() {
     var basePath = getRootPath_web();
+    var codeTypes = "F0001,F0002,F0003,F0004";//默认所有
     $.ajax({
         type: "post",
         url: basePath + "/fault/faultTypeList.shtml",
-        data: {},
+        data: {codeTypes:codeTypes},
         async: true,
         dataType: "json",
         cache: false,
@@ -41,7 +38,13 @@ so.initFaultTypeList = function initFaultTypeList() {
         }
     });
 };
-function initList(pageNo) {
+function initList(keyArray,pageNo) {
+	var strKeyArray = "";
+	if(keyArray){
+		if(null != keyArray && keyArray.length > 0){
+			strKeyArray = keyArray.join(",")
+		}
+	}
     var basePath = getRootPath_web();
     $("#loadingDiv").show();
     $.ajax({
@@ -52,6 +55,7 @@ function initList(pageNo) {
         data: {
             row_name: $.trim($("#row_name").val()),
             fault_type: $.trim($("#fault_type").val()),
+            strKeyArray : strKeyArray,
             pageNo: pageNo,
             pageSize: 10
         },

@@ -53,7 +53,15 @@ public class FaultController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("queryList")
-	public @ResponseBody Map<String,Object> queryList(Integer pageNo,Integer pageSize,HttpServletRequest request,ModelMap map,FaultInfo faultInfo) {
+	public @ResponseBody Map<String,Object> queryList(String strKeyArray,Integer pageNo,Integer pageSize,HttpServletRequest request,ModelMap map,FaultInfo faultInfo) {
+		List<String> keyList = new ArrayList<String>();
+		if(null != strKeyArray && !"".equals(strKeyArray)){
+			String[] arr = (strKeyArray +",").split(",");
+			for (String key : arr) {
+				keyList.add(key);
+			}
+			map.put("keyList", keyList);
+		}
 		map.put("row_name", faultInfo.getRow_name());
 		map.put("fault_type", faultInfo.getFault_type());
 		Pagination<FaultInfo> page = faultService.findByPage(map,pageNo,pageSize);
@@ -65,12 +73,14 @@ public class FaultController extends BaseController {
 
 	@RequestMapping("faultTypeList")
 	@ResponseBody
-	public Object getProvinces(String regionId, HttpSession session) {
+	public Object getProvinces(String codeTypes, HttpSession session) {
 		List<String> codeTypeList = new ArrayList<String>();
-		codeTypeList.add("F0001");
-		codeTypeList.add("F0002");
-		codeTypeList.add("F0003");
-		codeTypeList.add("F0004");
+		if(null != codeTypes && !"".equals(codeTypes)){
+			String[] arr = (codeTypes +",").split(",");
+			for (String codeType : arr) {
+				codeTypeList.add(codeType);
+			}
+		}
 		List<CodeInfo> typeList = faultService.selectTypeList(codeTypeList);
 		for (CodeInfo codeInfo : typeList) {
 			if(null != codeInfo.getREMARK() && !"".equals(codeInfo.getREMARK()))

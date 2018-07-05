@@ -69,6 +69,12 @@
   <!--主体结束/-->
   <!--主体结束/-->
   <script src="${basePath}/woodare/js/faultLocationList.js"></script>
+   <script>
+	 so.init(function() {
+		so.initFaultTypeList();
+		initList();
+	});
+   </script>
 </body>
 
 </html>
