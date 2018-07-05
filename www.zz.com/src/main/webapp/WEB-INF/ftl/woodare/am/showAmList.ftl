@@ -368,7 +368,35 @@
 				    });
 				 });
 					  
-					  $('#amDiv #districtId').change(function () {
+					  $('#amDiv #epuId').change(function () {
+						  var epuId = $('#amDiv #epuId option:selected').val();			
+					  $.ajax({
+						  type: "post",
+			                url:  "${basePath}/epu/queryEpuByRowId.shtml",
+			                data: {
+			                    "rowId": epuId
+			                },
+			                dataType: "json",
+			                async:false,
+			                cache: false,
+			                error: function (a,b,c) {
+			                },
+			                success: function (data) {
+			                    var epuParentList = data.epuInfos;			            
+			                    $('#amDiv #districtId').val(epuParentList[0].districtId);
+			                    $('#amDiv #addressId').val(epuParentList[0].addressId);
+			                    var channelNum=parseInt(epuParentList[0].channelId.replace(/(^\s*)|(\s*$)/g, ""));
+			                    $('#amDiv #channelId').html('<option value="">--请选择--</option>');
+			                    for (var i = 1; i <=channelNum; i++) 
+			                    {
+			                   		$('#amDiv #channelId').append('<option value="' + i+ '">' + i+ '</option>');		                      		                        
+			                     }    
+			                   
+			                }
+				    });
+				 });	
+					  
+/* 					  $('#amDiv #districtId').change(function () {
 						  var i = $('#amDiv #districtId option:selected').val();			
 					  $.ajax({
 			                type: "post",
@@ -419,7 +447,7 @@
 			                   
 			                }
 				    });
-				 });
+				 }); */
 			 };
 		    
 			 amAdd.submitFun=function submitFun(flag){
@@ -673,7 +701,22 @@
 			                    for (var i = 0; i < epuParentList.length; i++) {
 			                    	if(amEdit.epuId==epuParentList[i].epuId)
    			                    	{
+			                    					                   
 			                        $('#amDiv #epuId').append('<option value="' + epuParentList[i].epuId + '" selected="selected">' + epuParentList[i].epuName + '</option>');
+			                        $('#amDiv #districtId').val(epuParentList[i].districtId);
+		   			                $('#amDiv #addressId').val(epuParentList[i].addressId);	
+		   			                $('#amDiv #channelId').html('<option value="">--请选择--</option>');
+			                        var channelNum=parseInt(epuParentList[i].channelId.replace(/(^\s*)|(\s*$)/g, "")); 
+	 			                    for (var j = 1; j <=channelNum; j++) 
+	 			                    {
+	 			                    	if(j==amEdit.channelId)
+	   			                    	{
+	 			                   		$('#amDiv #channelId').append('<option selected="selected" value="' + j+ '">' + j+ '</option>');	
+	   			                    	}else						   			                    		
+	   			                    	{
+	   			                    	 $('#amDiv #channelId').append('<option value="' + j+ '">' + j+ '</option>');	
+	   			                    	}
+	 			                     }    
    			                    	}
 			                    	else
 			                    	{
@@ -687,7 +730,7 @@
 		       
 		         //关联终端bcd编号
 		     
-			                	   $.ajax({
+/* 			                	   $.ajax({
 			   			                type: "post",
 			   			                url:  "${basePath}/epu/selectNdtuDistrictId.shtml",
 			   			                data: {
@@ -775,7 +818,7 @@
 						                    }
 						                   
 						                }
-							    });
+							    }); */
 			       
 		            
 			};
@@ -858,7 +901,35 @@
 				    });
 				 });
 					  
-					  $('#amDiv #districtId').change(function () {
+					  $('#amDiv #epuId').change(function () {
+						  var epuId = $('#amDiv #epuId option:selected').val();			
+					  $.ajax({
+			                type: "post",
+			                url:  "${basePath}/epu/queryEpuByRowId.shtml",
+			                data: {
+			                    "rowId": epuId
+			                },
+			                dataType: "json",
+			                async:false,
+			                cache: false,
+			                error: function (a,b,c) {
+			                },
+			                success: function (data) {
+			                    var epuParentList = data.epuInfos;			            
+			                    $('#amDiv #districtId').val(epuParentList[0].districtId);
+			                    $('#amDiv #addressId').val(epuParentList[0].addressId);
+			                    var channelNum=parseInt(epuParentList[0].channelId.replace(/(^\s*)|(\s*$)/g, ""));
+			                    $('#amDiv #channelId').html('<option value="">--请选择--</option>');
+			                    for (var i = 1; i <=channelNum; i++) 
+			                    {
+			                   		$('#amDiv #channelId').append('<option value="' + i+ '">' + i+ '</option>');		                      		                        
+			                     }    
+			                   
+			                }
+				    });
+				 });	
+					  
+/* 					  $('#amDiv #districtId').change(function () {
 						  var i = $('#amDiv #districtId option:selected').val();			
 					  $.ajax({
 			                type: "post",
@@ -909,7 +980,7 @@
 			                   
 			                }
 				    });
-				 });
+				 }); */
 			 };
 				
 			 amEdit.submitFun =function submitFun(flag){
@@ -1188,19 +1259,17 @@
                <span>相别</span>
                <input name="phaseRemark"  id="phaseRemark" type="text" class="text request" title="电表号" maxlength="100">                         
             </lable>      
-            <lable>
+           <lable>
                 <span>关联终端编号</span>
-                <select name="districtId" id="districtId" class="text requiredSelect" title="关联终端编号"></select>
+                  <input name="districtId" id="districtId"   type="text" class="text request" title="关联终端编号" readonly="readonly">
             </lable>
              <lable>
                 <span>关联终端地址号</span>
-                <select name="addressId" id="addressId" class="text requiredSelect" title="关联终端地址号">
-								</select>
+                  <input name="addressId" id="addressId"   type="text" class="text request" title="关联终端地址号" readonly="readonly">
             </lable>
              <lable>
                 <span>关联终端通道号</span>
-                <select name="channelId" id="channelId" class="text requiredSelect" title="关联终端通道号">
-								</select>
+                <select name="channelId" id="channelId" class="text requiredSelect" title="关联终端通道号"></select>
             </lable>
            	
              <div class="but-nav" style="margin:0px 0px 20px 0px">

@@ -209,6 +209,9 @@
     -->
    SELECT
 		row_id as epu_id,
+		district_id,
+		address_id,
+		channel_id,
 		epu_name
 	FROM
 	view_epu_info

@@ -157,6 +157,7 @@
 			            	epuDistrict: $(".search #epuDistrict").val(),
 			            	epuType: 'M0002',
 			            	epuName: $(".search #epuName").val(),
+			            	districtId: $(".search #districtId").val(),
 			            	pageNo:pageNo,
 			            	pageSize:10
 			            },
@@ -170,7 +171,16 @@
 			                        for (var i = 0; i < epuList.length; i++) {
 			                          
 			                             var epuLocal=epuList[i].epuLocal==null?"":epuList[i].epuLocal;
-			                           
+			                             var  districtId=epuList[i].districtId;
+			                             if(districtId==null || districtId=='' || districtId==undefined || districtId=="null")
+			                             {
+			                             districtId="";
+			                             }
+			                             else
+			                             {
+			                            districtId= epuList[i].districtId+"-" +epuList[i].addressId+"-" +epuList[i].channelId;
+			                             }
+
 			                            tbody += '<tr>';
 			                           //	tbody += '<td align="center"></td>';		             
 			                            tbody += '<td align="center"><div>' + epuList[i].epuProvinceName+ '</div></td>';
@@ -179,7 +189,8 @@
 			                            tbody += '<td align="center"><div>' + epuList[i].epuLocal + '</div></td>';
 			                            
 			                            tbody += '<td align="center"><div>' + epuList[i].epuName+ '</div></td>';
-			                            tbody += '<td align="center"><div>' +epuList[i].epuParentName + '</div></td>';	                          
+			                            tbody += '<td align="center"><div>' +epuList[i].epuParentName + '</div></td>';
+			                            tbody += '<td align="center"><div>'+districtId + '</div></td>';	
 			                            tbody += '<td align="center"><div></div></td>'; 
 			                            tbody += '<td><div><a href="javascript:epuEdit.saveShow(\''+epuList[i].rowId+'\');">编辑</a>&nbsp;&nbsp;<a href="javascript:so.delEpuInfo(\''+epuList[i].rowId+'\');">删除</a>';			                                             			                            
 			                            tbody += '</tr>';			                            
@@ -244,6 +255,29 @@
 			};
 			
 			 epAdd.registEvent= function registEvent() {
+				 
+				   $.ajax({
+			                type: "post",
+			                url:  "${basePath}/epu/selectBdtuDistrictId.shtml",
+			                data: {
+			                     epuType:'0' 
+			                },
+			                dataType: "json",
+			                async:false,
+			                cache: false,
+			                error: function (a,b,c) {
+			                },
+			                success: function (a) {
+			                    var epuInfoList = a.epuInfoList;
+			            
+			                    $('#saveDiv #districtId').html('<option value="">--请选择--</option>');
+			                    for (var i = 0; i < epuInfoList.length; i++) {
+			                        $('#saveDiv #districtId').append('<option value="' + epuInfoList[i].districtId + '">' + epuInfoList[i].districtId + '</option>');
+			                    }
+			  
+			                }			                
+          	   });
+				 
 				  $('#saveDiv #epuProvince').change(function () {
 					  var i = $('#saveDiv #epuProvince option:selected').val();			
 				  $.ajax({
@@ -320,6 +354,59 @@
 			                }
 				    });
 				 });
+				 
+				 
+				 $('#saveDiv #districtId').change(function () {
+					  var i = $('#saveDiv #districtId option:selected').val();			
+				  $.ajax({
+		                type: "post",
+		                url:  "${basePath}/epu/selectBdtuAddressIdByDistrictId.shtml",
+		                data: {
+		                    "districtId": i
+		                },
+		                dataType: "json",
+		                async:false,
+		                cache: false,
+		                error: function (a,b,c) {
+		                },
+		                success: function (a) {
+		                    var epuInfoList = a.epuInfoList;
+		            
+		                    $('#saveDiv #addressId').html('<option value="">--请选择--</option>');
+		                    for (var i = 0; i < epuInfoList.length; i++) {
+		                        $('#saveDiv #addressId').append('<option value="' + epuInfoList[i].addressId + '">' + epuInfoList[i].addressId + '</option>');
+		                    }
+		                   
+		                }
+			    });
+			 });
+				 
+				 $('#saveDiv #addressId').change(function () {
+					  var districtId = $('#saveDiv #districtId option:selected').val();	
+					  var addressId = $('#saveDiv #addressId option:selected').val();		
+				  $.ajax({
+		                type: "post",
+		                url:  "${basePath}/epu/selectBdtuDIstinctByChannelId.shtml",
+		                data: {
+		                    districtId: districtId,
+		                    addressId:addressId
+		                },
+		                dataType: "json",
+		                async:false,
+		                cache: false,
+		                error: function (a,b,c) {
+		                },
+		                success: function (a) {
+		                    var epuInfoList = a.epuInfoList;
+		            
+		                    $('#saveDiv #channelId').html('<option value="">--请选择--</option>');
+		                    for (var i = 0; i < epuInfoList.length; i++) {
+		                        $('#saveDiv #channelId').append('<option value="' + epuInfoList[i].channelId + '">' + epuInfoList[i].channelId + '</option>');
+		                    }
+		                   
+		                }
+			    });
+			 });
 							  
 			 };
 				 
@@ -383,7 +470,10 @@
 					var epuName=$("#saveDiv #epuName").val();
 					var epuLocal=$("#saveDiv #epuLocal").val();
 					var epuParentId=$("#saveDiv #epuParentId").val();
-				
+
+					var districtId=$("#saveDiv #districtId").val();
+					var addressId=$("#saveDiv #addressId").val();
+					var channelId=$("#saveDiv #channelId").val();
 					var returnFlag=true;
 					//当设备名称发生变化，需要校验设备名称同区域性的唯一性
 					if( $("#saveDiv #epuNameBefore").val()!=epuName)
@@ -428,7 +518,10 @@
 							epuType:'M0002',
 							epuName:epuName,
 							epuLocal:epuLocal,
-							epuParentId:epuParentId
+							epuParentId:epuParentId,
+                            districtId:districtId,
+							addressId:addressId,
+							channelId:channelId
 						
 						},
 						success : function(data) {
@@ -449,6 +542,9 @@
 				$("#saveDiv #epuName").val('');
 				$("#saveDiv #epuLocal").val('');
 				$("#saveDiv #epuParentId").val('');
+				$("#saveDiv #districtId").val('');
+				$("#saveDiv #addressId").val('');
+				$("#saveDiv #channelId").val('');
 				$("#saveDiv").show();
 				  epAdd.initProvince();
 				  epAdd.registEvent();
@@ -465,6 +561,9 @@
     epuEdit.epuCity;
      epuEdit.epuDistrict;
     epuEdit.epuParentId;
+    epuEdit.districtId;
+    epuEdit.addressId;
+   epuEdit.channelId;
 			//初始化页面数据
 			    epuEdit.initPage= function initPage() {
 				// 省份
@@ -583,6 +682,96 @@
 				   			                   
 				   			                }
 				   				    }); 
+		         
+		          //关联终端bcd编号
+				     
+           	   $.ajax({
+			                type: "post",
+			                url:  "${basePath}/epu/selectBdtuDistrictId.shtml",
+			                data: {
+			                     epuType:'0' 
+			                },
+			                dataType: "json",
+			                async:false,
+			                cache: false,
+			                error: function (a,b,c) {
+			                },
+			                success: function (a) {
+			                    var epuInfoList = a.epuInfoList;
+			            
+			                    $('#saveDiv #districtId').html('<option value="">--请选择--</option>');
+			                    for (var i = 0; i < epuInfoList.length; i++) {
+			                    	if(epuEdit.districtId==epuInfoList[i].districtId)
+			                    	{
+			                    	  $('#saveDiv #districtId').append('<option value="' + epuInfoList[i].districtId + '" selected="selected">' + epuInfoList[i].districtId + '</option>');
+			                    	}
+			                    	else
+			                    	{
+			                    	  $('#saveDiv #districtId').append('<option value="' + epuInfoList[i].districtId + '">' + epuInfoList[i].districtId + '</option>');
+			                    	}
+			                      
+			                    }
+			                }			                
+           	   });
+           	   
+           	   $.ajax({
+		                type: "post",
+		                url:  "${basePath}/epu/selectBdtuAddressIdByDistrictId.shtml",
+		                data: {
+		                    districtId: epuEdit.districtId
+		                },
+		                dataType: "json",
+		                async:false,
+		                cache: false,
+		                error: function (a,b,c) {
+		                },
+		                success: function (a) {
+		                    var epuInfoList = a.epuInfoList;
+		            
+		                    $('#saveDiv #addressId').html('<option value="">--请选择--</option>');
+		                    for (var i = 0; i < epuInfoList.length; i++) {
+		                    	if(epuEdit.addressId==epuInfoList[i].addressId)
+		                    	{
+		                    		 $('#saveDiv #addressId').append('<option value="' + epuInfoList[i].addressId + '" selected="selected">' + epuInfoList[i].addressId + '</option>');
+		                    	}
+		                    	else
+		                    		
+		                    	{
+		                    		 $('#saveDiv #addressId').append('<option value="' + epuInfoList[i].addressId + '">' + epuInfoList[i].addressId + '</option>');
+		                    	}						                       
+		                    }						                   
+		                }
+			    }); 
+           	  
+           	   $.ajax({
+			                type: "post",
+			                url:  "${basePath}/epu/selectBdtuDIstinctByChannelId.shtml",
+			                data: {
+			                 districtId: epuEdit.districtId,
+			                  addressId: epuEdit.addressId
+			                },
+			                dataType: "json",
+			                async:false,
+			                cache: false,
+			                error: function (a,b,c) {
+			                },
+			                success: function (a) {
+			                    var epuInfoList = a.epuInfoList;
+			            
+			                    $('#saveDiv #channelId').html('<option value="">--请选择--</option>');
+			                    for (var i = 0; i < epuInfoList.length; i++) {
+			                    	if(epuEdit.channelId==epuInfoList[i].channelId)
+		                    	{
+		                    		 $('#saveDiv #channelId').append('<option value="' + epuInfoList[i].channelId + '" selected="selected">' + epuInfoList[i].channelId + '</option>');
+		                    	}
+		                    	else						                    		
+		                    	{
+		                    		 $('#saveDiv #channelId').append('<option value="' + epuInfoList[i].channelId + '">' + epuInfoList[i].channelId + '</option>');
+		                    	}		   			          
+			                    }
+			  
+			                }			                
+           	   });
 			};
 		
 			 epuEdit.registEvent=function registEvent() {
@@ -662,6 +851,59 @@
 			                }
 				    });
 				 });
+				 
+				  $('#saveDiv #districtId').change(function () {
+					  var i = $('#saveDiv #districtId option:selected').val();			
+				  $.ajax({
+		                type: "post",
+		                url:  "${basePath}/epu/selectBdtuAddressIdByDistrictId.shtml",
+		                data: {
+		                    "districtId": i
+		                },
+		                dataType: "json",
+		                async:false,
+		                cache: false,
+		                error: function (a,b,c) {
+		                },
+		                success: function (a) {
+		                    var epuInfoList = a.epuInfoList;
+		            
+		                    $('#saveDiv #addressId').html('<option value="">--请选择--</option>');
+		                    for (var i = 0; i < epuInfoList.length; i++) {
+		                        $('#saveDiv #addressId').append('<option value="' + epuInfoList[i].addressId + '">' + epuInfoList[i].addressId + '</option>');
+		                    }
+		                   
+		                }
+			    });
+			 });
+				  
+				  
+				  $('#saveDiv #addressId').change(function () {
+					  var districtId = $('#saveDiv #districtId option:selected').val();	
+					  var addressId = $('#saveDiv #addressId option:selected').val();		
+				  $.ajax({
+		                type: "post",
+		                url:  "${basePath}/epu/selectBdtuDIstinctByChannelId.shtml",
+		                data: {
+		                    districtId: districtId,
+		                    addressId:addressId
+		                },
+		                dataType: "json",
+		                async:false,
+		                cache: false,
+		                error: function (a,b,c) {
+		                },
+		                success: function (a) {
+		                    var epuInfoList = a.epuInfoList;
+		            
+		                    $('#saveDiv #channelId').html('<option value="">--请选择--</option>');
+		                    for (var i = 0; i < epuInfoList.length; i++) {
+		                        $('#saveDiv #channelId').append('<option value="' + epuInfoList[i].channelId + '">' + epuInfoList[i].channelId + '</option>');
+		                    }
+		                   
+		                }
+			    });
+			 });
 					  
 			 };
 			 
@@ -688,7 +930,10 @@
 										epuEdit.epuProvince=epuInfo.epuProvince;
 										 epuEdit.epuCity=epuInfo.epuCity;
 										 epuEdit.epuDistrict=epuInfo.epuDistrict;								
-										 epuEdit.epuParentId=epuInfo.epuParentId;							
+										 epuEdit.epuParentId=epuInfo.epuParentId;
+										   epuEdit.districtId=epuInfo.districtId;
+										   epuEdit.addressId=epuInfo.addressId;
+										  epuEdit.channelId=epuInfo.channelId;
 								    $("#saveDiv").show();
 								    epuEdit.initPage();
 				                    epuEdit.registEvent();	
@@ -737,6 +982,10 @@
         <lable>       
         	<span>设备名称 </span>
             <input  id="epuName" name ="epuName" type="text"  value="">
+    	</lable>
+    	 <lable>
+        	<span>关联终端</span>
+            <input  id="districtId" name="districtId" type="text" value="">
     	</lable>     
         <div class="but-nav">
 <!--         	<span class="but" id="btn_query" >查&nbsp;&nbsp;询</span> -->
@@ -766,7 +1015,8 @@
 							<th>区县</th>
 							<th>所在位置</th>
 							<th>设备名称</th>
-							<th>上级设备</th>							
+							<th>上级设备</th>
+							<th>线缆号</th>							
 							<th>状态</th>
 							<th>操作</th>
 				
@@ -819,7 +1069,20 @@
                 <span>设备位置</span>
                 <input name="epuLocal"  id="epuLocal" type="text" class="text request" title="设备位置" maxlength="100">
                          
-            </lable>             
+            </lable>
+            <lable>
+                <span>关联终端编号</span>
+                <select name="districtId" id="districtId" class="text requiredSelect" title="关联终端编号"></select>
+            </lable>
+             <lable>
+                <span>关联终端地址号</span>
+                <select name="addressId" id="addressId" class="text requiredSelect" title="关联终端地址号">
+								</select>
+            </lable>
+             <lable>
+                <span>关联终端通道数</span>
+                <select name="channelId" id="channelId" class="text requiredSelect" title="关联终端通道数"></select>
+            </lable>
 	        <div class="but-nav" style="margin:0px 0px 20px 0px">
                 <span class="but" onclick="javascript:epAdd.submitFun('1');">保&nbsp;&nbsp;存</a></span>
                 <span class="but miss close-js" onclick="$('#saveDiv').hide();">取&nbsp;&nbsp;消</span>

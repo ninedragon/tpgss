@@ -247,7 +247,7 @@
 			
 			 epAdd.registEvent= function registEvent() {
 			 
-                    $.ajax({
+                  /*   $.ajax({
   			                type: "post",
   			                url:  "${basePath}/epu/selectBdtuDistrictId.shtml",
   			                data: {
@@ -267,7 +267,7 @@
   			                    }
   			  
   			                }			                
-               	   });
+               	   }); */
 				  $('#saveDiv #epuProvince').change(function () {
 					  var i = $('#saveDiv #epuProvince option:selected').val();			
 				  $.ajax({
@@ -335,7 +335,7 @@
 			                },
 			                success: function (a) {
 			                    var epuParentList = a.epuParentList;
-			            
+			                 
 			                    $('#saveDiv #epuParentId').html('<option value="">--请选择--</option>');
 			                    for (var i = 0; i < epuParentList.length; i++) {
 			                        $('#saveDiv #epuParentId').append('<option value="' + epuParentList[i].rowId + '">' + epuParentList[i].epuName + '</option>');
@@ -345,7 +345,38 @@
 				    });
 				 });
 					  
-					  $('#saveDiv #districtId').change(function () {
+					  $('#saveDiv #epuParentId').change(function () {
+						  var epuParentId = $('#saveDiv #epuParentId option:selected').val();			
+					  $.ajax({
+			                type: "post",
+			                url:  "${basePath}/epu/queryEpuByRowId.shtml",
+			                data: {
+			                    "rowId": epuParentId
+			                },
+			                dataType: "json",
+			                async:false,
+			                cache: false,
+			                error: function (a,b,c) {
+			                },
+			                success: function (data) {
+			                    var epuParentList = data.epuInfos;			            
+			                    $('#saveDiv #districtId').val(epuParentList[0].districtId);
+			                    $('#saveDiv #addressId').val(epuParentList[0].addressId);
+			                    
+			                   // 去除空格并转成整数
+			                    var channelNum=parseInt(epuParentList[0].channelId.replace(/(^\s*)|(\s*$)/g, "")); 
+			                    $('#saveDiv #channelId').html('<option value="">--请选择--</option>');   
+			                    for (var i = 1; i <=channelNum; i++) 
+			                    {
+			                   		$('#saveDiv #channelId').append('<option value="' + i+ '">' + i+ '</option>');		                      		                        
+			                     }    
+			                  
+			                   
+			                }
+				    });
+				 });
+					  
+					/*   $('#saveDiv #districtId').change(function () {
 						  var i = $('#saveDiv #districtId option:selected').val();			
 					  $.ajax({
 			                type: "post",
@@ -395,7 +426,7 @@
 			                   
 			                }
 				    });
-				 });				  
+				 });				   */
 			 };
 				 
 			 epAdd.submitFun=function submitFun(flag){
@@ -651,12 +682,26 @@
 				   			                },
 				   			                success: function (a) {
 				   			                    var epuParentList = a.epuParentList;
-				   			               
+				   			                  
 				   			                    $('#saveDiv #epuParentId').html('<option value="">--请选择--</option>');
 				   			                    for (var i = 0; i < epuParentList.length; i++) {
 				   			                    	if(epuEdit.epuParentId==epuParentList[i].rowId)
 				   			                    	{
 				   			                    	  $('#saveDiv #epuParentId').append('<option value="' + epuParentList[i].rowId + '" selected="selected">' + epuParentList[i].epuName + '</option>');
+				   			                        $('#saveDiv #districtId').val(epuParentList[i].districtId);
+				   			                    	$('#saveDiv #addressId').val(epuParentList[i].addressId);
+				   			                     $('#saveDiv #channelId').html('<option value="">--请选择--</option>');
+				   			                     var channelNum=parseInt(epuParentList[i].channelId.replace(/(^\s*)|(\s*$)/g, "")); 
+						 			                    for (var j = 1; j <=channelNum; j++) 
+						 			                    {
+						 			                    	if(j==epuEdit.channelId)
+						   			                    	{
+						 			                   		$('#saveDiv #channelId').append('<option selected="selected" value="' + j+ '">' + j+ '</option>');	
+						   			                    	}else						   			                    		
+						   			                    	{
+						   			                    	 $('#saveDiv #channelId').append('<option value="' + j+ '">' + j+ '</option>');	
+						   			                    	}
+						 			                     }    
 				   			                    	}
 				   			                    	else
 				   			                    	{
@@ -669,7 +714,7 @@
 				   				    });
 				   				    
 		         //关联终端bcd编号
-		     
+		     /* 
 			                	   $.ajax({
 			   			                type: "post",
 			   			                url:  "${basePath}/epu/selectBdtuDistrictId.shtml",
@@ -756,7 +801,7 @@
 			   			                    }
 			   			  
 			   			                }			                
-			                	   }); 		            
+			                	   }); 		             */
 			};		
 			 epuEdit.registEvent=function registEvent() {			 
 
@@ -837,7 +882,35 @@
 				    });
 				 });
 					  
-					  $('#saveDiv #districtId').change(function () {
+					  $('#saveDiv #epuParentId').change(function () {
+						  var epuParentId = $('#saveDiv #epuParentId option:selected').val();			
+					  $.ajax({
+			                type: "post",
+			                url:  "${basePath}/epu/queryEpuByRowId.shtml",
+			                data: {
+			                    "rowId": epuParentId
+			                },
+			                dataType: "json",
+			                async:false,
+			                cache: false,
+			                error: function (a,b,c) {
+			                },
+			                success: function (data) {
+			                    var epuParentList = data.epuInfos;			            
+			                    $('#saveDiv #districtId').val(epuParentList[0].districtId);
+			                    $('#saveDiv #addressId').val(epuParentList[0].addressId);
+			                    var channelNum=parseInt(epuParentList[0].channelId.replace(/(^\s*)|(\s*$)/g, ""));
+			                    $('#saveDiv #channelId').html('<option value="">--请选择--</option>');
+			                    for (var i = 1; i <=channelNum; i++) 
+			                    {
+			                   		$('#saveDiv #channelId').append('<option value="' + i+ '">' + i+ '</option>');		                      		                        
+			                     }    
+			                   
+			                }
+				    });
+				 });	            
+					  
+					/*   $('#saveDiv #districtId').change(function () {
 						  var i = $('#saveDiv #districtId option:selected').val();			
 					  $.ajax({
 			                type: "post",
@@ -888,7 +961,7 @@
 			                   
 			                }
 				    });
-				 });	  
+				 });	   */
 					  
 					  
 			 };
@@ -1058,17 +1131,15 @@
             </lable>
             <lable>
                 <span>关联终端编号</span>
-                <select name="districtId" id="districtId" class="text requiredSelect" title="关联终端编号"></select>
+                  <input name="districtId" id="districtId"   type="text" class="text request" title="关联终端编号" readonly="readonly">
             </lable>
              <lable>
                 <span>关联终端地址号</span>
-                <select name="addressId" id="addressId" class="text requiredSelect" title="关联终端地址号">
-								</select>
+                  <input name="addressId" id="addressId"   type="text" class="text request" title="关联终端地址号" readonly="readonly">
             </lable>
              <lable>
                 <span>关联终端通道号</span>
-                <select name="channelId" id="channelId" class="text requiredSelect" title="关联终端通道号">
-								</select>
+                <select name="channelId" id="channelId" class="text requiredSelect" title="关联终端通道号"></select>
             </lable>
               <lable>
                 <span>线缆号</span>

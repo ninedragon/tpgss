@@ -32,7 +32,10 @@
     <result column="epu_parent_type_name" property="epuParentTypeName" jdbcType="VARCHAR" />
     <result column="epu_parent_type" property="epuParentType" jdbcType="VARCHAR" />
     <result column="channel_id" property="channelId" jdbcType="VARCHAR" />
-     <result column="line_id" property="lineId" jdbcType="VARCHAR" />
+    <result column="line_id" property="lineId" jdbcType="VARCHAR" />
+    <result column="C_DistrictBCDId" property="c_DistrictBCDId" jdbcType="VARCHAR" />
+    <result column="C_AddressId" property="c_AddressId" jdbcType="VARCHAR" />
+    <result column="C_ChannelNum" property="c_ChannelNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -493,10 +496,10 @@
         C_AddressId,
       </if>
        <if test="channelId != null and channelId !=''">
-         <if test="epuType != 'M0004' and epuType != 'M0003'">
+         <if test=" epuType != 'M0003'">
 		        C_ChannelNum,
          </if>
-           <if test="epuType == 'M0004' or epuType == 'M0003' ">
+           <if test="epuType == 'M0003' ">
          	        C_ChannelId,
            </if>
       </if>
@@ -635,7 +638,16 @@
         C_AddressId = #{addressId,jdbcType=VARCHAR},
       </if>
       <if test="channelId != null and channelId !=''">
-        C_ChannelNum = #{channelId,jdbcType=VARCHAR},
+         <if test="epuType == 'M0002'">
+          C_ChannelNum = #{channelId,jdbcType=VARCHAR},
+         </if>  
+          <if test="epuType == 'M0003'">
+         C_ChannelId=#{channelId,jdbcType=VARCHAR},
+         </if>  
+           <if test="epuType == 'M0004'">
+          C_ChannelNum = #{channelId,jdbcType=VARCHAR},
+         </if>
+     
       </if>
       <if test="lineId != null and lineId !=''">
         line_id = #{lineId,jdbcType=VARCHAR},
