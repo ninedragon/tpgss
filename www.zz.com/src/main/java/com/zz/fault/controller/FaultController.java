@@ -57,9 +57,15 @@ public class FaultController extends BaseController {
 		List<String> keyList = new ArrayList<String>();
 		if(null != strKeyArray && !"".equals(strKeyArray)){
 			String[] arr = (strKeyArray +",").split(",");
+			String sql = "  AND ( ";
+			String temp = "";
 			for (String key : arr) {
 				keyList.add(key);
+				temp  += " temp.key_id = '"+key+"' or ";
 			}
+			temp = temp.substring(0, temp.lastIndexOf("or "));
+			sql += temp +"  ) ";
+//			map.put("paramSQL", sql);
 			map.put("keyList", keyList);
 		}
 		map.put("row_name", faultInfo.getRow_name());
@@ -73,7 +79,7 @@ public class FaultController extends BaseController {
 
 	@RequestMapping("faultTypeList")
 	@ResponseBody
-	public Object getProvinces(String codeTypes, HttpSession session) {
+	public Object faultTypeList(String codeTypes, HttpSession session) {
 		List<String> codeTypeList = new ArrayList<String>();
 		if(null != codeTypes && !"".equals(codeTypes)){
 			String[] arr = (codeTypes +",").split(",");

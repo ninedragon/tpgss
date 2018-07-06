@@ -42,8 +42,15 @@ function showTop(rowId){
 	        	 if(allData){
 	        		 mySvg = SVG_HELPER.drawSvg(allData, 'body');
 	        		 //加载故障
+	        		 var strKeyArray = "";
+	        			if(mySvg.keyArray){
+	        				if(null != mySvg.keyArray && mySvg.keyArray.length > 0){
+	        					strKeyArray = mySvg.keyArray.join(",")
+	        				}
+	        				$("#strKeyArray").val(strKeyArray);
+	        			}
 	        		 so.initFaultTypeList();
-	        		 initList(mySvg.keyArray);
+	        		 initList(undefined,mySvg.keyArray);
 	        		 dataTemp = allData;
 	        		 var wd = parseFloat($("#wd").val() || 1) ;
 	        		 mySvg.scale(wd);
@@ -147,7 +154,7 @@ $(function() {
 	 	    $(".box").css("top", ($(this).scrollTop() ));
     		$(".box").css("left", ($(this).scrollLeft() ));
 	 });
-	$("#falutDiv").css("top",( mySvg.topoHeight()- 450)+"px");
+	$("#falutDiv").css("top",( mySvg.topoHeight()- 460)+"px");
 });
 /**
  * 故障定位

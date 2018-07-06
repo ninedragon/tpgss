@@ -79,6 +79,7 @@
 	FROM
 		(
 			SELECT
+				fault.key_id,
 				am.meterId as row_id,
 				am.meter_name AS row_name,
 				fault.fault_type,
@@ -107,6 +108,7 @@
 			AND epu.DEL_FLAG = '0'
 			UNION
 				SELECT
+					fault.key_id,
 					epu.row_id,
 					epu.epu_name AS row_name,
 					fault.fault_type,
@@ -139,12 +141,13 @@
 	        AND temp.fault_type=  #{fault_type,jdbcType=VARCHAR}
 	      </if>	
 	      <if test=" keyList != null">  
-		       AND temp.row_id IN 
+		       AND temp.key_id IN 
 	          <foreach collection="keyList" item="key" separator=","
                 open="(" close=")">
                 #{key}
             </foreach>
         </if>
+			 <![CDATA[ ${paramSQL} ]]>    
 	ORDER BY
 		temp.occur_time DESC
     <include refid="limit_sql" />
@@ -155,6 +158,7 @@
 	FROM
 		(
 			SELECT
+				fault.key_id,
 				am.meterId as row_id,
 				am.meter_name AS row_name,
 				fault.fault_type,
@@ -183,6 +187,7 @@
 			AND epu.DEL_FLAG = '0'
 			UNION
 				SELECT
+					fault.key_id,
 					epu.row_id,
 					epu.epu_name AS row_name,
 					fault.fault_type,
@@ -207,7 +212,7 @@
 					1 = 1
 				AND epu.DEL_FLAG = '0'
 		) AS temp
-			WHERE 1=1 
+		WHERE 1=1
 		<if test="row_name != '' and row_name != null"> 
 	       	AND LOWER(temp.row_name) like  LOWER(CONCAT("%",#{row_name,jdbcType=VARCHAR},"%")) 
 	     </if>	
@@ -215,12 +220,13 @@
 	        AND temp.fault_type=  #{fault_type,jdbcType=VARCHAR}
 	      </if>	
 	      <if test=" keyList != null">  
-		       AND temp.row_id IN 
+		       AND temp.key_id IN 
 	          <foreach collection="keyList" item="key" separator=","
                 open="(" close=")">
                 #{key}
             </foreach>
         </if>
+			 <![CDATA[ ${paramSQL} ]]>    
   </select> 
    <select id="selectTypeList" resultMap="CodeTypeResultMap" parameterType="java.util.List">
    		SELECT

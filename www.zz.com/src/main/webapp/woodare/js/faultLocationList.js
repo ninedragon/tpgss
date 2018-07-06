@@ -38,7 +38,7 @@ so.initFaultTypeList = function initFaultTypeList() {
         }
     });
 };
-function initList(keyArray,pageNo) {
+function initList(pageNo,keyArray) {
 	var strKeyArray = "";
 	if(keyArray){
 		if(null != keyArray && keyArray.length > 0){
@@ -57,7 +57,7 @@ function initList(keyArray,pageNo) {
             fault_type: $.trim($("#fault_type").val()),
             strKeyArray : strKeyArray,
             pageNo: pageNo,
-            pageSize: 10
+            pageSize: 6
         },
         success: function(data) {
             var page = data.page;

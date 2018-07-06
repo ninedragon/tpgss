@@ -28,7 +28,10 @@
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no minimal-ui">
           <link rel="dns-prefetch" href="http://www.woodare.com">
           <link rel="stylesheet" href="../woodare/css/topology.css"></head>
-        
+           <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+          <link rel="shortcut icon" href="../favicon.ico" />
+          <link href="../js/common/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+          <link href="../css/common/base.css" rel="stylesheet" />
         <body>
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cge="http://iec.ch/TC57/2005/SVG-schema#" width=0 height=0 class="sample">
             <defs>
@@ -65,52 +68,50 @@
               <span>健康度评价</span>
               <span>分项负荷预测</span></div>
           </div>
+         
+          
           <!--主体开始-->
-          <div class="wapp-main" id="falutDiv">
-            <form method="post" action="" id="formId" class="form-inline">
-              <h4>故障定位列表</h4>
-              <!--搜索开始-->
-              <div class="search">
-                <lable>
-                  <span>设备名称</span>
-                  <input id="row_name" type="text" name="row_name" value="" /></lable>
-                <lable>
-                  <span>故障原因</span>
-                  <select id="fault_type" name="fault_type"></select>
-                </lable>
-                <div class="but-nav">
-                  <button type="button" onclick="javascript:initList();" class="btn btn-primary" style="background-color: #169274;">查询</button></div>
-              </div>
-              <!--搜索结束/-->
-              <!--表格开始-->
-              <div class="table-box">
-                <table width="100%">
-                  <tr>
-                    <th>设备名称</th>
-                    <th>设备类型</th>
-                    <th>故障原因</th>
-                    <th>故障发生时间</th>
-                    <th>是否取消</th>
-                    <th>是否修复</th>
-                    <th>修复时间</th>
-                    <th>省份</th>
-                    <th>城市</th>
-                    <th>区县</th></tr>
-                  <tbody id="faultListTable"></tbody>
-                </table>
-              </div>
-              <!--表格结束/-->
-              <!-- 分页开始 -->
-              <div class="pagination pull-right"></div>
-              <!-- 分页结束/ --></form>
-          </div>
-          <!--主体结束/-->
+  <div class="wapp-main" id="falutDiv">
+    <form method="post" action="" id="formId" class="form-inline">
+      <h4>故障定位列表</h4>
+      <!--搜索开始-->
+      <div class="search">
+        <lable>
+          <span>设备名称</span>
+          <input id="row_name" type="text" name="row_name" value="" /></lable>
+        <lable>
+          <span>故障原因</span>
+          <select id="fault_type" name="fault_type"></select>
+        </lable>
+        <div class="but-nav">
+          <button type="button" onclick="javascript:initList();" class="btn btn-primary" style="background-color: #169274;">查询</button></div>
+      </div>
+      <!--搜索结束/-->
+      <!--表格开始-->
+      <div class="table-box">
+        <table width="100%">
+          <tr>
+            <th>设备名称</th>
+            <th>设备类型</th>
+            <th>故障原因</th>
+            <th>故障发生时间</th>
+            <th>是否取消</th>
+            <th>是否修复</th>
+            <th>修复时间</th>
+            <th>省份</th>
+            <th>城市</th>
+            <th>区县</th></tr>
+          <tbody id="faultListTable"></tbody>
+        </table>
+      </div>
+      <!--表格结束/-->
+      <!-- 分页开始 -->
+      <div class="pagination pull-right"></div>
+      <!-- 分页结束/ --></form>
+  </div>
+  <!--主体结束/-->
          <script type="text/javascript" src="../woodare/js/jquery-3.3.1.min.js"></script>
          
-          <link rel="icon" href="../favicon.ico" type="image/x-icon" />
-          <link rel="shortcut icon" href="../favicon.ico" />
-          <link href="../js/common/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
-          <link href="../css/common/base.css" rel="stylesheet" />
           <script src="../js/common/layer/layer.js"></script>
           <script src="../js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
           <script src="../js/shiro.demo.js"></script>
