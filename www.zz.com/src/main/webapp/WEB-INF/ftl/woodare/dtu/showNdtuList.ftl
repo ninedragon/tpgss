@@ -104,8 +104,7 @@
 			                   
 			                    if (epuList!=null && epuList.length>0) {
 			                    	 var tbody = '';
-			                        for (var i = 0; i < epuList.length; i++) {
-			                          
+			                        for (var i = 0; i < epuList.length; i++) {			                          
 			                             var cLastcomtime=epuList[i].cLastcomtime==null?"":epuList[i].cLastcomtime;
 			                            var cSoftupdatedate=epuList[i].cSoftupdatedate==null?"":epuList[i].cSoftupdatedate;
 			                            var  cInstalldate=epuList[i].cInstalldate==null?"":epuList[i].cInstalldate;
