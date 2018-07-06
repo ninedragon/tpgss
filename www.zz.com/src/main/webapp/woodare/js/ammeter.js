@@ -122,6 +122,8 @@ function getRootPath_web() {
  * @param tableBoxId 表箱ID
  */
 function showTop(data,rowId,tableBoxId,uipqData){
+    //只有电表TAB可以执行此动作
+    parent.$("#messageAmmeter").show();
 	var keyArray = new Array(); 
 	svgSnap.select("g[id='ammeter_Layer']").remove();
 	var layerSnap = svgSnap.append("g").attr("id","ammeter_Layer");
@@ -243,6 +245,11 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	     		        			}
 	        			 		}
 	        			 		//电表循环 -end
+	    			 		}else{
+	    			 			 parent.$("#tableBoxDiv").css("overflow", "auto");
+	    			 			 parent.$(".ammeter").css("width", "650px");
+	    			 			$("#falutDiv").css("width", "950px");
+	    			 			return false;
 	    			 		}
 	       			 	}
 	       			 	//表箱循环-end
@@ -250,15 +257,6 @@ function showTop(data,rowId,tableBoxId,uipqData){
     			 		//没有数据的电表 -end
 	    				cabinetsX = branchBoxX;
 	    		         cabinetsY = branchBoxY - cabinetsDifference ;
-	    		         if(tempBranchBoxX == 0){
-	    		        	 var widthVal = 600;
-	    		        	 var heightVal = 720;
-	    		        	 parent.$("#tab3Iframe").attr("width", widthVal).attr("height", heightVal);
-	    		        	 svgSnap.attr("width", widthVal).attr("height", heightVal)
-	    		        	 parent.$(".ammeter").css("width", (widthVal + 20)+"px").css("height", (heightVal)+ "px");
-	    		        	 parent.$("#tableBoxDiv").css("height", "0px");
-	    		        	 return false;
-	    		        }
 	    		       //表箱
 	    		         //文本内容
 	    		         var tableBoTxtX = tempBranchBoxX - 25;
@@ -354,12 +352,11 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	 var widthVal = (ammeterX + 350);
 	 var heightVal = (table_ammeterY + 150);
 	 var temp = heightVal + 400;
-	 parent.$("#tab3Iframe").attr("width", widthVal).attr("height", temp);
+//	 parent.$("#tab3Iframe").attr("width", widthVal).attr("height", temp);
 	 svgSnap.attr("width", widthVal).attr("height", temp)
-	 parent.$("#tableBoxDiv").css("height", "auto");
-	 parent.$(".ammeter").css("width", (widthVal + 20)+"px").css("height", (heightVal - 150)+ "px");
-	 
-		$("#falutDiv").css("top",( temp - 500)+"px");
+	 parent.$("#tableBoxDiv").css("overflow", "auto");
+	 parent.$(".ammeter").css("width", "650px");
+		$("#falutDiv").css("width", "950px").css("top",( temp - 500)+"px");
 	 //执行故障渲染
 	 setFalut(rowId);
 	 //加载故障
@@ -859,16 +856,5 @@ $(function() {
 	 	$(".gj").css("top", ($(this).scrollTop() ));
   		$(".gj").css("left", ($(this).scrollLeft() ));
 	 });
-	  var selectHtml = "";
-	  selectHtml += "<option value=''></option>";
-	  selectHtml += "<option value='t_ableakage_i'>异常漏电</option>";
-	  selectHtml += "<option value='t_abnormal_u'>异常电压</option>";
-	  selectHtml += "<option value='t_abnormal_z'>异常阻抗</option>";
-	  selectHtml += "<option value='t_leakage_i'>周期漏电</option>";
-	  selectHtml += "<option value='t_short_i'>短路电流</option>";
-	  $("#falutReason").html(selectHtml); 	
-	  so.init(function(){
-			 initList();
-});
 });
 

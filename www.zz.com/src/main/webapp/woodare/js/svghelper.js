@@ -398,8 +398,6 @@ var SVG_HELPER = (function() {
         var rowId = parent.$("#rowId").val(); //获取箱变根ID
         var iframeID = parent.$("#tab3Iframe")[0]; //获取iframe的ID
         var tableBoxId = parent.$("#tableBoxId").val(); //获取箱变根ID
-        //只有电表TAB可以执行此动作
-        parent.$("#messageAmmeter").show();
         iframeID.contentWindow.showTop(svgModelData, rowId, tableBoxId, uipqData);
     }
 

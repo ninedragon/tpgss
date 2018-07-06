@@ -71,6 +71,10 @@ function showList(rowId,tableBoxId,uipqData,branchBoxId,meterboxId,meterboxEpuNa
 	 var heightVal = 900;
 	 var temp = heightVal ;
 	 parent.$("#tab4Iframe").attr("width", widthVal).attr("height", temp);
+//	 parent.$("#branchBoxDiv").css("height", "auto");
+//	 parent.$(".branchBox").css("width", (widthVal + 20)+"px").css("height", (heightVal - 150)+ "px");
+	 
 	 parent.$("#branchBoxDiv").css("height", "auto");
-	 parent.$(".branchBox").css("width", (widthVal + 20)+"px").css("height", (heightVal - 150)+ "px");
+	 parent.$(".branchBox").css("width", "850px");
+//	$("#falutDiv").css("width", "950px");
 }
