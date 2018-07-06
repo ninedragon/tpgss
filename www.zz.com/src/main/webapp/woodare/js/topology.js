@@ -43,7 +43,14 @@ function showTop(rowId){
 	        		 mySvg = SVG_HELPER.drawSvg(allData, 'body');
 	        		 //加载故障
 	        		 so.initFaultTypeList();
-	        		 initList(undefined,mySvg.keyArray);
+	        		 var strKeyArray = "";
+        			 if(mySvg.keyArray){
+        				if(null != mySvg.keyArray && mySvg.keyArray.length > 0){
+        					strKeyArray = mySvg.keyArray.join(",")
+        				}
+        			 }
+        			 $("#strKeyArray").val(strKeyArray);
+	        		 initList();
 	        		 dataTemp = allData;
 	        		 var wd = parseFloat($("#wd").val() || 1) ;
 	        		 mySvg.scale(wd);
@@ -148,7 +155,41 @@ $(function() {
     		$(".box").css("left", ($(this).scrollLeft() ));
 	 });
 	$("#falutDiv").css("top",( mySvg.topoHeight()- 460)+"px");
+	//加载Websocket
+	loadWebsocket();
 });
+/**加载Websocket
+ * **/
+function loadWebsocket(){
+	 var websocket;
+	 var basePath = parent.$("#basePath").val();//项目地址
+	 var web_socket_ip = parent.$("#web_socket_ip").val();//WebSocket握手IP地址
+	 var token_id = parent.$("#token_id").val();//登录人ID
+     if('WebSocket' in window) {
+          console.log("此浏览器支持websocket");
+         websocket = new WebSocket("ws://"+web_socket_ip + basePath +"/chat/"+token_id);
+     } else if('MozWebSocket' in window) {
+         alert("此浏览器只支持MozWebSocket");
+     } else {
+         alert("此浏览器只支持SockJS");
+     }
+     websocket.onopen = function(evnt) {
+         //打开监听,连接open后给前端和后端同时发送open信号，两个线程不会阻塞。但是我的后端open事件一定要先执行，这样前端请求时，才能有足够的时间等待后端生成userSocket
+         //加载故障数据
+//          alert("链接服务器成功,加载故障数据!");
+     };
+     websocket.onmessage = function(evnt) {
+    	 if("falut" == evnt.data){
+    		 alert("得到消息通知，执行加载故障数据："+evnt.data);
+    	 }
+    	 //得到消息通知，执行加载故障数据
+     };
+     websocket.onerror = function(evnt) {};
+     websocket.onclose = function(evnt) {
+    	 alert("与服务器断开了链接!");
+     }
+}
+
 /**
  * 故障定位
  * selectedFlag: true 删除故障渲染  false 添加故障渲染

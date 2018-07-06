@@ -20,6 +20,8 @@
   <script language="javascript" type="text/javascript" src="${basePath}/js/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
+	<input type="hidden" id="action" name="action" value="all">
+	<input type="hidden" id="strKeyArray" name="strKeyArray"/>
   <!--页眉开始-->
   <!-- <%--引入头部<@_top.top 3/>--%> -->
   <@_top.top 1/>

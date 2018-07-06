@@ -32,5 +32,31 @@
 			</@shiro.guest>  
     </div>
 </div>
+<script type="text/javascript"> 
+	var websocket;
+	if('WebSocket' in window) {
+	     console.log("此浏览器支持websocket");
+	    websocket = new WebSocket("ws://${web_socket_ip}${basePath}/chat/${token.id}");
+	} else if('MozWebSocket' in window) {
+	    alert("此浏览器只支持MozWebSocket");
+	} else {
+	    alert("此浏览器只支持SockJS");
+	}
+	websocket.onopen = function(evnt) {
+	    //打开监听,连接open后给前端和后端同时发送open信号，两个线程不会阻塞。但是我的后端open事件一定要先执行，这样前端请求时，才能有足够的时间等待后端生成userSocket
+	    //加载故障数据
+// 	     alert("链接服务器成功,加载故障数据!");
+	};
+	websocket.onmessage = function(evnt) {
+		 if("falut" == evnt.data){
+			 alert("得到消息通知，执行加载故障数据："+evnt.data);
+		 }
+		 //得到消息通知，执行加载故障数据
+	};
+	websocket.onerror = function(evnt) {};
+	websocket.onclose = function(evnt) {
+		 alert("与服务器断开了链接!");
+	}
+</script>
 </#if>
 </#macro>

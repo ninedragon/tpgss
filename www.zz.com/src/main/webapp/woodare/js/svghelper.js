@@ -57,7 +57,7 @@ var SVG_HELPER = (function() {
                     var tmpX = x3 + (w4 > this.width ? ((w4 - this.width) / 2) : 0);
                     this._x = tmpX;
                     this._y = 650;
-                    createBox(layerSnap, this.rowId, this._x, this._y, this.epuName, cIds, "M0003");
+                    createBox(layerSnap, this.rowId, this._x, this._y, this.epuName, cIds, "M0003",this.children);
                     x3 += Math.max(this.width, w4);
                     cids1.push(this.rowId);
                     x4 = Math.max(x4, x3);
@@ -94,7 +94,7 @@ var SVG_HELPER = (function() {
                 //M0002
                 this._x = tmpX;
                 this._y = 300;
-                createBox(layerSnap, this.rowId, this._x, this._y, this.epuName, cids1, "M0002");
+                createBox(layerSnap, this.rowId, this._x, this._y, this.epuName, cids1, "M0002",this.children);
                 x2 += Math.max(this.width, w3) + 120; //加120 控制间距
                 x3 = Math.max(x2, x3);
                 x4 = Math.max(x4, x3);
@@ -344,7 +344,7 @@ var SVG_HELPER = (function() {
         var useage = g.append('use').attr("width", grid).attr("height", grid).attr("transform", "scale(1) translate(" + transX + " " + transY + ") rotate(0 " + rotateX + " " + rotateY + ")").attr("xlink:href", "#EnergyConsumer_PD_单电源用户_2").attr("x", x).attr("y", y);
     }
 
-    function createBox(layer, id, x, y, name, lines, type) {
+    function createBox(layer, id, x, y, name, lines, type,svgModelData) {
         var g = layer.append("g").attr("id", "chuxiangui_" + id);
         g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("stroke-dasharray", "5,5").attr("fill", "none").attr("x", x).attr("y", y).attr("width", 300).attr("height", 180).attr("id", "chuxiangui_rect_" + id);
 
@@ -359,7 +359,7 @@ var SVG_HELPER = (function() {
                 var ix = x + gird * (index + 1) - 8;
                 start = Math.min(start, ix + 8);
                 end = Math.max(end, ix + 8);
-                createBranchBoxXian(g, item, ix, y + 30, 150, type, name, lines);
+                createBranchBoxXian(g, item, ix, y + 30, 150, type, name, lines,svgModelData);
             });
             var g = layer.append("g").attr("id", "chuxiangui_line01_" + id);
             g.append('path').attr("d", "M" + start + "," + (y + 30) + " L" + end + "," + (y + 30)).attr("stroke-width", 2).attr("stroke", "#000").attr("fill", "none");
@@ -371,7 +371,7 @@ var SVG_HELPER = (function() {
     /**
  * 创建分支箱/出线柜内的节点
  * **/
-    function createBranchBoxXian(layer, id, x, y, height, type, name, lines) {
+    function createBranchBoxXian(layer, id, x, y, height, type, name, lines,svgModelData) {
         height = height || 180;
         var g = layer.append("g").attr("id", "kaiguanxian_" + id);
         var gird = (height - 50) / 2;
@@ -379,7 +379,7 @@ var SVG_HELPER = (function() {
         var svgimg = setSvgimg("50", "50", "../woodare/image/branchBox.png", (x - 17), (y + 50), "kaiguanxianImg_" + id, type);
         $("#Snap_Layer").append(svgimg).find("image[id='kaiguanxianImg_" + id + "']").attr("epuName", name).click(function() {
             if (type == "M0003") { //分支箱的弹出层单击事件
-                showBranchBox(this, uipqData, id);
+                showBranchBox(this, uipqData, id,svgModelData);
             }
         });
         g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill", "none").attr("d", "M " + (x + 8) + "," + y + " L " + (x + 8) + "," + (y + gird) + "");
@@ -407,7 +407,7 @@ var SVG_HELPER = (function() {
  * 展示分支箱(弹出层)
  * desc:1、动态设置弹出层标题 2、弹出层 3、展示列表
  **/
-    function showBranchBox(obj, uipqData, meterboxId) {
+    function showBranchBox(obj, uipqData, meterboxId,svgModelData) {
         var meterboxEpuName = $("#meterbox_" + meterboxId).attr("name");
         var branchBoxId = $(obj).attr("id"); //展示的文字ID
         parent.$("#branchBoxId").val(branchBoxId.replace("kaiguanxianImg_", "")); //当前分支箱ID
@@ -416,7 +416,7 @@ var SVG_HELPER = (function() {
         var tableBoxId = parent.$("#tableBoxId").val(); //获取箱变根ID
         parent.$("#messageBranchBox").show();
         var iframeID = parent.$("#tab4Iframe")[0]; //获取iframe的ID
-        iframeID.contentWindow.showList(rowId, tableBoxId, uipqData, branchBoxId, meterboxId, meterboxEpuName);
+        iframeID.contentWindow.showList(rowId, tableBoxId, uipqData, branchBoxId, meterboxId, meterboxEpuName,svgModelData);
     }
 
     /**
