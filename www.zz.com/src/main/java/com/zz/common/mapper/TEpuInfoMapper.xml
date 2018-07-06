@@ -33,9 +33,6 @@
     <result column="epu_parent_type" property="epuParentType" jdbcType="VARCHAR" />
     <result column="channel_id" property="channelId" jdbcType="VARCHAR" />
     <result column="line_id" property="lineId" jdbcType="VARCHAR" />
-    <result column="C_DistrictBCDId" property="c_DistrictBCDId" jdbcType="VARCHAR" />
-    <result column="C_AddressId" property="c_AddressId" jdbcType="VARCHAR" />
-    <result column="C_ChannelNum" property="c_ChannelNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--

@@ -399,10 +399,7 @@
 		                success: function (a) {
 		                    var epuInfoList = a.epuInfoList;
 		            
-		                    $('#saveDiv #channelId').html('<option value="">--请选择--</option>');
-		                    for (var i = 0; i < epuInfoList.length; i++) {
-		                        $('#saveDiv #channelId').append('<option value="' + epuInfoList[i].channelId + '">' + epuInfoList[i].channelId + '</option>');
-		                    }
+		                    $('#saveDiv #channelId').val(epuInfoList[0].channelId);
 		                   
 		                }
 			    });
@@ -757,9 +754,9 @@
 			                },
 			                success: function (a) {
 			                    var epuInfoList = a.epuInfoList;
-			            
-			                    $('#saveDiv #channelId').html('<option value="">--请选择--</option>');
-			                    for (var i = 0; i < epuInfoList.length; i++) {
+			                    $('#saveDiv #channelId').val(epuInfoList[0].channelId);
+			                    /* $('#saveDiv #channelId').html('<option value="">--请选择--</option>');
+			                     for (var i = 0; i < epuInfoList.length; i++) {
 			                    	if(epuEdit.channelId==epuInfoList[i].channelId)
 		                    	{
 		                    		 $('#saveDiv #channelId').append('<option value="' + epuInfoList[i].channelId + '" selected="selected">' + epuInfoList[i].channelId + '</option>');
@@ -768,7 +765,7 @@
 		                    	{
 		                    		 $('#saveDiv #channelId').append('<option value="' + epuInfoList[i].channelId + '">' + epuInfoList[i].channelId + '</option>');
 		                    	}		   			          
-			                    }
+			                    } */
 			  
 			                }			                
            	   });
@@ -895,11 +892,11 @@
 		                },
 		                success: function (a) {
 		                    var epuInfoList = a.epuInfoList;
-		            
-		                    $('#saveDiv #channelId').html('<option value="">--请选择--</option>');
+		                    $('#saveDiv #channelId').val(epuInfoList[0].channelId);
+		                  /*   $('#saveDiv #channelId').html('<option value="">--请选择--</option>');
 		                    for (var i = 0; i < epuInfoList.length; i++) {
 		                        $('#saveDiv #channelId').append('<option value="' + epuInfoList[i].channelId + '">' + epuInfoList[i].channelId + '</option>');
-		                    }
+		                    } */
 		                   
 		                }
 			    });
@@ -1081,7 +1078,7 @@
             </lable>
              <lable>
                 <span>关联终端通道数</span>
-                <select name="channelId" id="channelId" class="text requiredSelect" title="关联终端通道数"></select>
+                 <input name="channelId" id="channelId"   type="text" class="text request"  readonly="readonly">
             </lable>
 	        <div class="but-nav" style="margin:0px 0px 20px 0px">
                 <span class="but" onclick="javascript:epAdd.submitFun('1');">保&nbsp;&nbsp;存</a></span>
