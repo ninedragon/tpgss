@@ -140,7 +140,7 @@
 	      <if test="fault_type != '' and fault_type != null">  
 	        AND temp.fault_type=  #{fault_type,jdbcType=VARCHAR}
 	      </if>	
-	      <if test=" keyList != null">  
+	      <if test="keyList!=null and keyList.size()>0">
 		       AND temp.key_id IN 
 	          <foreach collection="keyList" item="key" separator=","
                 open="(" close=")">
@@ -219,7 +219,7 @@
 	      <if test="fault_type != '' and fault_type != null">  
 	        AND temp.fault_type=  #{fault_type,jdbcType=VARCHAR}
 	      </if>	
-	      <if test=" keyList != null">  
+	      <if test="keyList!=null and keyList.size()>0">
 		       AND temp.key_id IN 
 	          <foreach collection="keyList" item="key" separator=","
                 open="(" close=")">

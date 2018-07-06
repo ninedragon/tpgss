@@ -66,8 +66,8 @@ public class FaultController extends BaseController {
 			temp = temp.substring(0, temp.lastIndexOf("or "));
 			sql += temp +"  ) ";
 //			map.put("paramSQL", sql);
-			map.put("keyList", keyList);
 		}
+		map.put("keyList", keyList);
 		map.put("row_name", faultInfo.getRow_name());
 		map.put("fault_type", faultInfo.getFault_type());
 		Pagination<FaultInfo> page = faultService.findByPage(map,pageNo,pageSize);
