@@ -14,6 +14,7 @@ function getRootPath_web() {
     return (localhostPaht + projectName);
 }
 
+
 so.initFaultTypeList = function initFaultTypeList() {
     var basePath = getRootPath_web();
     var codeTypes = "F0001,F0002,F0003,F0004";//默认所有
@@ -39,6 +40,7 @@ so.initFaultTypeList = function initFaultTypeList() {
     });
 };
 function initList(pageNo,keyArray) {
+	$("#loadingDiv").show();
 	var strKeyArray = "";
 	if(keyArray){
 		if(null != keyArray && keyArray.length > 0){
@@ -46,7 +48,6 @@ function initList(pageNo,keyArray) {
 		}
 	}
     var basePath = getRootPath_web();
-    $("#loadingDiv").show();
     $.ajax({
         url: basePath + "/fault/queryList.shtml",
         type: 'POST',
@@ -57,7 +58,7 @@ function initList(pageNo,keyArray) {
             fault_type: $.trim($("#fault_type").val()),
             strKeyArray : strKeyArray,
             pageNo: pageNo,
-            pageSize: 6
+            pageSize: 1
         },
         success: function(data) {
             var page = data.page;
@@ -78,13 +79,13 @@ function initList(pageNo,keyArray) {
                         tbody += '<td align="center"><div>' + json.epu_province_name + '</div></td>';
                         tbody += '<td align="center"><div>' + json.epu_city_name + '</div></td>';
                         tbody += '<td align="center"><div>' + json.epu_district_name + '</div></td>';
+                        tbody += '<td align="center"><div><a href="javascript:showFaultBase(\''+json.fault_base_id+'\');">故障来源</a></div></td>';
                         tbody += '</tr>';
                     }
                     var a = page.pageHtml;
                     var b = a.substring(0, a.lastIndexOf('\<script'));
                     var pageHtml = b.replace(/_submitform/g, 'initList');
                     $(".pagination").html(pageHtml);
-                    $("#loadingDiv").hide();
                 }
                 $("#faultListTable").html(tbody);
                 //分页
@@ -93,6 +94,7 @@ function initList(pageNo,keyArray) {
                 //分页
                 //TRADEZONE_MANAGE_PAGE.totalCount = 0;
             }
+            $(".loading").hide();
             // PAGINATION_UTIL.callbackObj = TRADEZONE_MANAGE_PAGE; //一定要有这句
             //PAGINATION_UTIL.inputName = "startPage";//一个页面有多个列表时需要这个值不一样
             //PAGINATION_UTIL.pagination(currentPage);
@@ -103,7 +105,13 @@ function initList(pageNo,keyArray) {
 	                PAGINATION_UTIL.callbackObj = TRADEZONE_MANAGE_PAGE; //一定要有这句
 	                //PAGINATION_UTIL.inputName = "startPage";//一个页面有多个列表时需要这个值不一样
 	                PAGINATION_UTIL.pagination(currentPage); */
-            $("#loadingDiv").hide();
+            $(".loading").hide();
         }
     });
 };
+/**
+ * 故障来源
+ * **/
+function showFaultBase(fault_base_id){
+	$("#loadingDiv").show();
+}

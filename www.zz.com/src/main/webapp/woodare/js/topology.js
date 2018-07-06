@@ -42,13 +42,6 @@ function showTop(rowId){
 	        	 if(allData){
 	        		 mySvg = SVG_HELPER.drawSvg(allData, 'body');
 	        		 //加载故障
-	        		 var strKeyArray = "";
-	        			if(mySvg.keyArray){
-	        				if(null != mySvg.keyArray && mySvg.keyArray.length > 0){
-	        					strKeyArray = mySvg.keyArray.join(",")
-	        				}
-	        				$("#strKeyArray").val(strKeyArray);
-	        			}
 	        		 so.initFaultTypeList();
 	        		 initList(undefined,mySvg.keyArray);
 	        		 dataTemp = allData;

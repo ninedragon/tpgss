@@ -25,6 +25,7 @@ public class FaultInfo implements Serializable {
 	private String  epu_city_name;
 	private String  epu_district_name;
 	private String  epu_type_name;
+	private String  fault_base_id;
 	public String getRow_id() {
 		return row_id;
 	}
@@ -133,6 +134,12 @@ public class FaultInfo implements Serializable {
 	public void setEpu_type_name(String epu_type_name) {
 		this.epu_type_name = epu_type_name;
 	}
+	public String getFault_base_id() {
+		return fault_base_id;
+	}
+	public void setFault_base_id(String fault_base_id) {
+		this.fault_base_id = fault_base_id;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -140,24 +147,50 @@ public class FaultInfo implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((epu_city == null) ? 0 : epu_city.hashCode());
-		result = prime * result + ((epu_city_name == null) ? 0 : epu_city_name.hashCode());
-		result = prime * result + ((epu_district == null) ? 0 : epu_district.hashCode());
-		result = prime * result + ((epu_district_name == null) ? 0 : epu_district_name.hashCode());
-		result = prime * result + ((epu_name == null) ? 0 : epu_name.hashCode());
-		result = prime * result + ((epu_province == null) ? 0 : epu_province.hashCode());
-		result = prime * result + ((epu_province_name == null) ? 0 : epu_province_name.hashCode());
-		result = prime * result + ((epu_type_name == null) ? 0 : epu_type_name.hashCode());
-		result = prime * result + ((faultTypeName == null) ? 0 : faultTypeName.hashCode());
-		result = prime * result + ((fault_type == null) ? 0 : fault_type.hashCode());
-		result = prime * result + ((is_cancelled == null) ? 0 : is_cancelled.hashCode());
-		result = prime * result + ((is_cancelled_name == null) ? 0 : is_cancelled_name.hashCode());
-		result = prime * result + ((is_repaired == null) ? 0 : is_repaired.hashCode());
-		result = prime * result + ((is_repaired_name == null) ? 0 : is_repaired_name.hashCode());
-		result = prime * result + ((occur_time == null) ? 0 : occur_time.hashCode());
-		result = prime * result + ((repair_time == null) ? 0 : repair_time.hashCode());
+		result = prime * result
+				+ ((epu_city == null) ? 0 : epu_city.hashCode());
+		result = prime * result
+				+ ((epu_city_name == null) ? 0 : epu_city_name.hashCode());
+		result = prime * result
+				+ ((epu_district == null) ? 0 : epu_district.hashCode());
+		result = prime
+				* result
+				+ ((epu_district_name == null) ? 0 : epu_district_name
+						.hashCode());
+		result = prime * result
+				+ ((epu_name == null) ? 0 : epu_name.hashCode());
+		result = prime * result
+				+ ((epu_province == null) ? 0 : epu_province.hashCode());
+		result = prime
+				* result
+				+ ((epu_province_name == null) ? 0 : epu_province_name
+						.hashCode());
+		result = prime * result
+				+ ((epu_type_name == null) ? 0 : epu_type_name.hashCode());
+		result = prime * result
+				+ ((faultTypeName == null) ? 0 : faultTypeName.hashCode());
+		result = prime * result
+				+ ((fault_base_id == null) ? 0 : fault_base_id.hashCode());
+		result = prime * result
+				+ ((fault_type == null) ? 0 : fault_type.hashCode());
+		result = prime * result
+				+ ((is_cancelled == null) ? 0 : is_cancelled.hashCode());
+		result = prime
+				* result
+				+ ((is_cancelled_name == null) ? 0 : is_cancelled_name
+						.hashCode());
+		result = prime * result
+				+ ((is_repaired == null) ? 0 : is_repaired.hashCode());
+		result = prime
+				* result
+				+ ((is_repaired_name == null) ? 0 : is_repaired_name.hashCode());
+		result = prime * result
+				+ ((occur_time == null) ? 0 : occur_time.hashCode());
+		result = prime * result
+				+ ((repair_time == null) ? 0 : repair_time.hashCode());
 		result = prime * result + ((row_id == null) ? 0 : row_id.hashCode());
-		result = prime * result + ((row_name == null) ? 0 : row_name.hashCode());
+		result = prime * result
+				+ ((row_name == null) ? 0 : row_name.hashCode());
 		return result;
 	}
 	@Override
@@ -214,6 +247,11 @@ public class FaultInfo implements Serializable {
 				return false;
 		} else if (!faultTypeName.equals(other.faultTypeName))
 			return false;
+		if (fault_base_id == null) {
+			if (other.fault_base_id != null)
+				return false;
+		} else if (!fault_base_id.equals(other.fault_base_id))
+			return false;
 		if (fault_type == null) {
 			if (other.fault_type != null)
 				return false;
@@ -263,13 +301,19 @@ public class FaultInfo implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "FaultInfo [row_id=" + row_id + ", row_name=" + row_name + ", fault_type=" + fault_type + ", occur_time="
-				+ occur_time + ", is_cancelled=" + is_cancelled + ", is_cancelled_name=" + is_cancelled_name
-				+ ", is_repaired=" + is_repaired + ", is_repaired_name=" + is_repaired_name + ", repair_time="
-				+ repair_time + ", faultTypeName=" + faultTypeName + ", epu_province=" + epu_province + ", epu_city="
-				+ epu_city + ", epu_district=" + epu_district + ", epu_name=" + epu_name + ", epu_province_name="
-				+ epu_province_name + ", epu_city_name=" + epu_city_name + ", epu_district_name=" + epu_district_name
-				+ ", epu_type_name=" + epu_type_name + "]";
+		return "FaultInfo [row_id=" + row_id + ", row_name=" + row_name
+				+ ", fault_type=" + fault_type + ", occur_time=" + occur_time
+				+ ", is_cancelled=" + is_cancelled + ", is_cancelled_name="
+				+ is_cancelled_name + ", is_repaired=" + is_repaired
+				+ ", is_repaired_name=" + is_repaired_name + ", repair_time="
+				+ repair_time + ", faultTypeName=" + faultTypeName
+				+ ", epu_province=" + epu_province + ", epu_city=" + epu_city
+				+ ", epu_district=" + epu_district + ", epu_name=" + epu_name
+				+ ", epu_province_name=" + epu_province_name
+				+ ", epu_city_name=" + epu_city_name + ", epu_district_name="
+				+ epu_district_name + ", epu_type_name=" + epu_type_name
+				+ ", fault_base_id=" + fault_base_id + "]";
 	}
+	
 
 }

@@ -57,7 +57,9 @@
             <th>修复时间</th>
             <th>省份</th>
             <th>城市</th>
-            <th>区县</th></tr>
+            <th>区县</th>
+             <th>操作</th>
+            </tr>
           <tbody id="faultListTable"></tbody>
         </table>
       </div>
@@ -67,7 +69,14 @@
       <!-- 分页结束/ --></form>
   </div>
   <!--主体结束/-->
-  <!--主体结束/-->
+<!--loading开始-->
+	<div class="loading">
+		<div class="spinner">加载中
+			<div class="double-bounce1"></div>
+			<div class="double-bounce2"></div>
+		</div>
+	</div>
+	<!--loading结束/-->
   <script src="${basePath}/woodare/js/faultLocationList.js"></script>
    <script>
 	 so.init(function() {

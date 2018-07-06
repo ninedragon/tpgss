@@ -24,6 +24,7 @@
     <result column="epu_city_name" jdbcType="VARCHAR" property="epu_city_name" />
     <result column="epu_district_name" jdbcType="VARCHAR" property="epu_district_name" />
     <result column="epu_type_name" jdbcType="VARCHAR" property="epu_type_name" />
+    <result column="fault_base_id" jdbcType="VARCHAR" property="fault_base_id" />
   </resultMap>
    <resultMap id="CodeTypeResultMap" type="com.zz.common.model.CodeInfo">
    		    <result column="CODE" jdbcType="VARCHAR" property="CODE" />
@@ -38,10 +39,11 @@
       	${page_sql}
       </if>
   </sql>
-  <select id="findAll" resultMap="BaseResultMap" >
+  <select id="findAll" resultMap="BaseResultMap" parameterType="java.util.Map" >
 	SELECT
 		temp.row_id,
 		temp.row_name,
+		temp.fault_base_id,
 		temp.fault_type,
 		from_unixtime(unix_timestamp(temp.repair_time),'%Y-%m-%d %H:%I:%S')  AS occur_time,
 		temp.is_cancelled,
@@ -82,6 +84,7 @@
 				fault.key_id,
 				am.meterId as row_id,
 				am.meter_name AS row_name,
+				fault.fault_base_id,
 				fault.fault_type,
 				fault.occur_time,
 				fault.is_cancelled,
@@ -111,6 +114,7 @@
 					fault.key_id,
 					epu.row_id,
 					epu.epu_name AS row_name,
+					fault.fault_base_id,
 					fault.fault_type,
 					fault.occur_time,
 					fault.is_cancelled,
@@ -142,17 +146,16 @@
 	      </if>	
 	      <if test="keyList!=null and keyList.size()>0">
 		       AND temp.key_id IN 
-	          <foreach collection="keyList" item="key" separator=","
-                open="(" close=")">
-                #{key}
-            </foreach>
+	        <foreach collection="keyList" item="key" index="index" open="(" separator=","  close=")"> 
+			   #{key}
+			</foreach>
         </if>
 			 <![CDATA[ ${paramSQL} ]]>    
 	ORDER BY
 		temp.occur_time DESC
     <include refid="limit_sql" />
   </select>
-  <select id="findCount" resultMap="BaseResultMap" >
+  <select id="findCount" resultMap="BaseResultMap" parameterType="java.util.Map" >
  	SELECT
 		count(temp.row_id)
 	FROM
@@ -161,6 +164,7 @@
 				fault.key_id,
 				am.meterId as row_id,
 				am.meter_name AS row_name,
+				fault.fault_base_id,
 				fault.fault_type,
 				fault.occur_time,
 				fault.is_cancelled,
@@ -190,6 +194,7 @@
 					fault.key_id,
 					epu.row_id,
 					epu.epu_name AS row_name,
+					fault.fault_base_id,
 					fault.fault_type,
 					fault.occur_time,
 					fault.is_cancelled,
@@ -221,10 +226,9 @@
 	      </if>	
 	      <if test="keyList!=null and keyList.size()>0">
 		       AND temp.key_id IN 
-	          <foreach collection="keyList" item="key" separator=","
-                open="(" close=")">
-                #{key}
-            </foreach>
+            <foreach collection="keyList" item="key" index="index" open="(" separator=","  close=")"> 
+			   #{key}
+			</foreach>
         </if>
 			 <![CDATA[ ${paramSQL} ]]>    
   </select> 

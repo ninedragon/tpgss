@@ -685,4 +685,19 @@
     from view_epu_info
     where epu_name = #{epuName,jdbcType=VARCHAR}  and epu_district = #{epuDistrict,jdbcType=VARCHAR} and  epu_type = #{epuType,jdbcType=VARCHAR}    and DEL_FLAG='0'
   </select>
+  
+  
+   <select id="selectEpuAddressIdByDistrictId" parameterType="java.lang.String" resultMap="BaseResultMap">
+   	SELECT 
+	C_AddressId AS address_id
+	FROM
+          <if test="epuType == 'M0002'">
+         t_outgoingCabinet 
+         </if>  
+           <if test="epuType == 'M0004'">
+         t_meterBox 
+         </if>
+	where C_DistrictBCDId = #{districtId,jdbcType=VARCHAR} 
+	order by C_AddressId
+  </select>
 </mapper>

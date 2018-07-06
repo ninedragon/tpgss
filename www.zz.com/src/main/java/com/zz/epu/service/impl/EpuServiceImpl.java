@@ -224,5 +224,11 @@ public class EpuServiceImpl extends BaseMybatisDao<TEpuInfoMapper> implements Ep
  		return map;
      }
      
-	 
+		public Map<String, Object> selectEpuAddressIdByDistrictId(String epuType,String districtId) {
+
+			List<TEpuInfo>  epuInfoList = epuInfoMapper.selectEpuAddressIdByDistrictId(epuType,districtId);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("epuInfoList", epuInfoList);
+			return map;
+		}
 }
