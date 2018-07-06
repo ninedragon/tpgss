@@ -395,8 +395,7 @@
 		                error: function (a,b,c) {
 		                },
 		                success: function (a) {
-		                    var epuInfoList = a.epuInfoList;
-		            
+		                    var epuInfoList = a.epuInfoList;		            
 		                    $('#saveDiv #channelId').val(epuInfoList[0].channelId);
 		                   
 		                }
