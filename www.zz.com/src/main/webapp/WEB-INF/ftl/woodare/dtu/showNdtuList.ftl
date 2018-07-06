@@ -100,8 +100,7 @@
 			            success: function (data) {
 			            	var page=data.page;
 			                if (page != null ) {
-			                    var epuList = page.list;
-			                   
+			                    var epuList = page.list;			                   
 			                    if (epuList!=null && epuList.length>0) {
 			                    	 var tbody = '';
 			                        for (var i = 0; i < epuList.length; i++) {			                          
