@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.zz.ammeter.service.AmmeterService;
 import com.zz.analysisAndDisplay.service.WSMessageService;
 import com.zz.common.controller.BaseController;
 import com.zz.common.model.CodeInfo;
 import com.zz.common.model.FaultInfo;
+import com.zz.common.model.FaultRendering;
 import com.zz.common.model.UUser;
 import com.zz.core.mybatis.page.Pagination;
 import com.zz.core.shiro.token.manager.TokenManager;
@@ -37,6 +39,9 @@ public class FaultController extends BaseController {
 	EpuService epuService;
 	@Autowired
 	FaultService faultService;
+	
+	@Autowired
+	AmmeterService ammeterService;
 	 //websocket服务层调用类
     @Autowired
     private WSMessageService wsMessageService;
@@ -47,7 +52,8 @@ public class FaultController extends BaseController {
 		modelAndView.addObject("leftMenuview", "7");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控7故障定位
 		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
 		modelAndView.addObject("token", token);//左侧上方管理员信息
-//		wsMessageService.sendToAllTerminal(token.getId()+"", "falut");
+		wsMessageService.sendToAllTerminal(token.getId()+"","{\"name\":\"falutNews\",\"key\":\"\"}");
+//		wsMessageService.sendToAllTerminal(token.getId()+"","{\"name\":\"faultRendering\",\"key\":\"38f04bc0-6c40-4535-ba36-7dbc1d6d2536\"}");
 		return modelAndView;
 	}
 	
@@ -86,6 +92,12 @@ public class FaultController extends BaseController {
 	}
 	
 
+	/**
+	 * 获取故障类型信息
+	 * @param codeTypes
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("faultTypeList")
 	@ResponseBody
 	public Object faultTypeList(String codeTypes, HttpSession session) {
@@ -103,4 +115,44 @@ public class FaultController extends BaseController {
 		}
 		return typeList;
 	}
+	
+	/**
+	 * 根据箱变ID获取当前箱变下所有故障信息
+	 * @param rootId
+	 */
+	@RequestMapping("selectFaultByRootId")
+	@ResponseBody
+	public  List<FaultRendering>  selectFaultByRootId(String strKeyArray)
+ {
+		String sql = "";
+		if(null != strKeyArray && !"".equals(strKeyArray)){
+			String[] arr = (strKeyArray +",").split(",");
+			 sql = "  AND ( ";
+			String temp = "";
+			for (String key : arr) {
+				if(null != key && !"".equals(key)){
+					temp  += " fault.key_id = '"+key+"' OR ";
+				}
+			}
+			temp = temp.substring(0, temp.lastIndexOf("OR "));
+			sql += temp +"  ) ";
+		}
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("paramSQL", sql);
+		List<FaultRendering> list = this.faultService.selectFaultByRootId(paramMap);
+		return list;
+	}
+	
+	/**
+	 * 根据箱变ID获取当前箱变下所有故障信息
+	 * @param rootId
+	 */
+	@RequestMapping("selectFaultNews")
+	@ResponseBody
+	public  List<FaultRendering>  selectFaultNews()
+ {
+		List<FaultRendering> list = this.faultService.selectFaultNews(null);
+		return list;
+	}
+	
 }

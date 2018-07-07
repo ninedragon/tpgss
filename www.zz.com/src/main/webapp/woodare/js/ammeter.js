@@ -13,7 +13,9 @@ svgSnap.attr("width", svg_width - 25)
 var grid = 64;
 var currentSnapX = grid * 1;
 var currentSnapY = grid * 1;
-
+var javaScriptObj = {
+		substationId:null//箱变ID
+}
 var scaleZoom = 1;
 var dataTemp = null;
 function createTextEl(layer, data, position) {
@@ -122,6 +124,7 @@ function getRootPath_web() {
  * @param tableBoxId 表箱ID
  */
 function showTop(data,rowId,tableBoxId,uipqData){
+	javaScriptObj.substationId = rowId;
     //只有电表TAB可以执行此动作
     parent.$("#messageAmmeter").show();
 	var keyArray = new Array(); 
@@ -357,8 +360,6 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	 parent.$("#tableBoxDiv").css("overflow", "auto");
 	 parent.$(".ammeter").css("width", "650px");
 		$("#falutDiv").css("width", "950px").css("top",( temp - 500)+"px");
-	 //执行故障渲染
-	 setFalut(rowId);
 	 //加载故障
 	 so.initFaultTypeList();
 	 var strKeyArray = "";
@@ -369,6 +370,9 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	 }
 	 $("#strKeyArray").val(strKeyArray);
 	 initList();
+	 $("#strKeyRenderingArray").val(strKeyArray+"," + tableBoxId);//拼接表箱 渲染
+	 //执行故障渲染
+	 setFalut();
 } 
 
 
@@ -699,127 +703,145 @@ function setScale(svgSnap,zoom){
  * 电表故障渲染
  * @param rowId 箱变ID
  */
-function setFalut(rowId){
-	var faultNowMeterArray = new Array();
-	var faultNowMeterBoxArray = new Array();
-	if(null != faultNowData && faultNowData.length > 0){
-		for(var tempI= 0;tempI < faultNowData.length;tempI++){
-			var faultNowJson = faultNowData[tempI];
-			var type = faultNowJson["type"];
-			if(type == "meter"){//表箱ID
-				faultNowMeterArray.push(faultNowJson);
-			}
-			if(type == "meterBox"){//表箱ID
-				faultNowMeterBoxArray.push(faultNowJson);
-			}
+function setFalut(){
+	$("#loadingDiv").show();
+	$.ajax({ 
+		 type: "post",
+        url:  getRootPath_web() + "/fault/selectFaultByRootId.shtml",
+        data: {
+       	 strKeyArray : $.trim($("#strKeyRenderingArray").val()||""),
+        },
+        async:true,
+        dataType: "json",
+        cache: false,
+        success: function(allData){ 
+        	faultNowData = allData ;
+	       	var faultNowMeterArray = new Array();
+	    	var faultNowMeterBoxArray = new Array();
+	    	var faultNowMeterErrorArray = new Array();
+	    	var faultNowMeterBoxErrorArray = new Array();
+	    	if(null != faultNowData && faultNowData.length > 0){
+	    		for(var tempI= 0;tempI < faultNowData.length;tempI++){
+	    			var faultNowJson = faultNowData[tempI];
+	    			var type = faultNowJson["type"];
+	    			var is_repaired = faultNowJson["is_repaired"] || "";//是否被修复，1表示是
+    				var is_cancelled = faultNowJson["is_cancelled"] || "";//是否被取消，1表示是
+	    			if(is_repaired != "1" && is_cancelled !="1" ){//未修复/未取消
+		    			if(type == "M0005"){//电表ID
+		    				faultNowMeterArray.push(faultNowJson);
+		    			}
+		    			if(type == "M0004"){//表箱ID
+		    				faultNowMeterBoxArray.push(faultNowJson);
+		    			}
+	    			}else if(is_repaired == "1" || is_cancelled =="1"){//修复/被取消
+	    				if(type == "M0005"){//电表ID
+	    					faultNowMeterErrorArray.push(faultNowJson);
+		    			}
+		    			if(type == "M0004"){//表箱ID
+		    				faultNowMeterBoxErrorArray.push(faultNowJson);
+		    			}
+	    			}
+	    		}
+	    	}
+	    	var bool = ($.trim( $(window.parent.$("#"+javaScriptObj.substationId+"Iframe")).contents().find(".a-hov span[class='on']").text()) == "故障定位");//主面板点击了故障定位,则渲染电表故障
+	    	if(bool){
+	    		//处理表箱
+	    		for(var i = 0;i < faultNowMeterBoxArray.length ;i++){
+	    			var json = faultNowMeterBoxArray[i];
+	    			var key = json["key"]|| "";
+	    			var faultType = json["faultType"];
+	    			var epuName = json["epuName"];
+	    			  var faultTypeName = json["faultTypeName"];
+	    			//找到异常表箱图标，设置
+	    			$("#ammeter_Layer").find("image[id='meterBoxImg_"+key+"']").attr("href","../woodare/image/tableBoxError.png");
+	    			var count = $("#meterBoxText_"+key).find("text tspan").length||0;
+	    			if(null != faultTypeName && faultTypeName != ""){
+	    				$("#meterBoxText_" + key+ " text").find("tspan").eq((count - 2)).text("故障原因:" );
+	    				$("#meterBoxText_" + key+ " text").find("tspan").eq((count - 1)).text(faultTypeName);
+	    			}
+	    			updateClass("meterBoxText_"+key+" text", "error");
+	    			
+	    			updateClass(key+"_meterBox_line", "error");
+	    			updateClass(key+"_line", "error");
+	    		}
+	    		//处理电表
+	    		for(var i = 0;i < faultNowMeterArray.length ;i++){
+	    			var json = faultNowMeterArray[i];
+	    			var key = json["key"]|| "";
+	    			var faultType = json["faultType"];
+	    			var epuName = json["epuName"];
+	    			  var faultTypeName = json["faultTypeName"];
+	    			//找到异常电表图标，设置
+	    			$("#ammeter_Layer").find("image[id='meterImg_"+key+"']").attr("href","../woodare/image/meterError.png");
+	    			var count = $("#meterText_"+key).find("text tspan").length||0;
+	    			if(null != faultTypeName && faultTypeName != ""){
+	    				$("#meterText_" + key+ " text").find("tspan").eq((count - 2)).text("故障原因:" );
+	    				$("#meterText_" + key+ " text").find("tspan").eq((count - 1)).text(faultTypeName);
+	    			}
+	    			updateClass("meterText_" + key+ " text", "error");
+	    			
+	    			updateClass("meterLine_" +key, "error");
+	    			updateClass(key + "_line_1", "error");
+	    			updateClass(key + "_line_2", "error");
+	    			updateClass(key + "_line", "error");
+	    		
+	    		}
+	    	}  
+	    	if(!bool){//主面板未点击了故障定位,则清除渲染电表故障
+	    		clear(faultNowMeterArray,faultNowMeterBoxArray);
+		    }
+	    	if((null != faultNowMeterErrorArray && faultNowMeterErrorArray.length >0) || (null != faultNowMeterBoxErrorArray && faultNowMeterBoxErrorArray.length >0) ){
+	    		clear(faultNowMeterErrorArray,faultNowMeterBoxErrorArray);
+	    	}
+		    $("#loadingDiv").hide();
+       } 
+	});
+	
+}
+
+/**
+ * 还原
+ * **/
+function clear(faultNowMeterArray,faultNowMeterBoxArray){
+	for(var i = 0;i < faultNowMeterBoxArray.length ;i++){
+		var json = faultNowMeterBoxArray[i];
+		var key = json["key"]|| "";
+		var faultType = json["faultType"];
+		var epuName = json["epuName"];
+		  var faultTypeName = json["faultTypeName"];
+		//找到异常表箱图标，设置
+		$("#ammeter_Layer").find("image[id='meterBoxImg_"+key+"']").attr("href","../woodare/image/tableBox.png");
+		var count = $("#meterBoxText_"+key).find("text tspan").length||0;
+		if(null != faultTypeName && faultTypeName != ""){
+			$("#meterBoxText_" + key+ " text").find("tspan").eq((count - 2)).text("");
+			$("#meterBoxText_" + key+ " text").find("tspan").eq((count - 1)).text("");
 		}
-	}
-	if($.trim( $(window.parent.$("#"+rowId+"Iframe")).contents().find(".a-hov span[class='on']").text()) == "故障定位"){//主面板点击了故障定位,则渲染电表故障
-		//处理表箱
-		for(var i = 0;i < faultNowMeterBoxArray.length ;i++){
-			var json = faultNowMeterBoxArray[i];
-			var key = json["key"]|| "";
-			var faultType = json["faultType"];
-			var epuName = json["epuName"];
-			var faultTypeName = getFaultTypeName(faultType);
-			//找到异常表箱图标，设置
-			$("#ammeter_Layer").find("image[id='meterBoxImg_"+key+"']").attr("href","../woodare/image/tableBoxError.png");
-			var count = $("#meterBoxText_"+key).find("text tspan").length||0;
-			if(null != faultTypeName && faultTypeName != ""){
-				$("#meterBoxText_" + key+ " text").find("tspan").eq((count - 2)).text("故障原因:" );
-				$("#meterBoxText_" + key+ " text").find("tspan").eq((count - 1)).text(faultTypeName);
-			}
-			updateClass("meterBoxText_"+key+" text", "error");
-			
-			updateClass(key+"_meterBox_line", "error");
-			updateClass(key+"_line", "error");
-		}
-		//处理电表
-		for(var i = 0;i < faultNowMeterArray.length ;i++){
-			var json = faultNowMeterArray[i];
-			var key = json["key"]|| "";
-			var faultType = json["faultType"];
-			var epuName = json["epuName"];
-			var faultTypeName = getFaultTypeName(faultType);
-			//找到异常电表图标，设置
-			$("#ammeter_Layer").find("image[id='meterImg_"+key+"']").attr("href","../woodare/image/meterError.png");
-			var count = $("#meterText_"+key).find("text tspan").length||0;
-			if(null != faultTypeName && faultTypeName != ""){
-				$("#meterText_" + key+ " text").find("tspan").eq((count - 2)).text("故障原因:" );
-				$("#meterText_" + key+ " text").find("tspan").eq((count - 1)).text(faultTypeName);
-			}
-			updateClass("meterText_" + key+ " text", "error");
-			
-			updateClass("meterLine_" +key, "error");
-			updateClass(key + "_line_1", "error");
-			updateClass(key + "_line_2", "error");
-			updateClass(key + "_line", "error");
+		updateClass("meterBoxText_"+key+" text", "fText");
 		
-		}
-	}else{//主面板未点击了故障定位,则清除渲染电表故障
-		//处理表箱
-		for(var i = 0;i < faultNowMeterBoxArray.length ;i++){
-			var json = faultNowMeterBoxArray[i];
-			var key = json["key"]|| "";
-			var faultType = json["faultType"];
-			var epuName = json["epuName"];
-			var faultTypeName = getFaultTypeName(faultType);
-			//找到异常表箱图标，设置
-			$("#ammeter_Layer").find("image[id='meterBoxImg_"+key+"']").attr("href","../woodare/image/tableBox.png");
-			var count = $("#meterBoxText_"+key).find("text tspan").length||0;
-			if(null != faultTypeName && faultTypeName != ""){
-				$("#meterBoxText_" + key+ " text").find("tspan").eq((count - 2)).text("");
-				$("#meterBoxText_" + key+ " text").find("tspan").eq((count - 1)).text("");
-			}
-			updateClass("meterBoxText_"+key+" text", "fText");
-			
-			updateClass(key+"_meterBox_line", "fText");
-			updateClass(key+"_line", "fText");
-		}
-		//处理电表
-		for(var i = 0;i < faultNowMeterArray.length ;i++){
-			var json = faultNowMeterArray[i];
-			var key = json["key"]|| "";
-			var faultType = json["faultType"];
-			var epuName = json["epuName"];
-			var faultTypeName = getFaultTypeName(faultType);
-			$("#ammeter_Layer").find("image[id='meterImg_"+key+"']").attr("href","../woodare/image/meter.png");
-			var count = $("#meterText_"+key).find("text tspan").length||0;
-			
-			$("#meterText_" + key+ " text").find("tspan").eq((count - 2)).text("");
-			$("#meterText_" + key+ " text").find("tspan").eq((count - 1)).text("");
-			
-			updateClass("meterText_" + key+ " text", "fText");
-			
-			updateClass("meterLine_" +key, "fText");
-			updateClass(key + "_line_1", "fText");
-			updateClass(key + "_line_2", "fText");
-			updateClass(key + "_line", "fText");
-		}
-
+		updateClass(key+"_meterBox_line", "fText");
+		updateClass(key+"_line", "fText");
+	}
+	//处理电表
+	for(var i = 0;i < faultNowMeterArray.length ;i++){
+		var json = faultNowMeterArray[i];
+		var key = json["key"]|| "";
+		var faultType = json["faultType"];
+		var epuName = json["epuName"];
+		  var faultTypeName = json["faultTypeName"];
+		$("#ammeter_Layer").find("image[id='meterImg_"+key+"']").attr("href","../woodare/image/meter.png");
+		var count = $("#meterText_"+key).find("text tspan").length||0;
+		
+		$("#meterText_" + key+ " text").find("tspan").eq((count - 2)).text("");
+		$("#meterText_" + key+ " text").find("tspan").eq((count - 1)).text("");
+		
+		updateClass("meterText_" + key+ " text", "fText");
+		
+		updateClass("meterLine_" +key, "fText");
+		updateClass(key + "_line_1", "fText");
+		updateClass(key + "_line_2", "fText");
+		updateClass(key + "_line", "fText");
 	}
 }
-
-function getFaultTypeName(faultType) {
-	var faultTypeName = "";
-	switch(faultType){
-	case "0":
-		faultTypeName = "短路";
-		break;
-	case "1":
-		faultTypeName = "异常漏电";
-		break;
-	case "2":
-		faultTypeName = "缺相";
-		break;
-	case "3":
-		faultTypeName = "停电";
-		break;
-	}
-	return faultTypeName;
-}
-
-
 /*
  * 更新样式
  * **/
@@ -856,5 +878,36 @@ $(function() {
 	 	$(".gj").css("top", ($(this).scrollTop() ));
   		$(".gj").css("left", ($(this).scrollLeft() ));
 	 });
+	 var websocket;
+	 var basePath = parent.$("#basePath").val();//项目地址
+	 var web_socket_ip = parent.$("#web_socket_ip").val();//WebSocket握手IP地址
+	 var token_id = parent.$("#token_id").val();//登录人ID
+     if('WebSocket' in window) {
+          console.log("此浏览器支持websocket");
+         websocket = new WebSocket("ws://"+web_socket_ip + basePath +"/chat/"+token_id);
+     } else if('MozWebSocket' in window) {
+         alert("此浏览器只支持MozWebSocket");
+     } else {
+         alert("此浏览器只支持SockJS");
+     }
+     websocket.onopen = function(evnt) {
+         //打开监听,连接open后给前端和后端同时发送open信号，两个线程不会阻塞。但是我的后端open事件一定要先执行，这样前端请求时，才能有足够的时间等待后端生成userSocket
+         //加载故障数据
+//          alert("链接服务器成功,加载故障数据!");
+     };
+     websocket.onmessage = function(evnt) {
+    	 //"{\"name\":\"faultRendering\",\"key\":\"38f04bc0-6c40-4535-ba36-7dbc1d6d2536\"}"
+    	 if(evnt.data.indexOf("faultRendering") !=-1){
+    		 var json = JSON.parse(evnt.data);
+    		 if(json.key == javaScriptObj.substationId){
+    			 setFalut();
+    		 }
+    	 }
+    	 //得到消息通知，执行加载故障数据
+     };
+     websocket.onerror = function(evnt) {};
+     websocket.onclose = function(evnt) {
+    	 alert("与服务器断开了链接!");
+     }
 });
 

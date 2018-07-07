@@ -233,7 +233,7 @@ var SVG_HELPER = (function() {
                     var key = json["key"];
                     var epuName = json["epuName"];
                     var faultType = json["faultType"];
-                    var faultTypeName = getFaultTypeName(faultType);
+                    var faultTypeName = json["faultTypeName"];
                     $("#Snap_Layer").find("image[id='kaiguanxianImg_" + key + "']").attr("href", "../woodare/image/branchBoxError.png"); //分支箱/出线柜
                     updateBox(key, "error-box");
                     if (null != faultTypeName && "" != faultTypeName) {
@@ -266,7 +266,7 @@ var SVG_HELPER = (function() {
                     var key = json["key"];
                     var epuName = json["epuName"];
                     var faultType = json["faultType"];
-                    var faultTypeName = getFaultTypeName(faultType);
+                    var faultTypeName = json["faultTypeName"];
                     updateKaiguanxian(key, "error");
                     $("#kaiguanxian_line_" + key).find("rect").attr("class", "error");
                     $("#kaiguanxian_line_" + key).find("path").attr("class", "error");
@@ -729,27 +729,6 @@ var SVG_HELPER = (function() {
         }
     }
 
-    /**
- * 获取故障原因类型
- * */
-    function getFaultTypeName(faultType) {
-        var faultTypeName = "";
-        switch (faultType) {
-        case "0":
-            faultTypeName = "短路";
-            break;
-        case "1":
-            faultTypeName = "异常漏电";
-            break;
-        case "2":
-            faultTypeName = "缺相";
-            break;
-        case "3":
-            faultTypeName = "停电";
-            break;
-        }
-        return faultTypeName;
-    }
 
     /**
   * 获取组织的SVG图片

@@ -27,6 +27,7 @@
   <body>
   	<input type="hidden" id="action" name="action" value="ammeter">
 	<input type="hidden" id="strKeyArray" name="strKeyArray"/>
+	<input type="hidden" id="strKeyRenderingArray" name="strKeyRenderingArray"/>
 	<div class="gj">
 		<font class="jian" onclick="clickScale('min')">减少</font>
 		<input type="text" name="wd" id="wd"  value="1" readonly="readonly">
@@ -109,7 +110,7 @@
 </div>
 <!--主体结束/-->
 <!--loading开始-->
-<div class="loading" style="display: none;">
+<div class="loading" style="display: none;" id="loadingDiv" >
 	<div class="spinner">加载中
 		<div class="double-bounce1"></div>
 		<div class="double-bounce2"></div>
