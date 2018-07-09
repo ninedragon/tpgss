@@ -34,7 +34,10 @@ function showList(rowId,tableBoxId,branchBoxId,meterboxId,meterboxEpuName,childr
 		 var myVar =  setInterval(function(){
 	    	 //加载当前表箱下电表表格
 			 clearInterval(myVar);//清除定时器
-			 showList(rowId,tableBoxId,branchBoxId,meterboxId,meterboxEpuName,children);
+			 var timeoutVar =  setTimeout(function(){
+				 clearInterval(timeoutVar);//清除定时器
+				 showList(rowId,tableBoxId,branchBoxId,meterboxId,meterboxEpuName,children);
+			 }, (1000 * 20) );//(1000 * 20) 延迟20秒
 	     },(1000 * 60 * 4));//(1000 * 60 * 4)
 		 javaScriptObj.interval = myVar;
 		 
@@ -83,20 +86,20 @@ function selectMeterBoxUIPQ(meterboxId){
 			        		var json = meterBoxList[i];
 			        		var phaseRemark = json["phaseRemark"];
 			        		if(phaseRemark == 1 || phaseRemark == "1"){
-			        			  ua = json["u"];
-			        			  ia = json["i"];
-			        			  pa = json["p"];
-			        			  qa = json["q"];
+			        			  ua = parseFloat(json["u"] ||0).toFixed(2);
+			        			  ia = parseFloat(json["i"] ||0).toFixed(2);
+			        			  pa = parseFloat(json["p"] ||0).toFixed(2);
+			        			  qa = parseFloat(json["q"] ||0).toFixed(2);
 			        		}else if(phaseRemark == 1 || phaseRemark == "1"){
-			        			  ub = json["u"];
-			        			  ib = json["i"];
-			        			  pb = json["p"];
-			        			  qb = json["q"];
+			        			  ub = parseFloat(json["u"] ||0).toFixed(2);
+			        			  ib = parseFloat(json["i"] ||0).toFixed(2);
+			        			  pb = parseFloat(json["p"] ||0).toFixed(2);
+			        			  qb = parseFloat(json["q"] ||0).toFixed(2);
 			        		}else if(phaseRemark == 1 || phaseRemark == "1"){
-			        			  uc = json["u"];
-			        			  ic = json["i"];
-			        			  pc = json["p"];
-			        			  qc = json["q"];
+			        			  uc = parseFloat(json["u"] ||0).toFixed(2);
+			        			  ic = parseFloat(json["i"] ||0).toFixed(2);
+			        			  pc = parseFloat(json["p"] ||0).toFixed(2);
+			        			  qc = parseFloat(json["q"] ||0).toFixed(2);
 			        		}
 			        	}
 			        	var uipqHtml = "";

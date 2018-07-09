@@ -17,6 +17,7 @@ public class PowerQuality {
 
     private Float ua;
 
+
     private Float ub;
 
     private Float uc;
@@ -44,8 +45,44 @@ public class PowerQuality {
     private Float i6;
 
     private Float i7;
+    private Float u;
+    private Float i;
+    private String  branchBoxId;
+    private String  epuName;
 
-    public Integer getId() {
+    public Float getI() {
+		return i;
+	}
+
+	public void setI(Float i) {
+		this.i = i;
+	}
+
+	public String getBranchBoxId() {
+		return branchBoxId;
+	}
+
+	public void setBranchBoxId(String branchBoxId) {
+		this.branchBoxId = branchBoxId;
+	}
+
+	public String getEpuName() {
+		return epuName;
+	}
+
+	public void setEpuName(String epuName) {
+		this.epuName = epuName;
+	}
+
+	public Float getU() {
+		return u;
+	}
+
+	public void setU(Float u) {
+		this.u = u;
+	}
+
+	public Integer getId() {
         return id;
     }
 

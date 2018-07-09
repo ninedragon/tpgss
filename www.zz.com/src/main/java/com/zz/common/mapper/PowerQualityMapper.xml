@@ -23,6 +23,10 @@
     <result column="i5" jdbcType="REAL" property="i5" />
     <result column="i6" jdbcType="REAL" property="i6" />
     <result column="i7" jdbcType="REAL" property="i7" />
+    <result column="u" jdbcType="REAL" property="u" />
+    <result column="i" jdbcType="REAL" property="i" />
+     <result column="branchBoxId" jdbcType="VARCHAR" property="branchBoxId" />
+     <result column="epu_name" jdbcType="VARCHAR" property="epuName" />
   </resultMap>
   <sql id="Base_Column_List">
     id, C_DistrictBCDId, C_AddressId, C_FrameCmdId, C_RecordInsertTime, C_FaultId, ua, 
@@ -282,4 +286,65 @@
       i7 = #{i7,jdbcType=REAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="branchboxUIPQByChannelA" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  		SELECT
+			t_branchbox.branchBoxId,
+			t_branchbox.epu_name,
+			t_power_quality.C_ChannelId,
+			t_power_quality.ua AS u,
+			t_power_quality.i1 AS i,
+			t_power_quality.p,
+			t_power_quality.q
+		FROM
+			t_branchbox
+		LEFT JOIN t_power_quality ON t_power_quality.C_AddressId = t_branchbox.C_AddressId
+		AND t_power_quality.C_DistrictBCDId = t_branchbox.C_DistrictBCDId
+		AND t_power_quality.C_ChannelId = t_branchbox.C_ChannelId
+		WHERE
+			t_branchbox.DEL_FLAG = '0'
+		AND t_power_quality.TSegmentId = #{tSegmentId,jdbcType=INTEGER}
+		AND t_power_quality.RecordDateBCD = #{recordDateBCD,jdbcType=INTEGER}
+		 <![CDATA[ ${paramSQL} ]]>    
+   </select>
+  <select id="branchboxUIPQByChannelB" resultMap="BaseResultMap" parameterType="java.util.Map" >
+		SELECT
+			t_branchbox.branchBoxId,
+			t_branchbox.epu_name,
+			t_power_quality.C_ChannelId,
+			t_power_quality.ub AS u,
+			t_power_quality.i1 AS i,
+			t_power_quality.p,
+			t_power_quality.q
+		FROM
+			t_branchbox
+		LEFT JOIN t_power_quality ON t_power_quality.C_AddressId = t_branchbox.C_AddressId
+		AND t_power_quality.C_DistrictBCDId = t_branchbox.C_DistrictBCDId
+		AND t_power_quality.C_ChannelId = t_branchbox.C_ChannelId_b
+		WHERE
+			t_branchbox.DEL_FLAG = '0'
+		AND t_power_quality.TSegmentId = #{tSegmentId,jdbcType=INTEGER}
+		AND t_power_quality.RecordDateBCD = #{recordDateBCD,jdbcType=INTEGER}
+		 <![CDATA[ ${paramSQL} ]]>    
+   </select>
+  <select id="branchboxUIPQByChannelC" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  		SELECT
+			t_branchbox.branchBoxId,
+			t_branchbox.epu_name,
+			t_power_quality.C_ChannelId,
+			t_power_quality.uc AS u,
+			t_power_quality.i1 AS i,
+			t_power_quality.p,
+			t_power_quality.q
+		FROM
+			t_branchbox
+		LEFT JOIN t_power_quality ON t_power_quality.C_AddressId = t_branchbox.C_AddressId
+		AND t_power_quality.C_DistrictBCDId = t_branchbox.C_DistrictBCDId
+		AND t_power_quality.C_ChannelId = t_branchbox.C_ChannelId_c
+		WHERE
+			t_branchbox.DEL_FLAG = '0'
+		AND t_power_quality.TSegmentId = #{tSegmentId,jdbcType=INTEGER}
+		AND t_power_quality.RecordDateBCD = #{recordDateBCD,jdbcType=INTEGER}
+		 <![CDATA[ ${paramSQL} ]]>    
+   </select>
 </mapper>

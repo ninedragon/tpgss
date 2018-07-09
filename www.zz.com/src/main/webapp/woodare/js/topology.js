@@ -20,7 +20,8 @@ var mySvg = null;
 var dataTemp = null;
 var javaScriptObj = {
 		substationId:null,//箱变ID
-		branchboxIDArray:null
+		branchboxIDArray:null,
+		interval:null//定时器资源
 }
 /**
  * 展示拓扑
@@ -58,6 +59,19 @@ function showTop(rowId){
 	        		 dataTemp = allData;
 	        		 var wd = parseFloat($("#wd").val() || 1) ;
 	        		 mySvg.scale(wd);
+	        		 //加载表格
+	        		 branchboxTableUipq(mySvg);
+	        		 //开启定时器
+	        		 var myVar =  setInterval(function(){
+	        	    	 //加载当前表箱下电表表格
+	        			 clearInterval(myVar);//清除定时器
+	        			 var timeoutVar =  setTimeout(function(){
+	        				 clearInterval(timeoutVar);//清除定时器
+	        				 showTop(rowId);
+	        			 }, (1000 * 20) );//(1000 * 20) 延迟20秒
+	        			
+	        	     },(1000 * 60 * 4));//(1000 * 60 * 4)
+	        		 javaScriptObj.interval = myVar;
 	        	 }
 	        } 
 		});
@@ -70,7 +84,89 @@ if(obj.attr("isShow") != "yes"){//如果是第一次，则加载
 	obj.attr("isShow","yes");
 	showTop(rowId);//初始化加载
 }
-
+/**
+ * 加载表格
+ * */
+function branchboxTableUipq(obj){
+	 var strKeyArray = "";
+	 if(obj.outgoingCabinetArray){
+		 if(null != obj.outgoingCabinetArray && obj.outgoingCabinetArray.length > 0){
+			 strKeyArray = obj.outgoingCabinetArray.join(",")
+		 }
+	 }
+	 $("#loadingDiv").show();
+	    $.ajax({
+	        url: getRootPath_web() + "/powerQuality/selectBranchboxUIPQ.shtml",
+	        type: 'POST',
+	        timeout : 5000, //超时时间设置，单位毫秒
+	        dataType: 'json',
+	        async: true,
+	        data: {
+	        	outgoingCabinetIds: strKeyArray
+	        },
+	        success: function(data) {
+	        	var branchboxXYArray = obj.branchboxXYArray;
+	        	if(null != branchboxXYArray && branchboxXYArray.length > 0){
+	        		for(var i = 0 ;i < branchboxXYArray.length; i++){
+	        			var branchboxXY_json = branchboxXYArray[i]; 
+	        			var key = branchboxXY_json["KEY"];
+	        			var x = branchboxXY_json["X"];
+	        			var y = branchboxXY_json["Y"];
+	        			var count = branchboxXY_json["COUNT"];
+	        			var index = branchboxXY_json["INDEX"];
+	        			if(data){
+	        				if(null != data && data.length > 0){
+	        					var  ua = 0;
+	        					var  ia = 0;
+	        					var  pa = 0;
+	        					var qa = 0;
+	        					var ub = 0;
+	        					var ib = 0;
+	        					var pb = 0;
+	        					var qb = 0;
+	        					var uc = 0;
+	        					var ic = 0;
+	        					var pc = 0;
+	        					var qc = 0;
+			        			for(var j = 0 ;j < data.length; j++){
+			        				var j_json = data[j];
+			        				var branchBoxId = j_json["branchBoxId"];
+			        				if(branchBoxId == key){
+			        					var cChannelid = j_json["cChannelid"];
+			        					if(cChannelid == 1 || cChannelid == "1"){
+						        			  ua = j_json["u"].toFixed(2);
+						        			  ia = j_json["i"].toFixed(2);
+						        			  pa = j_json["p"].toFixed(2);
+						        			  qa = j_json["q"].toFixed(2);
+						        		}else if(cChannelid == 2 || cChannelid == "2"){
+						        			  ub = j_json["u"].toFixed(2);
+						        			  ib = j_json["i"].toFixed(2);
+						        			  pb = j_json["p"].toFixed(2);
+						        			  qb = j_json["q"].toFixed(2);
+						        		}else if(cChannelid == 3 || cChannelid == "3"){
+						        			  uc = j_json["u"].toFixed(2);
+						        			  ic = j_json["i"].toFixed(2);
+						        			  pc = j_json["p"].toFixed(2);
+						        			  qc = j_json["q"].toFixed(2);
+						        		}
+			        				}
+			        			}
+			        			obj.showTabData(obj.thisSvgObj, key, x, y, count, index, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
+	        				}else{
+	        					//清除TABLE
+	        				}
+	        			}else{
+	        				//清除TABLE
+	        			}
+	        		}
+	        	}
+	            $(".loading").hide();
+	        },
+	        error: function() {
+	            $(".loading").hide();
+	        }
+	    });
+}
 
 /**
 * 单击执行放大缩小
