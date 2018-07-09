@@ -92,5 +92,12 @@ public interface EpuService {
       
       public List<TEpuInfo> selectEpuInfos(TEpuInfo epuInfo);
       
+      
+   // 获取所有查询条件
+ 	 public Map<String, Object> selectEpuAddressIdByDistrictId(String epuType,String districtId);
+ 	 
+ 	  // 获取所有查询条件
+ 	 public Map<String, Object> selectEpuchannelIdByAddressIdAndDistrictId(String epuType,String districtId,String addressId);
+      
 
 }

@@ -606,4 +606,20 @@ public class EpuController extends BaseController {
 				
 	    return list;
 	}
+	
+	
+	
+	@RequestMapping("selectEpuAddressIdByDistrictId")
+	@ResponseBody
+	public Object selectEpuAddressIdByDistrictId(String epuType,String districtId) {
+		return epuService.selectEpuAddressIdByDistrictId(epuType,districtId);
+	}
+	
+	
+	
+	@RequestMapping("selectEpuchannelIdByAddressIdAndDistrictId")
+	@ResponseBody
+	public Object selectEpuchannelIdByAddressIdAndDistrictId(String epuType,String districtId,String addressId) {
+		return epuService.selectEpuchannelIdByAddressIdAndDistrictId(epuType,districtId,addressId);
+	}
 }

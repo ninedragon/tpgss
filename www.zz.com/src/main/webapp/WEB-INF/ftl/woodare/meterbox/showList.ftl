@@ -354,29 +354,57 @@
 				    });
 				 });
 				 
-				  $('#saveDiv #districtId').change(function () {
-					  var i = $('#saveDiv #districtId option:selected').val();			
-				  $.ajax({
-		                type: "post",
-		                url:  "${basePath}/epu/selectNdtuAddressIdByDistrictId.shtml",
-		                data: {
-		                    "districtId": i
-		                },
-		                dataType: "json",
-		                async:false,
-		                cache: false,
-		                error: function (a,b,c) {
-		                },
-		                success: function (a) {
-		                    var epuInfoList = a.epuInfoList;
-		            
-		                    $('#saveDiv #addressId').html('<option value="">--请选择--</option>');
-		                    for (var i = 0; i < epuInfoList.length; i++) {
-		                        $('#saveDiv #addressId').append('<option value="' + epuInfoList[i].addressId + '">' + epuInfoList[i].addressId + '</option>');
-		                    }
-		                   
-		                }
-			    });
+				 $('#saveDiv #districtId').change(function () {
+					  var districtId = $('#saveDiv #districtId option:selected').val();
+					  $.ajax({
+						  type: "post",
+			                url:  "${basePath}/epu/selectEpuAddressIdByDistrictId.shtml",
+			                data: {
+			                	"epuType": 'M0004',
+			                    "districtId": districtId
+			                },
+			                dataType: "json",
+			                async:false,
+			                cache: false,
+			                error: function (a,b,c) {
+			                },
+			                success: function (a) {
+			                    var epuInfoAddressIdList = a.epuInfoList;
+			                    var addressIdList= [];
+			                    for (var i = 0; i < epuInfoAddressIdList.length; i++) {
+			                    	addressIdList.push(epuInfoAddressIdList[i].addressId);
+			                    }
+			            
+			                    $.ajax({
+					                type: "post",
+					                url:  "${basePath}/epu/selectNdtuAddressIdByDistrictId.shtml",
+					                data: {
+					                    "districtId": districtId
+					                },
+					                dataType: "json",
+					                async:false,
+					                cache: false,
+					                error: function (a,b,c) {
+					                },
+					                success: function (a) {
+					                    var epuInfoList = a.epuInfoList;
+					            
+					                    $('#saveDiv #addressId').html('<option value="">--请选择--</option>');
+					                    for (var j = 0; j < epuInfoList.length; j++) {
+					                    	var addressIdVar=epuInfoList[j].addressId;
+					                    	if(addressIdList.length>0 && addressIdList.indexOf(addressIdVar)!=-1)
+				                    		{
+				                    		continue;
+				                    		}
+					                        $('#saveDiv #addressId').append('<option value="' + addressIdVar + '">' +addressIdVar + '</option>');
+					                    }
+					                   
+					                }
+						    });
+			                   
+			                }
+				    });				  
+				
 			 });
 				  
 				  $('#saveDiv #addressId').change(function () {
@@ -395,12 +423,8 @@
 		                error: function (a,b,c) {
 		                },
 		                success: function (a) {
-		                    var epuInfoList = a.epuInfoList;
-		            
-		                    $('#saveDiv #channelId').html('<option value="">--请选择--</option>');
-		                    for (var i = 0; i < epuInfoList.length; i++) {
-		                        $('#saveDiv #channelId').append('<option value="' + epuInfoList[i].channelId + '">' + epuInfoList[i].channelId + '</option>');
-		                    }
+		                    var epuInfoList = a.epuInfoList;		            
+		                    $('#saveDiv #channelId').val(epuInfoList[0].channelId);
 		                   
 		                }
 			    });
@@ -682,6 +706,7 @@
 		         
 			         //关联终端bcd编号
 				     
+
            	   $.ajax({
 			                type: "post",
 			                url:  "${basePath}/epu/selectNdtuDistrictId.shtml",
@@ -708,10 +733,72 @@
 			                    	}
 			                      
 			                    }
+			                    
+			                    var districtId = $('#saveDiv #districtId option:selected').val();
+			  				  $.ajax({
+								  type: "post",
+					                url:  "${basePath}/epu/selectEpuAddressIdByDistrictId.shtml",
+					                data: {
+					                	"epuType": 'M0004',
+					                    "districtId": districtId
+					                },
+					                dataType: "json",
+					                async:false,
+					                cache: false,
+					                error: function (a,b,c) {
+					                },
+					                success: function (a) {
+					                    var epuInfoAddressIdList = a.epuInfoList;
+					                    var addressIdList= [];
+					                    for (var i = 0; i < epuInfoAddressIdList.length; i++) {
+					                    	if(epuInfoAddressIdList[i].addressId!=epuEdit.addressId)
+					                    		{
+					                    	addressIdList.push(epuInfoAddressIdList[i].addressId);
+					                    		}
+					                    }
+					            
+					                    $.ajax({
+							                type: "post",
+							                url:  "${basePath}/epu/selectNdtuAddressIdByDistrictId.shtml",
+							                data: {
+							                    "districtId": districtId
+							                },
+							                dataType: "json",
+							                async:false,
+							                cache: false,
+							                error: function (a,b,c) {
+							                },
+							                success: function (a) {
+							                    var epuInfoList = a.epuInfoList;
+							            
+							                    $('#saveDiv #addressId').html('<option value="">--请选择--</option>');
+							                    for (var j = 0; j < epuInfoList.length; j++) {
+							                    	var addressIdVar=epuInfoList[j].addressId;
+							                    	if(addressIdList.length>0 && addressIdList.indexOf(addressIdVar)!=-1 )
+						                    		{
+						                    		continue;
+						                    		}
+							                    	if(epuEdit.addressId==epuInfoList[j].addressId)
+							                    	{
+							                    		 $('#saveDiv #addressId').append('<option value="' + epuInfoList[j].addressId + '" selected="selected">' + epuInfoList[j].addressId + '</option>');
+							                    	}
+							                    	else
+							                    		
+							                    	{
+							                    		 $('#saveDiv #addressId').append('<option value="' + epuInfoList[j].addressId + '">' + epuInfoList[j].addressId + '</option>');
+							                    	}
+							                    }
+							                   
+							                }
+								    });
+					                   
+					                }
+						    });
+			                    
 			                }			                
            	   });
            	   
-           	   $.ajax({
+           	  /*  $.ajax({
 		                type: "post",
 		                url:  "${basePath}/epu/selectNdtuAddressIdByDistrictId.shtml",
 		                data: {
@@ -738,7 +825,7 @@
 		                    	}						                       
 		                    }						                   
 		                }
-			    }); 
+			    });  */
            	  
            	   $.ajax({
 			                type: "post",
@@ -755,17 +842,7 @@
 			                success: function (a) {
 			                    var epuInfoList = a.epuInfoList;
 			            
-			                    $('#saveDiv #channelId').html('<option value="">--请选择--</option>');
-			                    for (var i = 0; i < epuInfoList.length; i++) {
-			                    	if(epuEdit.channelId==epuInfoList[i].channelId)
-		                    	{
-		                    		 $('#saveDiv #channelId').append('<option value="' + epuInfoList[i].channelId + '" selected="selected">' + epuInfoList[i].channelId + '</option>');
-		                    	}
-		                    	else						                    		
-		                    	{
-		                    		 $('#saveDiv #channelId').append('<option value="' + epuInfoList[i].channelId + '">' + epuInfoList[i].channelId + '</option>');
-		                    	}		   			          
-			                    }
+			                    $('#saveDiv #channelId').val(epuInfoList[0].channelId);
 			  
 			                }			                
            	   }); 	
@@ -850,28 +927,55 @@
 				 });
 				 
 				 $('#saveDiv #districtId').change(function () {
-					  var i = $('#saveDiv #districtId option:selected').val();			
-				  $.ajax({
-		                type: "post",
-		                url:  "${basePath}/epu/selectNdtuAddressIdByDistrictId.shtml",
-		                data: {
-		                    "districtId": i
-		                },
-		                dataType: "json",
-		                async:false,
-		                cache: false,
-		                error: function (a,b,c) {
-		                },
-		                success: function (a) {
-		                    var epuInfoList = a.epuInfoList;
-		            
-		                    $('#saveDiv #addressId').html('<option value="">--请选择--</option>');
-		                    for (var i = 0; i < epuInfoList.length; i++) {
-		                        $('#saveDiv #addressId').append('<option value="' + epuInfoList[i].addressId + '">' + epuInfoList[i].addressId + '</option>');
-		                    }
-		                   
-		                }
-			    });
+					  var districtId = $('#saveDiv #districtId option:selected').val();
+					  $.ajax({
+						  type: "post",
+			                url:  "${basePath}/epu/selectEpuAddressIdByDistrictId.shtml",
+			                data: {
+			                	"epuType": 'M0004',
+			                    "districtId": districtId
+			                },
+			                dataType: "json",
+			                async:false,
+			                cache: false,
+			                error: function (a,b,c) {
+			                },
+			                success: function (a) {
+			                    var epuInfoAddressIdList = a.epuInfoList;
+			                    var addressIdList= [];
+			                    for (var i = 0; i < epuInfoAddressIdList.length; i++) {
+			                    	addressIdList.push(epuInfoAddressIdList[i].addressId);
+			                    }
+			            
+			                    $.ajax({
+					                type: "post",
+					                url:  "${basePath}/epu/selectNdtuAddressIdByDistrictId.shtml",
+					                data: {
+					                    "districtId": districtId
+					                },
+					                dataType: "json",
+					                async:false,
+					                cache: false,
+					                error: function (a,b,c) {
+					                },
+					                success: function (a) {
+					                    var epuInfoList = a.epuInfoList;
+					            
+					                    $('#saveDiv #addressId').html('<option value="">--请选择--</option>');
+					                    for (var j = 0; j < epuInfoList.length; j++) {
+					                    	var addressIdVar=epuInfoList[j].addressId;
+					                    	if(addressIdList.length>0 && addressIdList.indexOf(addressIdVar)!=-1)
+				                    		{
+				                    		continue;
+				                    		}
+					                        $('#saveDiv #addressId').append('<option value="' + addressIdVar + '">' +addressIdVar + '</option>');
+					                    }
+					                   
+					                }
+						    });
+			                   
+			                }
+				    });				
 			 });
 				  
 				  
@@ -893,10 +997,7 @@
 		                success: function (a) {
 		                    var epuInfoList = a.epuInfoList;
 		            
-		                    $('#saveDiv #channelId').html('<option value="">--请选择--</option>');
-		                    for (var i = 0; i < epuInfoList.length; i++) {
-		                        $('#saveDiv #channelId').append('<option value="' + epuInfoList[i].channelId + '">' + epuInfoList[i].channelId + '</option>');
-		                    }
+		                    $('#saveDiv #channelId').val(epuInfoList[0].channelId);
 		                   
 		                }
 			    });
@@ -1078,8 +1179,7 @@
             </lable>
              <lable>
                 <span>关联终端通道数</span>
-                <select name="channelId" id="channelId" class="text requiredSelect" title="关联终端通道数">
-								</select>
+                <input name="channelId" id="channelId"   type="text" class="text request"  readonly="readonly">
             </lable>             
 	         <div class="but-nav" style="margin:0px 0px 20px 0px">
                 <span class="but" onclick="javascript:epAdd.submitFun('1');">保&nbsp;&nbsp;存</a></span>

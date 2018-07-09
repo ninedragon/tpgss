@@ -578,9 +578,9 @@ public static long getSerialversionuid() {
      * @mbggenerated
      */
     public String getChannelId() {
-    	if(channelId==null)
+    	if("".equals(channelId.trim()))
     	{
-    		channelId="";
+    		channelId=null;
     	}
         return channelId;
     }
@@ -594,7 +594,7 @@ public static long getSerialversionuid() {
      * @mbggenerated
      */
     public void setChannelId(String channelId) {
-        this.channelId = channelId == null ? null : channelId.trim();
+        this.channelId = "".equals(channelId.trim())  ? null : channelId;
     }
 
     /**

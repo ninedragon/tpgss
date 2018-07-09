@@ -55,4 +55,9 @@ public interface TEpuInfoMapper {
     List<TEpuInfo>  checkEpName(@Param("epuName") String epuName, @Param("epuDistrict") String epuDistrict, @Param("epuType") String epuType);
     
     List<TEpuInfo> selectEpuInfos(TEpuInfo epuInfo);
+    
+    
+    List<TEpuInfo> selectEpuAddressIdByDistrictId( @Param("epuType")String epuType,@Param("districtId")String districtId);
+    
+    List<TEpuInfo> selectEpuchannelIdByAddressIdAndDistrictId( @Param("epuType")String epuType,@Param("districtId")String districtId,@Param("addressId")String addressId);
 }

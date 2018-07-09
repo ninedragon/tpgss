@@ -32,10 +32,9 @@
     <result column="epu_parent_type_name" property="epuParentTypeName" jdbcType="VARCHAR" />
     <result column="epu_parent_type" property="epuParentType" jdbcType="VARCHAR" />
     <result column="channel_id" property="channelId" jdbcType="VARCHAR" />
+     <result column="channel_id_two" property="channelIdTwo" jdbcType="VARCHAR" />
+      <result column="channel_id_three" property="channelIdThree" jdbcType="VARCHAR" />
     <result column="line_id" property="lineId" jdbcType="VARCHAR" />
-    <result column="C_DistrictBCDId" property="c_DistrictBCDId" jdbcType="VARCHAR" />
-    <result column="C_AddressId" property="c_AddressId" jdbcType="VARCHAR" />
-    <result column="C_ChannelNum" property="c_ChannelNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -44,7 +43,7 @@
     -->
     row_id, district_id, epu_name, epu_local, epu_province, epu_city, epu_district, epu_type, 
     epu_xscale, epu_yscale, epu_parent_id, CREATE_TIME, CREATE_ID, UPDATE_TIME, UPDATE_ID, 
-    DEL_FLAG, address_id,channel_id,line_id
+    DEL_FLAG, address_id,channel_id,channel_id_two,channel_id_three,line_id
   </sql>
    <sql id="where_all">
   	<where>
@@ -79,6 +78,8 @@
 			epu.UPDATE_ID,
 			epu.DEL_FLAG,
 			epu.channel_id,
+			epu.channel_id_two,
+			epu.channel_id_three,
 			epu.line_id,
 			epu.epu_province_name,
 			epu.epu_city_name,
@@ -115,6 +116,8 @@
 			epu.UPDATE_ID,
 			epu.DEL_FLAG,
 			epu.channel_id,
+			epu.channel_id_two,
+			epu.channel_id_three,
 			epu.line_id,
 			epu.epu_province_name,
 			epu_city_name,
@@ -158,6 +161,8 @@
 			epu.UPDATE_ID,
 			epu.DEL_FLAG,
 			epu.channel_id,
+			epu.channel_id_two,
+			epu.channel_id_three,
 			epu.line_id,
 			epu_province_name,
 			epu_city_name,
@@ -211,6 +216,8 @@
 			epu.UPDATE_ID,
 			epu.DEL_FLAG,
 			epu.channel_id,
+			epu.channel_id_two,
+			epu.channel_id_three,
 			epu.line_id,
 			epu_province_name,
 			epu_city_name,
@@ -241,7 +248,9 @@
         and (
         LOWER(epu.district_id) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%")) or
         LOWER(epu.address_id) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%")) or
-        LOWER(epu.channel_id) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%"))
+        LOWER(epu.channel_id) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%")) or
+        LOWER(epu.channel_id_two) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%")) or
+        LOWER(epu.channel_id_three) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%"))
         )
       </if>	
     		order by epu.UPDATE_TIME desc
@@ -270,6 +279,10 @@
         LOWER(epu.district_id) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%")) or
         LOWER(epu.address_id) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%")) or
         LOWER(epu.channel_id) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%"))
+        or
+        LOWER(epu.channel_id_two) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%"))
+        or
+        LOWER(epu.channel_id_three) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%"))
         )
       </if>	
   </select>
@@ -503,6 +516,18 @@
          	        C_ChannelId,
            </if>
       </if>
+       <if test="channelIdTwo != null and channelIdTwo !=''">
+        
+           <if test="epuType == 'M0003' ">
+         	        C_ChannelId_Two,
+           </if>
+      </if>
+       <if test="channelIdThree != null and channelIdThree !=''">
+       
+           <if test="epuType == 'M0003' ">
+         	        C_ChannelId_Three,
+           </if>
+      </if>
        <if test="lineId != null and lineId !=''">
         line_id,
       </if>
@@ -558,6 +583,12 @@
       </if>
       <if test="channelId != null and channelId !=''">
         #{channelId,jdbcType=VARCHAR},
+      </if>
+       <if test="channelIdTwo != null and channelIdTwo !=''">
+        #{channelIdTwo,jdbcType=VARCHAR},
+      </if>
+       <if test="channelIdThree != null and channelIdThree !=''">
+        #{channelIdThree,jdbcType=VARCHAR},
       </if>
       <if test="lineId != null and lineId !=''">
         #{lineId,jdbcType=VARCHAR},
@@ -649,6 +680,23 @@
          </if>
      
       </if>
+       <if test="channelIdTwo != null and channelIdTwo !=''">
+       
+          <if test="epuType == 'M0003'">
+         C_ChannelId_Two=#{channelIdTwo,jdbcType=VARCHAR},
+         </if>  
+         
+     
+      </if>
+       <if test="channel_id_three != null and channel_id_three !=''">
+        
+          <if test="epuType == 'M0003'">
+         C_ChannelId_Three=#{channelIdThree,jdbcType=VARCHAR},
+         </if>  
+         
+     
+      </if>
+      
       <if test="lineId != null and lineId !=''">
         line_id = #{lineId,jdbcType=VARCHAR},
       </if>
@@ -687,5 +735,35 @@
      <include refid="Base_Column_List" />
     from view_epu_info
     where epu_name = #{epuName,jdbcType=VARCHAR}  and epu_district = #{epuDistrict,jdbcType=VARCHAR} and  epu_type = #{epuType,jdbcType=VARCHAR}    and DEL_FLAG='0'
+  </select>
+  
+  
+   <select id="selectEpuAddressIdByDistrictId" parameterType="java.lang.String" resultMap="BaseResultMap">
+   	SELECT 
+	C_AddressId AS address_id
+	FROM
+          <if test="epuType == 'M0002'">
+         t_outgoingCabinet 
+         </if>  
+           <if test="epuType == 'M0004'">
+         t_meterBox 
+         </if>
+	where C_DistrictBCDId = #{districtId,jdbcType=VARCHAR} 
+	order by C_AddressId
+  </select>
+  
+   <select id="selectEpuchannelIdByAddressIdAndDistrictId" parameterType="java.lang.String" resultMap="BaseResultMap">
+   	SELECT 
+	channel_id
+	FROM
+          <if test="epuType == 'M0003'">
+         branchBoxId 
+         </if>  
+           <if test="epuType == 'M0005'">
+         t_meter 
+         </if>
+	where C_DistrictBCDId= #{districtId,jdbcType=VARCHAR} and C_AddressId= #{addressId,jdbcType=VARCHAR} 
+	and 
+	order by C_AddressId
   </select>
 </mapper>

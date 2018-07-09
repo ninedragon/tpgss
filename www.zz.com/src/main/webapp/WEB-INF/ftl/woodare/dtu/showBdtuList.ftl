@@ -107,15 +107,18 @@
 			                          
 			                             var cLastcomtime=epuList[i].cLastcomtime==null?"":epuList[i].cLastcomtime;
 			                            var cSoftupdatedate=epuList[i].cSoftupdatedate==null?"":epuList[i].cSoftupdatedate;
+			                            var  cInstalldate=epuList[i].cInstalldate==null?"":epuList[i].cInstalldate;
+			                            var  nbdeviceid=epuList[i].nbdeviceid==null?"":epuList[i].nbdeviceid;
+			                            
 			                            tbody += '<tr>';
 			                             tbody += '<td align="center"><input value="'+epuList[i].rowId+'" check="box" type="checkbox" /></td>';
 			                           	 tbody += '<td align="center"><div><a href="javascript:epuEdit.saveShow(\''+epuList[i].id+'\');">编辑</a>&nbsp;&nbsp;<a href="javascript:so.delEpuInfo(\''+epuList[i].id+'\');">删除</a>&nbsp;&nbsp;<a href="javascript:so.excuteCmd('+epuList[i].id+');">执行</a>';			                      
 			                           	 tbody += '<td align="center">';
-			                           	 tbody += '<select id="cmdList" name="cmdList"><option value ="1">call 1.cmd</option>';
+			                           /* 	 tbody += '<select id="cmdList" name="cmdList"><option value ="1">call 1.cmd</option>';
 										 tbody += '<option value="2">call 2.cmd</option>';
 										 tbody += '<option value="3">call 3.cmd</option>';
 										 tbody += '<option value="4">call 4.cmd</option>';
-										tbody += '</select>';
+										tbody += '</select>'; */
 			                           	tbody += '</td>';			             
 			                            tbody += '<td align="center"><div>' + epuList[i].cDistrictbcdid+ '</div></td>';
 			                            tbody += '<td align="center"><div>' + epuList[i].cAddressid + '</div></td>';
@@ -128,8 +131,8 @@
 			                             tbody += '<td align="center"><div>' + cLastcomtime+ '</div></td>';
 			                            tbody += '<td align="center"><div>' +cSoftupdatedate + '</div></td>';
 			                            
-			                            tbody += '<td align="center"><div>' + epuList[i].cInstalldate+ '</div></td>';
-			                            tbody += '<td align="center"><div>' +epuList[i].nbdeviceid + '</div></td>';	                          
+			                            tbody += '<td align="center"><div>' + cInstalldate + '</div></td>';
+			                            tbody += '<td align="center"><div>' + nbdeviceid + '</div></td>';	                          
 			                            tbody += '<td align="center"><div>' +epuList[i].cDesp + '</div></td>';	       
 			                                                  			                            
 			                            tbody += '</tr>';			                            

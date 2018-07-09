@@ -163,6 +163,8 @@
 			                          
 			                             var epuLocal=epuList[i].epuLocal==null?"":epuList[i].epuLocal;
 			                             var  districtId=epuList[i].districtId;
+			                             var  districtIdTwo=epuList[i].districtId;
+			                             var  districtIdThree=epuList[i].districtId;
 			                             if(districtId==null || districtId=='' || districtId==undefined || districtId=="null")
 			                             {
 			                             districtId="";
@@ -170,6 +172,22 @@
 			                             else
 			                             {
 			                            districtId= epuList[i].districtId+"-" +epuList[i].addressId+"-" +epuList[i].channelId;
+			                             }
+			                             if(districtId==null || districtId=='' || districtId==undefined || districtId=="null")
+			                             {
+			                            	 districtIdTwo="";
+			                             }
+			                             else
+			                             {
+			                            	 districtIdTwo= epuList[i].districtId+"-" +epuList[i].addressId+"-" +epuList[i].channelIdTwo;
+			                             }
+			                             if(districtId==null || districtId=='' || districtId==undefined || districtId=="null")
+			                             {
+			                            	 districtIdThree="";
+			                             }
+			                             else
+			                             {
+			                            	 districtIdThree= epuList[i].districtId+"-" +epuList[i].addressId+"-" +epuList[i].channelIdThree;
 			                             }
 			                            tbody += '<tr>';
 			                           //	tbody += '<td align="center"></td>';		             
@@ -180,7 +198,9 @@
 			                            
 			                            tbody += '<td align="center"><div>' + epuList[i].epuName+ '</div></td>';
 			                            tbody += '<td align="center"><div>' +epuList[i].epuParentName + '</div></td>';
-			                            tbody += '<td align="center"><div>'+districtId + '</div></td>';	
+			                            tbody += '<td align="center"><div>'+districtId + '</div></td>';
+			                            tbody += '<td align="center"><div>'+districtIdTwo + '</div></td>';
+			                            tbody += '<td align="center"><div>'+districtIdThree + '</div></td>';
 			                             tbody += '<td align="center"><div>'+epuList[i].lineId + '</div></td>';			                          		                          
 			                            tbody += '<td align="center"><div></div></td>'; 
 			                            tbody += '<td><div><a href="javascript:epuEdit.saveShow(\''+epuList[i].rowId+'\');">编辑</a>&nbsp;&nbsp;<a href="javascript:so.delEpuInfo(\''+epuList[i].rowId+'\');">删除</a>';			                            			                            
@@ -365,10 +385,14 @@
 			                    
 			                   // 去除空格并转成整数
 			                    var channelNum=parseInt(epuParentList[0].channelId.replace(/(^\s*)|(\s*$)/g, "")); 
-			                    $('#saveDiv #channelId').html('<option value="">--请选择--</option>');   
+			                    $('#saveDiv #channelId').html('<option value="">--请选择--</option>'); 
+			                    $('#saveDiv #channelIdTwo').html('<option value="">--请选择--</option>'); 
+			                    $('#saveDiv #channelIdThree').html('<option value="">--请选择--</option>'); 
 			                    for (var i = 1; i <=channelNum; i++) 
 			                    {
-			                   		$('#saveDiv #channelId').append('<option value="' + i+ '">' + i+ '</option>');		                      		                        
+			                   		$('#saveDiv #channelId').append('<option value="' + i+ '">' + i+ '</option>');
+			                   		$('#saveDiv #channelIdTwo').append('<option value="' + i+ '">' + i+ '</option>');		
+			                   		$('#saveDiv #channelIdThree').append('<option value="' + i+ '">' + i+ '</option>');		
 			                     }    
 			                  
 			                   
@@ -431,7 +455,7 @@
 				 
 			 epAdd.submitFun=function submitFun(flag){
 				var errorMsg="";
-/* 				if (flag=="1")
+ 				if (flag=="1")
 				{
 						var list=$(".request");
 						for(i=0,len=list.length;i<len;i++){
@@ -478,9 +502,10 @@
 					}
 				}
 					if(errorMsg.length>0){
-						alert('页面有未填项，请检查！<br>'+errorMsg);
-						return false;
-					} */
+						errorMsg='页面有未填项，请检查！<br>'+errorMsg;
+						//alert('页面有未填项，请检查！<br>'+errorMsg);
+						//return false;
+					} 
 					//$('input[name="flag"]').val(flag);
 					var rowId=$("#saveDiv #rowId").val();
 					var epuProvince=$("#saveDiv #epuProvince").val();
@@ -492,8 +517,20 @@
 					var districtId=$("#saveDiv #districtId").val();
 					var addressId=$("#saveDiv #addressId").val();
 					var channelId=$("#saveDiv #channelId").val();
+					var channelIdTwo=$("#saveDiv #channelIdTwo").val();
+					var channelIdThree=$("#saveDiv #channelIdThree").val();
 					var lineId=$("#saveDiv #lineId").val();
 					var returnFlag=true;
+					
+					if(channelId==channelIdTwo || channelId==channelIdThree || channelIdThree==channelIdTwo)
+						
+					{
+						errorMsg=errorMsg+'关联终端通道号存在重复,请重新选择！<br>';
+					}
+					if(errorMsg.length>0)
+					{
+						alert(errorMsg);
+					}
 					//当设备名称发生变化，需要校验设备名称同区域性的唯一性
 					if( $("#saveDiv #epuNameBefore").val()!=epuName)
 					{
@@ -540,6 +577,8 @@
 							districtId:districtId,
 							addressId:addressId,
 							channelId:channelId,
+							channelIdTwo:channelIdTwo,
+							channelIdThree:channelIdThree,
 							lineId:lineId		
 						},
 						success : function(data) {
@@ -565,6 +604,8 @@
 					$("#saveDiv #districtId").val('');
 				$("#saveDiv #addressId").val('');
 				$("#saveDiv #channelId").val('');
+				$("#saveDiv #channelIdTwo").val('');
+				$("#saveDiv #channelIdThree").val('');
 				$("#saveDiv #lineId").val('');
 				$("#saveDiv").show();
 				  epAdd.initProvince();
@@ -580,6 +621,8 @@
    epuEdit.districtId;
    epuEdit.addressId;
   epuEdit.channelId;
+  epuEdit.channelIdTwo;
+  epuEdit.channelIdThree;
    epuEdit.lineId;
 			//初始化页面数据
 			    epuEdit.initPage= function initPage() { 
@@ -690,17 +733,24 @@
 				   			                        $('#saveDiv #districtId').val(epuParentList[i].districtId);
 				   			                    	$('#saveDiv #addressId').val(epuParentList[i].addressId);
 				   			                     $('#saveDiv #channelId').html('<option value="">--请选择--</option>');
+				   			                  $('#saveDiv #channelIdTwo').html('<option value="">--请选择--</option>');
+				   			               $('#saveDiv #channelIdThree').html('<option value="">--请选择--</option>');
 				   			                     var channelNum=parseInt(epuParentList[i].channelId.replace(/(^\s*)|(\s*$)/g, "")); 
 						 			                    for (var j = 1; j <=channelNum; j++) 
 						 			                    {
 						 			                    	if(j==epuEdit.channelId)
 						   			                    	{
 						 			                   		$('#saveDiv #channelId').append('<option selected="selected" value="' + j+ '">' + j+ '</option>');	
+						 			                   	$('#saveDiv #channelIdTwo').append('<option selected="selected" value="' + j+ '">' + j+ '</option>');	
+						 			               	$('#saveDiv #channelIdThree').append('<option selected="selected" value="' + j+ '">' + j+ '</option>');	
 						   			                    	}else						   			                    		
 						   			                    	{
 						   			                    	 $('#saveDiv #channelId').append('<option value="' + j+ '">' + j+ '</option>');	
+						   			                    	 $('#saveDiv #channelIdTwo').append('<option value="' + j+ '">' + j+ '</option>');	
+						   			                    	 $('#saveDiv #channelIdThree').append('<option value="' + j+ '">' + j+ '</option>');	
 						   			                    	}
-						 			                     }    
+						 			                     }
+						 			                
 				   			                    	}
 				   			                    	else
 				   			                    	{
@@ -900,9 +950,13 @@
 			                    $('#saveDiv #addressId').val(epuParentList[0].addressId);
 			                    var channelNum=parseInt(epuParentList[0].channelId.replace(/(^\s*)|(\s*$)/g, ""));
 			                    $('#saveDiv #channelId').html('<option value="">--请选择--</option>');
+			                    $('#saveDiv #channelIdTwo').html('<option value="">--请选择--</option>');
+			                    $('#saveDiv #channelIdThree').html('<option value="">--请选择--</option>');
 			                    for (var i = 1; i <=channelNum; i++) 
 			                    {
-			                   		$('#saveDiv #channelId').append('<option value="' + i+ '">' + i+ '</option>');		                      		                        
+			                   		$('#saveDiv #channelId').append('<option value="' + i+ '">' + i+ '</option>');
+			                   		$('#saveDiv #channelIdTwo').append('<option value="' + i+ '">' + i+ '</option>');		
+			                   		$('#saveDiv #channelIdThree').append('<option value="' + i+ '">' + i+ '</option>');		
 			                     }    
 			                   
 			                }
@@ -992,6 +1046,8 @@
 										   epuEdit.districtId=epuInfo.districtId;
 										   epuEdit.addressId=epuInfo.addressId;
 										  epuEdit.channelId=epuInfo.channelId;
+										  epuEdit.channelIdTwo=epuInfo.channelIdTwo;
+										  epuEdit.channelIdThree=epuInfo.channelIdThree;
 										   epuEdit.lineId=epuInfo.lineId ;
 								    $("#saveDiv").show();
 								    epuEdit.initPage();
@@ -1075,7 +1131,9 @@
 							<th>所在位置</th>
 							<th>设备名称</th>
 							<th>上级设备</th>
-							<th>终端设备</th>
+							<th>终端设备1</th>
+							<th>终端设备2</th>
+							<th>终端设备3</th>
 							<th>线缆号</th>
 							<th>状态</th>
 							<th>操作</th>
@@ -1126,7 +1184,7 @@
             </lable>        
             <lable>
                 <span>设备位置</span>
-                <input name="epuLocal"  id="epuLocal" type="text" class="text request" title="设备位置" maxlength="100">                         
+                <input name="epuLocal"  id="epuLocal" type="text" class="text " title="设备位置" maxlength="100">                         
             </lable>
             <lable>
                 <span>关联终端编号</span>
@@ -1137,8 +1195,16 @@
                   <input name="addressId" id="addressId"   type="text" class="text request" title="关联终端地址号" readonly="readonly">
             </lable>
              <lable>
-                <span>关联终端通道号</span>
-                <select name="channelId" id="channelId" class="text requiredSelect" title="关联终端通道号"></select>
+                <span>关联终端通道号1</span>
+                <select name="channelId" id="channelId" class="text requiredSelect" title="关联终端通道号1"></select>
+            </lable>
+              <lable>
+                <span>关联终端通道号2</span>
+                <select name="channelIdTwo" id="channelIdTwo" class="text requiredSelect" title="关联终端通道号2"></select>
+            </lable>
+              <lable>
+                <span>关联终端通道号3</span>
+                <select name="channelIdThree" id="channelIdThree" class="text requiredSelect" title="关联终端通道号3"></select>
             </lable>
               <lable>
                 <span>线缆号</span>

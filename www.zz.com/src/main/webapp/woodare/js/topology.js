@@ -41,6 +41,9 @@ function showTop(rowId){
 	        	 parent.$(".loading").hide();//隐藏蒙层
 	        	 if(allData){
 	        		 mySvg = SVG_HELPER.drawSvg(allData, 'body');
+	        		 //加载故障
+	        		 so.initFaultTypeList();
+	        		 initList(undefined,mySvg.keyArray);
 	        		 dataTemp = allData;
 	        		 var wd = parseFloat($("#wd").val() || 1) ;
 	        		 mySvg.scale(wd);
@@ -144,7 +147,7 @@ $(function() {
 	 	    $(".box").css("top", ($(this).scrollTop() ));
     		$(".box").css("left", ($(this).scrollLeft() ));
 	 });
-	$("#falutDiv").css("top",( mySvg.topoHeight()- 450)+"px");
+	$("#falutDiv").css("top",( mySvg.topoHeight()- 460)+"px");
 });
 /**
  * 故障定位
