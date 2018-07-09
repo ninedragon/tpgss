@@ -452,7 +452,7 @@
 		    
 			 amAdd.submitFun=function submitFun(flag){
 				var errorMsg="";
-/* 				if (flag=="1")
+ 				if (flag=="1")
 				{
 						var list=$(".request");
 						for(i=0,len=list.length;i<len;i++){
@@ -499,9 +499,14 @@
 					}
 				}
 					if(errorMsg.length>0){
-						alert('页面有未填项，请检查！<br>'+errorMsg);
+						errorMsg='页面有未填项，请检查！<br>'+errorMsg;	
+					} 
+					
+					if(errorMsg.length>0)
+					{
+						layer.msg(errorMsg,function(){});
 						return false;
-					} */
+                    }
 					//$('input[name="flag"]').val(flag);
 					var rowId=$("#amDiv #rowId").val();
 					var epuProvince=$("#amDiv #epuProvince").val();
@@ -985,7 +990,7 @@
 				
 			 amEdit.submitFun =function submitFun(flag){
 					var errorMsg="";
-	/* 				if (flag=="1")
+	 				if (flag=="1")
 					{
 							var list=$(".request");
 							for(i=0,len=list.length;i<len;i++){
@@ -1032,9 +1037,14 @@
 						}
 					}
 						if(errorMsg.length>0){
-							alert('页面有未填项，请检查！<br>'+errorMsg);
+							errorMsg='页面有未填项，请检查！<br>'+errorMsg;	
+						} 
+						
+						if(errorMsg.length>0)
+						{
+							layer.msg(errorMsg,function(){});
 							return false;
-						} */
+	                    }
 						//$('input[name="flag"]').val(flag);
 						var rowId=$("#amDiv #rowId").val();
 						var epuProvince=$("#amDiv #epuProvince").val();

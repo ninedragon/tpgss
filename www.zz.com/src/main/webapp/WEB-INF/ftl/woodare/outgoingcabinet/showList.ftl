@@ -436,7 +436,7 @@
 				 
 			 epAdd.submitFun=function submitFun(flag){
 				var errorMsg="";
-/* 				if (flag=="1")
+				if (flag=="1")
 				{
 						var list=$(".request");
 						for(i=0,len=list.length;i<len;i++){
@@ -482,10 +482,9 @@
 						}
 					}
 				}
-					if(errorMsg.length>0){
-						alert('页面有未填项，请检查！<br>'+errorMsg);
-						return false;
-					} */
+				if(errorMsg.length>0){
+					errorMsg='页面有未填项，请检查！<br>'+errorMsg;						
+				} 
 					//$('input[name="flag"]').val(flag);
 					var rowId=$("#saveDiv #rowId").val();
 					var epuProvince=$("#saveDiv #epuProvince").val();
@@ -516,16 +515,17 @@
 							success : function(data) {
 								  if(data.stauts!='0' && data.stauts!='')
 								  {
-								  layer.msg('同区域下的设备,名称不能重复，请修改!',function(){});
-								  //alert('同区域下的设备,名称不能重复，请修改!');
-								  returnFlag=false;
+										errorMsg=errorMsg+'同区域下的设备,名称不能重复，请修改!<br>';
 								  }
 							
 							}
 				
 						});
 					}
-					
+					if(errorMsg.length>0){
+						layer.msg(errorMsg,function(){});
+						return false;
+					}
 					if(returnFlag)
 					{
 				   $("#loadingDiv").show();

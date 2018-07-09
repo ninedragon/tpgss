@@ -525,12 +525,9 @@
 					if(channelId==channelIdTwo || channelId==channelIdThree || channelIdThree==channelIdTwo)
 						
 					{
-						errorMsg=errorMsg+'关联终端通道号存在重复,请重新选择！<br>';
+						errorMsg=errorMsg+'关联终端通道号,存在重复,请重新选择！<br>';
 					}
-					if(errorMsg.length>0)
-					{
-						alert(errorMsg);
-					}
+					
 					//当设备名称发生变化，需要校验设备名称同区域性的唯一性
 					if( $("#saveDiv #epuNameBefore").val()!=epuName)
 					{
@@ -548,15 +545,18 @@
 							success : function(data) {
 								  if(data.stauts!='0' && data.stauts!='')
 								  {
-								  layer.msg('同区域下的设备,名称不能重复，请修改!',function(){});
-								  returnFlag=false;
+									  errorMsg=errorMsg+'同区域下的设备,名称不能重复，请修改!<br>';
 								  }
 							
 							}
 				
 						});
 					}
-					
+					if(errorMsg.length>0)
+					{
+						layer.msg(errorMsg,function(){});
+						return false;
+					}
 					if(returnFlag)
 					{
 				   $("#loadingDiv").show();
@@ -1184,7 +1184,7 @@
             </lable>        
             <lable>
                 <span>设备位置</span>
-                <input name="epuLocal"  id="epuLocal" type="text" class="text " title="设备位置" maxlength="100">                         
+                <input name="epuLocal"  id="epuLocal" type="text" class="text request" title="设备位置" maxlength="100">                         
             </lable>
             <lable>
                 <span>关联终端编号</span>

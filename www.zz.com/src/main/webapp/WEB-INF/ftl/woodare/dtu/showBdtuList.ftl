@@ -170,7 +170,7 @@
 				 
 			 epAdd.submitFun=function submitFun(flag){
 				var errorMsg="";
-/* 				if (flag=="1")
+ 				if (flag=="1")
 				{
 						var list=$(".request");
 						for(i=0,len=list.length;i<len;i++){
@@ -217,9 +217,8 @@
 					}
 				}
 					if(errorMsg.length>0){
-						alert('页面有未填项，请检查！<br>'+errorMsg);
-						return false;
-					} */
+						errorMsg='页面有未填项，请检查！<br>'+errorMsg;	
+					} 
 					//$('input[name="flag"]').val(flag);
 					var id=$("#saveDiv #id").val();
 					var cDistrictbcdid=$("#saveDiv #cDistrictbcdid").val();
@@ -261,7 +260,11 @@
 				
 						});
 					} -->
-					
+					if(errorMsg.length>0)
+					{
+						layer.msg(errorMsg,function(){});
+						return false;
+                    }
 					if(returnFlag)
 					{
 				   $("#loadingDiv").show();
@@ -468,15 +471,15 @@
             </lable>
              <lable>
                 <span>硬件版本</span>
-                 <input name="cHardwarever" id="cHardwarever"   type="text" class="text request" title="硬件版本" maxlength="100"/>  
+                 <input name="cHardwarever" id="cHardwarever"   type="text" class="text" title="硬件版本" maxlength="100"/>  
             </lable>
             <lable>
                 <span>软件版本</span>
-                <input name="cSoftwarever" id="cSoftwarever"   type="text" class="text request" title="软件版本" maxlength="100"/>
+                <input name="cSoftwarever" id="cSoftwarever"   type="text" class="text" title="软件版本" maxlength="100"/>
             </lable>
             <lable>
                 <span>固定IP</span>
-                <input name="cFixip"  id="cFixip" type="text" class="text request" title="固定IP" maxlength="100"/>                         
+                <input name="cFixip"  id="cFixip" type="text" class="text " title="固定IP" maxlength="100"/>                         
             </lable>           
               <lable>
                 <span>安装日期</span>
@@ -484,12 +487,12 @@
             </lable>      
             <lable>
                 <span>nb设备id</span>
-                <input name="nbdeviceid"  id="nbdeviceid" type="text" class="text request" title="nb设备id" maxlength="100" />
+                <input name="nbdeviceid"  id="nbdeviceid" type="text" class="text" title="nb设备id" maxlength="100" />
                          
             </lable>    
               <lable>
                 <span>描述</span>
-                <input name="cDesp" id="cDesp"   type="text" class="text request" title="描述" maxlength="1000" />
+                <input name="cDesp" id="cDesp"   type="text" class="text" title="描述" maxlength="1000" />
             </lable>       
                             
 	        <div class="but-nav" style="margin:0px 0px 20px 0px">
