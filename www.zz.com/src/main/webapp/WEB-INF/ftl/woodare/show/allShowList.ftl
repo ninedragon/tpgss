@@ -260,6 +260,10 @@
   </head>
   <input type="hidden" id="tableBoxId" name="tableBoxId"  value=""/>
   <input type="hidden" id="branchBoxId" name="branchBoxId"  value=""/>
+  
+  <input type="hidden" id="basePath" name="basePath"  value="${basePath}"/>
+  <input type="hidden" id="web_socket_ip" name="web_socket_ip"  value="${web_socket_ip}"/>
+  <input type="hidden" id="token_id" name="token_id"  value="${token.id}"/>
   <body>
    <!--页眉开始-->
    <!--页眉开始-->
@@ -327,8 +331,8 @@
 	</div> 
 	<!--分支箱弹层结束/-->
     <!--电表弹层开始-->
-	<div class="wapp-layer"  id="messageAmmeter" style="width: 70%;">
-		<div class="box tips mrr ammeter" style="left:30%;">
+	<div class="wapp-layer"  id="messageAmmeter">
+		<div class="box tips mrr ammeter" style="left:25%;">
 	    	<h4 style="text-indent:0%; "><label style="width:90%" ><p id='tableBoxName' style="word-wrap:break-word; word-break:break-all;padding: 0px 0px 0px 10px;"></p></label><span class="close-js" onclick="$('#messageAmmeter').hide();">关闭</span></h4>
 	       <div class="edit mrr" id="tableBoxDiv">
 			<iframe id="tab3Iframe" src="${basePath}/html/ammeter.html" width="10000" height="4000" frameborder="0" scrolling="no"></iframe>

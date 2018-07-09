@@ -33,7 +33,16 @@
 		    <result column="CODE_TYPE_CN" jdbcType="VARCHAR" property="CODE_TYPE_CN" />
 		    <result column="REMARK" jdbcType="VARCHAR" property="REMARK" />
    </resultMap>
-   
+    <resultMap id="FaultRenderingMap" type="com.zz.common.model.FaultRendering">
+   		     <id column="id" jdbcType="VARCHAR" property="id" />
+		    <result column="type" jdbcType="VARCHAR" property="type" />
+		    <result column="epuName" jdbcType="VARCHAR" property="epuName" />
+		    <result column="faultType" jdbcType="VARCHAR" property="faultType" />
+		    <result column="occur_time" jdbcType="VARCHAR" property="occur_time" />
+		    <result column="is_cancelled" jdbcType="VARCHAR" property="is_cancelled" />
+		    <result column="is_repaired" jdbcType="VARCHAR" property="is_repaired" />
+		    <result column="repair_time" jdbcType="VARCHAR" property="repair_time" />
+   </resultMap>
      <sql id="limit_sql">
   	   <if test="page_sql != null and page_sql != ''">
       	${page_sql}
@@ -246,5 +255,65 @@
         </foreach>
         ORDER BY CODE_TYPE,ORDER_NUM 
    </select>
-  
+    <select id="selectFaultByRootId" resultMap="FaultRenderingMap" parameterType="java.util.Map" >
+    	SELECT
+				fault.id,
+				code_define1.`CODE` AS type,
+				fault.key_id AS `key`,
+				am.meter_name AS epuName,
+				fault.fault_type,
+				code_define.CODE_NAME AS faultTypeName,
+				fault.occur_time,
+				fault.is_cancelled,
+				fault.is_repaired,
+				fault.repair_time
+			FROM
+				t_fault_now AS fault
+			INNER JOIN t_meter am ON fault.key_id = am.meterId
+			LEFT JOIN t_sy_code_define AS code_define ON code_define.`CODE` = fault.fault_type
+			LEFT JOIN t_sy_code_define AS code_define1 ON code_define1.`CODE` = 'M0005'
+			LEFT JOIN view_epu_info epu ON am.meterBoxId = epu.row_id
+			WHERE
+				1 = 1
+			AND am.DEL_FLAG = '0'
+			AND epu.DEL_FLAG = '0'
+			UNION
+				SELECT
+					fault.id,
+					epu.epu_type AS type,
+					fault.key_id AS `key`,
+					epu.epu_name AS epuName,
+					fault.fault_type,
+					code_define.CODE_NAME AS faultTypeName,
+					fault.occur_time,
+					fault.is_cancelled,
+					fault.is_repaired,
+					fault.repair_time
+				
+				FROM
+					t_fault_now AS fault
+				LEFT JOIN t_sy_code_define AS code_define ON code_define.`CODE` = fault.fault_type
+				LEFT JOIN view_epu_info epu ON fault.key_id = epu.row_id
+				WHERE
+					1 = 1
+				AND epu.DEL_FLAG = '0'
+				 <![CDATA[ ${paramSQL} ]]>    
+    </select>
+    <!-- 查询故障消息 -->
+     <select id="selectFaultNews" resultMap="FaultRenderingMap" parameterType="java.util.Map" >
+     	SELECT
+			t_substain.substainId AS `key`,
+			t_substain.epu_name AS epuName
+		FROM
+			(
+				SELECT
+					substain_id
+				FROM
+					t_fault_now WHERE is_repaired='0' AND is_cancelled='0'
+				GROUP BY
+					substain_id
+			) TEMP
+		LEFT JOIN t_substain ON TEMP.substain_id = t_substain.substainId
+		ORDER BY t_substain.epu_name
+     </select>
 </mapper>

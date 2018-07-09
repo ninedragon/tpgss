@@ -9,6 +9,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerView;
 
 import com.zz.common.model.UUser;
 import com.zz.common.utils.LoggerUtils;
+import com.zz.common.utils.PropertyUtil;
 import com.zz.core.shiro.token.manager.TokenManager;
 import com.zz.core.statics.Constant;
 public class FreeMarkerViewExtend extends FreeMarkerView {
@@ -34,6 +35,7 @@ public class FreeMarkerViewExtend extends FreeMarkerView {
 		model.put("_v", Constant.VERSION);//版本号，重启的时间
 		model.put("cdn", Constant.DOMAIN_CDN);//CDN域名
 		model.put("basePath", request.getContextPath());//base目录。
+		model.put("web_socket_ip", PropertyUtil.getWebsocketIp("WEB_SOCKET_IP"));//web_socket_ip
 		
 	}
 }

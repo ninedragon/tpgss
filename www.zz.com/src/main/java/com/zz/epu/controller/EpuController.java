@@ -1,10 +1,6 @@
 package com.zz.epu.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +14,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -119,14 +116,16 @@ public class EpuController extends BaseController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="allShowList")
-	public ModelAndView allShowList(ModelMap map,String substainRowId){	
-		
+	@RequestMapping(value="allShowList", method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView allShowList(HttpServletRequest request,ModelMap map){	
+		String substainRowId = request.getParameter("substainRowId");
+		String action = request.getParameter("action");
 		ModelAndView modelAndView = new  ModelAndView("show/allShowList");
 		modelAndView.addObject("leftMenuview", "5");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
 		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
 		modelAndView.addObject("token", token);//左侧上方管理员信息
 		modelAndView.addObject("substainRowId", substainRowId);//左侧上方管理员信息
+		modelAndView.addObject("action", action);//执行动作 falut 表示默认展示topo错误数据
 		return modelAndView;
 	}
 	

@@ -18,6 +18,15 @@ function getRootPath_web() {
 so.initFaultTypeList = function initFaultTypeList() {
     var basePath = getRootPath_web();
     var codeTypes = "F0001,F0002,F0003,F0004";//默认所有
+    var action = $.trim($("#action").val()||"");
+    switch(action){
+	    case "branchBox":
+	    	codeTypes = "F0002";// 表箱
+	    	break;
+	    case "ammeter":
+	    	codeTypes = "F0001";// 电表
+	    	break;
+    }
     $.ajax({
         type: "post",
         url: basePath + "/fault/faultTypeList.shtml",
@@ -39,14 +48,8 @@ so.initFaultTypeList = function initFaultTypeList() {
         }
     });
 };
-function initList(pageNo,keyArray) {
+function initList(pageNo) {
 	$("#loadingDiv").show();
-	var strKeyArray = "";
-	if(keyArray){
-		if(null != keyArray && keyArray.length > 0){
-			strKeyArray = keyArray.join(",")
-		}
-	}
     var basePath = getRootPath_web();
     $.ajax({
         url: basePath + "/fault/queryList.shtml",
@@ -56,9 +59,10 @@ function initList(pageNo,keyArray) {
         data: {
             row_name: $.trim($("#row_name").val()),
             fault_type: $.trim($("#fault_type").val()),
-            strKeyArray : strKeyArray,
+            strKeyArray : $.trim($("#strKeyArray").val()||""),
+            action : $.trim($("#action").val()||""),
             pageNo: pageNo,
-            pageSize: 1
+            pageSize: 10
         },
         success: function(data) {
             var page = data.page;

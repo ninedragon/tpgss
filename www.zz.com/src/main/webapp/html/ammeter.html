@@ -19,8 +19,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no minimal-ui">
 	<link rel="dns-prefetch" href="http://www.woodare.com">
 	<link rel="stylesheet" href="../woodare/css/topology.css">
+	<link   rel="icon" href="../favicon.ico" type="image/x-icon" />
+	<link   rel="shortcut icon" href="../favicon.ico" />
+	<link href="../js/common/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="../css/common/base.css" rel="stylesheet"/>
   </head>
   <body>
+  	<input type="hidden" id="action" name="action" value="ammeter">
+	<input type="hidden" id="strKeyArray" name="strKeyArray"/>
+	<input type="hidden" id="strKeyRenderingArray" name="strKeyRenderingArray"/>
 	<div class="gj">
 		<font class="jian" onclick="clickScale('min')">减少</font>
 		<input type="text" name="wd" id="wd"  value="1" readonly="readonly">
@@ -54,30 +61,14 @@
 		</symbol>
 	  </defs>  
 	</svg>
-	<script type="text/javascript" src="../woodare/js/jquery-3.3.1.min.js"></script>
-	<script type="text/javascript" src="../woodare/js/d3.v5.min.js"></script>
-	<script type="text/javascript" src="../woodare/js/uipqData.js"></script>
-	<script type="text/javascript" src="../woodare/js/faultNow.js"></script>
-	<script type="text/javascript" src="../woodare/js/ammeter.js"></script>
 	
-	
-	
-		<link   rel="icon" href="../favicon.ico" type="image/x-icon" />
-	<link   rel="shortcut icon" href="../favicon.ico" />
-	<link href="../js/common/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
-	<link href="../css/common/base.css" rel="stylesheet"/>
-	
-	<script src="../woodare/js/faultSource.js"></script>
-	<script  src="../js/common/layer/layer.js"></script>
-	<script  src="../js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<script  src="../js/shiro.demo.js"></script>
-	<script language="javascript" type="text/javascript" src="../js/My97DatePicker/WdatePicker.js"></script>
 	<!--主体开始-->
 	<div class="wapp-main" id="falutDiv">
 		<form method="post" action="" id="formId" class="form-inline">
 		<h4>电表故障来源数据列表</h4>	
 	    <!--搜索开始-->
 		<div class="search">
+<<<<<<< HEAD
 	    	 <lable>
                  <span>设备名称</span>
                  <input id="row_name" type="text" name="row_name" value="" /></lable>
@@ -85,6 +76,15 @@
                  <span>故障原因</span>
                  <select id="fault_type" name="fault_type"></select>
                </lable>
+=======
+	    	<lable>
+	          <span>设备名称</span>
+	          <input id="row_name" type="text" name="row_name" value="" /></lable>
+	        <lable>
+	          <span>故障原因</span>
+	          <select id="fault_type" name="fault_type"></select>
+	        </lable>
+>>>>>>> refs/remotes/origin/master
 	        <div class="but-nav">
 	        	<button type="button"  onclick="javascript:initList();"       class="btn btn-primary" style="background-color: #169274;">查询</button>
 	        </div>
@@ -93,12 +93,20 @@
 	    <!--表格开始-->
 	    <div class="table-box">
 	        <table width="100%">
-	            <tr>   
-								<th>设备名称</th>
-								<th>故障原因</th>
-								<th>故障发生时间</th>					
-	            </tr>
-	           <tbody id="faultListTable"></tbody>
+	            <tr>
+            <th>设备名称</th>
+            <th>设备类型</th>
+            <th>故障原因</th>
+            <th>故障发生时间</th>
+            <th>是否取消</th>
+            <th>是否修复</th>
+            <th>修复时间</th>
+            <th>省份</th>
+            <th>城市</th>
+            <th>区县</th>
+            <th>操作</th>
+           </tr>
+          <tbody id="faultListTable"></tbody>
 	        </table>
 	    </div>
 		<!--表格结束/-->
@@ -112,6 +120,7 @@
 </div>
 <!--主体结束/-->
 <!--loading开始-->
+<<<<<<< HEAD
 	<div class="loading" style="display: none;">
 		<div class="spinner">加载中
 			<div class="double-bounce1"></div>
@@ -119,5 +128,28 @@
 		</div>
 	</div>
 	<!--loading结束/-->
+=======
+<div class="loading" style="display: none;" id="loadingDiv" >
+	<div class="spinner">加载中
+		<div class="double-bounce1"></div>
+		<div class="double-bounce2"></div>
+	</div>
+</div>
+<!--loading结束/-->
+<script type="text/javascript" src="../woodare/js/jquery-3.3.1.min.js"></script>
+
+<script src="../woodare/js/faultSource.js"></script>
+<script  src="../js/common/layer/layer.js"></script>
+<script  src="../js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script  src="../js/shiro.demo.js"></script>
+<script language="javascript" type="text/javascript" src="../js/My97DatePicker/WdatePicker.js"></script>
+<script src="../woodare/js/faultLocationList.js"></script>
+
+<script type="text/javascript" src="../woodare/js/d3.v5.min.js"></script>
+<script type="text/javascript" src="../woodare/js/uipqData.js"></script>
+<script type="text/javascript" src="../woodare/js/faultNow.js"></script>
+<script type="text/javascript" src="../woodare/js/ammeter.js"></script>
+	
+>>>>>>> refs/remotes/origin/master
   </body>
 </html>
