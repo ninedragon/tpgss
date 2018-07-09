@@ -519,13 +519,13 @@
        <if test="channelIdTwo != null and channelIdTwo !=''">
         
            <if test="epuType == 'M0003' ">
-         	        C_ChannelId_Two,
+         	        C_ChannelId_b,
            </if>
       </if>
        <if test="channelIdThree != null and channelIdThree !=''">
        
            <if test="epuType == 'M0003' ">
-         	        C_ChannelId_Three,
+         	        C_ChannelId_c,
            </if>
       </if>
        <if test="lineId != null and lineId !=''">
@@ -683,15 +683,15 @@
        <if test="channelIdTwo != null and channelIdTwo !=''">
        
           <if test="epuType == 'M0003'">
-         C_ChannelId_Two=#{channelIdTwo,jdbcType=VARCHAR},
+         C_ChannelId_b=#{channelIdTwo,jdbcType=VARCHAR},
          </if>  
          
      
       </if>
-       <if test="channel_id_three != null and channel_id_three !=''">
+       <if test="channelIdThree != null and channelIdThree !=''">
         
           <if test="epuType == 'M0003'">
-         C_ChannelId_Three=#{channelIdThree,jdbcType=VARCHAR},
+         C_ChannelId_c=#{channelIdThree,jdbcType=VARCHAR},
          </if>  
          
      

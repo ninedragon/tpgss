@@ -741,14 +741,32 @@
 						 			                    	if(j==epuEdit.channelId)
 						   			                    	{
 						 			                   		$('#saveDiv #channelId').append('<option selected="selected" value="' + j+ '">' + j+ '</option>');	
-						 			                   	$('#saveDiv #channelIdTwo').append('<option selected="selected" value="' + j+ '">' + j+ '</option>');	
-						 			               	$('#saveDiv #channelIdThree').append('<option selected="selected" value="' + j+ '">' + j+ '</option>');	
+						 			                 
 						   			                    	}else						   			                    		
 						   			                    	{
 						   			                    	 $('#saveDiv #channelId').append('<option value="' + j+ '">' + j+ '</option>');	
-						   			                    	 $('#saveDiv #channelIdTwo').append('<option value="' + j+ '">' + j+ '</option>');	
-						   			                    	 $('#saveDiv #channelIdThree').append('<option value="' + j+ '">' + j+ '</option>');	
+						   			                    
 						   			                    	}
+						 			                    	if(j==epuEdit.channelIdTwo)
+						   			                    	{
+						 			                   		$('#saveDiv #channelIdTwo').append('<option selected="selected" value="' + j+ '">' + j+ '</option>');	
+						 			                 
+						   			                    	}else						   			                    		
+						   			                    	{
+						   			                    	 $('#saveDiv #channelIdTwo').append('<option value="' + j+ '">' + j+ '</option>');	
+						   			                    
+						   			                    	}
+						 			                    	
+						 			                    	if(j==epuEdit.channelIdThree)
+						   			                    	{
+						 			                   		$('#saveDiv #channelIdThree').append('<option selected="selected" value="' + j+ '">' + j+ '</option>');	
+						 			                 
+						   			                    	}else						   			                    		
+						   			                    	{
+						   			                    	 $('#saveDiv #channelIdThree').append('<option value="' + j+ '">' + j+ '</option>');	
+						   			                    
+						   			                    	}
+						 			                    	
 						 			                     }
 						 			                
 				   			                    	}
