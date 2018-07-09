@@ -8,11 +8,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,6 +24,8 @@ import com.zz.common.controller.BaseController;
 import com.zz.common.model.CodeInfo;
 import com.zz.common.model.FaultInfo;
 import com.zz.common.model.FaultRendering;
+import com.zz.common.model.TopoErrorInfo;
+import com.zz.common.model.TopoErrorRelInfo;
 import com.zz.common.model.UUser;
 import com.zz.core.mybatis.page.Pagination;
 import com.zz.core.shiro.token.manager.TokenManager;
@@ -52,7 +56,7 @@ public class FaultController extends BaseController {
 		modelAndView.addObject("leftMenuview", "7");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控7故障定位
 		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
 		modelAndView.addObject("token", token);//左侧上方管理员信息
-		wsMessageService.sendToAllTerminal(token.getId()+"","{\"name\":\"falutNews\",\"key\":\"\"}");
+//		wsMessageService.sendToAllTerminal(token.getId()+"","{\"name\":\"falutNews\",\"key\":\"\"}");
 //		wsMessageService.sendToAllTerminal(token.getId()+"","{\"name\":\"faultRendering\",\"key\":\"38f04bc0-6c40-4535-ba36-7dbc1d6d2536\"}");
 		return modelAndView;
 	}
@@ -67,7 +71,7 @@ public class FaultController extends BaseController {
 		if(!"all".equals(action)){
 			List<String> keyList = new ArrayList<String>();
 			String sql = "";
-			if(null != strKeyArray && !"".equals(strKeyArray)){
+			if(StringUtils.isNotEmpty(strKeyArray)){
 				String[] arr = (strKeyArray +",").split(",");
 				 sql = "  AND ( ";
 				String temp = "";
@@ -102,7 +106,7 @@ public class FaultController extends BaseController {
 	@ResponseBody
 	public Object faultTypeList(String codeTypes, HttpSession session) {
 		List<String> codeTypeList = new ArrayList<String>();
-		if(null != codeTypes && !"".equals(codeTypes)){
+		if(StringUtils.isNotEmpty(codeTypes)){
 			String[] arr = (codeTypes +",").split(",");
 			for (String codeType : arr) {
 				codeTypeList.add(codeType);
@@ -123,9 +127,9 @@ public class FaultController extends BaseController {
 	@RequestMapping("selectFaultByRootId")
 	@ResponseBody
 	public  List<FaultRendering>  selectFaultByRootId(String strKeyArray)
- {
+	{
 		String sql = "";
-		if(null != strKeyArray && !"".equals(strKeyArray)){
+		if(StringUtils.isNotEmpty(strKeyArray)){
 			String[] arr = (strKeyArray +",").split(",");
 			 sql = "  AND ( ";
 			String temp = "";
@@ -144,15 +148,65 @@ public class FaultController extends BaseController {
 	}
 	
 	/**
+	 * 根据传递的KEY获取TOPO错误信息
+	 * @param rootId
+	 */
+	@RequestMapping("selectTopoErrorByKeys")
+	@ResponseBody
+	public  List<TopoErrorInfo>  selectTopoErrorByKeys(HttpServletRequest request)
+	{
+		List<TopoErrorInfo>  list = new ArrayList<TopoErrorInfo>();
+		String strBranchboxIDArray = request.getParameter("strBranchboxIDArray");
+		String branchbox_sql = "";
+		if(StringUtils.isNotEmpty(strBranchboxIDArray)){
+			String[] arr = (strBranchboxIDArray +",").split(",");
+			branchbox_sql = "  AND ( ";
+			String temp = "";
+			for (String key : arr) {
+				if(null != key && !"".equals(key)){
+					temp  += " key_id = '"+key+"' OR ";
+				}
+			}
+			temp = temp.substring(0, temp.lastIndexOf("OR "));
+			branchbox_sql += temp +"  ) ";
+		}
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("paramSQL", branchbox_sql);
+		List<TopoErrorInfo> listBranchbox = this.faultService.selectBranchboxErrorByKeys(paramMap);
+		for (TopoErrorInfo topoErrorInfo : listBranchbox) {
+			Map<String, Object> meterbox_map = new HashMap<String, Object>();
+			meterbox_map.put("branchbox_error_id", topoErrorInfo.getKey());
+			List<TopoErrorRelInfo> meterboxList =this.faultService.selectMeterboxErrorByKeys(meterbox_map);
+			topoErrorInfo.setRel(meterboxList);
+			list.add(topoErrorInfo);
+		}
+		return list;
+	}
+	
+	
+	/**
 	 * 根据箱变ID获取当前箱变下所有故障信息
 	 * @param rootId
 	 */
 	@RequestMapping("selectFaultNews")
 	@ResponseBody
 	public  List<FaultRendering>  selectFaultNews()
- {
+	{
 		List<FaultRendering> list = this.faultService.selectFaultNews(null);
 		return list;
 	}
-	
+	/**
+	 * 获取故障来源信息
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="ajax_faultDetails",method=RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView ajax_faultDetails(String fault_base_id,String cation){
+		ModelAndView modelAndView = new ModelAndView("fault/faultDetails");
+		Map<String, Object> faultSourceMap = this.faultService.getFaultSourceMap(fault_base_id);
+		modelAndView.addObject("faultSourceMap", faultSourceMap);
+		modelAndView.addObject("cation", cation);
+		return modelAndView;
+	}
 }

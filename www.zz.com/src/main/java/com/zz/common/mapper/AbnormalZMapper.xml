@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zz.common.dao.AbnormalZMapper">
+  <resultMap id="BaseResultMap" type="com.zz.common.model.AbnormalZ">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="C_DistrictBCDId" jdbcType="VARCHAR" property="cDistrictBCDId" />
+    <result column="C_AddressId" jdbcType="VARCHAR" property="cAddressId" />
+    <result column="C_ChannelId" jdbcType="VARCHAR" property="cChannelId" />
+    <result column="C_FrameCmdId" jdbcType="VARCHAR" property="cFrameCmdId" />
+    <result column="C_RecordInsertTime" jdbcType="VARCHAR" property="cRecordInsertTime" />
+    <result column="ua" jdbcType="VARCHAR" property="ua" />
+    <result column="ub" jdbcType="VARCHAR" property="ub" />
+    <result column="uc" jdbcType="VARCHAR" property="uc" />
+    <result column="p" jdbcType="VARCHAR" property="p" />
+    <result column="q" jdbcType="VARCHAR" property="q" />
+    <result column="i" jdbcType="VARCHAR" property="i" />
+    <result column="C_FaultId" jdbcType="VARCHAR" property="cFaultId" />
+    <result column="TSegmentId" jdbcType="VARCHAR" property="tSegmentId" />
+    <result column="RecordDateBCD" jdbcType="VARCHAR" property="recordDateBCD" />
+    <result column="meterId" jdbcType="VARCHAR" property="meterId" />
+    <result column="meter_name" jdbcType="VARCHAR" property="meterName" />
+    <result column="phase_remark" jdbcType="VARCHAR" property="phaseRemark" />
+  </resultMap>
+     <sql id="limit_sql">
+  	   <if test="page_sql != null and page_sql != ''">
+      	${page_sql}
+      </if>
+  </sql>
+  <select id="findAll" resultMap="BaseResultMap" parameterType="java.util.Map" >
+       		SELECT
+				id,
+				C_DistrictBCDId,
+				C_AddressId,
+				C_ChannelId,
+				C_FrameCmdId,
+				from_unixtime(unix_timestamp(C_RecordInsertTime),'%Y-%m-%d %H:%I:%S')   AS C_RecordInsertTime,
+				ua,
+				ub,
+				uc,
+				p,
+				q,
+				i,
+				C_FaultId,
+				TSegmentId,
+				RecordDateBCD
+			FROM
+				t_abnormal_z
+			WHERE 1 = 1  
+			 <![CDATA[ ${paramSQL} ]]> 
+			 ORDER BY C_RecordInsertTime DESC   
+			  <include refid="limit_sql" />
+  </select>
+   <select id="findCount" resultMap="BaseResultMap" parameterType="java.util.Map" >
+   		SELECT
+				COUNT(id)
+			FROM
+				t_abnormal_z
+			WHERE 1 = 1  
+			 <![CDATA[ ${paramSQL} ]]>   
+   </select>
+   <select id="selectMeterUIPQ" resultMap="BaseResultMap" parameterType="java.util.Map" >
+   		SELECT
+   			t_meter.meterId,
+			t_meter.meter_name,
+			t_meter.phase_remark,
+			t_abnormal_z.ua,
+			t_abnormal_z.i,
+			t_abnormal_z.p,
+			t_abnormal_z.q
+		FROM
+			t_meter
+		LEFT JOIN t_abnormal_z ON t_abnormal_z.C_DistrictBCDId = t_meter.C_DistrictBCDId
+		AND t_abnormal_z.C_AddressId = t_meter.C_AddressId
+		AND t_abnormal_z.C_ChannelId = t_meter.C_ChannelId
+		WHERE t_meter.DEL_FLAG = '0'
+			AND t_meter.meterBoxId = #{meterBoxId,jdbcType=VARCHAR}
+			AND t_abnormal_z.TSegmentId =  #{tSegmentId,jdbcType=INTEGER}
+			and t_abnormal_z.RecordDateBCD =#{recordDateBCD,jdbcType=INTEGER}
+   </select>
+</mapper>

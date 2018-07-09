@@ -27,7 +27,8 @@ var SVG_HELPER = (function() {
         var x2 = leftPad;
         var x3 = leftPad;
         var x4 = leftPad;
-        var keyArray = new Array();
+        var keyArray = new Array();//故障定位所需key_id
+        var branchboxIDArray = new Array();//topo错误数据所需分支箱key_id
         $(list).each(function() {
             var w2 = 0;
             $(this.children).each(function() {
@@ -36,6 +37,7 @@ var SVG_HELPER = (function() {
                 $(this.children).each(function() {
                     var cIds = [];
                     var w4 = 0;
+                    var branchboxID = this.rowId;
                     $(this.children).each(function() {
                     	keyArray.push(this.rowId); //M0004
                     	getNextAmmeterId("M0005",this.rowId,svgModelData,keyArray);//电表(epuId根据这个找下级)
@@ -49,10 +51,11 @@ var SVG_HELPER = (function() {
                         //组织表箱图标
                         var svgimg = setSvgimg("100", "100", "../woodare/image/boxImg.png", (this._x - 4), (this._y - 6), "meterboxImg_" + this.rowId);
                         $("#Snap_Layer").append(svgimg).find("g[id='meterbox_" + this.rowId + "'],image[id='meterboxImg_" + this.rowId + "']").attr("epuName", this.epuName).click(function() {
-                            showAmmeter(this, svgModelData, uipqData);
+                            showAmmeter(this, svgModelData);
                         });
                     });
-                    keyArray.push(this.rowId); //M0003
+                    keyArray.push(this.rowId); //M0003 
+                    branchboxIDArray.push(branchboxID); //M0003 
                     //M0003
                     var tmpX = x3 + (w4 > this.width ? ((w4 - this.width) / 2) : 0);
                     this._x = tmpX;
@@ -237,11 +240,14 @@ var SVG_HELPER = (function() {
                     $("#Snap_Layer").find("image[id='kaiguanxianImg_" + key + "']").attr("href", "../woodare/image/branchBoxError.png"); //分支箱/出线柜
                     updateBox(key, "error-box");
                     if (null != faultTypeName && "" != faultTypeName) {
-                        $("#textPath_" + key).text(epuName + "故障原因:" + faultTypeName);
+                        $("#textPath_" + key).text(epuName);
+                        $("#textPath_01_" + key).text("故障原因:" + faultTypeName);
                     } else {
-                        $("#textPath_" + key).text(epuName + "故障原因:topo错误数据");
+                        $("#textPath_" + key).text(epuName);
+                        $("#textPath_01_" + key).text("故障原因:TOPO错误数据");
                     }
                     $("#textPath_" + key).attr("class", "error");
+                    $("#textPath_01_" + key).attr("class", "error");
                 }
             },
             boxWarning: function(id) {
@@ -257,6 +263,7 @@ var SVG_HELPER = (function() {
                     updateBox(key, "");
                     $("#Snap_Layer").find("image[id='kaiguanxianImg_" + key + "']").attr("href", "../woodare/image/branchBox.png"); //分支箱/出线柜
                     $("#textPath_" + key).text(epuName).attr("class", "");
+                    $("#textPath_01_" + key).text("").attr("class", "");
                 }
             },
             kaiguanxianError: function(kaiguanxianErrorArray) {
@@ -267,6 +274,7 @@ var SVG_HELPER = (function() {
                     var epuName = json["epuName"];
                     var faultType = json["faultType"];
                     var faultTypeName = json["faultTypeName"];
+                    var error_num = json["error_num"] ||"";
                     updateKaiguanxian(key, "error");
                     $("#kaiguanxian_line_" + key).find("rect").attr("class", "error");
                     $("#kaiguanxian_line_" + key).find("path").attr("class", "error");
@@ -277,7 +285,12 @@ var SVG_HELPER = (function() {
                     if (null != faultTypeName && faultTypeName != "") {
                         $("#meterbox_" + key).find("text").eq((count - 1)).text("故障原因:" + faultTypeName);
                     } else {
-                        $("#meterbox_" + key).find("text").eq((count - 1)).text("故障原因:topo错误数据");
+                        $("#meterbox_" + key).find("text").eq((count - 1)).text("");
+                        
+                        $("#textPath_" + key).text(epuName);
+                        $("#textPath_01_" + key).text("TOPO错误数据,时间段执行次数:"+error_num);
+                        $("#textPath_" + key).attr("class", "error");
+                        $("#textPath_01_" + key).attr("class", "error");
                     }
 
                 }
@@ -286,8 +299,31 @@ var SVG_HELPER = (function() {
                 for (var i = 0; i < kaiguanxianWarningArray.length; i++) {
                     var json = kaiguanxianWarningArray[i];
                     var key = json["key"];
+                    var epuName = json["epuName"]||"";
+                    var error_num = json["error_num"]||"";
                     updateKaiguanxian(key, "warning");
+                    $("#textPath_" + key).text(epuName);
+                    $("#textPath_01_" + key).text("TOPO错误数据,时间段执行次数:"+error_num);
+                    $("#textPath_" + key).attr("class", "warning");
+                    $("#textPath_01_" + key).attr("class", "warning");
+                    
                     $("#Snap_Layer").find("image[id='kaiguanxianImg_" + key + "']").attr("href", "../woodare/image/branchBoxBlueError.png"); //分支箱/出线柜
+                }
+
+            },
+            kaiguanxianWarningClear: function(kaiguanxianWarningArray) {
+                for (var i = 0; i < kaiguanxianWarningArray.length; i++) {
+                    var json = kaiguanxianWarningArray[i];
+                    var key = json["key"];
+                    var epuName = json["epuName"]||"";
+                    var error_num = json["error_num"]||"";
+                    updateKaiguanxian(key, "");
+                    $("#textPath_" + key).text(epuName);
+                    $("#textPath_01_" + key).text("");
+                    $("#textPath_" + key).attr("class", "");
+                    $("#textPath_01_" + key).attr("class", "");
+                    
+                    $("#Snap_Layer").find("image[id='kaiguanxianImg_" + key + "']").attr("href", "../woodare/image/branchBoxBlue.png"); //分支箱/出线柜
                 }
 
             },
@@ -307,10 +343,11 @@ var SVG_HELPER = (function() {
                     $("#meterbox_" + key).find("text").attr("class", "");
                     $("#meterbox_" + key).find("text").eq((count - 1)).text("");
                 }
-            },keyArray : keyArray
+            },
+            keyArray : keyArray,
+            branchboxIDArray : branchboxIDArray
         }
     }
-
     //
     function updateBox(id, cls) {
         $("#chuxiangui_rect_" + id).attr("class", cls); //包围虚线框样式调整
@@ -348,9 +385,15 @@ var SVG_HELPER = (function() {
         var g = layer.append("g").attr("id", "chuxiangui_" + id);
         g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("stroke-dasharray", "5,5").attr("fill", "none").attr("x", x).attr("y", y).attr("width", 300).attr("height", 180).attr("id", "chuxiangui_rect_" + id);
 
+        g.append('path').attr("id", "chuxiangui_text_01_" + id).attr("d", "M" + (x - 55) + "," + y + " L" + (x - 55) + "," + (y + 300)).attr("stroke-width", 0);
+        var txt = g.append('text').attr("font-size", "18").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)");
+        txt.append('textPath').attr("id", "textPath_01_" + id).attr("xlink:href", "#chuxiangui_text_01_" + id).text("");
+        
         g.append('path').attr("id", "chuxiangui_text_" + id).attr("d", "M" + (x - 30) + "," + y + " L" + (x - 30) + "," + (y + 300)).attr("stroke-width", 0);
         var txt = g.append('text').attr("font-size", "18").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)");
         txt.append('textPath').attr("id", "textPath_" + id).attr("xlink:href", "#chuxiangui_text_" + id).text(name);
+       
+     
         if (lines && lines.length) {
             var start = x + 180;
             var end = x;
@@ -379,7 +422,7 @@ var SVG_HELPER = (function() {
         var svgimg = setSvgimg("50", "50", "../woodare/image/branchBox.png", (x - 17), (y + 50), "kaiguanxianImg_" + id, type);
         $("#Snap_Layer").append(svgimg).find("image[id='kaiguanxianImg_" + id + "']").attr("epuName", name).click(function() {
             if (type == "M0003") { //分支箱的弹出层单击事件
-                showBranchBox(this, uipqData, id,svgModelData);
+                showBranchBox(this, id,svgModelData);
             }
         });
         g.append('path').attr("stroke-width", 2).attr("stroke", "#000").attr("fill", "none").attr("d", "M " + (x + 8) + "," + y + " L " + (x + 8) + "," + (y + gird) + "");
@@ -390,7 +433,7 @@ var SVG_HELPER = (function() {
  * 展示电表(弹出层)
  * desc:1、动态设置弹出层标题 2、弹出层 3、展示列表 4、 展示拓扑信息
  **/
-    function showAmmeter(obj, svgModelData, uipqData) {
+    function showAmmeter(obj, svgModelData) {
         var txtID = $(obj).attr("id"); //展示的文字ID
         parent.$("#tableBoxId").val(txtID.replace("meterbox_", "").replace("meterboxImg_", "")); //当前表箱ID
         var textValue = $(obj).attr("epuName"); //展示的文字内容
@@ -398,14 +441,14 @@ var SVG_HELPER = (function() {
         var rowId = parent.$("#rowId").val(); //获取箱变根ID
         var iframeID = parent.$("#tab3Iframe")[0]; //获取iframe的ID
         var tableBoxId = parent.$("#tableBoxId").val(); //获取箱变根ID
-        iframeID.contentWindow.showTop(svgModelData, rowId, tableBoxId, uipqData);
+        iframeID.contentWindow.showTop(svgModelData, rowId, tableBoxId);
     }
 
     /**
  * 展示分支箱(弹出层)
  * desc:1、动态设置弹出层标题 2、弹出层 3、展示列表
  **/
-    function showBranchBox(obj, uipqData, meterboxId,svgModelData) {
+    function showBranchBox(obj,  meterboxId,svgModelData) {
         var meterboxEpuName = $("#meterbox_" + meterboxId).attr("name");
         var branchBoxId = $(obj).attr("id"); //展示的文字ID
         parent.$("#branchBoxId").val(branchBoxId.replace("kaiguanxianImg_", "")); //当前分支箱ID
@@ -414,7 +457,7 @@ var SVG_HELPER = (function() {
         var tableBoxId = parent.$("#tableBoxId").val(); //获取箱变根ID
         parent.$("#messageBranchBox").show();
         var iframeID = parent.$("#tab4Iframe")[0]; //获取iframe的ID
-        iframeID.contentWindow.showList(rowId, tableBoxId, uipqData, branchBoxId, meterboxId, meterboxEpuName,svgModelData);
+        iframeID.contentWindow.showList(rowId, tableBoxId,  branchBoxId, meterboxId, meterboxEpuName,svgModelData);
     }
 
     /**

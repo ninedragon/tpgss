@@ -11,8 +11,15 @@
     <result column="i" jdbcType="REAL" property="i" />
     <result column="is_abnormal" jdbcType="BIT" property="isAbnormal" />
     <result column="C_RecordInsertTime" jdbcType="TIMESTAMP" property="cRecordinserttime" />
+    <result column="C_RecordInsertTime" jdbcType="VARCHAR" property="strCRecordinserttime" />
     <result column="occurTime" jdbcType="TIMESTAMP" property="occurtime" />
+    <result column="occurTime" jdbcType="VARCHAR" property="strOccurTime" />
   </resultMap>
+       <sql id="limit_sql">
+  	   <if test="page_sql != null and page_sql != ''">
+      	${page_sql}
+      </if>
+  </sql>
   <sql id="Base_Column_List">
     id, C_DistrictBCDId, C_AddressId, C_ChannelId, C_FaultId, C_FrameCmdId, i, is_abnormal, 
     C_RecordInsertTime, occurTime
@@ -155,4 +162,31 @@
       occurTime = #{occurtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="findAll" resultMap="BaseResultMap" parameterType="java.util.Map" >
+       		SELECT
+				id,
+				C_DistrictBCDId,
+				C_AddressId,
+				C_ChannelId,
+				C_FrameCmdId,
+				i,
+				is_abnormal,
+				from_unixtime(unix_timestamp(C_RecordInsertTime),'%Y-%m-%d %H:%I:%S')   AS strCRecordinserttime,
+				from_unixtime(unix_timestamp(occurTime),'%Y-%m-%d %H:%I:%S')   AS strOccurTime,
+				C_FaultId
+			FROM
+				t_ableakage_i
+			WHERE 1 = 1  
+			 <![CDATA[ ${paramSQL} ]]> 
+			 ORDER BY occurTime DESC   
+			  <include refid="limit_sql" />
+  </select>
+   <select id="findCount" resultMap="BaseResultMap" parameterType="java.util.Map" >
+   		SELECT
+				COUNT(id)
+			FROM
+				t_ableakage_i
+			WHERE 1 = 1  
+			 <![CDATA[ ${paramSQL} ]]>   
+   </select>
 </mapper>

@@ -43,6 +43,28 @@
 		    <result column="is_repaired" jdbcType="VARCHAR" property="is_repaired" />
 		    <result column="repair_time" jdbcType="VARCHAR" property="repair_time" />
    </resultMap>
+    <resultMap id="TopoErrorMap" type="com.zz.common.model.TopoErrorInfo">
+    		  <id column="id" jdbcType="VARCHAR" property="id" />
+    		   <result column="epuName" jdbcType="VARCHAR" property="epuName" />
+		    <result column="type" jdbcType="VARCHAR" property="type" />
+		    <result column="key" jdbcType="VARCHAR" property="key" />
+		    <result column="fault_type" jdbcType="VARCHAR" property="fault_type" />
+		    <result column="error_num" jdbcType="VARCHAR" property="error_num" />
+   </resultMap>
+    <resultMap id="TopoErrorRelMap" type="com.zz.common.model.TopoErrorRelInfo">
+    		  <id column="id" jdbcType="VARCHAR" property="id" />
+		    <result column="type" jdbcType="VARCHAR" property="type" />
+		    <result column="epuName" jdbcType="VARCHAR" property="epuName" />
+		    <result column="key" jdbcType="VARCHAR" property="key" />
+		    <result column="fault_point" jdbcType="VARCHAR" property="fault_point" />
+		    <result column="branchbox_error_id" jdbcType="VARCHAR" property="branchbox_error_id" />
+   </resultMap>
+    <resultMap id="FaultSourceMap" type="com.zz.common.model.FaultSource">
+    		  <id column="id" jdbcType="VARCHAR" property="id" />
+		    <result column="fault_id" jdbcType="VARCHAR" property="fault_id" />
+		    <result column="table_name" jdbcType="VARCHAR" property="table_name" />
+		    <result column="record_id" jdbcType="VARCHAR" property="record_id" />
+   </resultMap>
      <sql id="limit_sql">
   	   <if test="page_sql != null and page_sql != ''">
       	${page_sql}
@@ -54,7 +76,7 @@
 		temp.row_name,
 		temp.fault_base_id,
 		temp.fault_type,
-		from_unixtime(unix_timestamp(temp.repair_time),'%Y-%m-%d %H:%I:%S')  AS occur_time,
+		from_unixtime(unix_timestamp(temp.occur_time),'%Y-%m-%d %H:%I:%S')  AS occur_time,
 		temp.is_cancelled,
 		(
 			CASE
@@ -313,7 +335,44 @@
 				GROUP BY
 					substain_id
 			) TEMP
-		LEFT JOIN t_substain ON TEMP.substain_id = t_substain.substainId
+		INNER JOIN t_substain ON TEMP.substain_id = t_substain.substainId
 		ORDER BY t_substain.epu_name
      </select>
+   <select id="selectBranchboxErrorByKeys" resultMap="TopoErrorMap" parameterType="java.util.Map" >
+   			SELECT 
+   			id,
+   			t_branchbox.epu_name as epuName,
+			type,
+			key_id  AS `key`,
+			fault_type,
+			error_num
+   			FROM t_branchbox_error
+			INNER JOIN t_branchbox ON t_branchbox_error.key_id = t_branchbox.branchBoxId
+			WHERE 1 = 1
+			 <![CDATA[ ${paramSQL} ]]>    
+    </select>
+     <select id="selectMeterboxErrorByKeys" resultMap="TopoErrorRelMap" parameterType="java.util.Map" >
+     		SELECT
+				id,
+				type,
+				t_meterbox.epu_name AS epuName,
+				key_id AS `key`,
+				fault_point,
+				branchbox_error_id
+			FROM
+				t_meterbox_error
+			INNER JOIN t_meterbox ON t_meterbox_error.key_id = t_meterbox.meterBoxId
+			WHERE 1 = 1  AND branchbox_error_id = #{branchbox_error_id,jdbcType=VARCHAR}
+     </select>
+     <select id="getFaultSourceList" resultMap="FaultSourceMap" parameterType="java.lang.String">
+     		SELECT
+				id,
+				fault_id,
+				table_name,
+				record_id
+			FROM
+				t_fault_source
+			WHERE 1 = 1  AND fault_id = #{fault_base_id,jdbcType=VARCHAR}
+     </select>
+     
 </mapper>

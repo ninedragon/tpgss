@@ -51,6 +51,7 @@ so.initFaultTypeList = function initFaultTypeList() {
 function initList(pageNo) {
 	$("#loadingDiv").show();
     var basePath = getRootPath_web();
+    var cation =  $.trim($("#action").val()||"");
     $.ajax({
         url: basePath + "/fault/queryList.shtml",
         type: 'POST',
@@ -83,7 +84,7 @@ function initList(pageNo) {
                         tbody += '<td align="center"><div>' + json.epu_province_name + '</div></td>';
                         tbody += '<td align="center"><div>' + json.epu_city_name + '</div></td>';
                         tbody += '<td align="center"><div>' + json.epu_district_name + '</div></td>';
-                        tbody += '<td align="center"><div><a href="javascript:showFaultBase(\''+json.fault_base_id+'\');">故障来源</a></div></td>';
+                        tbody += '<td align="center"><div><a href="javascript:showFaultBase(\''+json.fault_base_id+'\',\''+cation+'\');">故障来源</a></div></td>';
                         tbody += '</tr>';
                     }
                     var a = page.pageHtml;
@@ -116,6 +117,18 @@ function initList(pageNo) {
 /**
  * 故障来源
  * **/
-function showFaultBase(fault_base_id){
-	$("#loadingDiv").show();
+function showFaultBase(fault_base_id,cation){
+	$.post(getRootPath_web() + '/fault/ajax_faultDetails',{fault_base_id:fault_base_id,cation:cation},function(result){
+		if(cation == "all"){
+			$("#showFaultBase").html(result).show();
+		}else  if(cation == "topo"){
+			parent.$("#showFaultBase").html(result).show();
+		}else  if(cation == "ammeter"){
+			parent.$("#messageAmmeter").hide();
+			parent.$("#showFaultBase").html(result).show();
+		}else if(cation == "branchBox"){
+			parent.$("#messageBranchBox").hide();
+			parent.$("#showFaultBase").html(result).show();
+		}
+	});
 }

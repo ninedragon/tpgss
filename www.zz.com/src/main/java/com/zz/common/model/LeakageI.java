@@ -22,8 +22,18 @@ public class LeakageI {
     private Float i;
 
     private Date cRecordinserttime;
+    
+    private String strCRecordinserttime;
 
-    public Integer getId() {
+    public String getStrCRecordinserttime() {
+		return strCRecordinserttime;
+	}
+
+	public void setStrCRecordinserttime(String strCRecordinserttime) {
+		this.strCRecordinserttime = strCRecordinserttime;
+	}
+
+	public Integer getId() {
         return id;
     }
 

@@ -14,7 +14,10 @@ var grid = 64;
 var currentSnapX = grid * 1;
 var currentSnapY = grid * 1;
 var javaScriptObj = {
-		substationId:null//箱变ID
+		svgObj:null,//当前SVG
+		substationId:null,//箱变ID
+		meterBoxXYJSON:{},//表箱XY坐标
+		interval:null//定时器资源
 }
 var scaleZoom = 1;
 var dataTemp = null;
@@ -123,7 +126,7 @@ function getRootPath_web() {
  * @param rowIdParam 箱变根
  * @param tableBoxId 表箱ID
  */
-function showTop(data,rowId,tableBoxId,uipqData){
+function showTop(data,rowId,tableBoxId){
 	javaScriptObj.substationId = rowId;
     //只有电表TAB可以执行此动作
     parent.$("#messageAmmeter").show();
@@ -136,6 +139,7 @@ function showTop(data,rowId,tableBoxId,uipqData){
 //	 M0002 出线柜
 //	 M0003 分支箱
 //	 M0004 表箱
+	var ammterXYArray = new Array();
 	if((null != rowId && "" != rowId ) && (null != tableBoxId && "" != tableBoxId )){
 				setScale(svgSnap,1);
             	 if(null != data && data.length > 0){
@@ -187,24 +191,7 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	    		    		         splitRemarks(layerSnap,"meterText_" + x_rowId,textNewlineArr[0],0 ,0,"fText",12,true);//电表文本文本内容
 	    		    		         //table
 	    		    		         var table_ammeterY = textNewlineArr[1] + 180;
-	    		    		         if(uipqData){
-	    		    		        	 if(null != uipqData && uipqData.length > 0 ){
-			    		    		         for(var k = 0;k < uipqData.length;k++){
-			    		    					 var json = uipqData[k];
-			    		    					 var type = json["type"];
-			    		    					 var key = json["key"];
-			    		    					 var phase = json["phase"];
-			    		    					 if(type == "meter" && key == x_rowId && phase =="a"){//找到对应的ID
-			    		    						 var u = json["u"];
-			    		    						 var i = json["i"];
-			    		    						 var p = json["p"];
-			    		    						 var q = json["q"];
-			    		    						 setammeterTable(layerSnap,x_rowId,ammeterX-65,table_ammeterY,u,i,p,q);
-			    		    						  break;
-			    		    					 }
-			    		    				 }
-	    		    		        	 }
-	    		    		         }
+	    		    		         ammterXYArray.push({KEY:x_rowId,X:(ammeterX-65),Y:table_ammeterY});
 	    		    		 		//电表分割备注
 	    		    		         if(x == 0){
 		 		    		        	splitRemarks(layerSnap,"ammeterTxtID","电表",70,(ammeterY + 40),"fText",24);
@@ -272,31 +259,7 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	    		         splitRemarks(layerSnap,"meterBoxText_" + i_epuParentId,textNewlineArr[0],0 ,0,"fText",12,true);//表箱文本内容
 	    		         //table
 	    		       //展示table信息
-	    		         if(uipqData){
-	    		        	 if(null != uipqData && uipqData.length > 0 ){
-			    				 for(var k = 0;k < uipqData.length;k++){
-			    					 var json = uipqData[k];
-			    					 var type = json["type"];
-			    					 var key = json["key"];
-			    					 if(type == "meterBox" && key == i_epuParentId){//找到对应的分支箱
-			    						 var  ua = json["ua"];
-			    						 var  ia = json["ia"];
-			    						 var  pa = json["pa"];
-			    						 var qa = json["qa"];
-			    						 var ub = json["ub"];
-			    						 var ib = json["ib"];
-			    						 var pb = json["pb"];
-			    						 var qb = json["qb"];
-			    						 var uc = json["uc"];
-			    						 var ic = json["ic"];
-			    						 var pc = json["pc"];
-			    						 var qc = json["qc"];
-			    						 setCabinetsXTable(layerSnap,i_epuParentId,tempBranchBoxX+30,cabinetsY + 160,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
-			    						  break;
-			    					 }
-			    				 }
-	    		        	 }
-	    		         }
+	    		         javaScriptObj.meterBoxXYJSON ={KEY:i_epuParentId,X:(tempBranchBoxX+30), Y : cabinetsY + 160};
 	    		         
 	    		        	//出线柜分割备注
 	    		        	splitRemarks(layerSnap,"cabinetsID","表箱",70,(cabinetsY+40),"fText",24);
@@ -359,7 +322,9 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	 svgSnap.attr("width", widthVal).attr("height", temp)
 	 parent.$("#tableBoxDiv").css("overflow", "auto");
 	 parent.$(".ammeter").css("width", "650px");
-		$("#falutDiv").css("width", "950px").css("top",( temp - 500)+"px");
+	 $("#falutDiv").css("width", "950px").css("top",( temp - 500)+"px");
+	 
+	 javaScriptObj.svgObj = layerSnap;
 	 //加载故障
 	 so.initFaultTypeList();
 	 var strKeyArray = "";
@@ -373,8 +338,113 @@ function showTop(data,rowId,tableBoxId,uipqData){
 	 $("#strKeyRenderingArray").val(strKeyArray+"," + tableBoxId);//拼接表箱 渲染
 	 //执行故障渲染
 	 setFalut();
+	 //加载表格
+	 ammterTableUipq(tableBoxId,ammterXYArray);
+     //开启定时器
+	 var myVar =  setInterval(function(){
+    	 //加载当前表箱下电表表格
+		 clearInterval(myVar);//清除定时器
+		 showTop(data,rowId,tableBoxId);
+     },(1000 * 60 * 4));//(1000 * 60 * 4)
+	 javaScriptObj.interval = myVar;
 } 
-
+/**
+ * 
+ * 加载当前表箱下电表表格
+ * @param: meterBoxId 表箱ID
+ * @param: ammterXYArray 当前表箱下所有电表XY坐标
+ * **/
+function ammterTableUipq(meterBoxId,ammterXYArray){
+	$("#loadingDiv").show();
+    $.ajax({
+        url: getRootPath_web() + "/abnormalZ/selectMeterAndMeterBoxUIPQ.shtml",
+        type: 'POST',
+        timeout : 5000, //超时时间设置，单位毫秒
+        dataType: 'json',
+        async: true,
+        data: {
+        	meterBoxId: meterBoxId
+        },
+        success: function(data) {
+        	//处理电表
+        	var meterList = data.meterList;
+        	var meterBoxList = data.meterBoxList;
+        	if(null != ammterXYArray && ammterXYArray.length > 0){
+        		for(var i = 0 ;i < ammterXYArray.length; i++){
+        			var ammterXYJson = ammterXYArray[i];
+        			var key = ammterXYJson["KEY"];
+        			var x = parseInt(ammterXYJson["X"]);
+        			var y = parseInt(ammterXYJson["Y"]);
+        			if(meterList){
+        				if(null != meterList && meterList.length > 0){
+		        			for(var j = 0 ;j < meterList.length; j++){
+		        				var j_json = meterList[j];
+		        				var meterId = j_json["meterId"];
+		        				if(meterId == key){
+		        					 var u_value = j_json["ua"];
+		    						 var i_value = j_json["i"];
+		    						 var p_value = j_json["p"];
+		    						 var q_value = j_json["q"];
+		    						 setammeterTable(javaScriptObj.svgObj,key,x,y,u_value,i_value,p_value,q_value);
+		        				}
+		        			}
+        				}else{
+        					//清除TABLE
+        				}
+        			}else{
+        				//清除TABLE
+        			}
+        		}
+        	}
+        	//处理表箱表格
+			 var  ua = 0;
+			 var  ia = 0;
+			 var  pa = 0;
+			 var qa = 0;
+			 var ub = 0;
+			 var ib = 0;
+			 var pb = 0;
+			 var qb = 0;
+			 var uc = 0;
+			 var ic = 0;
+			 var pc = 0;
+			 var qc = 0;
+        	if(meterBoxList){
+				if(null != meterBoxList && meterBoxList.length > 0){
+		        	for(var i = 0;i < meterBoxList.length;i++){
+		        		var json = meterBoxList[i];
+		        		var phaseRemark = json["phaseRemark"];
+		        		if(phaseRemark == 1 || phaseRemark == "1"){
+		        			  ua = json["u"];
+		        			  ia = json["i"];
+		        			  pa = json["p"];
+		        			  qa = json["q"];
+		        		}else if(phaseRemark == 1 || phaseRemark == "1"){
+		        			  ub = json["u"];
+		        			  ib = json["i"];
+		        			  pb = json["p"];
+		        			  qb = json["q"];
+		        		}else if(phaseRemark == 1 || phaseRemark == "1"){
+		        			  uc = json["u"];
+		        			  ic = json["i"];
+		        			  pc = json["p"];
+		        			  qc = json["q"];
+		        		}
+		        	}
+		        	setCabinetsXTable(javaScriptObj.svgObj,meterBoxId,javaScriptObj.meterBoxXYJSON.X,javaScriptObj.meterBoxXYJSON.Y,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
+				}else{
+					//清除表箱表格
+				}
+        	}else{
+        		//清除表箱表格
+        	}
+            $(".loading").hide();
+        },
+        error: function() {
+            $(".loading").hide();
+        }
+    });
+}
 
 function setPos(lay,pos){
 	
@@ -475,6 +545,7 @@ function getNextData(paramEpuType,paramEpuParentId,data,arrayList){
 	return arrayList;
 }
 
+
 function setCabinetsXTable(layerSnap,id,cabinetsX,cabinetsY,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc){
 	var idTableNull_X = cabinetsX;
 	var idTableNull_Y = cabinetsY - 150;
@@ -483,22 +554,22 @@ function setCabinetsXTable(layerSnap,id,cabinetsX,cabinetsY,ua,ia,pa,qa,ub,ib,pb
 	var idTableU_X = cabinetsX +58;
 	var idTableU_Y = cabinetsY -150;
 	setCreateUseEl(layerSnap,"idTitleU" + id, "tableList",idTableU_X,idTableU_Y);//u框
-	splitRemarks(layerSnap,"idTitleUtxt" + id,"U",idTableU_X + 37,idTableU_Y+22,"fText",18);//U文字
+	splitRemarks(layerSnap,"idTitleUtxt" + id,"U",idTableU_X + 37,idTableU_Y+22,"fText",12);//U文字
 	
 	var idTableI_X = idTableU_X +58;
 	var idTableI_Y = cabinetsY -150;
 	setCreateUseEl(layerSnap,"idTitleI" + id, "tableList",idTableI_X,idTableI_Y);//i框
-	splitRemarks(layerSnap,"idTitleItxt" + id,"I",idTableI_X + 37,idTableI_Y+22,"fText",18);//I文字
+	splitRemarks(layerSnap,"idTitleItxt" + id,"I",idTableI_X + 37,idTableI_Y+22,"fText",12);//I文字
 	
 	var idTableP_X = idTableI_X +58;
 	var idTableP_Y = cabinetsY -150;
 	setCreateUseEl(layerSnap,"idTableU" + id, "tableList",idTableP_X,idTableP_Y);//P框
-	splitRemarks(layerSnap,"idTitlePtxt" + id,"P",idTableP_X + 37,idTableP_Y+22,"fText",18);//P文字
+	splitRemarks(layerSnap,"idTitlePtxt" + id,"P",idTableP_X + 37,idTableP_Y+22,"fText",12);//P文字
 	
 	var idTableQ_X = idTableP_X +58;
 	var idTableQ_Y = cabinetsY -150;
 	setCreateUseEl(layerSnap,"idTitleQ" + id, "tableList",idTableQ_X,idTableQ_Y);//Q框
-	splitRemarks(layerSnap,"idTitleQtxt" + id,"Q",idTableQ_X + 37,idTableQ_Y+22,"fText",18);//Q文字
+	splitRemarks(layerSnap,"idTitleQtxt" + id,"Q",idTableQ_X + 37,idTableQ_Y+22,"fText",12);//Q文字
 	
 	
 	
@@ -508,25 +579,25 @@ function setCabinetsXTable(layerSnap,id,cabinetsX,cabinetsY,ua,ia,pa,qa,ub,ib,pb
 	var idTableAU_X = idTableA_X +58;
 	var idTableAU_Y = idTableNull_Y+ 26;
 	setCreateUseEl(layerSnap,"idUA" + id, "tableList",idTableAU_X,idTableAU_Y);//ua框
-	splitRemarks(layerSnap,"idUAtxt" + id,ua,idTableAU_X + 55,idTableAU_Y+22,"fText",14);//ua文字
+	splitRemarks(layerSnap,"idUAtxt" + id,ua,idTableAU_X + 55,idTableAU_Y+22,"fText",10);//ua文字
 	
 	setCreateUseEl(layerSnap,"idTitleNull" + id, "tableList1",(idTableNull_X + 33),idTableAU_Y);//空框
-	splitRemarks(layerSnap,"idTitleAtxt" + id,"A",idTableAU_X ,idTableAU_Y+22,"fText",18);//A
+	splitRemarks(layerSnap,"idTitleAtxt" + id,"A",idTableAU_X ,idTableAU_Y+22,"fText",12);//A
 	
 	var idTableAI_X = idTableAU_X +58;
 	var idTableAI_Y = idTableNull_Y+ 26;
 	setCreateUseEl(layerSnap,"idIA" + id, "tableList",idTableAI_X,idTableAI_Y);//ia框
-	splitRemarks(layerSnap,"idIAtxt" + id,ia,idTableAI_X + 55,idTableAI_Y+22,"fText",14);//ia文字
+	splitRemarks(layerSnap,"idIAtxt" + id,ia,idTableAI_X + 55,idTableAI_Y+22,"fText",10);//ia文字
 	
 	var idTableAP_X = idTableAI_X +58;
 	var idTableAP_Y = idTableNull_Y+ 26;
 	setCreateUseEl(layerSnap,"idPA" + id, "tableList",idTableAP_X,idTableAP_Y);//pa框
-	splitRemarks(layerSnap,"idPAtxt" + id,pa,idTableAP_X + 55,idTableAP_Y+22,"fText",14);//pa文字
+	splitRemarks(layerSnap,"idPAtxt" + id,pa,idTableAP_X + 55,idTableAP_Y+22,"fText",10);//pa文字
 	
 	var idTableAQ_X =  idTableAP_X+58;
 	var idTableAQ_Y = idTableNull_Y+ 26;
 	setCreateUseEl(layerSnap,"idQA" + id, "tableList",idTableAQ_X,idTableAQ_Y);//qa框
-	splitRemarks(layerSnap,"idQAtxt" + id,qa,idTableAQ_X + 55,idTableAQ_Y+22,"fText",14);//qa文字
+	splitRemarks(layerSnap,"idQAtxt" + id,qa,idTableAQ_X + 55,idTableAQ_Y+22,"fText",10);//qa文字
 
 
 
@@ -536,26 +607,26 @@ function setCabinetsXTable(layerSnap,id,cabinetsX,cabinetsY,ua,ia,pa,qa,ub,ib,pb
 	var idTableBU_X = idTableA_X +58;
 	var idTableBU_Y = idTableNull_Y+ 52;
 	setCreateUseEl(layerSnap,"idUB" + id, "tableList",idTableBU_X,idTableBU_Y);//ub框
-	splitRemarks(layerSnap,"idUBtxt" + id,ub,idTableBU_X + 55,idTableBU_Y+22,"fText",14);//ub文字
+	splitRemarks(layerSnap,"idUBtxt" + id,ub,idTableBU_X + 55,idTableBU_Y+22,"fText",10);//ub文字
 	
 	setCreateUseEl(layerSnap,"idTitleNull" + id, "tableList1",(idTableNull_X + 33),idTableBU_Y);//空框
-	splitRemarks(layerSnap,"idTitleBtxt" + id,"B",idTableBU_X ,idTableBU_Y+22,"fText",18);//B
+	splitRemarks(layerSnap,"idTitleBtxt" + id,"B",idTableBU_X ,idTableBU_Y+22,"fText",12);//B
 	
 	var idTableBI_X = idTableBU_X +58;
 	var idTableBI_Y = idTableNull_Y+ 52;
 	setCreateUseEl(layerSnap,"idIB" + id, "tableList",idTableBI_X,idTableBI_Y);//IB框
-	splitRemarks(layerSnap,"idIBtxt" + id,ib,idTableBI_X + 55,idTableBI_Y+22,"fText",14);//ib文字
+	splitRemarks(layerSnap,"idIBtxt" + id,ib,idTableBI_X + 55,idTableBI_Y+22,"fText",10);//ib文字
 	
 	
 	var idTableBP_X = idTableBI_X +58;
 	var idTableBP_Y = idTableNull_Y+ 52;
 	setCreateUseEl(layerSnap,"idPB" + id, "tableList",idTableBP_X,idTableBP_Y);//pb框
-	splitRemarks(layerSnap,"idPBtxt" + id,pb,idTableBP_X + 55,idTableBP_Y+22,"fText",14);//pb文字
+	splitRemarks(layerSnap,"idPBtxt" + id,pb,idTableBP_X + 55,idTableBP_Y+22,"fText",10);//pb文字
 	
 	var idTableBQ_X = idTableBP_X +58;
 	var idTableBQ_Y = idTableNull_Y+ 52;
 	setCreateUseEl(layerSnap,"idQB" + id, "tableList",idTableBQ_X,idTableBQ_Y);//bq框
-	splitRemarks(layerSnap,"idQBtxt" + id,qb,idTableBQ_X + 55,idTableBQ_Y+22,"fText",14);//qb文字
+	splitRemarks(layerSnap,"idQBtxt" + id,qb,idTableBQ_X + 55,idTableBQ_Y+22,"fText",10);//qb文字
 
 
 
@@ -566,26 +637,26 @@ function setCabinetsXTable(layerSnap,id,cabinetsX,cabinetsY,ua,ia,pa,qa,ub,ib,pb
 	var idTableCU_X = idTableA_X +58;
 	var idTableCU_Y = idTableNull_Y+ 78;
 	setCreateUseEl(layerSnap,"idUC" + id, "tableList",idTableCU_X,idTableCU_Y);//uc框
-	splitRemarks(layerSnap,"idUCtxt" + id,uc,idTableCU_X + 55,idTableCU_Y+22,"fText",14);//UC文字
+	splitRemarks(layerSnap,"idUCtxt" + id,uc,idTableCU_X + 55,idTableCU_Y+22,"fText",10);//UC文字
 	
 	setCreateUseEl(layerSnap,"idTitleNull" + id, "tableList1",(idTableNull_X + 33),idTableCU_Y);//空框
-	splitRemarks(layerSnap,"idTitleCtxt" + id,"C",idTableCU_X ,idTableCU_Y+22,"fText",18);//C
+	splitRemarks(layerSnap,"idTitleCtxt" + id,"C",idTableCU_X ,idTableCU_Y+22,"fText",12);//C
 	
 	var idTableCI_X = idTableCU_X +58;
 	var idTableCI_Y = idTableNull_Y+ 78;
 	setCreateUseEl(layerSnap,"idIC" + id, "tableList",idTableCI_X,idTableCI_Y);//ic框
-	splitRemarks(layerSnap,"idICtxt" + id,ic,idTableCI_X + 55,idTableCI_Y+22,"fText",14);//ic文字
+	splitRemarks(layerSnap,"idICtxt" + id,ic,idTableCI_X + 55,idTableCI_Y+22,"fText",10);//ic文字
 	
 	
 	var idTableCP_X = idTableCI_X +58;
 	var idTableCP_Y = idTableNull_Y+ 78;
 	setCreateUseEl(layerSnap,"idPC" + id, "tableList",idTableCP_X,idTableCP_Y);//pc框
-	splitRemarks(layerSnap,"idPCtxt" + id,pc,idTableCP_X + 55,idTableCP_Y+22,"fText",14);//pc文字
+	splitRemarks(layerSnap,"idPCtxt" + id,pc,idTableCP_X + 55,idTableCP_Y+22,"fText",10);//pc文字
 	
 	var idTableCQ_X =  idTableCP_X+58;
 	var idTableCQ_Y = idTableNull_Y+ 78;
 	setCreateUseEl(layerSnap,"idQC" + id, "tableList",idTableCQ_X,idTableCQ_Y);//qc框
-	splitRemarks(layerSnap,"idQCtxt" + id,qc,idTableCQ_X + 55,idTableCQ_Y+22,"fText",14);//qc文字
+	splitRemarks(layerSnap,"idQCtxt" + id,qc,idTableCQ_X + 55,idTableCQ_Y+22,"fText",10);//qc文字
 }
 
 
@@ -597,42 +668,42 @@ function setammeterTable(layerSnap,id,cabinetsX,cabinetsY,u,i,p,q){
 	var idTableUb_X = cabinetsX + 58;
 	var idTableUb_Y = cabinetsY - UbTemp_Y;
 	setCreateUseEl(layerSnap,"idU" + id, "tableList1",idTableUb_X,idTableUb_Y);//u框
-	splitRemarks(layerSnap,"idUtxt" + id,"U",idTableUb_X + 25,idTableUb_Y + 22,"fText",18);//Ub文字
+	splitRemarks(layerSnap,"idUtxt" + id,"U",idTableUb_X + 25,idTableUb_Y + 22,"fText",12);//Ub文字
 	var idTableUb1_X = idTableUb_X + 26;
 	var idTableUb1_Y = cabinetsY - UbTemp_Y;
 	setCreateUseEl(layerSnap,"idTableU" + id, "tableList",idTableUb1_X,idTableUb1_Y);//u框
-	splitRemarks(layerSnap,"idTableUtxt" + id,u,idTableUb1_X + 60,idTableUb1_Y+22,"fText",14);//u文字
+	splitRemarks(layerSnap,"idTableUtxt" + id,u,idTableUb1_X + 60,idTableUb1_Y+22,"fText",10);//u文字
 	
 	var IbTemp_Y = 124; 
 	var idTableIb_X = cabinetsX + 58;
 	var idTableIb_Y = cabinetsY - IbTemp_Y;
 	setCreateUseEl(layerSnap,"idI" + id, "tableList1",idTableIb_X,idTableIb_Y);//i框
-	splitRemarks(layerSnap,"idItxt" + id,"I",idTableIb_X + 25,idTableIb_Y + 22,"fText",18);//I文字
+	splitRemarks(layerSnap,"idItxt" + id,"I",idTableIb_X + 25,idTableIb_Y + 22,"fText",12);//I文字
 	var idTableIb1_X = idTableIb_X + 26;
 	var idTableIb1_Y = cabinetsY - IbTemp_Y;
 	setCreateUseEl(layerSnap,"idTableI" + id, "tableList",idTableIb1_X,idTableIb1_Y);//i框
-	splitRemarks(layerSnap,"idTableItxt" + id,i,idTableIb1_X + 60,idTableIb1_Y+22,"fText",14);
+	splitRemarks(layerSnap,"idTableItxt" + id,i,idTableIb1_X + 60,idTableIb1_Y+22,"fText",10);
 	
 	
 	var pTemp_Y = 98; 
 	var idTableP_X = cabinetsX + 58;
 	var idTableP_Y = cabinetsY - pTemp_Y;
 	setCreateUseEl(layerSnap,"idP" + id, "tableList1",idTableP_X,idTableP_Y);//p框
-	splitRemarks(layerSnap,"idPtxt" + id,"P",idTableP_X + 25,idTableP_Y + 22,"fText",18);//P文字
+	splitRemarks(layerSnap,"idPtxt" + id,"P",idTableP_X + 25,idTableP_Y + 22,"fText",12);//P文字
 	var idTableP1_X = idTableP_X + 26;
 	var idTableP1_Y = cabinetsY - pTemp_Y;
 	setCreateUseEl(layerSnap,"idTableP" + id, "tableList",idTableP1_X,idTableP1_Y);//p框
-	splitRemarks(layerSnap,"idTablePtxt" + id,p,idTableP1_X + 60,idTableP1_Y+22,"fText",14);
+	splitRemarks(layerSnap,"idTablePtxt" + id,p,idTableP1_X + 60,idTableP1_Y+22,"fText",10);
 	
 	var qTemp_Y = 72; 
 	var idTableQ_X = cabinetsX + 58;
 	var idTableQ_Y = cabinetsY - qTemp_Y;
 	setCreateUseEl(layerSnap,"idQ" + id, "tableList1",idTableQ_X,idTableQ_Y);//q框
-	splitRemarks(layerSnap,"idQtxt" + id,"Q",idTableQ_X + 25,idTableQ_Y + 22,"fText",18);//q文字
+	splitRemarks(layerSnap,"idQtxt" + id,"Q",idTableQ_X + 25,idTableQ_Y + 22,"fText",12);//q文字
 	var idTableQ1_X = idTableQ_X + 26;
 	var idTableQ1_Y = cabinetsY - qTemp_Y;
 	setCreateUseEl(layerSnap,"idTableQ" + id, "tableList",idTableQ1_X,idTableQ1_Y);//q框
-	splitRemarks(layerSnap,"idTableQtxt" + id,q,idTableQ1_X + 60,idTableQ1_Y+22,"fText",14);
+	splitRemarks(layerSnap,"idTableQtxt" + id,q,idTableQ1_X + 60,idTableQ1_Y+22,"fText",10);
 }
 
 /**
@@ -788,10 +859,10 @@ function setFalut(){
 	    		}
 	    	}  
 	    	if(!bool){//主面板未点击了故障定位,则清除渲染电表故障
-	    		clear(faultNowMeterArray,faultNowMeterBoxArray);
+	    		clearFalut(faultNowMeterArray,faultNowMeterBoxArray);
 		    }
 	    	if((null != faultNowMeterErrorArray && faultNowMeterErrorArray.length >0) || (null != faultNowMeterBoxErrorArray && faultNowMeterBoxErrorArray.length >0) ){
-	    		clear(faultNowMeterErrorArray,faultNowMeterBoxErrorArray);
+	    		clearFalut(faultNowMeterErrorArray,faultNowMeterBoxErrorArray);
 	    	}
 		    $("#loadingDiv").hide();
        } 
@@ -802,7 +873,7 @@ function setFalut(){
 /**
  * 还原
  * **/
-function clear(faultNowMeterArray,faultNowMeterBoxArray){
+function clearFalut(faultNowMeterArray,faultNowMeterBoxArray){
 	for(var i = 0;i < faultNowMeterBoxArray.length ;i++){
 		var json = faultNowMeterBoxArray[i];
 		var key = json["key"]|| "";
@@ -910,4 +981,12 @@ $(function() {
     	 alert("与服务器断开了链接!");
      }
 });
+
+/**
+ * 电表弹出层关闭
+ * */
+function closeAmmeter(){
+	clearInterval(javaScriptObj.interval);//清除定时器
+	parent.$("#messageAmmeter").hide();
+}
 
