@@ -21,6 +21,8 @@ var dataTemp = null;
 var javaScriptObj = {
 		substationId:null,//箱变ID
 		branchboxIDArray:null,
+		keyArray:null,
+		keyJsonArray :null,
 		interval:null//定时器资源
 }
 /**
@@ -55,6 +57,8 @@ function showTop(rowId){
         				 }
         			 }
         			 $("#strKeyArray").val(strKeyArray);
+        			 javaScriptObj.keyArray = mySvg.keyArray;
+        			 javaScriptObj.keyJsonArray = mySvg.keyJsonArray;
 	        		 initList();
 	        		 dataTemp = allData;
 	        		 var wd = parseFloat($("#wd").val() || 1) ;
@@ -203,14 +207,12 @@ $(function() {
 			$(this).addClass("on");
 		}
 		if(txtValue == "故障定位"){
-			clickTopoError(true);//清理TOPO错误修饰
 			faultClick(selectedFlag);
 		}else if(txtValue == "TOPO错误数据"){
-			 faultClick(true);
 			clickTopoError(selectedFlag);
 		}else{
-			clickTopoError(true);//清理TOPO错误渲染
-			faultClick(true);//清理故障定位渲染
+			//TOPO错误数据和故障数据样式清除
+       	 clickTopoStyle(javaScriptObj.keyJsonArray);
 		}
 	});
 	  //绑定事件
@@ -261,6 +263,7 @@ function loadWebsocket(){
      }
 }
 
+
 /**
  * TOPO错误数据
  * **/
@@ -272,10 +275,12 @@ function clickTopoError(selectedFlag){
          data: {
         	 strBranchboxIDArray : javaScriptObj.branchboxIDArray.join(",")
          },
-         async:false,
+         async:true,
          dataType: "json",
          cache: false,
          success: function(topoError){ 
+        	//TOPO错误数据和故障数据样式清除
+        	 clickTopoStyle(javaScriptObj.keyJsonArray);
         	 if(topoError){
         		 if(null != topoError && topoError.length > 0){
         			 if(!selectedFlag){//点击时TOPO错误数据时，显示故障渲染
@@ -305,27 +310,6 @@ function clickTopoError(selectedFlag){
 		        				 mySvg.kaiguanxianClear(new Array(json));//清空样式  默认黑色
 		        			 }
 	        			 }
-        			 }else{
-        				 for(var i=0;i< topoError.length;i++){
-	        				 var json = topoError[i];
-	        				 var fault_type = json["fault_type"];
-		        			 var key = json["key"];
-		        			 mySvg.kaiguanxianWarningClear(new Array(json));//开关线 标蓝
-	        				 var kaiguanxianErrorArray = new Array();
-	        				 kaiguanxianErrorArray.push(json);
-	        				 var rel = json["rel"];
-	        				 for(var k = 0;k < rel.length;k++){//判断下级设备的fault point，为1的时候标红，否则是黑
-	        					 var relJson = rel[k];
-	        					 var rel_fault_point = relJson["fault_point"];
-	        					 var rel_key = relJson["key"];
-	        					 if(rel_fault_point =="1" || rel_fault_point == 1 ){
-	        						 kaiguanxianErrorArray.push(relJson);
-	        					 }else{
-	    	        				mySvg.kaiguanxianClear(new Array(relJson));//清空样式  默认黑色
-	        					 }
-	        				 }
-	        				 mySvg.kaiguanxianClear(kaiguanxianErrorArray);//清空样式  默认黑色
-	        			 }
         			 }
         		 }
         	 }
@@ -333,22 +317,45 @@ function clickTopoError(selectedFlag){
         } 
 	});
 }
+
+/**
+ * TOPO错误数据和故障数据样式清除
+ * **/
+function clickTopoStyle(keyJsonArray){
+	 if(keyJsonArray){
+		 if(null != keyJsonArray && keyJsonArray.length > 0){
+			 for(var i=0;i< keyJsonArray.length;i++){
+				 var json = keyJsonArray[i];
+     			mySvg.kaiguanxianClear(new Array(json));//清空样式  默认黑色
+     			mySvg.boxClear(new Array(json));//清理出线柜/分支箱  渲染颜色等, 
+			 }
+		 }
+	 }
+}
 /**
  * 故障定位
  * selectedFlag: true 删除故障渲染  false 添加故障渲染
  * */
 function faultClick(selectedFlag){
+	 var strKeyArray = "";
+	 if(javaScriptObj.keyArray){
+		 if(null != javaScriptObj.keyArray && javaScriptObj.keyArray.length > 0){
+			 strKeyArray = javaScriptObj.keyArray.join(",");
+		 }
+	 }
 	$("#loadingDiv").show();
 	$.ajax({ 
 		 type: "post",
          url:  getRootPath_web() + "/fault/selectFaultByRootId.shtml",
          data: {
-        	 strKeyArray : $.trim($("#strKeyArray").val()||"")
+        	 strKeyArray : strKeyArray
          },
-         async:false,
+         async:true,
          dataType: "json",
          cache: false,
          success: function(allData){ 
+        	//TOPO错误数据和故障数据样式清除
+        	 clickTopoStyle(javaScriptObj.keyJsonArray);
         	 var faultNowData = allData ;
         		if(!selectedFlag){
         			if($("#"+javaScriptObj.substationId+"Iframe").contents().find(".a-hov span[class='on']").text() == "故障定位"){

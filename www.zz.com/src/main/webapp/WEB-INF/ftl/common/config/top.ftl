@@ -4,7 +4,7 @@
 <script baseUrl="${basePath}" src="${basePath}/js/user.login.js"></script>
 <div class="wapp-head">
 	<span class="link"></span>
-	<div class="info">消息</div>
+	<div class="info" onclick="selectFaultNews();">消息</div>
     <div class="lay" style="left:auto;right:0px;">
         <ul style="overflow-y: auto;height: 280px;" id="falutNewsUL">
         </ul>
@@ -68,8 +68,6 @@
 		    } 
 		});
 	}
-	//加载
-	selectFaultNews();
 	
 	var websocket;
 	if('WebSocket' in window) {
