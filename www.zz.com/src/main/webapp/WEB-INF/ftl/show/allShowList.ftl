@@ -237,6 +237,10 @@
 		var count = $(".all li").each(function(){}).length;
 		if(count == 0){
 			mapClick();<!--重新加载地图-->
+		}else if(count == 1){
+			var thisRowId = $(".all li").eq(0).attr("id").replace("tab_","");
+			$("#"+thisRowId+"tabShow").show();
+			$(".all li").eq(0).addClass("on");
 		}
 	}
 	/**
