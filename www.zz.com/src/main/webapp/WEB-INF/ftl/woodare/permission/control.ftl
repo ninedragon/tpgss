@@ -9,9 +9,9 @@
         			<#list permissionBosList as bos>       		
         				 <lable>
 						 <#if bos.roleId??>						    
-        				 		 	<input name="${bos.name }" id="${bos.id }" selectBox=''  checked="checked" type="checkbox" value="" class="checkbox"><span>${bos.name }</span>
+        				 		 	<input name="${bos.name }" id="${bos.id }" selectBox=''  checked="checked" type="checkbox" value="" class="checkbox"><span style="width:200px;">${bos.name }</span>
 	        				 		<#else>
-	        				 		 <input name="${bos.name }" id="${bos.id }" selectBox='' type="checkbox" value="" class="checkbox"><span>${bos.name }</span>
+	        				 		 <input name="${bos.name }" id="${bos.id }" selectBox='' type="checkbox" value="" class="checkbox"><span style="width:200px;">${bos.name }</span>
 	        			 </#if>  
 						           
 				         </lable>
