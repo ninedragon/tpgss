@@ -320,25 +320,25 @@
 	<!--分支箱弹层开始-->
 	<div class="wapp-layer"  id="messageBranchBox" >
 		<div class="box tips mrr branchBox" style="left:30%;">
-	    	<h4 style="text-indent:0%; "><label style="width:90%" ><p id='branchBoxName' style="word-wrap:break-word; word-break:break-all;padding: 0px 0px 0px 10px;"></p></label><span class="close-js" onclick="$('#messageBranchBox').hide();">关闭</span></h4>
+	    	<h4 style="text-indent:0%; "><label style="width:90%" ><p id='branchBoxName' style="word-wrap:break-word; word-break:break-all;padding: 0px 0px 0px 10px;"></p></label><span class="close-js" onclick="$('#tab4Iframe')[0].contentWindow.closeBranchBox();">关闭</span></h4>
 	       <div class="edit mrr"  id="branchBoxDiv">
 			<iframe id="tab4Iframe" src="${basePath}/html/branchBox.html" frameborder="0" scrolling="no"></iframe>
 	       </div>
        <div class="but-nav" style=" position: absolute; left:0px; bottom:30px; height:32px;">
-           <span class="but" onclick="$('#messageBranchBox').hide();">关&nbsp;&nbsp;闭</span>
+           <span class="but" onclick=" $('#tab4Iframe')[0].contentWindow.closeBranchBox();">关&nbsp;&nbsp;闭</span>
         </div>
 	    </div>
 	</div> 
 	<!--分支箱弹层结束/-->
     <!--电表弹层开始-->
-	<div class="wapp-layer"  id="messageAmmeter">
+	<div class="wapp-layer"  id="messageAmmeter" >
 		<div class="box tips mrr ammeter" style="left:25%;">
-	    	<h4 style="text-indent:0%; "><label style="width:90%" ><p id='tableBoxName' style="word-wrap:break-word; word-break:break-all;padding: 0px 0px 0px 10px;"></p></label><span class="close-js" onclick="$('#messageAmmeter').hide();">关闭</span></h4>
+	    	<h4 style="text-indent:0%; "><label style="width:90%" ><p id='tableBoxName' style="word-wrap:break-word; word-break:break-all;padding: 0px 0px 0px 10px;"></p></label><span class="close-js" onclick=" $('#tab3Iframe')[0].contentWindow.closeAmmeter();">关闭</span></h4>
 	       <div class="edit mrr" id="tableBoxDiv">
 			<iframe id="tab3Iframe" src="${basePath}/html/ammeter.html" width="10000" height="4000" frameborder="0" scrolling="no"></iframe>
 	       </div>
        <div class="but-nav" style=" position: absolute; left:0px; bottom:30px; height:32px;">
-           <span class="but" onclick="$('#messageAmmeter').hide();">关&nbsp;&nbsp;闭</span>
+           <span class="but" onclick=" $('#tab3Iframe')[0].contentWindow.closeAmmeter();">关&nbsp;&nbsp;闭</span>
         </div>
 	    </div>
 	</div> 
@@ -351,6 +351,10 @@
 		</div>
 	</div>
 	<!--loading结束/-->
+			<!--弹层开始-->
+		<div class="wapp-layer" id="showFaultBase">
+		</div>
+		<!--弹层结束/-->
 		<script type="text/javascript">
 			$(function(){   
 			   $(".wapp-head span.link").click();<!--初始化隐藏左侧菜单-->
