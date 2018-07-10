@@ -57,8 +57,8 @@ public class AmmeterController extends BaseController {
 	public Object selectEpuNameByAm(ModelMap map,
 			TEpuInfo tEpuInfo, HttpServletRequest request,String epuDistrict)
 			throws Exception {
-		Map<String, Object> epuInof = ammeterService.selectEpuNameByAm(epuDistrict);
-		return epuInof;
+		Map<String, Object> epuInfo = ammeterService.selectEpuNameByAm(epuDistrict);
+		return epuInfo;
 	}
 	
 	/**
