@@ -41,7 +41,7 @@
 					return _delete(array);
 				});
 				//单击新增
-				$("span.icon01").on('click',function(){
+				$("#addUser").on('click',function(){
 					$.post('${basePath}/member/ajax_getFindUsersBy',{id:null},function(result){
 						$("#divContent").html(result);
 						obj.operate = "save";
@@ -190,9 +190,13 @@
 <!--         <div class="sec-box"> -->
 <!--         	<input name="" type="text"><span>搜索</span> -->
 <!--         </div> -->
-    	<div class="but-nav">
+    	<!-- <div class="but-nav">
         	<span class="icon01">新增</span>
             <span class="icon03" id="deleteAll">删除</span>
+        </div> -->
+         <div class="but-nav">
+        	<button type="button" id="addUser"  class="btn btn-primary" style="background-color: #169274;">新增</button>
+        	<button type="button"  id="deleteAll"    class="btn btn-primary" style="background-color: #169274;">删除</button>
         </div>
     </div>
     <!--其他操作结束/-->

@@ -55,9 +55,9 @@
 		<@shiro.hasPermission name="/member/online.shtml">
 	    	 <li onClick="location.href='${basePath}/member/online.shtml'">在线用户</li>
 	    </@shiro.hasPermission>
-		<@shiro.hasPermission name="/member/list2.shtml">
+<#-- 		<@shiro.hasPermission name="/member/list2.shtml">
 	    	 <li  onClick="location.href='${basePath}/member/list2.shtml'">居民列表</li> 
-	    </@shiro.hasPermission>
+	    </@shiro.hasPermission> -->
 	    </ul>   
 	</@shiro.hasAnyRoles>         
 	<#--拥有 角色888888（管理员） ||  100001（权限频道）-->

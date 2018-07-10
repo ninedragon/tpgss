@@ -54,11 +54,27 @@
 		left join (select id from u_role where id = #{id,jdbcType=BIGINT}) ur on ur.id = urp.rid
 		group by up.id
   	 -->
+  	 <!--该sql 有问题 ,修改成下面正确的
 		select up.id,ur.id roleId,up.name,up.url,ifnull(ur.id,0)marker from u_permission up
 		left join u_role_permission urp on urp.pid = up.id
 		left join (select id from u_role where id = #{id,jdbcType=BIGINT}) ur on ur.id = urp.rid
 		group by up.id
-	  
+	  	 -->
+	  	 SELECT
+			up.id,
+			urp.id roleId,
+			up.NAME,
+			up.url,
+			ifnull(urp.id, 0) marker
+		FROM
+			u_permission up
+		LEFT JOIN (
+		select urp.pid,ur.id from   u_role_permission urp
+		inner join u_role ur ON ur.id = urp.rid
+		where ur.id=#{id,jdbcType=BIGINT}
+		) urp ON urp.pid = up.id 
+		GROUP BY
+			up.id	  	 
 	  <!--
 		mysql 5.7 请用下面的。来自群内（上海|Java|大力水饺）
 		select up.id,ur.id roleId,up.name,up.url,ifnull(ur.id,0)marker from u_permission up

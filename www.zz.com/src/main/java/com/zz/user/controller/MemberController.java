@@ -183,7 +183,7 @@ public class MemberController extends BaseController {
 	@ResponseBody
 	public ModelAndView ajax_getFindUsersBy(Long id){
 		ModelAndView modelAndView = new ModelAndView("member/editInfo");
-		UUser uUser  = new UUser();
+		UUser uUser  = null;
 		if(null != id && !"".equals(id)){
 			uUser  = userService.selectByPrimaryKey(id);
 		}
