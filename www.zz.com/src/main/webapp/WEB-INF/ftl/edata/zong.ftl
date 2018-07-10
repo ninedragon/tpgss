@@ -1,143 +1,214 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-	<head>
-		<meta charset="utf-8" />
+  <head>
+    <base href="${basePath}">
+    
+    <title>V2-用电数据汇总</title>
 		<title>v2-用电数据汇总</title>
 		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-		<link   rel="icon" href="${basePath}f/avicon.ico" type="image/x-icon" />
+		<link   rel="icon" href="${basePath}/favicon.ico" type="image/x-icon" />
+        <link   rel="icon" href="${basePath}f/avicon.ico" type="image/x-icon" />
 		<link   rel="shortcut icon" href="${basePath}/favicon.ico" />
-		<link href="${basePath}/js/common/bootstrap/3.3.5/css/bootstrap.min.css?${_v}" rel="stylesheet"/>
-		<link href="${basePath}/css/common/base.css?${_v}" rel="stylesheet"/>
+		<link href="${basePath}/js/common/bootstrap/3.3.5/css/bootstrap.min.css?" rel="stylesheet"/>
+		<link href="${basePath}/css/common/base.css?" rel="stylesheet"/>
 		<link href="${basePath}/js/layui/css/layui.css" rel="stylesheet"/>
-
+		<link rel="stylesheet" type="text/css" href="${basePath}/woodare/css/comm.css" />
+		
+		
 		<script  src="${basePath}/js/common/jquery/jquery1.8.3.min.js"></script>
-		<#-- <script  src="${basePath}/js/common/layer/layer.js"></script> -->
+		<script src="${basePath}/woodare/js/menu.js"></script>
 		<script  src="${basePath}/js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script  src="${basePath}/js/shiro.demo.js"></script>
 		<script language="javascript" type="text/javascript" src="${basePath}/js/My97DatePicker/WdatePicker.js"></script>
         <script type="text/javascript" src='${basePath}/js/echarts.js'></script>
-		<script type="text/javascript">
-             $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
-        </script> 
         <script type="text/javascript" src='${basePath}/js/layui/layui.js'></script>
-	</head>
-	<body data-target="#one" data-spy="scroll">
-		<#--引入头部-->
-		<@_top.top 4/>
-		<div class="container" style="padding-bottom: 15px;min-height: 300px; margin-top: 100px;">
-			<div class="row">
-				<#--引入左侧菜单-->
-				<@_left.edata 1/>
-				<div class="col-md-10">
-					<h2>总体能耗数据</h2>
-					<hr>
-					<form method="post" action="" id="formId" class="form-inline">
-						<div clss="well">
-					      <div class="form-group">
-                            <#--    -->
-					        <label>终端</label>
+        
+		<script type="text/javascript">
+		$(function() {
+			
+			//搜索查询
+			$(".wapp-main .search span.sec-js").click(function(){
+				$(".more-js").show();
+			});
+		})
+		</script>
+  </head>
+  
+  <body>
+   <!--页眉开始-->
+<!-- 	<%--引入头部<@_top.top 3/>--%> -->
+		<@_top.top 1/>
+	<!--页眉结束/-->
 
-					        <select name="cDistrictbcdid" id="cDistrictbcdid" onchange="getChannelId()" class="">
-					        	 <option value="">---请选择</option>
-					        <#if dlist?exists>
-					        <#list dlist as x>
+	<!--左侧导航开始-->
+	<@_left.top 1/>
+	<!--左侧导航结束/-->
+<!--主体开始-->
+<div class="wapp-main">
+	<h4>总体能耗数据</h4>	
+	<form method="post" action="" id="formId" class="form-inline">
+    <!--搜索开始-->
+	<div class="search">
+    	<div style="float:left; width:100%">
+            <lable>
+                <span class="wd01">终端</span>
+                <select  name="cDistrictbcdid" id="cDistrictbcdid" onchange="getChannelId()">
+                    <option value="0001-0">0001-0-1</option>
+                    <#if dlist ??>
+                     <#list dlist as x>                   
+                    		 <option value="${x.cDistrictbcdid}-${x.cAddressid}">${x.cDistrictbcdid}-${x.cAddressid}-${x.cChannelnum}</option>
+                    	</#list>
+                   </#if>
+                </select>
+            </lable>
+            <lable>
+                <span class="wd01">通道</span>
+                <select name="cChannelid" id="cChannelid">
+                </select>
+            </lable>
+            <lable>
+                <span class="wd01">日期</span>
+                   <input id="d11" type="text" name="cRecorddatebcd" value="2018-02-05" onClick="WdatePicker()"/>
+            </lable>
+             <div class="but-nav">
+                <span class="but sec-js"  onClick="drawBChart()">查询分项饼图</span>
+                <span class="but sec-js"  onClick="drawDTable()"  >查询原始数据</span>
+                <span class="but sec-js"  onClick="drawChart()">查询总电量</span>
+            </div>
+        </div>
+        <div class="more-js" style="float:left; width:100%; display:none;">
+        	
+            <lable>
+                <span class="wd01">存在的时段</span>
+                <select name="ExistRecorddatebcd" id="ExistRecorddatebcd" class="" onchange="writeDate()">
+                    <option>请选择</option>
+                </select>
+            </lable>
+              <#if timeList ??>
+                     <#list timeList as x>                   
+                    		<div id ="t${x.count}" hidden="true">${x.dateHm}</div>
+                    	</#list>
+                   </#if>
+             <div class="but-nav">
+                <span class="but"  onClick="listRecorddate()">查询存在的时段</span>
+            </div>
+        </div>
+	</div>
+	  <#if olist ??>
+                     <#list olist as x>  
+                          ${(x.cTkwh)? default('00')}                    	
+                    </#list>
+      </#if>
+    <!--搜索结束/-->
+    <!--调用外部图表开始-->
+     <div class="row">
+           <div id="chart" style="width:1000px;height:400px;" ></div>
+           <div id="detailChart" style="width:1000px;height:400px;"></div>
+    </div>
+          <hr>
+     <div class="layui-row">
+	    <div class="layui-col-md6">
+	      <div id="bchart" style="width:400px;height:400px;"></div>
+	    </div>
+	    <div class="layui-col-md6 table-box">
+	      <table class="layui-table" lay-size="sm" id="test">
+	                        </table>
+	    </div>
+	</div>
+		<hr>
+<!--     <div class="all-img"><img src="image/img01.png"></div> -->
+<!--     <div class="all-img"><img src="image/img02.png"></div> -->
+    <!--调用外部图表结束/-->
+    </form>
+<!--     表格开始 -->
+<!--     <div class="table-box"> -->
+<!--         <table width="100%"> -->
+<!--             <tr> -->
+<!--                 <th>区域号</th> -->
+<!--                 <th>终端号</th> -->
+<!--                 <th>通道号</th> -->
+<!--                 <th>日期</th> -->
+<!--                 <th>时段号</th> -->
+<!--                 <th>总电量</th> -->
+<!--                 <th>辨识总电量</th> -->
+<!--                 <th>比率</th> -->
+<!--                 <th>版本号</th> -->
+<!--             </tr> -->
+<!--             <tr> -->
+<!--                 <td align="center">888</td> -->
+<!--                 <td align="center">1</td> -->
+<!--                 <td align="center">1</td> -->
+<!--                 <td align="center">180205</td> -->
+<!--                 <td align="center">70</td> -->
+<!--                 <td align="center">0.000011</td> -->
+<!--                 <td align="center">0.0000</td> -->
+<!--                 <td align="center">0.0000%</td> -->
+<!--                 <td align="center">2</td> -->
+<!--             </tr> -->
+<!--             <tr> -->
+<!--                 <td align="center">888</td> -->
+<!--                 <td align="center">1</td> -->
+<!--                 <td align="center">1</td> -->
+<!--                 <td align="center">180205</td> -->
+<!--                 <td align="center">70</td> -->
+<!--                 <td align="center">0.000011</td> -->
+<!--                 <td align="center">0.0000</td> -->
+<!--                 <td align="center">0.0000%</td> -->
+<!--                 <td align="center">2</td> -->
+<!--             </tr> -->
+<!--             <tr> -->
+<!--                 <td align="center">888</td> -->
+<!--                 <td align="center">1</td> -->
+<!--                 <td align="center">1</td> -->
+<!--                 <td align="center">180205</td> -->
+<!--                 <td align="center">70</td> -->
+<!--                 <td align="center">0.000011</td> -->
+<!--                 <td align="center">0.0000</td> -->
+<!--                 <td align="center">0.0000%</td> -->
+<!--                 <td align="center">2</td> -->
+<!--             </tr> -->
+<!--             <tr> -->
+<!--                 <td align="center">888</td> -->
+<!--                 <td align="center">1</td> -->
+<!--                 <td align="center">1</td> -->
+<!--                 <td align="center">180205</td> -->
+<!--                 <td align="center">70</td> -->
+<!--                 <td align="center">0.000011</td> -->
+<!--                 <td align="center">0.0000</td> -->
+<!--                 <td align="center">0.0000%</td> -->
+<!--                 <td align="center">2</td> -->
+<!--             </tr> -->
+<!--             <tr> -->
+<!--                 <td align="center">888</td> -->
+<!--                 <td align="center">1</td> -->
+<!--                 <td align="center">1</td> -->
+<!--                 <td align="center">180205</td> -->
+<!--                 <td align="center">70</td> -->
+<!--                 <td align="center">0.000011</td> -->
+<!--                 <td align="center">0.0000</td> -->
+<!--                 <td align="center">0.0000%</td> -->
+<!--                 <td align="center">2</td> -->
+<!--             </tr> -->
+<!--         </table> -->
+<!--     </div> -->
+<!-- 	<!--表格结束/--> -->
+    
+<!--     分页开始 -->
+<!--     <div class="paging"> -->
+<!-- 		<div class="input-box"><span>第</span><div class="input"><input name="" type="text"></div><span>页</span><span class="gob"><a href="javascript:void(0);"></a></span><span>1</span>/15</div> -->
+<!-- 		<div class="box"> -->
+<!-- 			<a href="javascript:void(0);" class="ps">首页</a> -->
+<!-- 			<a href="javascript:void(0);" class="pl"></a> -->
+<!-- 			<a href="javascript:void(0);" class="on">1</a> -->
+<!-- 			<a href="javascript:void(0);" class="pr"></a> -->
+<!-- 			<a href="javascript:void(0);" class="ps">尾页</a> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!--     分页结束/ -->
+</div>
+<!--主体结束/-->
+</body>
 
-                                <option value="${x.cDistrictbcdid}-${x.cAddressid}">${x.cDistrictbcdid}-${x.cAddressid}-${x.cChannelnum}</option>
-                            </#list>	
-						    </#if>  
-						    
-					        </select>
-					        <label>通道</label>
-					        <select name="cChannelid" id="cChannelid" class="">
-					        </select>
-
-					        <#-- <label>电器</label>
-					        <select name="cEegrpid" id="cEegrpid" class="">
-					        	<#if eglist?exists>
-					            <#list eglist as x>
-                                    
-					                  <option value="${x.cEegrpid?default('2')}">${x.cEegrpname}</option>
-					              
-                                </#list>	
-						        </#if> 	
-					        </select> -->
-					        <label>日期</label>
-					        <input id="d11" type="text" name="cRecorddatebcd" id="cRecorddatebcd" value="2017-12-29" onClick="WdatePicker()"/>
-					        <button  type="button" class="btn btn-primary" onClick="listRecorddate()">查询存在的日期段</button>
-					        <label>存在的时间段</label>
-					        <select name="ExistRecorddatebcd" id="ExistRecorddatebcd" class="" onchange="writeDate()">
-                               <option value=""></option>
-					        </select>
-					        <#-- <label>开始时间段</label>
-					        <select name="" id="" class="">
-					         	<#list 0..96 as x>
-                                 <option value="${x}">${x?string["00"]}-[${((x/4)?int)?string["00"]}:${((x%4)*(15))?string["00"]}]</option>
-                                </#list>
-                            </select> -->
-                            <#list 0..96 as x>
-                                 <div id ="t${x}" hidden="true">${((x/4)?int)?string["00"]}:${((x%4)*(15))?string["00"]}</div>
-                            </#list>
-					      <#--   <label>结束时间段</label>
-					        <select>
-					           	<#list 0..96 as x>
-                                  <option value="${x}">${x?string["00"]}-[${((x/4)?int)?string["00"]}:${((x%4)*(15))?string["00"]}]</option>
-                                </#list>
-                             </select> -->
-                             <br><label>前面点数</label>
-							        <input type="text" name="startPoint" id="startPoint" value="200" style="width:100px; height:20px;">
-							        <label>后面点数</label>
-							        <input type="text" name="endPoint" id ="endPoint" value="500" style="width:100px; height:20px;">
-                             <br><label>数据来源文件路径</label>
-                                   <select name="rootPath" id="rootPath" class="" value="E:\录波数据\苏州冬季" style="width:150px; height:20px;">
-        					        <#if filelist?exists>
-        					        <#list filelist as x>
-                                        <option value="${x}">${x}</option>
-                                    </#list>	
-        						    </#if>
-        					        </select>
-							        <label>分析数据保存路径</label>
-							        <input type="text" name="pathSave" id ="pathSave" value="E:\录波数据\苏州冬季">
-							        <label>版本号</label>
-							        <input type="text" name="C_OffLineVersion" id ="C_OffLineVersion" value="2">
-					      </div>
-					      <div class='result'>
-					      </div>
-					     <span class=""> <#--pull-right -->
-				         	<button  type="button" class="btn btn-primary" onClick="drawChart()">查询总电量</button>
-				         	<button  type="button" class="btn btn-primary" onClick="drawBChart()">查询分项饼图</button>
-				         	<button  type="button" class="btn btn-primary" onClick="drawDTable()" >查询原始数据</button>
-				         </span>
-				         <#if olist?exists && olist?size gt 0 >	
-				         <#list olist as x>
-                                    ${x.cTkwh?string["00"]}
-                         </#list>	
-				         </#if>
-				        </div>
-				        <div class="row">
-                              <div id="chart" style="width:1000px;height:400px;" ></div>
-                              <div id="detailChart" style="width:1000px;height:400px;"></div>
-				        </div>
-				        <hr>
-				        <div class="layui-row">
-						    <div class="layui-col-md6">
-						      <div id="bchart" style="width:400px;height:400px;"></div>
-						    </div>
-						    <div class="layui-col-md6">
-						      <table class="layui-table" lay-size="sm" id="test">
-                              </table>
-						    </div>
-						</div>
-						<hr>
-						
-
-					</form>
-				</div>
-			</div><#--/row-->
-		</div>
-	</body>
-	<table>
-         <tr></tr>
-	</table>
 <script type="text/javascript">
 var detailChart = echarts.init(document.getElementById('detailChart'));
 function drawChart(){
@@ -618,3 +689,4 @@ function writeDate(){
 	
 </script>
 </html>
+

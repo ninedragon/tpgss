@@ -349,7 +349,7 @@ function showTop(data,rowId,tableBoxId){
 			 showTop(data,rowId,tableBoxId);
 		 }, (1000 * 20) );//(1000 * 20) 延迟20秒
 		
-     },(1000 * 60 * 4));//(1000 * 60 * 4)
+     },(1000 * 60 * 5));//(1000 * 60 * 4)
 	 javaScriptObj.interval = myVar;
 } 
 /**

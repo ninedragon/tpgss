@@ -23,11 +23,9 @@
 </head>
 <body data-target="#one" data-spy="scroll">
 <#--引入头部-->
-<@_top.top 5/>
 <div class="container" style="padding-bottom: 15px;min-height: 300px; margin-top: 100px;">
     <div class="row">
     <#--引入左侧菜单-->
-    <@_left.dad 1/>
         <div class="col-md-10">
             <h2>北向应用简易版</h2>
             <hr>

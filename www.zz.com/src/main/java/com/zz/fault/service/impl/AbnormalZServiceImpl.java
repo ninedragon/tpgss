@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -80,11 +81,11 @@ public class AbnormalZServiceImpl extends BaseMybatisDao<AbnormalZMapper> implem
 	        	double q = 0;
 	        	for (AbnormalZ abnormalZ : tempList) {
 	        		if("1".equals(key)){//A
-	        			u += Double.valueOf(abnormalZ.getUa());
+	        			u += Double.valueOf(StringUtils.isEmpty(abnormalZ.getUa()) ? "0.00" :abnormalZ.getUa());
 	        		}else if("2".equals(key)){//B
-	        			u += Double.valueOf(abnormalZ.getUb());
+	        			u += Double.valueOf(StringUtils.isEmpty(abnormalZ.getUb()) ? "0.00" :abnormalZ.getUb());
 	        		}else if("3".equals(key)){//C
-	        			u += Double.valueOf(abnormalZ.getUc());
+	        			u += Double.valueOf(StringUtils.isEmpty(abnormalZ.getUc()) ? "0.00" :abnormalZ.getUc());
 	        		}
 	        		i += Double.valueOf(abnormalZ.getI());
 	        		p += Double.valueOf(abnormalZ.getP());

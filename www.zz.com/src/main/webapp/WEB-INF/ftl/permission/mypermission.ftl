@@ -1,40 +1,52 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-	<head>
-		<meta charset="utf-8" />
-		<title>我的权限  —个人中心</title>
-		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+<!-- <html> -->
+  <head>
+      <base href="${basePath}">
+    
+    <title>V2-用电数据汇总</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="${basePath}/woodare/css/comm.css" />
 		<link   rel="icon" href="${basePath}/favicon.ico" type="image/x-icon" />
 		<link   rel="shortcut icon" href="${basePath}/favicon.ico" />
-		<link href="${basePath}/js/common/bootstrap/3.3.5/css/bootstrap.min.css?${_v}" rel="stylesheet"/>
-		<link href="${basePath}/css/common/base.css?${_v}" rel="stylesheet"/>
+		<link href="${basePath}/js/common/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+		<link href="${basePath}/css/common/base.css" rel="stylesheet"/>
         <script  src="${basePath}/js/common/jquery/jquery1.8.3.min.js"></script>
+        <script src="${basePath}/woodare/js/menu.js"></script>
         <script  src="${basePath}/js/common/layer/layer.js"></script>
         <script  src="${basePath}/js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script  src="${basePath}/js/common/bootstrap/bootstrap-treeview.js"></script>
         <script  src="${basePath}/js/shiro.demo.js"></script>
-	</head>
-	<body data-target="#one" data-spy="scroll">
-		
-		<@_top.top 1/>
-		<div class="container" style="padding-bottom: 15px;min-height: 300px; margin-top: 40px;">
-			<#--row-->
-			<div class="row">
-				<@_left.user 2/>
-				<div class="col-md-10">
-					<h2>我的权限</h2>
-					<hr>
-					<div id="getPermissionTree" >loding... ...</div>
-				</div>
+  </head>
+  
+  <body>
+   <#--页眉开始-->
+   <!--页眉开始-->
+	<@_top.top 1/>
+	<!--页眉结束/-->
+
+	<!--左侧导航开始-->
+	<@_left.top 1/>
+	<!--左侧导航结束/-->
+
+<#--主体开始-->
+<div class="wapp-main">
+	<h4>我的权限</h4>
+    
+    <#--资料编辑开始-->
+    <div  class="datum">
+			<div class="more">
+				<div id="getPermissionTree" >loding... ...</div>
 			</div>
-			<#--/row-->
 		</div>
 
 		<script >
 			$(function(){
 				//加载 permission tree data
 				var load = layer.load();
-				$.post("getPermissionTree.shtml",{},function(data){
+				$.post("${basePath}/role/getPermissionTree.shtml",{},function(data){
 					console.log(data);
 					layer.close(load);
 					if(data && !data.length){
@@ -50,5 +62,8 @@
 				},'json');
 			});
 		</script>
-	</body>
+    <#--资料编辑结束-->
+</div>
+<#--主体结束-->
+  </body>
 </html>

@@ -1,24 +1,33 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-	<head>
-		<meta charset="utf-8" />
-		<title>角色列表 - 权限管理</title>
-		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-		<link   rel="icon" href="${basePath}/favicon.ico" type="image/x-icon" />
-		<link   rel="shortcut icon" href="${basePath}/favicon.ico" />
-		<link href="${basePath}/js/common/bootstrap/3.3.5/css/bootstrap.min.css?${_v}" rel="stylesheet"/>
-		<link href="${basePath}/css/common/base.css?${_v}" rel="stylesheet"/>
-		<script  src="${basePath}/js/common/jquery/jquery1.8.3.min.js"></script>
-		<script  src="${basePath}/js/common/layer/layer.js"></script>
-		<script  src="${basePath}/js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		<script  src="${basePath}/js/shiro.demo.js"></script>
+  <head>
+    <base href="${basePath}">
+    
+    <title>V2-用电数据汇总</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link   rel="icon" href="${basePath}/favicon.ico" type="image/x-icon" />
+	<link   rel="shortcut icon" href="${basePath}/favicon.ico" />
+	<link href="${basePath}/js/common/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="${basePath}/css/common/base.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="${basePath}/woodare/css/comm.css" />
+	<script src="${basePath}/js/common/jquery/jquery1.8.3.min.js"></script>
+	<script src="${basePath}/woodare/js/menu.js"></script>
+	<script  src="${basePath}/js/common/layer/layer.js"></script>
+	<script  src="${basePath}/js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script  src="${basePath}/js/shiro.demo.js"></script>
 		<script >
+			var obj = {
+				ids : null,<#--多个记录主键-->
+				operate : null <#--何种动作操作 forbid ：禁止或激活  del：删除-->
+			};
 			so.init(function(){
-				//初始化全选。
+				<#--初始化全选。-->
 				so.checkBoxInit('#checkAll','[check=box]');
 				
 				<@shiro.hasPermission name="/role/deleteRoleById.shtml">
-				//全选
+				<#--全选-->
 				so.id('deleteAll').on('click',function(){
 					var checkeds = $('[check=box]:checked');
 					if(!checkeds.length){
@@ -35,21 +44,10 @@
 			<@shiro.hasPermission name="/role/deleteRoleById.shtml">
 			<#--根据ID数组删除角色-->
 			function deleteById(ids){
-				var index = layer.confirm("确定这"+ ids.length +"个角色？",function(){
-					var load = layer.load();
-					$.post('${basePath}/role/deleteRoleById.shtml',{ids:ids.join(',')},function(result){
-						layer.close(load);
-						if(result && result.status != 200){
-							return layer.msg(result.message,so.default),!0;
-						}else{
-							layer.msg(result.resultMsg);
-							setTimeout(function(){
-								$('#formId').submit();
-							},1000);
-						}
-					},'json');
-					layer.close(index);
-				});
+				obj.ids =ids;
+				obj.operate="del";
+				$("#statusSpan").html("确定删除这"+ ids.length +"个角色？");
+				$("#message").show();
 			}
 			</@shiro.hasPermission>
 			<@shiro.hasPermission name="/role/addRole.shtml">
@@ -70,6 +68,7 @@
 					if(result && result.status != 200){
 						return layer.msg(result.message,so.default),!1;
 					}
+					$("#saveDiv").hide();
 					layer.msg('添加成功。');
 					setTimeout(function(){
 						$('#formId').submit();
@@ -77,106 +76,175 @@
 				},'json');
 			}
 			</@shiro.hasPermission>
+			<#--回调函数-->
+			function callback(){
+				 if(obj.operate == "del"){
+				 	var load = layer.load();
+					$.post('${basePath}/role/deleteRoleById.shtml',{ids:obj.ids.join(',')},function(result){
+						layer.close(load);
+						if(result && result.status != 200){
+							return layer.msg(result.message,so.default),!0;
+						}else{
+							$("#message").hide();
+							layer.msg(result.resultMsg);
+							setTimeout(function(){
+								$('#formId').submit();
+							},1000);
+						}
+					},'json');
+					layer.close(index);
+				}
+			}
+			
+			function saveShow(){
+				$("#name").val("");
+				$("#type").val("");
+				$("#saveDiv").show();
+			}
 		</script>
-	</head>
-	<body data-target="#one" data-spy="scroll">
-		<#--引入头部-->
-		<@_top.top 3/>
-		<div class="container" style="padding-bottom: 15px;min-height: 300px; margin-top: 40px;">
-			<div class="row">
-				<#--引入左侧菜单-->
-				<@_left.role 1/>
-				<div class="col-md-10">
-					<h2>角色列表</h2>
-					<hr>
-					<form method="post" action="" id="formId" class="form-inline">
-						<div clss="well">
-					      <div class="form-group">
-					        <input type="text" class="form-control" style="width: 300px;" value="${findContent?default('')}" 
-					        			name="findContent" id="findContent" placeholder="输入角色类型 / 角色名称">
-					      </div>
-					     <span class=""> <#--pull-right -->
-				         	<button type="submit" class="btn btn-primary">查询</button>
-				         	<@shiro.hasPermission name="/role/addRole.shtml">
-				         		<a class="btn btn-success" onclick="$('#addrole').modal();">增加角色</a>
-				         	</@shiro.hasPermission>
-				         	<@shiro.hasPermission name="/role/deleteRoleById.shtml">
-				         		<button type="button" id="deleteAll" class="btn  btn-danger">Delete</button>
-				         	</@shiro.hasPermission>
-				         </span>    
-				        </div>
-					<hr>
-					<table class="table table-bordered">
-						<tr>
-							<th><input type="checkbox" id="checkAll"/></th>
-							<th>角色名称</th>
-							<th>角色类型</th>
-							<th>操作</th>
-						</tr>
-						<#if page?exists && page.list?size gt 0 >
-							<#list page.list as it>
-								<tr>
-									<td><input value="${it.id}" check='box' type="checkbox" /></td>
-									<td>${it.name?default('-')}</td>
-									<td>${it.type?default('-')}</td>
-									<td>
-										<#if it.type != '888888'>
-											<@shiro.hasPermission name="/role/deleteRoleById.shtml">
-												<i class="glyphicon glyphicon-remove"></i><a href="javascript:deleteById([${it.id}]);">删除</a>
+  </head>
+  
+  <body>
+   <#--页眉开始-->
+	<@_top.top 1/>
+	<#--页眉结束-->
+
+	<#--左侧导航开始-->
+	<@_left.top 1/>
+	<#--左侧导航结束-->
+
+<#--主体开始-->
+<div class="wapp-main">
+	<h4>角色列表</h4>	
+	<form method="post" action="" id="formId" class="form-inline">
+    <#--搜索开始-->
+	<div class="search">
+        <lable>
+        	<span class="wd01">角色类型/名称</span>
+            <input id="findContent" name="findContent"  value="${findContent!''}" type="text" class="long" placeholder="输入角色类型/名称">
+    	</lable>
+        <div class="but-nav">
+<#--         	<span class="but">查&nbsp;&nbsp;询</span> -->
+			<button type="submit" class="btn btn-primary" style="background-color: #169274;">查询</button>
+        </div>
+	</div>
+    <#--搜索结束-->
+    
+    <#--其他操作开始-->
+    <div class="other-nav">
+    	<div class="but-nav">
+    		<@shiro.hasPermission name="/role/addRole.shtml">
+        		<span class="icon01" onclick="saveShow();">新增</span>
+        	</@shiro.hasPermission>
+        	<@shiro.hasPermission name="/role/deleteRoleById.shtml">
+            	<span class="icon03" id="deleteAll">删除</span>
+            </@shiro.hasPermission>
+        </div>
+    </div>
+    <#--其他操作结束-->
+    
+    <#--表格开始-->
+    <div class="table-box">
+        <table width="100%">
+            <tr>
+                <th><input type="checkbox" id="checkAll"/></th>
+                <th>角色名称</th>
+                <th>角色类型</th>
+                <th>操作</th>
+            </tr>
+            <#if page??>
+            		      <#if page.list??>
+            		      	<#list page.list  as it>
+		            			 <tr>
+					                <td align="center">
+					                         <#if it.type?? && it.type=='888888'>
+					                	
+					                			<input value="${it.id}"  type="checkbox" />
+					                		 <#else>
+					                			<input value="${it.id}" check='box' type="checkbox" />
+					                		 </#if>
+					                	
+					                </td>
+					                <td align="center">${it.name!''}</td>
+					                <td align="center">${it.type!''}</td>
+					                <td align="center">
+					                	  <#if it.type?? && it.type=='888888'>
+					                		<#else>
+					                			<@shiro.hasPermission name="/role/deleteRoleById.shtml">
+												<span class="icon02" onclick="javascript:deleteById(['${it.id}']);">删除</span>
 								         	</@shiro.hasPermission>
-								         	<#else>
-								         	-
-										</#if>
-									</td>
-								</tr>
-							</#list>
-						<#else>
-							<tr>
+					                		 </#if>
+					                	
+					                </td>
+					            </tr>
+		            		 </#list>
+            			  <#else>
+            				<tr>
 								<td class="text-center danger" colspan="4">没有找到角色</td>
 							</tr>
-						</#if>
-					</table>
-					<#if page?exists>
-						<div class="pagination pull-right">
-							${page.pageHtml}
-						</div>
-					</#if>
-					</form>
-				</div>
-			</div><#--/row-->
-			
-			<@shiro.hasPermission name="/role/addRole.shtml">
-				<#--添加弹框-->
-				<div class="modal fade" id="addrole" tabindex="-1" role="dialog" aria-labelledby="addroleLabel">
-				  <div class="modal-dialog" role="document">
-				    <div class="modal-content">
-				      <div class="modal-header">
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				        <h4 class="modal-title" id="addroleLabel">添加角色</h4>
-				      </div>
-				      <div class="modal-body">
-				        <form id="boxRoleForm">
-				          <div class="form-group">
-				            <label for="recipient-name" class="control-label">角色名称:</label>
-				            <input type="text" class="form-control" name="name" id="name" placeholder="请输入角色名称"/>
-				          </div>
-				          <div class="form-group">
-				            <label for="recipient-name" class="control-label">角色类型:</label>
-				            <input type="text" class="form-control" id="type" name="type"  placeholder="请输入角色类型  [字母 + 数字] 6位">
-				          </div>
-				        </form>
-				      </div>
-				      <div class="modal-footer">
-				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        <button type="button" onclick="addRole();" class="btn btn-primary">Save</button>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<#--/添加弹框-->
-			</@shiro.hasPermission>
-			
-		</div>
-			
-	</body>
+            			 </#if>
+            		
+            	
+            <#else>
+            		<tr>
+						<td class="text-center danger" colspan="4">没有找到角色</td>
+					</tr>
+            </#if>
+           
+        </table>
+    </div>
+	<#--表格结束-->
+    
+<#--     分页开始 -->
+  <#if page??>
+	<#if page.list??>       
+	   		 <div class="pagination pull-right">
+				${page.pageHtml}
+			 </div>
+		 </#if>
+	 </#if>
+<#--     分页结束 -->
+</form>
+</div>
+<#--主体结束-->
+</body>
+</html>
+<#--弹层开始-->
+<div class="wapp-layer" id="saveDiv">
+	<div class="box tips">
+    	<h4>新增角色<span class="close-js"  onclick="$('#saveDiv').hide();">关闭</span></h4>
+    	<form id="boxRoleForm">
+        <div class="edit">
+            <lable>
+                <span>角色名称</span>
+                <input name="name" id="name" type="text" value="">
+            </lable>
+            <lable>
+                <span>角色类型</span>
+                <input name="type" id="type" type="text" value="">
+            </lable>
+            <div class="but-nav">
+                <span class="but"  onclick="addRole();">保&nbsp;&nbsp;存</span>
+                <span class="but miss close-js"  onclick="$('#saveDiv').hide();" >取&nbsp;&nbsp;消</span>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+<#--弹层结束-->
+<#--弹层开始-->
+<div class="wapp-layer" id="message">
+	<div class="box tips">
+    	<h4>提示信息<span class="close-js" onclick="$('#message').hide();">关闭</span></h4>
+        <div class="edit">
+            <p><sapn id="statusSpan"></sapn></p>
+            <div class="but-nav">
+                <span class="but" onclick="callback();">确&nbsp;&nbsp;定</span>
+                <span class="but miss close-js" onclick="$('#message').hide();">取&nbsp;&nbsp;消</span>
+            </div>
+        </div>
+    </div>
+</div>
+<#--弹层结束-->
+  </body>
 </html>

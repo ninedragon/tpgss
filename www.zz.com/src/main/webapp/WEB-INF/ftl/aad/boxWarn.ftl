@@ -28,11 +28,9 @@
 
 <body data-target="#one" data-spy="scroll">
     <#--引入头部-->
-        <@_top.top 6/>
         <div class="container" style="padding-bottom: 15px;min-height: 300px; margin-top: 100px;">
             <div class="row">
                 <#--引入左侧菜单-->
-                    <@_left.aad 1/>
                     <div class="col-md-10">
                         <h2>表箱告警</h2>
                         <div id="toolbar" class="btn-group">
@@ -141,7 +139,7 @@
                 var websocket;
                 if('WebSocket' in window) {
                                         console.log("此浏览器支持websocket");
-                    websocket = new WebSocket("ws://192.168.0.107:8081${basePath}/chat/12345");
+                    websocket = new WebSocket("ws://192.168.0.109:8080${basePath}/chat/12345");
                 } else if('MozWebSocket' in window) {
                     alert("此浏览器只支持MozWebSocket");
                 } else {

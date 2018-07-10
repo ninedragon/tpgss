@@ -1,138 +1,91 @@
-<#macro user index>
-<div id="one" class="col-md-2">
-	<ul data-spy="affix" class="nav nav-list nav-tabs nav-stacked bs-docs-sidenav dropdown affix" style="top: 100px; z-index: 100;">
-	  <li class="${(index==1)?string('active',' ')}">
-	      <a href="${basePath}/user/index.shtml">
-	    	 <i class="glyphicon glyphicon-chevron-right"></i>个人资料
-	      </a>
-	       <ul class="dropdown-menu" aria-labelledby="dLabel" style="margin-left: 160px; margin-top: -40px;">
-              <li><a href="${basePath}/user/updateSelf.shtml">资料修改</a></li>
-              <li><a href="${basePath}/user/updatePswd.shtml">密码修改</a></li>
-          </ul>
-	  </li>
-	  <li class="${(index==2)?string('active',' ')} dropdown">
-	      <a href="${basePath}/role/mypermission.shtml">
-	    	 <i class="glyphicon glyphicon-chevron-right"></i>我的权限
-	      </a>
-	  </li>
-	</ul>
-</div>
-</#macro>
-<#macro member index>
+<#macro top index>
+<#if index ==1 >
+<ul class="left-nav" style="overflow-y: auto;">
+	<h4>末端电网感知系统</h4>
+	 <li class="all">分析展示</li>
+	<ul class="<#if leftMenuview=='4'>  on </#if> big-js" <#if leftMenuview=='4'>  style="display:block" </#if>>
+    <li onClick="location.href='${basePath}/epu/allShowList.shtml'">实时监控</li>
+    </ul>
+     <li class="<#if leftMenuview == '7' >  on </#if> big-js">故障定位管理</li>
+    <ul class="side-nav"  <#if leftMenuview == '7'>  style="display:block" </#if>>
+    	<li onClick="location.href='${basePath}/fault/init.shtml'">故障定位列表管理</li>
+    </ul>
+	<#--拥有 active888888（管理员） ||  100003（权限频道） edata数据的展示-->
+	 <@shiro.hasAnyRoles name='888888,100001,200001'>
+		<li class="<#if leftMenuview=='3'>  on </#if> big-js">用电曲线数据</li>
+	    <ul class="side-nav"  <#if leftMenuview=='3'>  style="display:block" </#if>>
+	    	 <@shiro.hasPermission name="/edata/zong.shtml">
+    			<li onClick="location.href='${basePath}/edata/zong.shtml'">总体能耗数据</li>
+	    	</@shiro.hasPermission>
+	    	<@shiro.hasPermission name="/edata/fenxiang.shtml">
+        		<li onClick="location.href='${basePath}/edata/fenxiang.shtml'">分项能耗数据</li>
+	        </@shiro.hasPermission>
+	        <@shiro.hasPermission name="/edata/yuanshi.shtml">
+        		<li onClick="location.href='${basePath}/edata/yuanshi.shtml'">原始上传数据</li>
+	        </@shiro.hasPermission>
+<#-- 	        <@shiro.hasPermission name="/edata/yuanshij.shtml">
+	        	<li onClick="location.href='${basePath}/edata/yuanshij.shtml'">原始上传数据-阶跃</li>
+	         </@shiro.hasPermission> -->
+	    </ul>
+    </@shiro.hasAnyRoles>   
+	
+	
+     <li class="all">终端采集</li>
+     <li class="<#if leftMenuview=='6'>   on </#if> big-js">设备管理</li>	
+       <ul class="side-nav" <#if leftMenuview=='6'>  style="display:block" </#if>>
+     <li onClick="location.href='${basePath}/nDtu/showDtuList.shtml'">ndtu设备信息列表</li>
+      <li onClick="location.href='${basePath}/bDtu/showDtuList.shtml'">bdtu设备信息列表</li>
+    </ul>
+    <li class="<#if leftMenuview=='4'>   on </#if> big-js">资产管理</li>	
+    <ul class="side-nav" <#if leftMenuview=='4'>  style="display:block" </#if>>
+    <li onClick="location.href='${basePath}/epu/showSubstainList.shtml'">箱变信息列表</li>
+    <li onClick="location.href='${basePath}/epu/showOutgoingcabinetList.shtml'">出线柜信息列表</li>
+    <li onClick="location.href='${basePath}/epu/showBranchboxList.shtml'">分支箱信息列表</li>
+    <li onClick="location.href='${basePath}/epu/showMeterboxList.shtml'">表箱信息列表</li>
+    <li onClick="location.href='${basePath}/ammeter/showAmList.shtml'">电表信息列表</li>
+    </ul>
+      <li class="all">用户管理</li>
+	<#--拥有 角色888888（管理员） ||  100001（用户中心）-->
 	<@shiro.hasAnyRoles name='888888,100001'>          
-		<div  id="one" class="col-md-2">
-			<ul data-spy="affix" class="nav nav-list nav-tabs nav-stacked bs-docs-sidenav dropdown affix" style="top: 100px; z-index: 100;">
-			  <li class="${(index==1)?string('active',' ')}">
-			      <a href="${basePath}/member/list.shtml">
-			    	 <i class="glyphicon glyphicon-chevron-right"></i>管理列表
-			      </a>
-			  </li>
-			  <li class="${(index==2)?string('active',' ')} dropdown">
-			      <a href="${basePath}/member/online.shtml">
-			    	 <i class="glyphicon glyphicon-chevron-right"></i>在线用户
-			      </a>
-			  </li>
-			  <li class="${(index==3)?string('active',' ')}">
-			      <a href="${basePath}/member/list2.shtml">
-			    	 <i class="glyphicon glyphicon-chevron-right"></i>居民列表
-			      </a>
-			  </li>
-			</ul>
-		</div>
+		<li class="<#if leftMenuview=='1'>   on </#if>  big-js">用户中心</li>
+	    <ul class="side-nav" <#if leftMenuview=='1'>  style="display:block" </#if>>
+	    <@shiro.hasPermission name="/member/list.shtml">
+	    	 <li onClick="location.href='${basePath}/member/list.shtml'">管理列表</li>
+	    </@shiro.hasPermission>						
+		<@shiro.hasPermission name="/member/online.shtml">
+	    	 <li onClick="location.href='${basePath}/member/online.shtml'">在线用户</li>
+	    </@shiro.hasPermission>
+<#-- 		<@shiro.hasPermission name="/member/list2.shtml">
+	    	 <li  onClick="location.href='${basePath}/member/list2.shtml'">居民列表</li> 
+	    </@shiro.hasPermission> -->
+	    </ul>   
 	</@shiro.hasAnyRoles>         
-</#macro>
-<#macro role index>
-	<@shiro.hasAnyRoles name='888888,100001'>  
-		<div id="one" class="col-md-2">
-			<ul data-spy="affix" class="nav nav-list nav-tabs nav-stacked bs-docs-sidenav dropdown affix" style="top: 100px; z-index: 100;">
-			 
-			 <@shiro.hasPermission name="/role/index.shtml">
-			  <li class="${(index==1)?string('active',' ')}">
-			      <a href="${basePath}/role/index.shtml">
-			    	 <i class="glyphicon glyphicon-chevron-right"></i>角色列表
-			      </a>
-			  </li>
-			  </@shiro.hasPermission>
-			  <@shiro.hasPermission name="/role/allocation.shtml">
-			  <li class="${(index==2)?string('active',' ')} dropdown">
-			      <a href="${basePath}/role/allocation.shtml">
-			    	 <i class="glyphicon glyphicon-chevron-right"></i>角色分配
-			      </a>
-			  </li>
-			  </@shiro.hasPermission>
-			  <@shiro.hasPermission name="/permission/index.shtml">
-			  <li class="${(index==3)?string('active',' ')} dropdown">
-			      <a href="${basePath}/permission/index.shtml">
-			    	 <i class="glyphicon glyphicon-chevron-right"></i>权限列表
-			      </a>
-			  </li>
-			  </@shiro.hasPermission>
-			  <@shiro.hasPermission name="/permission/allocation.shtml">
-			  <li class="${(index==4)?string('active',' ')} dropdown">
-			      <a href="${basePath}/permission/allocation.shtml">
-			    	 <i class="glyphicon glyphicon-chevron-right"></i>权限分配
-			      </a>
-			  </li>
-			  </@shiro.hasPermission>
-			</ul>
-		</div>
-	</@shiro.hasAnyRoles>   
+	<#--拥有 角色888888（管理员） ||  100001（权限频道）-->
+	<@shiro.hasAnyRoles name='888888,100001'>
+	   <li class="<#if leftMenuview=='2'>  on </#if> big-js">权限管理</li>
+	    <ul class="side-nav" <#if leftMenuview=='2'>  style="display:block" </#if>>
+	    	 <@shiro.hasPermission name="/role/index.shtml">
+    			<li onClick="location.href='${basePath}/role/index.shtml'">角色列表</li>
+	    	 </@shiro.hasPermission>
+	    	 <@shiro.hasPermission name="/role/allocation.shtml">
+        		<li onClick="location.href='${basePath}/role/allocation.shtml'">角色分配</li>
+	        </@shiro.hasPermission>
+	        <@shiro.hasPermission name="/permission/index.shtml">
+        		<li onClick="location.href='${basePath}/permission/index.shtml'">权限列表</li>
+	        </@shiro.hasPermission>
+	        <@shiro.hasPermission name="/permission/allocation.shtml">
+	        	<li onClick="location.href='${basePath}/permission/allocation.shtml'">权限分配</li>
+	       </@shiro.hasPermission>
+	    </ul>
+   	  </@shiro.hasAnyRoles>   
+	    <li class="<#if leftMenuview=='0' || leftMenuview=='' > on </#if> big-js">个人中心</li>
+	    <ul class="side-nav" <#if leftMenuview=='0' || leftMenuview==''> style="display:block;" </#if> >
+		    <li onClick="location.href='${basePath}/user/index.shtml'">个人资料</li>
+	        <li onClick="location.href='${basePath}/user/updateSelf.shtml'">资料修改</li>
+	        <li onClick="location.href='${basePath}/user/updatePswd.shtml'">密码修改</li>
+        	<li onClick="location.href='${basePath}/role/mypermission.shtml'">我的权限</li>
+	    </ul>
+</ul>
 
-</#macro>
-<#macro edata index>
-	<@shiro.hasAnyRoles name='888888,100001,200001'>  
-		<div id="one" class="col-md-2">
-			<ul data-spy="affix" class="nav nav-list nav-tabs nav-stacked bs-docs-sidenav dropdown affix" style="top: 100px; z-index: 100;">
-			 
-			 <@shiro.hasPermission name="/edata/zong.shtml">
-			  <li class="${(index==1)?string('active',' ')}">
-			      <a href="${basePath}/edata/zong.shtml">
-			    	 <i class="glyphicon glyphicon-chevron-right"></i>总体能耗数据
-			      </a>
-			  </li>
-			  </@shiro.hasPermission>
-			 <@shiro.hasPermission name="/edata/fenxiang.shtml">
-			  <li class="${(index==2)?string('active',' ')} dropdown">
-			      <a href="${basePath}/edata/fenxiang.shtml">
-			    	 <i class="glyphicon glyphicon-chevron-right"></i>分项能耗数据
-			      </a>
-			  </li>
-			  </@shiro.hasPermission>
-			  <@shiro.hasPermission name="/edata/yuanshi.shtml">
-			  <li class="${(index==5)?string('active',' ')}">
-			      <a href="${basePath}/edata/yuanshi.shtml">
-			    	 <i class="glyphicon glyphicon-chevron-right"></i>原始上传数据
-			      </a>
-			  </li>
-			  </@shiro.hasPermission>
-			  <@shiro.hasPermission name="/edata/yuanshij.shtml">
-			  <li class="${(index==6)?string('active',' ')}">
-			      <a href="${basePath}/edata/yuanshij.shtml">
-			    	 <i class="glyphicon glyphicon-chevron-right"></i>原始上传数据-阶跃
-			      </a>
-			  </li>
-			  </@shiro.hasPermission>
-			</ul>
-		</div>
-	</@shiro.hasAnyRoles>   
-</#macro>
-<#macro dad index>
-		<div id="one" class="col-md-2">
-			<ul data-spy="affix" class="nav nav-list nav-tabs nav-stacked bs-docs-sidenav dropdown affix" style="top: 100px; z-index: 100;">
-			  <li class="${(index==1)?string('active',' ')}">
-			      <a href="${basePath}/dad/appSet.shtml">
-			    	 <i class="glyphicon glyphicon-chevron-right"></i>应用设置
-			      </a>
-			  </li>
-		</div>
-</#macro>
-<#macro aad index>
-		<div id="one" class="col-md-2">
-			<ul data-spy="affix" class="nav nav-list nav-tabs nav-stacked bs-docs-sidenav dropdown affix" style="top: 100px; z-index: 100;">
-			  <li class="${(index==1)?string('active',' ')}">
-			      <a href="${basePath}/aad/boxWarn.shtml">
-			    	 <i class="glyphicon glyphicon-chevron-right"></i>表箱告警
-			      </a>
-			  </li>
-		</div>
+</#if>
 </#macro>

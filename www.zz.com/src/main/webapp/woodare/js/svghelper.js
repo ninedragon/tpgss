@@ -135,31 +135,6 @@ var SVG_HELPER = (function() {
                     });
                     //展示table信息
                     branchboxXYArray.push({KEY:this.rowId,X:tempX,Y:tempY,COUNT:tempCount,INDEX:index});
-//                    if (uipqData) {
-//                        if (null != uipqData && uipqData.length > 0) {
-//                            for (var k = 0; k < uipqData.length; k++) {
-//                                var json = uipqData[k];
-//                                var type = json["type"];
-//                                var key = json["key"];
-//                                if (type == "branchBox" && key == this.rowId) { //找到对应的分支箱
-//                                    var ua = json["ua"];
-//                                    var ia = json["ia"];
-//                                    var pa = json["pa"];
-//                                    var qa = json["qa"];
-//                                    var ub = json["ub"];
-//                                    var ib = json["ib"];
-//                                    var pb = json["pb"];
-//                                    var qb = json["qb"];
-//                                    var uc = json["uc"];
-//                                    var ic = json["ic"];
-//                                    var pc = json["pc"];
-//                                    var qc = json["qc"];
-//                                    showTabData(layerSnap, this.rowId, tempX, tempY, tempCount, index, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
-//                                    break;
-//                                }
-//                            }
-//                        }
-//                    }
 
                 });
             });
@@ -245,6 +220,7 @@ var SVG_HELPER = (function() {
                     var epuName = json["epuName"];
                     var faultType = json["faultType"];
                     var faultTypeName = json["faultTypeName"];
+                    var error_num = json["error_num"] ||"";
                     $("#Snap_Layer").find("image[id='kaiguanxianImg_" + key + "']").attr("href", "../woodare/image/branchBoxError.png"); //分支箱/出线柜
                     updateBox(key, "error-box");
                     if (null != faultTypeName && "" != faultTypeName) {
@@ -252,7 +228,7 @@ var SVG_HELPER = (function() {
                         $("#textPath_01_" + key).text("故障原因:" + faultTypeName);
                     } else {
                         $("#textPath_" + key).text(epuName);
-                        $("#textPath_01_" + key).text("故障原因:TOPO错误数据");
+                        $("#textPath_01_" + key).text("TOPO错误数据(错误时间段次数:"+error_num+")");
                     }
                     $("#textPath_" + key).attr("class", "error");
                     $("#textPath_01_" + key).attr("class", "error");
@@ -296,7 +272,7 @@ var SVG_HELPER = (function() {
                         $("#meterbox_" + key).find("text").eq((count - 1)).text("");
                         
                         $("#textPath_" + key).text(epuName);
-                        $("#textPath_01_" + key).text("TOPO错误数据,时间段执行次数:"+error_num);
+                        $("#textPath_01_" + key).text("TOPO错误数据(错误时间段次数:"+error_num+")");
                         $("#textPath_" + key).attr("class", "error");
                         $("#textPath_01_" + key).attr("class", "error");
                     }
@@ -311,7 +287,7 @@ var SVG_HELPER = (function() {
                     var error_num = json["error_num"]||"";
                     updateKaiguanxian(key, "warning");
                     $("#textPath_" + key).text(epuName);
-                    $("#textPath_01_" + key).text("TOPO错误数据,时间段执行次数:"+error_num);
+                    $("#textPath_01_" + key).text("TOPO错误数据(错误时间段次数:"+error_num+")");
                     $("#textPath_" + key).attr("class", "warning");
                     $("#textPath_01_" + key).attr("class", "warning");
                     

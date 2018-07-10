@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-	<head>
-		<meta charset="utf-8" />
-		<title>原始上传数据</title>
+  <head>
+    <base href="${basePath}">    
+    <title>V2-用电数据汇总</title>
+		<title>v2-用电数据汇总</title>
 		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 		<link   rel="icon" href="${basePath}/favicon.ico" type="image/x-icon" />
 		<link   rel="shortcut icon" href="${basePath}/favicon.ico" />
-		<link href="${basePath}/js/common/bootstrap/3.3.5/css/bootstrap.min.css?${_v}" rel="stylesheet"/>
-		<link href="${basePath}/css/common/base.css?${_v}" rel="stylesheet"/>
+		<link href="${basePath}/js/common/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+		<link href="${basePath}/css/common/base.css" rel="stylesheet"/>
 		<link href="${basePath}/js/layui/css/layui.css" rel="stylesheet"/>
-
+		<link rel="stylesheet" type="text/css" href="${basePath}/woodare/css/comm.css" />
+		
 		<script  src="${basePath}/js/common/jquery/jquery1.8.3.min.js"></script>
 		<script  src="${basePath}/js/common/layer/layer.js"></script>
 
@@ -17,132 +19,173 @@
 		<script  src="${basePath}/js/shiro.demo.js"></script>
 		<script language="javascript" type="text/javascript" src="${basePath}/js/My97DatePicker/WdatePicker.js"></script>
         <script type="text/javascript" src='${basePath}/js/echarts.js'></script>
-		<script type="text/javascript">
-             $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
-        </script> 
         <script type="text/javascript" src='${basePath}/js/layui/layui.js'></script>
-           
-	</head>
-	<body data-target="#one" data-spy="scroll">
-		<#--引入头部-->
-		<@_top.top 4/>
-		<div class="container" style="padding-bottom: 15px;min-height: 300px; margin-top: 100px;">
-			<div class="row">
-				<#--引入左侧菜单-->
-				<@_left.edata 5/>
-				<div class="col-md-10">
-					<h2>原始上传数据</h2>
-					<hr>
-					<form method="post" action="" id="formId" class="form-inline">
-						<div clss="well">
-					      <div class="form-group">
+        <script src="${basePath}/woodare/js/menu.js"></script>
+  </head>
+  
+  <body>
+   <!--页眉开始-->
+	<@_top.top 1/>
+	<!--页眉结束/-->
 
-					        <label>终端</label>
-					        <select name="cDistrictbcdid" id="cDistrictbcdid" class="">
-					        <#if dlist?exists>
-					        <#list dlist as x>
-                                <option value="${x.cDistrictbcdid}-${x.cAddressid}">${x.cDistrictbcdid}-${x.cAddressid}</option>
-                            </#list>	
-						    </#if>  
-					        </select>
-					        <label>通道</label>
-					        <select name="cChannelid" id="cChannelid" class="">
-					        <#list 1..12 as x>
+	<!--左侧导航开始-->
+	<@_left.top 1/>
+	<!--左侧导航结束/-->
+<!--主体开始-->
+<div class="wapp-main">
+	<h4>原始上传数据</h4>	
+    <!--搜索开始-->
+    <form method="post" action="" id="formId" class="form-inline">
+	<div class="search">
+    	<lable>
+        	<span>终端</span>
+           <select  name="cDistrictbcdid" id="cDistrictbcdid">
+                     <#if dlist?exists>
+                    	 <#list dlist as x>
+                    		 <option value="${x.cDistrictbcdid}-${x.cAddressid}">${x.cDistrictbcdid}-${x.cAddressid}-${x.cChannelnum}</option>
+                    	</#list>	
+                    </#if>
+                </select>
+    	</lable>
+        <lable>
+        	<span>通道</span>
+           <select name="cChannelid" id="cChannelid" class="">
+                      <#list 1..12 as x>
                                <option value="${x}">${x}</option>
-                            </#list>
-					        		                   
-					        </select>
-                            
-					        <#-- <label>电器</label>
-					        <select name="cEegrpid" id="cEegrpid" class="">
-					        	<#if eglist?exists>
-					            <#list eglist as x>
+                       </#list>
+			 </select>
+    	</lable>
+        <lable>
+        	<span>日期</span>
+            <input id="d11" type="text" name="cRecorddatebcd" id="cRecorddatebcd" value="2017-12-14" onClick="WdatePicker()"/>
+    	</lable>
+        <lable>
+        	<span>版本号</span>
+           <input type="text" name="C_OffLineVersion" id ="C_OffLineVersion" value="1">
+    	</lable>
+        <lable>
+        	<span>电器大类</span>
+        	<select  name="cEegrpid" id="cEegrpid" onchange="changeProvince(this);">
+        	
+        	<#if listEE?exists>
+					            <#list listEE as x>
 					                  <#if x_index!=0>
-					                  <option value="${x.cEegrpid?default('2')}">${x.cEegrpname}</option>
+					                  <option value="${x.v }">${x.n }</option>
 					                  </#if>
-					            </#list>   
-						        </#if> 	
-					        </select> -->
-					        <label>日期</label>
-					        <input id="d11" type="text" name="cRecorddatebcd" id="cRecorddatebcd" value="2017-12-14" onClick="WdatePicker()"/>
-					        <label>版本号</label>
-							        <input type="text" name="C_OffLineVersion" id ="C_OffLineVersion" value="1">
-					        <fieldset id="city_china">
-<#-- 					          <legend>默认</legend>
-	-->					        <label for="">电器大类&nbsp;</label><select class="province " name="cEegrpid" id="cEegrpid" style="width:100px; height:20px;">
-									<option >请选择</option>
-									</select>
-								<label for="">电器小类&nbsp;</label><select class="city"  name="cEehexid" id="cEehexid" style="width:100px; height:20px;">
-									<option>请选择</option>
-									</select>
-								<label for="">电器小类&nbsp;</label><select class="area"  name="cEehexid" id="cEehexid" style="width:100px; height:20px;">
-									<option>请选择</option>
-									</select>	
-								
-					        </fieldset>
-					        <label>功率小值</label>
-					        <input type="text" name="minPower" id="minPower" value="0" style="width:100px; height:20px;">
-					        <label>功率大值</label>	
-					        <input type="text" name="maxPower" id ="maxPower" value="100000" style="width:100px; height:20px;"><br/>
-					        <#-- <label>时段小值</label>
-					        <input type="text" name="minTime" id="minTime" value="0" style="width:100px; height:20px;">
-					        <label>时段大值</label>	
-					        <input type="text" name="maxTime" id ="maxTime" value="100000" style="width:100px; height:20px;"><br/> -->
-					        
-					        <label>开始时间</label>
-					        <select name="minTime" id="minTime" class="" style="width:100px; height:20px;">
-					         	<#list 1..96 as x>
-                                 <option value="${x}">${x?string["00"]}-[${((x/4)?int)?string["00"]}:${((x%4)*(15))?string["00"]}]</option>
-                                </#list>
-                            </select>
-                            <#list 1..96 as x>
-                                 <div id ="t${x}" hidden="true">${((x/4)?int)?string["00"]}:${((x%4)*(15))?string["00"]}</div>
-                            </#list>
-					        <label>结束时间</label>
-					        <select name="maxTime" id="maxTime" class="" style="width:100px; height:20px;">
-					           	<#list 1..96 as x>
-                                  <option value="${x}">${x?string["00"]}-[${((x/4)?int)?string["00"]}:${((x%4)*(15))?string["00"]}]</option>
-                                </#list>
-                             </select>
-                             <br>
-					     <span class=""> <#--pull-right -->
-				         	<button  type="button" class="btn btn-primary" onClick="drawOriTable()" >查询原始数据</button>
-				         </span>
-				         <#if olist?exists && olist?size gt 0 >
-				         <#list olist as x>
-                                    ${x.cTkwh?string["00"]}
-                         </#list>	
-				         </#if>
-				         </div>
-				        </div>
-				        <div id="v51msg"> </div>
-					    <table class="table table-bordered" id="v31">						
-					    </table>
-					<hr>
-					</form>
-				</div>
-			</div><#--/row-->
-		</div>
-	</body>
+				                </#list>   
+			</#if>
+            </select>
+    	</lable>
+        <lable>
+        	<span>电器小类</span>
+           <select  name="cEehexid" id="cEehexid" >
+            </select>
+    	</lable>
+        <lable>
+        	<span>电器小类</span>
+           	 <select  >
+            </select>
+    	</lable>
+        <lable>
+        	<span>功率小值</span>
+            <input type="text" name="minPower" id="minPower" value="0" >
+    	</lable>
+        <lable>
+        	<span>功率大值</span>
+            <input type="text" name="maxPower" id ="maxPower" value="100000" >
+    	</lable>
+        <lable>
+        	<span>开始时间</span>
+             <select name="minTime" id="minTime">
+             <#if timeList?exists>
+                      <#list timeList as x>
+                 		 <option value="${x.count}">${x.dateHm}</option>
+                 	</#list> 
+            </#if>
+             </select>
+    	</lable>
+        <lable>
+        	<span>结束时间</span>
+             <select name="maxTime" id="maxTime" >
+              <#if timeList?exists>
+                 	 <#list timeList as x>
+                 		 <option value="${x.count}">${x.dateHm}</option>
+                 	</#list> 
+                 </#if>
+             </select>
+    	</lable>
+        <div class="but-nav">
+            <span class="but" onClick="drawOriTable()">查询原始数据</span>
+        </div>
+         <#if olist?exists>
+          <#list olist as x>
+              		  ${x.cTkwh?string["00"]}
+              	</#list>
+       </#if>
+			<hr>
+	</div>
+	
+    <!--搜索结束/-->
+      <!--表格开始-->
+    		        <div id="v51msg"> </div>
+		          <div class="table-box">
+			    <table class="table table-bordered" id="v31">						
+			    </table>
+			    </div>
+	<!--表格结束/-->
+    </form>
+   
+</div>
+<!--主体结束/-->
+</body>
 
 </script>
 
  <script src="http://cdn.staticfile.org/zepto/1.0/zepto.min.js"></script>
  <script src="${basePath}/js/cxselect/jquery.cxselect.js"></script>
 <script>
-(function() {
-  var urlEE = '${basePath}/edata/listEE.shtml';
+// (function() {
+<#--   var urlEE = '${basePath}/edata/listEE.shtml'; -->
 
-  $.cxSelect.defaults.url = urlEE;
+//   $.cxSelect.defaults.url = urlEE;
 
-  // 默认
-  $('#city_china').cxSelect({
-    selects: ['province', 'city','area'],
-    jsonValue: 'v'
-  });
+//   // 默认
+//   $('#city_china').cxSelect({
+//     selects: ['province', 'city','area'],
+//     jsonValue: 'v'
+//   });
 
  
-})();
+// })();
+/**
+*选择大类展示小类
+**/
+function changeProvince(obj){
+ 	var urlEE = '${basePath}/edata/listEE.shtml';
+	var province = $(obj).val();
+	$.ajax({
+       type: "POST",
+       url: urlEE,
+       success: function (data) {
+       if(data){
+       		$("#cEehexid").html("");
+       		for(var i =0;i<data.length;i++){
+       			var json = data[i];
+       			var v = json["v"];
+       			if(v == province){
+       				var cityList = json["s"];
+       				var htmls = new Array();
+       				for(var j = 0 ;j < cityList.length;j++){
+       					var tempJson= cityList[j];
+       					htmls.push("<option value-=\"" + tempJson["v"] + "\">" + tempJson["n"] + "</option>");
+       				}
+       				$("#cEehexid").append(htmls.join(",",""));
+       			}
+       		}
+       }
+       }
+   })
+}
 </script>	
 <script type="text/javascript">
 //用来作电器的表格，目的：easy
@@ -191,7 +234,7 @@ function drawOriTable(){
 	});
 }
 </script>
-<#-- 设置时间段最后一个选项被选中 -->
+<!-- 设置时间段最后一个选项被选中 -->
 <script>
 	$(document).ready(function(){
   
@@ -203,3 +246,4 @@ function drawOriTable(){
     })
 </script>
 </html>
+

@@ -1,54 +1,61 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-	<head>
-		<meta charset="utf-8" />
-		<title>资料修改 —个人中心</title>
-		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-		<link   rel="icon" href="${basePath}/favicon.ico" type="image/x-icon" />
-		<link   rel="shortcut icon" href="${basePath}/favicon.ico" />
-		<link href="${basePath}/js/common/bootstrap/3.3.5/css/bootstrap.min.css?${_v}" rel="stylesheet"/>
-		<link href="${basePath}/css/common/base.css?${_v}" rel="stylesheet"/>
-		<script  src="${basePath}/js/common/jquery/jquery1.8.3.min.js"></script>
-		<script  src="${basePath}/js/common/layer/layer.js"></script>
-		<script  src="${basePath}/js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		<script >
-		</script>
-	</head>
-	<body data-target="#one" data-spy="scroll">
-		
+<!-- <html> -->
+  <head>
+    <base href="${basePath}">
+    
+    <title>V2-用电数据汇总</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" type="text/css" href="${basePath}/woodare/css/comm.css" />
+	<script src="${basePath}/js/common/jquery/jquery1.8.3.min.js"></script>
+	<script src="${basePath}/woodare/js/menu.js"></script>
+	<script  src="${basePath}/js/common/layer/layer.js"></script>
+	<script  src="${basePath}/js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </head>
+  
+  <body>
+  <!--页眉开始-->
+	   <!--页眉开始-->
+<!-- 	<%--引入头部<@_top.top 3/>--%> -->
 		<@_top.top 1/>
-		<div class="container" style="padding-bottom: 15px;min-height: 300px; margin-top: 40px;">
-			<div class="row">
-				<@_left.user 1/>
-				<div class="col-md-10">
-					<h2>资料修改</h2>
-					<hr>
-					<form id="formId" enctype="multipart/form-data" action="${basePath}/user/updateSelf.shtml" method="post">
-						  <input type="hidden" value="${token.id}" name="id"/>
-						  <div class="form-group">
-						    <label for="nickname">昵称</label>
-						    <input type="text" class="form-control" autocomplete="off" id="nickname" maxlength="8" name="nickname" value="${token.nickname?default('未设置')}" placeholder="请输入昵称">
-						  </div>
-						  <div class="form-group">
-						    <label for="email">Email（不准修改）</label>
-						    <input type="text" class="form-control " disabled autocomplete="off" id="email" maxlength="64" name="email" value="${token.email?default('未设置')}" placeholder="请输入帐号">
-						  </div>
-						  <div class="form-group">
-							  <button type="submit" class="btn btn-success">确定修改</button>
-						  </div>
-						</form>
-					
-				</div>
-				 <#--地图
-				<@_html.tool_map/>
-				-->
-			</div><#--/row-->
-		</div>
-		<#-- 页脚
-		<@_footer.footer 0/>
-		-->
-		<script src="${basePath}/js/common/jquery/jquery.form-2.82.js?${_v}"></script>
-		<script>
+	<!--页眉结束/-->
+
+	<!--左侧导航开始-->
+	<@_left.top 1/>
+	<!--左侧导航结束/-->
+	<!--主体开始-->
+	<div class="wapp-main">
+		<h4>资料修改</h4>
+	    
+	    <!--资料编辑开始-->
+	   <div class="datum">
+	   		<form id="formId" enctype="multipart/form-data" action="${basePath}/user/updateSelf.shtml" method="post">
+	       <table width="100%">
+	       	  <input type="hidden" value="${token.id}" name="id"/>
+	           <tr>
+	               <td width="30%" align="center">昵称</td>
+	               <td width="70%" align="center">
+	               	<input  id="nickname"  name="nickname" type="text" value="${token.nickname!''}">
+	               </td>
+	           </tr>
+	           <tr>
+	               <td align="center">Email账号</td>
+	               <td align="center"><input name="email" id="email" type="text" value="${token.email!''}" readonly><font class="tips">不准修改</font></td>
+	           </tr>
+	       </table>
+	       <div class="but-nav">
+	           <span class="but" onclick="$('#submitButton').submit()">保&nbsp;&nbsp;存</span>
+			 	<button style="display: none;" type="submit" id="submitButton">确定修改</button>
+	       </div>
+	       </form>
+	   </div>
+	   <!--资料编辑结束/-->
+	</div>
+	<!--主体结束/-->
+	<script src="${basePath}/js/common/jquery/jquery.form-2.82.js"></script>
+	<script>
 			$(function(){
 				var load;
 				$("#formId").ajaxForm({
@@ -81,6 +88,5 @@
 			
 		});
 		</script>
-			
-	</body>
+  </body>
 </html>

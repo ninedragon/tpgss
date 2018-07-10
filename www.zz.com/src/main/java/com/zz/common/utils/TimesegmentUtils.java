@@ -1,6 +1,5 @@
 package com.zz.common.utils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,24 +8,25 @@ import java.util.List;
 public class TimesegmentUtils {
 //	
 	public static void main(String[] args) {
-        Date date = new Date();
-        long thisTime = date.getTime();
-        List<Date> ds = test(date);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date last = null;
-        for (int i = 0; i <ds.size(); i++) {
-        	if(i == 0){
-        		last = ds.get(i);
-        	}else{
-        		last = ds.get(i-1);
-        	}
-        	long time1 = last.getTime();
-        	long time2 = ds.get(i).getTime();
-        	if(thisTime >= time1 && thisTime <= time2){
-        		System.out.println(sdf.format(thisTime)+"当前时间所处时间段位数:"+i);
-        	}
-//        	System.out.println(sdf.format(last)+"===="+i+"===="+sdf.format(ds.get(i)));
-		}
+//        Date date = new Date();
+//        long thisTime = date.getTime();
+//        List<Date> ds = test(date);
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Date last = null;
+//        for (int i = 0; i <ds.size(); i++) {
+//        	if(i == 0){
+//        		last = ds.get(i);
+//        	}else{
+//        		last = ds.get(i-1);
+//        	}
+//        	long time1 = last.getTime();
+//        	long time2 = ds.get(i).getTime();
+//        	if(thisTime >= time1 && thisTime <= time2){
+//        		System.out.println(sdf.format(thisTime)+"当前时间所处时间段位数:"+i);
+//        	}
+////        	System.out.println(sdf.format(last)+"===="+i+"===="+sdf.format(ds.get(i)));
+//		}
+		System.out.println(getTimesegment(new Date()));
     }
 	
 	public static int getTimesegment(Date date){

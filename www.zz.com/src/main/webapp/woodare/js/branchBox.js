@@ -38,7 +38,7 @@ function showList(rowId,tableBoxId,branchBoxId,meterboxId,meterboxEpuName,childr
 				 clearInterval(timeoutVar);//清除定时器
 				 showList(rowId,tableBoxId,branchBoxId,meterboxId,meterboxEpuName,children);
 			 }, (1000 * 20) );//(1000 * 20) 延迟20秒
-	     },(1000 * 60 * 4));//(1000 * 60 * 4)
+	     },(1000 * 60 * 5));//(1000 * 60 * 4)
 		 javaScriptObj.interval = myVar;
 		 
 	//设置弹出层画面高宽
@@ -90,12 +90,12 @@ function selectMeterBoxUIPQ(meterboxId){
 			        			  ia = parseFloat(json["i"] ||0).toFixed(2);
 			        			  pa = parseFloat(json["p"] ||0).toFixed(2);
 			        			  qa = parseFloat(json["q"] ||0).toFixed(2);
-			        		}else if(phaseRemark == 1 || phaseRemark == "1"){
+			        		}else if(phaseRemark == 2 || phaseRemark == "2"){
 			        			  ub = parseFloat(json["u"] ||0).toFixed(2);
 			        			  ib = parseFloat(json["i"] ||0).toFixed(2);
 			        			  pb = parseFloat(json["p"] ||0).toFixed(2);
 			        			  qb = parseFloat(json["q"] ||0).toFixed(2);
-			        		}else if(phaseRemark == 1 || phaseRemark == "1"){
+			        		}else if(phaseRemark == 3|| phaseRemark == "3"){
 			        			  uc = parseFloat(json["u"] ||0).toFixed(2);
 			        			  ic = parseFloat(json["i"] ||0).toFixed(2);
 			        			  pc = parseFloat(json["p"] ||0).toFixed(2);

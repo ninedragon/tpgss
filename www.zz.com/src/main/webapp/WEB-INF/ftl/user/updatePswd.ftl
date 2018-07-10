@@ -1,50 +1,59 @@
+
 <!DOCTYPE html>
-<html lang="zh-cn">
-	<head>
-		<meta charset="utf-8" />
-		<title>密码修改—个人中心</title>
-		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-		<link   rel="icon" href="${basePath}/favicon.ico" type="image/x-icon" />
-		<link   rel="shortcut icon" href="${basePath}/favicon.ico" />
-		<link href="${basePath}/js/common/bootstrap/3.3.5/css/bootstrap.min.css?${_v}" rel="stylesheet"/>
-		<link href="${basePath}/css/common/base.css?${_v}" rel="stylesheet"/>
-		<script  src="${basePath}/js/common/jquery/jquery1.8.3.min.js"></script>
-		<script  src="${basePath}/js/common/layer/layer.js"></script>
-		<script  src="${basePath}/js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		<script >
-		</script>
-	</head>
-	<body data-target="#one" data-spy="scroll">
-		
+<!-- <html> -->
+  <head>
+    <base href="${basePath}">
+    
+    <title>V2-用电数据汇总</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" type="text/css" href="${basePath}/woodare/css/comm.css" />
+	<script src="${basePath}/js/common/jquery/jquery1.8.3.min.js"></script>
+	<script src="${basePath}/woodare/js/menu.js"></script>
+	<script  src="${basePath}/js/common/layer/layer.js"></script>
+	<script  src="${basePath}/js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </head>
+  
+  <body>
+  <!--页眉开始-->
+	   <!--页眉开始-->
+<!-- 	<%--引入头部<@_top.top 3/>--%> -->
 		<@_top.top 1/>
-		<div class="container" style="padding-bottom: 15px;min-height: 300px; margin-top: 40px;">
-			<div class="row">
-				<@_left.user 1/>
-				<div class="col-md-10">
-					<h2>密码修改</h2>
-					<hr>
-					<form id="formId" enctype="multipart/form-data" action="${basePath}/user/updatePswd.shtml" method="post">
-						  <div class="form-group">
-						    <label for="pswd">原密码</label>
-						    <input type="password" class="form-control" autocomplete="off" id="pswd" maxlength="20" name="pswd"  placeholder="请输入原密码">
-						  </div>
-						  <div class="form-group">
-						    <label for="newPswd">新密码</label>
-						    <input type="password" class="form-control" autocomplete="off" id="newPswd" maxlength="20" name="newPswd" placeholder="请输入新密码">
-						  </div>
-						  <div class="form-group">
-						    <label for="reNewPswd">新密码（再输入一次）</label>
-						    <input type="password" class="form-control" autocomplete="off" id="reNewPswd" maxlength="20" name="reNewPswd"placeholder="请再次输入新密码">
-						  </div>
-						  <div class="form-group">
-							  <button type="submit" class="btn btn-success">确定修改</button>
-						  </div>
-						</form>
-					
-				</div>
-			</div><#--/row-->
-		</div>
-		<script src="/js/common/jquery/jquery.form-2.82.js?${_v}"></script>
+	<!--页眉结束/-->
+
+	<!--左侧导航开始-->
+	<@_left.top 1/>
+	<!--左侧导航结束/-->
+	<!--主体开始-->
+	<div class="wapp-main">
+	<h4>密码修改</h4>
+    
+    <!--资料编辑开始-->
+    <div class="datum">
+    	<form id="formId" enctype="multipart/form-data" action="${basePath}/user/updatePswd.shtml" method="post">
+        <table width="100%">
+            <tr>
+                <td width="30%" align="center">原密码</td>
+                <td width="70%" align="center"><input name=""  id="pswd" maxlength="20" name="pswd"  type="text" placeholder="请输入原密码"></td>
+            </tr>
+            <tr>
+                <td align="center">新密码</td>
+                <td align="center"><input id="newPswd" maxlength="20" name="newPswd"type="text" placeholder="请输入新密码"></td>
+            </tr>
+            <tr>
+                <td align="center">再输一次</td>
+                <td align="center"><input id="reNewPswd" maxlength="20" name="reNewPswd" type="text" placeholder="请再次输入新密码"></td>
+            </tr>
+        </table>
+        <div class="but-nav">
+            <span class="but" onclick="$('#submitButton').submit()">保&nbsp;&nbsp;存</span>
+			 <button style="display: none;" type="submit" id="submitButton">确定修改</button>
+        </div>
+        </form>
+    </div>
+    <script src="${basePath}/js/common/jquery/jquery.form-2.82.js"></script>
 		<script>
 			$(function(){
 				var load;
@@ -92,6 +101,8 @@
 			
 		});
 		</script>
-			
-	</body>
+    <!--资料编辑结束/-->
+</div>
+<!--主体结束/-->
+  </body>
 </html>

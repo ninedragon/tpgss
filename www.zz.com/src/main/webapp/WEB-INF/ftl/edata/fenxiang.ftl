@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-	<head>
-		<meta charset="utf-8" />
-		<title>分项能耗曲线</title>
+  <head>
+    <base href="${basePath}">
+    
+    <title>V2-用电数据汇总</title>
+		<title>v2-用电数据汇总</title>
 		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 		<link   rel="icon" href="${basePath}/favicon.ico" type="image/x-icon" />
 		<link   rel="shortcut icon" href="${basePath}/favicon.ico" />
-		<link href="${basePath}/js/common/bootstrap/3.3.5/css/bootstrap.min.css?${_v}" rel="stylesheet"/>
-		<link href="${basePath}/css/common/base.css?${_v}" rel="stylesheet"/>
+		<link href="${basePath}/js/common/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+		<link href="${basePath}/css/common/base.css" rel="stylesheet"/>
 		<link href="${basePath}/js/layui/css/layui.css" rel="stylesheet"/>
 		        <style type="text/css">  
             .dropdown-submenu {  
@@ -52,7 +54,7 @@
                 border-radius: 6px 0 6px 6px;  
             }  
         </style>
-
+		<link rel="stylesheet" type="text/css" href="${basePath}/woodare/css/comm.css" />
 		<script  src="${basePath}/js/common/jquery/jquery1.8.3.min.js"></script>
 		<script  src="${basePath}/js/common/layer/layer.js"></script>
 
@@ -60,101 +62,99 @@
 		<script  src="${basePath}/js/shiro.demo.js"></script>
 		<script language="javascript" type="text/javascript" src="${basePath}/js/My97DatePicker/WdatePicker.js"></script>
         <script type="text/javascript" src='${basePath}/js/echarts.js'></script>
-		<script type="text/javascript">
-             $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
-        </script> 
         <script type="text/javascript" src='${basePath}/js/layui/layui.js'></script>
-           
-	</head>
-	<body data-target="#one" data-spy="scroll">
-		<#--引入头部-->
-		<@_top.top 4/>
-		<div class="container" style="padding-bottom: 15px;min-height: 300px; margin-top: 100px;">
-			<div class="row">
-				<#--引入左侧菜单-->
-				<@_left.edata 2/>
-				<div class="col-md-10">
-					<h2>分项能耗曲线</h2>
-					<hr>
-					<form method="post" action="" id="formId" class="form-inline">
-						<div clss="well">
-					      <div class="form-group">
+        <script src="${basePath}/woodare/js/menu.js"></script>
+  </head>
+  
+  <body>
+   <!--页眉开始-->
+	<@_top.top 1/>
+	<!--页眉结束/-->
 
-					        <label>终端</label>
-					        <select name="cDistrictbcdid" id="cDistrictbcdid" class="">
-					        <#if dlist?exists>
+	<!--左侧导航开始-->
+	<@_left.top 1/>
+	<!--左侧导航结束/-->
+
+<!--主体开始-->
+<div class="wapp-main">
+	<h4>分项能耗曲线</h4>	
+    <!--搜索开始-->
+      <form method="post" action="" id="formId" class="form-inline">
+	<div class="search">
+    	<lable>
+        	<span>终端</span>
+				<select  name="cDistrictbcdid" id="cDistrictbcdid">
+				 <#if dlist?exists>
 					        <#list dlist as x>
-                                <option value="${x.cDistrictbcdid}-${x.cAddressid}">${x.cDistrictbcdid}-${x.cAddressid}</option>
+                                <option value="${x.cDistrictbcdid}-${x.cAddressid}">${x.cDistrictbcdid}-${x.cAddressid}-${x.cChannelnum}</option>
                             </#list>	
 						    </#if>  
-					        </select>
-					        <label>通道</label>
-					        <select name="cChannelid" id="cChannelid" class="">
-					        <#list 1..12 as x>
+                </select>
+    	</lable>
+        <lable>
+        	<span>通道</span>
+            <select name="cChannelid" id="cChannelid" class="">
+              <#list 1..12 as x>
                                <option value="${x}">${x}</option>
-                            </#list>
-					        		                   
-					        </select>
-
-					        <label>电器大类</label>
-					        <select name="cEegrpid" id="cEegrpid" class="">
-					        	<#if eglist?exists>
+                </#list>
+			 </select>
+    	</lable>
+        <lable>
+        	<span>电器大类</span>
+              <select name="cEegrpid" id="cEegrpid" class="">
+              <#if eglist?exists>
 					            <#list eglist as x>
 					               <#if x_index!=0>
 					                  <option value="${x.cEegrpid?default('2')}">${x.cEegrpname}</option>
 					               </#if>
 					            </#list>   
-						        </#if> 	
-					        </select>
-					        <label>日期</label>
-					        <input id="d11" type="text" name="cRecorddatebcd" id="cRecorddatebcd" value="2017-12-14" onClick="WdatePicker()"/>
-					        <#-- <label>开始时间段</label>
-					        <select name="" id="" class="">
-					         	<#list 0..96 as x>
-                                 <option value="${x}">${x?string["00"]}-[${((x/4)?int)?string["00"]}:${((x%4)*(15))?string["00"]}]</option>
-                                </#list>
-                            </select> -->
-                            <#list 0..96 as x>
-                                 <div id ="t${x}" hidden="true">${((x/4)?int)?string["00"]}:${((x%4)*(15))?string["00"]}</div>
-                            </#list>
-					      <#--   <label>结束时间段</label>
-					        <select>
-					           	<#list 0..96 as x>
-                                  <option value="${x}">${x?string["00"]}-[${((x/4)?int)?string["00"]}:${((x%4)*(15))?string["00"]}]</option>
-                                </#list>
-                             </select> -->
+				</#if> 	
+			 </select>
+    	</lable>
+        <lable>
+        	<span>日期</span>
+             <input id="d11" type="text" name="cRecorddatebcd" id="cRecorddatebcd" value="2017-12-14" onClick="WdatePicker()"/>
+    	</lable>
+    	 <#if timeList?exists>
+		        <#list timeList as x>               	
+                 		<div id ="t${x.count}" hidden="true">${x.dateHm}</div>
+                  </#list>   
+          </#if>
+                    <div class='result'>
 					      </div>
-					      <div class='result'>
-					      </div>
-					     <span class=""> <#--pull-right -->
-				         	<button  type="button" class="btn btn-primary" onClick="drawChart()">查询分项电量</button>
-				         	<button  type="button" class="btn btn-primary" onClick="drawOriTable()" >查询原始数据</button>
-				         	<button  type="button" class="btn btn-primary" onClick="drawQitingTable()">查询启停数据</button>
-
-				         </span>
-				         <#if olist?exists && olist?size gt 0 >
-				         <#list olist as x>
-                                    ${x.cTkwh?string["00"]}
-                         </#list>	
-				         </#if>
-				        </div>
-				        <hr>
+        <div class="but-nav">
+            <span class="but"  onClick="drawChart()">查询分项电量</span>
+            <span class="but" onClick="drawOriTable()">查询原始数据</span>
+        	<span class="but" onClick="drawQitingTable()">查询启停数据</span>
+        </div>
+         <#if olist?exists>
+               <#list olist as x>
+              		  ${x.cTkwh?string["00"]}
+              	 </#list> 
+             </#if>
+              <hr>
                               <div id="chart" style="width:1000px;height:400px;"></div>
                               <div id="datatable"></div>
-                        <hr>		      
+                        <hr>	
+                        <div class="table-box">	      
 				         <table class="table table-bordered" id="v22">
 
 					    </table>
+					    </div>
 					    <hr>
+					    <div class="table-box">
 					    <table class="table table-bordered" id="v23">
 						
 					    </table>
+					    </div>
 					<hr>
-					</form>
-				</div>
-			</div><#--/row-->
-		</div>
-	</body>
+	</div>
+	</form>
+    <!--搜索结束/-->
+    
+</div>
+<!--主体结束/-->
+</body>
 <script type="text/javascript">
   function drawChart(){
 				        var myChart = echarts.init(document.getElementById('chart'));
@@ -342,3 +342,4 @@ function drawQitingTable(){
 }
 </script>
 </html>
+

@@ -136,9 +136,6 @@
 		and a.C_EEHexId=b.C_EEHexId
 		and C_RecordDateBCD = #{cRecorddatebcd,jdbcType=INTEGER}
 		and C_IsValidRecord='1'
-		<if test="C_OffLineVersion != ''">
-			and C_OffLineVersion= #{C_OffLineVersion,jdbcType=VARCHAR}
-		</if>
 		group BY C_TSegmentId
 		order BY C_TSegmentId asc;
 	</select>
@@ -172,9 +169,6 @@
 		and C_RecordDateBCD = #{cRecorddatebcd,jdbcType=INTEGER}
 		and C_IsValidRecord='1'
 		and b.C_EEGrpId !=1
-		<if test="C_OffLineVersion != ''">
-			and C_OffLineVersion= #{C_OffLineVersion,jdbcType=VARCHAR}
-		</if>
 		group BY b.C_EEGrpId
 		order BY C_EEGrpId asc;
 	</select>
@@ -184,7 +178,7 @@
 		a.C_DistrictBCDId cDistrictbcdid,a.C_AddressId cAddressid,a.C_ChannelId
 		cChannelid,a.C_RecordDateBCD cRecorddatebcd,a.C_TSegmentId ts,a.C_TKWh
 		tzong,FORMAT(sum(a.C_EEKWh),4) tbianshi
-		,concat(FORMAT(sum(a.C_EEKWh)/a.C_TKWh*100,4),'%') ratio ,C_OffLineVersion
+		,concat(FORMAT(sum(a.C_EEKWh)/a.C_TKWh*100,4),'%') ratio 
 		from t_opdata a,t_eeclassification b
 		where C_DistrictBCDId =#{cDistrictbcdid,jdbcType=VARCHAR}
 		and C_AddressId = #{cAddressid,jdbcType=INTEGER}
@@ -192,9 +186,7 @@
         and a.C_EEHexId=b.C_EEHexId
 		and C_RecordDateBCD = #{cRecorddatebcd,jdbcType=INTEGER}
 		and C_IsValidRecord='1'
-		<if test="C_OffLineVersion != ''">
-			and C_OffLineVersion= #{C_OffLineVersion,jdbcType=VARCHAR}
-		</if>
+		
 		group BY C_TSegmentId
 		<!-- order BY C_TSegmentId -->
 		asc limit
@@ -213,9 +205,6 @@
 		and a.C_EEHexId=b.C_EEHexId
 		and C_RecordDateBCD=#{cRecorddatebcd,jdbcType=VARCHAR}
 		and C_IsValidRecord='1'
-		<if test="C_OffLineVersion != ''">
-			and C_OffLineVersion= #{C_OffLineVersion,jdbcType=VARCHAR}
-		</if>
 		group BY C_TSegmentId
 		order BY C_TSegmentId asc) count
 	</select>
@@ -230,9 +219,6 @@
 		and a.C_EEHexId=b.C_EEHexId
 		and C_RecordDateBCD = #{cRecorddatebcd,jdbcType=INTEGER}
 		and C_IsValidRecord='1'
-		<if test="C_OffLineVersion != ''">
-			and C_OffLineVersion= #{C_OffLineVersion,jdbcType=VARCHAR}
-		</if>
 		group BY C_TSegmentId
 		order BY C_TSegmentId asc) count
 	</select>
@@ -432,7 +418,7 @@
 		select
 		a.C_TSegmentId,c.C_TSegmentName,b.C_EEClassificationName,a.C_EESequenceId,a.C_EEKWh
 		,a.C_EEOpenMinute,a.C_EECloseMinute,a.C_EEOpenCloseTimes
-		,a.C_EEPeakW,a.C_FaultId,a.C_FrameCmdId,a.C_OffLineVersion
+		,a.C_EEPeakW,a.C_FaultId,a.C_FrameCmdId
 		from t_opdata a,t_eeclassification b,t_timesegment c
 		where C_DistrictBCDId =#{cDistrictbcdid,jdbcType=VARCHAR}
 		and C_AddressId = #{cAddressid,jdbcType=INTEGER}
@@ -445,9 +431,6 @@
 		and a.C_TSegmentId BETWEEN #{minTime,jdbcType=INTEGER} AND (
 		#{maxTime,jdbcType=INTEGER})
 		and C_IsValidRecord='1'
-		<if test="C_OffLineVersion != ''">
-			and C_OffLineVersion= #{C_OffLineVersion,jdbcType=VARCHAR}
-		</if>
 		<if test="cEehexid == '' and cEegrpid !=null">
 			and b.C_EEGrpId= #{cEegrpid,jdbcType=INTEGER}
 		</if>
@@ -503,9 +486,6 @@
 		and a.C_TSegmentId BETWEEN #{minTime,jdbcType=INTEGER} AND (
 		#{maxTime,jdbcType=INTEGER}) 
 		and C_IsValidRecord='1'
-		<if test="C_OffLineVersion != ''">
-			and C_OffLineVersion= #{C_OffLineVersion,jdbcType=VARCHAR}
-		</if>
 		<if test="cEehexid == '' and cEegrpid !=null">
 			and b.C_EEGrpId= #{cEegrpid,jdbcType=INTEGER}
 		</if>

@@ -56,8 +56,8 @@ public class FaultController extends BaseController {
 		modelAndView.addObject("leftMenuview", "7");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控7故障定位
 		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
 		modelAndView.addObject("token", token);//左侧上方管理员信息
-//		wsMessageService.sendToAllTerminal(token.getId()+"","{\"name\":\"falutNews\",\"key\":\"\"}");
-//		wsMessageService.sendToAllTerminal(token.getId()+"","{\"name\":\"faultRendering\",\"key\":\"38f04bc0-6c40-4535-ba36-7dbc1d6d2536\"}");
+		wsMessageService.sendToAllTerminal(token.getId()+"","{\"name\":\"falutNews\",\"key\":\"\"}");
+		wsMessageService.sendToAllTerminal(token.getId()+"","{\"name\":\"faultRendering\",\"key\":\"97d6c709-132d-491e-86f9-f93b09f2f2a8\"}");
 		return modelAndView;
 	}
 	
@@ -175,7 +175,7 @@ public class FaultController extends BaseController {
 		List<TopoErrorInfo> listBranchbox = this.faultService.selectBranchboxErrorByKeys(paramMap);
 		for (TopoErrorInfo topoErrorInfo : listBranchbox) {
 			Map<String, Object> meterbox_map = new HashMap<String, Object>();
-			meterbox_map.put("branchbox_error_id", topoErrorInfo.getKey());
+			meterbox_map.put("branchbox_error_id", topoErrorInfo.getId());
 			List<TopoErrorRelInfo> meterboxList =this.faultService.selectMeterboxErrorByKeys(meterbox_map);
 			topoErrorInfo.setRel(meterboxList);
 			list.add(topoErrorInfo);

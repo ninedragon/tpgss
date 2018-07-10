@@ -115,7 +115,7 @@
 		  class="com.zz.core.freemarker.extend.FreeMarkerConfigExtend">
 		<property name="templateLoaderPath">
 			<!-- <value>/WEB-INF/ftl/</value> -->
-				<value>/WEB-INF/ftl/woodare</value>
+				<value>/WEB-INF/ftl</value>
 		</property>
 		<property name="freemarkerVariables">
 			<map>
