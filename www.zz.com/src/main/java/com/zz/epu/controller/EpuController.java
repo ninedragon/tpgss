@@ -125,7 +125,7 @@ public class EpuController extends BaseController {
 		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
 		modelAndView.addObject("token", token);//左侧上方管理员信息
 		modelAndView.addObject("substainRowId", substainRowId);//左侧上方管理员信息
-		modelAndView.addObject("action", action);//执行动作 falut 表示默认展示topo错误数据
+		modelAndView.addObject("topoErrorLoadJson", "{\"action\":\""+action+"\",\"key\":\""+substainRowId+"\"}");//执行动作 falut 表示默认展示topo错误数据
 		return modelAndView;
 	}
 	

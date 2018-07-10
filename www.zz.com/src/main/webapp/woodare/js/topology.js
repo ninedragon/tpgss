@@ -38,13 +38,14 @@ function showTop(rowId){
 	         data: {
 	        	 rootId: rowId
 	         },
-	         async:false,
+	         async:true,
 	         dataType: "json",
 	         cache: false,
 	         success: function(allData){ 
 	        	 parent.$(".loading").hide();//隐藏蒙层
 	        	 if(allData){
 	        		 mySvg = SVG_HELPER.drawSvg(allData, 'body');
+	        		 $("#falutDiv").css("top",( mySvg.topoHeight()- 460)+"px");
 	        		 //加载故障
 	        		 so.initFaultTypeList();
 	        		 //填充隐藏域strBranchboxIDArray，topo错误所需分支箱KEY_ID
@@ -192,6 +193,28 @@ function clickScale(param){
 
 
 $(function() {
+	var topoErrorLoadJson = $.trim(parent.$("#topoErrorLoadJson").text());
+	if(null != topoErrorLoadJson && "" != topoErrorLoadJson){
+		if(topoErrorLoadJson.indexOf("action")!=-1 && topoErrorLoadJson.indexOf("key")!=-1){
+			var jsonTemp = JSON.parse(topoErrorLoadJson);
+			var key = jsonTemp["key"];
+			var action = jsonTemp["action"];
+			if(action == "flaut"){//点击预警消息显示故障定位
+				$(".a-hov span").each(function(){
+					$(this).removeClass("on");
+					if('故障定位' ==  $(this).text()){
+						$(this).addClass("on");
+						//加延迟原因：当前打开一个非故障箱变TOPO，点击预警消息加载故障的箱变，但是加载数据是异步，应进faultClick（）把原来从加载取的数据读后台数据库获取	,这里目前不加，用延迟了，后续看要求调整读库			
+						//备注：参见top.ftl中的 pageName == "allShowList" 逻辑
+						 var timeoutVar =  setTimeout(function(){
+	        				 clearInterval(timeoutVar);//清除定时器
+	        				 faultClick(false);
+	        			 }, (1000 * 3) );//(1000 * 3) 延迟3秒 
+					}
+				});
+			}
+		}
+	}
 	//内部按钮
 	$(".a-hov span").click(function(){
 		var txtValue = $(this).text();
@@ -222,7 +245,6 @@ $(function() {
 	 	    $(".box").css("top", ($(this).scrollTop() ));
     		$(".box").css("left", ($(this).scrollLeft() ));
 	 });
-	$("#falutDiv").css("top",( mySvg.topoHeight()- 460)+"px");
 	//加载Websocket
 	loadWebsocket();
 });
