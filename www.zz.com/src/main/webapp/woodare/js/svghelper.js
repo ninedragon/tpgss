@@ -31,6 +31,7 @@ var SVG_HELPER = (function() {
         var thisSvgObj = null;//当前SVG对象
         var branchboxXYArray = new Array();//分支箱XY坐标
         var keyArray = new Array();//故障定位所需key_id
+        var keyJsonArray = new Array();//故障定位所需除电表所有节点信息
         var branchboxIDArray = new Array();//topo错误数据所需分支箱key_id
         var  outgoingCabinetArray = new Array();//出线柜ID
         $(list).each(function() {
@@ -44,6 +45,7 @@ var SVG_HELPER = (function() {
                     var branchboxID = this.rowId;
                     $(this.children).each(function() {
                     	keyArray.push(this.rowId); //M0004
+                    	keyJsonArray.push({key:this.rowId,epuName:this.epuName}); //M0004
                     	getNextAmmeterId("M0005",this.rowId,svgModelData,keyArray);//电表(epuId根据这个找下级)
                         //M0004
                         this._x = x4;
@@ -59,6 +61,7 @@ var SVG_HELPER = (function() {
                         });
                     });
                     keyArray.push(this.rowId); //M0003 
+                    keyJsonArray.push({key:this.rowId,epuName:this.epuName}); //M0003 
                     branchboxIDArray.push(branchboxID); //M0003 
                     //M0003
                     var tmpX = x3 + (w4 > this.width ? ((w4 - this.width) / 2) : 0);
@@ -98,6 +101,7 @@ var SVG_HELPER = (function() {
 
                 var tmpX = x2 + (w3 > this.width ? ((w3 - this.width) / 2) : 0);
                 keyArray.push(this.rowId); //M0002
+                keyJsonArray.push({key:this.rowId,epuName:this.epuName}); //M0002
                 outgoingCabinetArray.push(this.rowId); //M0002
                 //M0002
                 this._x = tmpX;
@@ -139,6 +143,7 @@ var SVG_HELPER = (function() {
                 });
             });
             keyArray.push(this.rowId); //M0001
+            keyJsonArray.push({key:this.rowId,epuName:this.epuName}); //M0001
             //M0001
             var tmpX = x1 + (w2 > this.width ? ((w2 - this.width) / 2) : 0);
             this._x = tmpX;
@@ -240,10 +245,8 @@ var SVG_HELPER = (function() {
             boxClear: function(boxErrorArray) {
                 for (var i = 0; i < boxErrorArray.length; i++) {
                     var json = boxErrorArray[i];
-                    var type = json["type"];
                     var key = json["key"];
                     var epuName = json["epuName"];
-                    var faultType = json["faultType"];
                     updateBox(key, "");
                     $("#Snap_Layer").find("image[id='kaiguanxianImg_" + key + "']").attr("href", "../woodare/image/branchBox.png"); //分支箱/出线柜
                     $("#textPath_" + key).text(epuName).attr("class", "");
@@ -295,29 +298,11 @@ var SVG_HELPER = (function() {
                 }
 
             },
-            kaiguanxianWarningClear: function(kaiguanxianWarningArray) {
-                for (var i = 0; i < kaiguanxianWarningArray.length; i++) {
-                    var json = kaiguanxianWarningArray[i];
-                    var key = json["key"];
-                    var epuName = json["epuName"]||"";
-                    var error_num = json["error_num"]||"";
-                    updateKaiguanxian(key, "");
-                    $("#textPath_" + key).text(epuName);
-                    $("#textPath_01_" + key).text("");
-                    $("#textPath_" + key).attr("class", "");
-                    $("#textPath_01_" + key).attr("class", "");
-                    
-                    $("#Snap_Layer").find("image[id='kaiguanxianImg_" + key + "']").attr("href", "../woodare/image/branchBoxBlue.png"); //分支箱/出线柜
-                }
-
-            },
             kaiguanxianClear: function(kaiguanxianErrorArray) {
                 for (var i = 0; i < kaiguanxianErrorArray.length; i++) {
                     var json = kaiguanxianErrorArray[i];
-                    var type = json["type"];
                     var key = json["key"];
                     var epuName = json["epuName"];
-                    var faultType = json["faultType"];
                     updateKaiguanxian(key, "");
                     $("#kaiguanxian_line_" + key).find("rect").attr("class", "");
                     $("#kaiguanxian_line_" + key).find("path").attr("class", "");
@@ -412,6 +397,7 @@ var SVG_HELPER = (function() {
                     }
                 },
             keyArray : keyArray,
+            keyJsonArray : keyJsonArray,
             branchboxIDArray : branchboxIDArray,
             branchboxXYArray : branchboxXYArray,
             thisSvgObj : thisSvgObj,

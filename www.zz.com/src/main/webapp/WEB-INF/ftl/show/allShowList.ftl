@@ -75,7 +75,7 @@
            $("#epuLocal").val(treeNode.epuLocal);
            $("#epuXscale").val(treeNode.epuXscale);
            $("#epuYscale").val(treeNode.epuYscale);
-      		addTab(treeNode.id,treeNode.name);
+           thisPageAddTab(treeNode.id,treeNode.name);
         }	  
 	 }
   	 var menu = {
@@ -114,7 +114,7 @@
 	           $("#epuXscale").val(treeNode.epuXscale);
 	           $("#epuYscale").val(treeNode.epuYscale);
 	          <!--初始化箱变节点数据   	 -->
-	           addTab(treeNode.id,treeNode.name);			
+	          thisPageAddTab(treeNode.id,treeNode.name);			
 			
 	           	 }
         	});
@@ -153,9 +153,14 @@
 			}
 		});
 	});
+	function thisPageAddTab(rowId,name){//当前画面点击TAB或者树时清除预警消息存放的信息，这样加载时不要默认显示故障定位
+		$("#topoErrorLoadJson").text("");//清除点击预警消息时存放的内容
+		addTab(rowId,name);
+	}
 	<!--tab --滚动条 区域 end-->
 	<!--动态追加TAB-->
 	function addTab(rowId,name){
+		$("#rowId").val(rowId);
 		<!--隐藏地图iframe-->
 		$("#mapDivIframe").hide();
 		$(".data-bar h4").removeClass("on");
@@ -173,7 +178,7 @@
 				});
 			}
 		}else{<!--新增TAB-->
-			$("<li class='on' id='tab_" + rowId + "' onclick=\"addTab('"+rowId+"','"+name+"')\">" + name + "<font onclick=\"removeTab(event,'"+rowId+"',this)\">关闭</font></li>").appendTo($("ul.tab-nav .all"));
+			$("<li class='on' id='tab_" + rowId + "' onclick=\"thisPageAddTab('"+rowId+"','"+name+"')\">" + name + "<font onclick=\"removeTab(event,'"+rowId+"',this)\">关闭</font></li>").appendTo($("ul.tab-nav .all"));
 			<!--创建拓扑图-->
 			$(".loading").show();<!--显示蒙层-->
 			$("#appendIframe").append("<div class=\"box\" id=\""+rowId+"tabShow\" style=\"display: none;\"></div>");
@@ -232,6 +237,10 @@
 		var count = $(".all li").each(function(){}).length;
 		if(count == 0){
 			mapClick();<!--重新加载地图-->
+		}else if(count == 1){
+			var thisRowId = $(".all li").eq(0).attr("id").replace("tab_","");
+			$("#"+thisRowId+"tabShow").show();
+			$(".all li").eq(0).addClass("on");
 		}
 	}
 	/**
@@ -258,6 +267,8 @@
 	}
 </script>
   </head>
+  <label id="topoErrorLoadJson" name="topoErrorLoadJson" style="display: none;">${topoErrorLoadJson}</label>
+  <input type="hidden" id="pageName" name="pageName"  value="allShowList"/>
   <input type="hidden" id="tableBoxId" name="tableBoxId"  value=""/>
   <input type="hidden" id="branchBoxId" name="branchBoxId"  value=""/>
   

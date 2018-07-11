@@ -351,6 +351,8 @@ function showTop(data,rowId,tableBoxId){
 		
      },(1000 * 60 * 5));//(1000 * 60 * 4)
 	 javaScriptObj.interval = myVar;
+	 //加载webSocket
+	 loadWebsocket();
 } 
 /**
  * 
@@ -953,6 +955,11 @@ $(function() {
 	 	$(".gj").css("top", ($(this).scrollTop() ));
   		$(".gj").css("left", ($(this).scrollLeft() ));
 	 });
+	
+});
+/**加载Websocket
+ * **/
+function loadWebsocket(){
 	 var websocket;
 	 var basePath = parent.$("#basePath").val();//项目地址
 	 var web_socket_ip = parent.$("#web_socket_ip").val();//WebSocket握手IP地址
@@ -984,8 +991,7 @@ $(function() {
      websocket.onclose = function(evnt) {
     	 alert("与服务器断开了链接!");
      }
-});
-
+}
 /**
  * 电表弹出层关闭
  * */

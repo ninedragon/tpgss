@@ -4,7 +4,7 @@
 <script baseUrl="${basePath}" src="${basePath}/js/user.login.js"></script>
 <div class="wapp-head">
 	<span class="link"></span>
-	<div class="info">消息</div>
+	<div class="info" onclick="selectFaultNews();">消息</div>
     <div class="lay" style="left:auto;right:0px;">
         <ul style="overflow-y: auto;height: 280px;" id="falutNewsUL">
         </ul>
@@ -30,17 +30,44 @@
     </div>
 </div>
 <script type="text/javascript"> 
-	function clickFaultNews(substainRowId,action){
-        var form = $("<form></form>");
-        form.attr('action',"${basePath}/epu/allShowList.shtml");
-        form.attr('method','post');
-        input1 = $("<input type='hidden' name='substainRowId' id='substainRowId' value='" + substainRowId + "' />")
-        input2 = $("<input type='text' name='action' id='action' value='" + action + "' />")
-        form.append(input1)
-        form.append(input2)
-        form.appendTo("body")
-        form.css('display','none')
-        form.submit();
+	function clickFaultNews(substainRowId,epuName,action){
+		var isShow = $("#tab_" + substainRowId).attr("isShow");
+		var pageName = $("#pageName").val();//当前页面名称
+		if(isShow == "yes"){//当前箱变TAB存在，则不需要加载页面
+		    var iframeID = $("#" + substainRowId + "Iframe")[0]; //获取iframe的ID
+		    $(".all li").each(function(){
+		    	$(this).removeClass("on");
+		    	var thisRowId = $(this).attr("id").replace("tab_","");
+		    	if('tab_'+substainRowId ==  $(this).attr("id")){
+					$(this).addClass("on");
+					$("#"+thisRowId+"tabShow").show();
+				}else{
+					$("#"+thisRowId+"tabShow").hide();
+				}
+		    });
+		    iframeID.contentWindow.$(".a-hov span").each(function(){
+				$(this).removeClass("on");
+				if('故障定位' ==  $(this).text()){
+					$(this).addClass("on");
+				}
+			});
+		    $("#tab_" + substainRowId).addClass("on");
+		    iframeID.contentWindow.faultClick(false);
+		}else if(pageName == "allShowList"){
+			$("#topoErrorLoadJson").html("{\"action\":\""+action+"\",\"key\":\""+substainRowId+"\"}");
+			addTab(substainRowId,epuName);//动态追加TAB
+		}else {
+	        var form = $("<form></form>");
+	        form.attr('action',"${basePath}/epu/allShowList.shtml");
+	        form.attr('method','post');
+	        input1 = $("<input type='hidden' name='substainRowId' id='substainRowId' value='" + substainRowId + "' />")
+	        input2 = $("<input type='text' name='action' id='action' value='" + action + "' />")
+	        form.append(input1)
+	        form.append(input2)
+	        form.appendTo("body")
+	        form.css('display','none')
+	        form.submit();
+		}
 	}
 	function selectFaultNews(){
 		$("#loadingDiv").show();
@@ -59,7 +86,7 @@
 		        				var json = allData[i];
 		        				var key = json["key"];
 		        				var epuName = json["epuName"];
-		        				htmls +="<li class=\"mrr\"><a onclick=\"clickFaultNews('"+key+"','flaut');\" >"+epuName+"</a></li>";
+		        				htmls +="<li class=\"mrr\"><a onclick=\"clickFaultNews('"+key+"','"+epuName+"','flaut');\" >"+epuName+"</a></li>";
 			    		 }
 			    	 }
 		    	 }
@@ -68,8 +95,6 @@
 		    } 
 		});
 	}
-	//加载
-	selectFaultNews();
 	
 	var websocket;
 	if('WebSocket' in window) {
