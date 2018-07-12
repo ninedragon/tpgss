@@ -1225,7 +1225,7 @@
                 <select name="channelIdThree" id="channelIdThree" class="text requiredSelect" title="关联终端通道号3"></select>
             </lable>
               <lable>
-                <span>线缆号</span>
+                <span style="width:108px;">线缆号</span>
                 <input name="lineId" id="lineId"   type="text" class="text request" title="线缆号" maxlength="100">
             </lable>
              <div class="but-nav" style="margin:0px 0px 20px 0px">

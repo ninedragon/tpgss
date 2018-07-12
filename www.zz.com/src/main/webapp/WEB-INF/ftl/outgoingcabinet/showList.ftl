@@ -976,7 +976,8 @@
 					                    $('#saveDiv #addressId').html('<option value="">--请选择--</option>');
 					                    for (var j = 0; j < epuInfoList.length; j++) {
 					                    	var addressIdVar=epuInfoList[j].addressId;
-					                    	if(addressIdList.length>0 && addressIdList.indexOf(addressIdVar)!=-1)
+					                    	//排除掉已经使用的地址号
+					                    	if(addressIdList.length>0 && addressIdList.indexOf(addressIdVar)!=-1 && addressIdVar!=epuEdit.addressId)
 				                    		{
 				                    		continue;
 				                    		}
