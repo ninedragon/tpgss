@@ -387,10 +387,12 @@
 			                    $('#amDiv #addressId').val(epuParentList[0].addressId);
 			                    var channelNum=parseInt(epuParentList[0].channelId.replace(/(^\s*)|(\s*$)/g, ""));
 			                    $('#amDiv #channelId').html('<option value="">--请选择--</option>');
+			                    $('#amDiv #leakChannelId').html('<option value="">--请选择--</option>');
 			                    for (var i = 1; i <=channelNum; i++) 
 			                    {
-			                   		$('#amDiv #channelId').append('<option value="' + i+ '">' + i+ '</option>');		                      		                        
-			                     }    
+			                   		$('#amDiv #channelId').append('<option value="' + i+ '">' + i+ '</option>');
+			                   		$('#amDiv #leakChannelId').append('<option value="' + i+ '">' + i+ '</option>');	
+			                     }
 			                   
 			                }
 				    });
@@ -518,6 +520,7 @@
 					var districtId=$("#amDiv #districtId").val();
 					var addressId=$("#amDiv #addressId").val();
 					var channelId=$("#amDiv #channelId").val();
+					var leakChannelId=$("#amDiv #leakChannelId").val();
 					var houseId=$("#amDiv #houseId").val();
 					var phaseRemark=$("#amDiv #phaseRemark").val();
 					$("#loadingDiv").show();
@@ -537,6 +540,7 @@
 							districtId:districtId,
 							addressId:addressId,
 							channelId:channelId,
+							leakChannelId:leakChannelId,
 							houseId:houseId,
 							phaseRemark:phaseRemark
 						},
@@ -563,7 +567,7 @@
 					$("#amDiv #districtId").val('');
 				$("#amDiv #addressId").val('');
 				$("#amDiv #channelId").val('');
-
+				$("#amDiv #leakChannelId").val('');
 				$("#amDiv #ammeterName").val('');
 				$("#amDiv #ammeterId").val('');
 				$("#amDiv #houseId").val('');
@@ -588,6 +592,7 @@
     amEdit.districtId;
     amEdit.addressId;
     amEdit.channelId;
+    amEdit.leakChannelId;
     amEdit.epuId;
 
    
@@ -711,6 +716,7 @@
 			                        $('#amDiv #districtId').val(epuParentList[i].districtId);
 		   			                $('#amDiv #addressId').val(epuParentList[i].addressId);	
 		   			                $('#amDiv #channelId').html('<option value="">--请选择--</option>');
+		   			                $('#amDiv #leakChannelId').html('<option value="">--请选择--</option>');
 			                        var channelNum=parseInt(epuParentList[i].channelId.replace(/(^\s*)|(\s*$)/g, "")); 
 	 			                    for (var j = 1; j <=channelNum; j++) 
 	 			                    {
@@ -721,7 +727,15 @@
 	   			                    	{
 	   			                    	 $('#amDiv #channelId').append('<option value="' + j+ '">' + j+ '</option>');	
 	   			                    	}
-	 			                     }    
+	 			                    	if(j==amEdit.leakChannelId)
+	   			                    	{
+	 			                   		$('#amDiv #leakChannelId').append('<option selected="selected" value="' + j+ '">' + j+ '</option>');	
+	   			                    	}else						   			                    		
+	   			                    	{
+	   			                    	 $('#amDiv #leakChannelId').append('<option value="' + j+ '">' + j+ '</option>');	
+	   			                    	}
+	 			                     } 
+	 			                    
    			                    	}
 			                    	else
 			                    	{
@@ -925,10 +939,13 @@
 			                    $('#amDiv #addressId').val(epuParentList[0].addressId);
 			                    var channelNum=parseInt(epuParentList[0].channelId.replace(/(^\s*)|(\s*$)/g, ""));
 			                    $('#amDiv #channelId').html('<option value="">--请选择--</option>');
+			                    $('#amDiv #leakChannelId').html('<option value="">--请选择--</option>');
 			                    for (var i = 1; i <=channelNum; i++) 
 			                    {
-			                   		$('#amDiv #channelId').append('<option value="' + i+ '">' + i+ '</option>');		                      		                        
-			                     }    
+			                   		$('#amDiv #channelId').append('<option value="' + i+ '">' + i+ '</option>');
+			                   		$('#amDiv #leakChannelId').append('<option value="' + i+ '">' + i+ '</option>');	
+			                     }
+			                    
 			                   
 			                }
 				    });
@@ -1056,6 +1073,7 @@
 						var districtId=$("#amDiv #districtId").val();
 						var addressId=$("#amDiv #addressId").val();
 						var channelId=$("#amDiv #channelId").val();
+						var leakChannelId=$("#amDiv #leakChannelId").val();
 						var houseId=$("#amDiv #houseId").val();
 						var phaseRemark=$("#amDiv #phaseRemark").val();
 						$("#loadingDiv").show();
@@ -1075,6 +1093,7 @@
 								districtId:districtId,
 								addressId:addressId,
 								channelId:channelId,
+								leakChannelId:leakChannelId,
 								houseId:houseId,
 								phaseRemark:phaseRemark
 							},
@@ -1116,7 +1135,7 @@
 										   amEdit.districtId=epuInfo.districtId;
 										   amEdit.addressId=epuInfo.addressId;
 										  amEdit.channelId=epuInfo.channelId;
-										   
+										  amEdit.leakChannelId=epuInfo.leakChannelId;
 										
 								    $("#amDiv").show();
 								    amEdit.initPage();
@@ -1281,7 +1300,10 @@
                 <span>关联终端通道号</span>
                 <select name="channelId" id="channelId" class="text requiredSelect" title="关联终端通道号"></select>
             </lable>
-           	
+           	 <lable>
+                <span>漏电通道号</span>
+                <select name="leakChannelId" id="leakChannelId" class="text" title="漏电通道号"></select>
+            </lable>
              <div class="but-nav" style="margin:0px 0px 20px 0px">
                 <span class="but" onclick="javascript:amAdd.submitFun('1');">保&nbsp;&nbsp;存</a></span>
                 <span class="but miss close-js" onclick="$('#amDiv').hide();">取&nbsp;&nbsp;消</span>
