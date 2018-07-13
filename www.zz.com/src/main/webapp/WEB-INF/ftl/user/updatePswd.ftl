@@ -36,7 +36,7 @@
         <table width="100%">
             <tr>
                 <td width="30%" align="center">原密码</td>
-                <td width="70%" align="center"><input name=""  id="pswd" maxlength="20" name="pswd"  type="text" placeholder="请输入原密码"></td>
+                <td width="70%" align="center"><input id="pswd" maxlength="20" name="pswd"  type="text" placeholder="请输入原密码"></td>
             </tr>
             <tr>
                 <td align="center">新密码</td>
