@@ -73,14 +73,26 @@ function initList(pageNo) {
                 if (faultList != null && faultList.length > 0) {
                     for (var i = 0; i < faultList.length; i++) {
                         var json = faultList[i];
+                        var occur_time = "";
+                        if(json.occur_time){
+                        	if(null != json.occur_time && "" != json.occur_time){
+                        		 occur_time =  (new Date(json.occur_time)).Format("yyyy-MM-dd hh:mm:ss");
+                        	}
+                        }
+                        var repair_time = "";
+                        if(json.repair_time){
+                        	if(null != json.repair_time && "" != json.repair_time){
+                        		repair_time =  (new Date(json.repair_time)).Format("yyyy-MM-dd hh:mm:ss");
+                        	}
+                        }
                         tbody += '<tr>';
                         tbody += '<td align="center"><div>' + json.row_name + '</div></td>';
                         tbody += '<td align="center"><div>' + json.epu_type_name + '</div></td>';
                         tbody += '<td align="center"><div>' + json.faultTypeName + '</div></td>';
-                        tbody += '<td align="center"><div>' + json.occur_time + '</div></td>';
+                        tbody += '<td align="center"><div>' + occur_time + '</div></td>';
                         tbody += '<td align="center"><div>' + json.is_cancelled_name + '</div></td>';
                         tbody += '<td align="center"><div>' + json.is_repaired_name + '</div></td>';
-                        tbody += '<td align="center"><div>' + json.repair_time + '</div></td>';
+                        tbody += '<td align="center"><div>' + repair_time + '</div></td>';
                         tbody += '<td align="center"><div>' + json.epu_province_name + '</div></td>';
                         tbody += '<td align="center"><div>' + json.epu_city_name + '</div></td>';
                         tbody += '<td align="center"><div>' + json.epu_district_name + '</div></td>';

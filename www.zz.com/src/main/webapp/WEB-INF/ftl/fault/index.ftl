@@ -83,6 +83,7 @@
 <div class="wapp-layer" id="showFaultBase">
 </div>
 <!--弹层结束/-->
+  <script src="${basePath}/woodare/js/dateFormat.js"></script>
   <script src="${basePath}/woodare/js/faultLocationList.js"></script>
 	<script >
 		so.init(function(){
