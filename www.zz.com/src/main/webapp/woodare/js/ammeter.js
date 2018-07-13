@@ -317,12 +317,12 @@ function showTop(data,rowId,tableBoxId){
 	}
 	 var widthVal = (ammeterX + 350);
 	 var heightVal = (table_ammeterY + 150);
-	 var temp = heightVal + 400;
-//	 parent.$("#tab3Iframe").attr("width", widthVal).attr("height", temp);
+	  var temp = heightVal + 400 ;
 	 svgSnap.attr("width", widthVal).attr("height", temp)
 	 parent.$("#tableBoxDiv").css("overflow", "auto");
 	 parent.$(".ammeter").css("width", "650px");
 	 $("#falutDiv").css("width", "950px").css("top",( temp - 500)+"px");
+	 parent.$("#tab3Iframe").attr("height", (temp));
 	 
 	 javaScriptObj.svgObj = layerSnap;
 	 //加载故障
@@ -756,6 +756,7 @@ function clickScale(param){
 			var tableBoxId = parent.$("#tableBoxId").val();
 			scaleZoom = 1;//每次单击菜单，缩放级别回归到1
 			$("#wd").val(scaleZoom);//文本框内容缩放级别值
+			$("#wdPercentage").val((scaleZoom * 100)+"%"); //文本框内容缩放级别值
 			showTop(dataTemp,rowId,tableBoxId);
 		}
 	}else if(param == "min"){
@@ -772,7 +773,8 @@ function setScale(svgSnap,zoom){
 	if(zoom < 1){
 		zoom = zoom.toFixed(1);
 	}
-	$("#wd").val(zoom);//文本框内容缩放级别值
+	$("#wd").val(zoom);//文本框内容缩放级别
+   $("#wdPercentage").val((zoom * 100)+"%"); //文本框内容缩放级别值值
 	svgSnap.attr("transform","scale(" + zoom + " " + zoom + ") translate(" + x + " " + y + ")");
 }
 

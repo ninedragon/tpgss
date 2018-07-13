@@ -140,20 +140,20 @@ function branchboxTableUipq(obj){
 			        				if(branchBoxId == key){
 			        					var cChannelid = j_json["cChannelid"];
 			        					if(cChannelid == 1 || cChannelid == "1"){
-						        			  ua = j_json["u"].toFixed(2);
-						        			  ia = j_json["i"].toFixed(2);
-						        			  pa = j_json["p"].toFixed(2);
-						        			  qa = j_json["q"].toFixed(2);
+						        			  ua = parseFloat(j_json["u"] || 0).toFixed(2);
+						        			  ia = parseFloat(j_json["i"] || 0).toFixed(2);
+						        			  pa = parseFloat(j_json["p"] || 0).toFixed(2);
+						        			  qa = parseFloat(j_json["q"] || 0).toFixed(2);
 						        		}else if(cChannelid == 2 || cChannelid == "2"){
-						        			  ub = j_json["u"].toFixed(2);
-						        			  ib = j_json["i"].toFixed(2);
-						        			  pb = j_json["p"].toFixed(2);
-						        			  qb = j_json["q"].toFixed(2);
+						        			  ub = parseFloat(j_json["u"] || 0).toFixed(2);
+						        			  ib = parseFloat(j_json["i"] || 0).toFixed(2);
+						        			  pb = parseFloat(j_json["p"] || 0).toFixed(2);
+						        			  qb = parseFloat(j_json["q"] || 0).toFixed(2);
 						        		}else if(cChannelid == 3 || cChannelid == "3"){
-						        			  uc = j_json["u"].toFixed(2);
-						        			  ic = j_json["i"].toFixed(2);
-						        			  pc = j_json["p"].toFixed(2);
-						        			  qc = j_json["q"].toFixed(2);
+						        			  uc = parseFloat(j_json["u"] || 0).toFixed(2);
+						        			  ic = parseFloat(j_json["i"] || 0).toFixed(2);
+						        			  pc = parseFloat(j_json["p"] || 0).toFixed(2);
+						        			  qc = parseFloat(j_json["q"] || 0).toFixed(2);
 						        		}
 			        				}
 			        			}
@@ -274,7 +274,6 @@ function loadWebsocket(){
     	 if(evnt.data.indexOf("faultRendering") !=-1){
     		 var json = JSON.parse(evnt.data);
     		 if(json.key == javaScriptObj.substationId){
-    			 clickTopoError(true);//清理TOPO错误渲染
 	    		 //故障渲染
 	    		 faultClick(undefined);
     		 }

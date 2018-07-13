@@ -72,11 +72,13 @@ public class FaultServiceImpl extends BaseMybatisDao<FaultInfoMapper> implements
 				listMap.put(table_name, recordList);
 			}
 		}
-		resultMap.put("t_ableakage_i", ""); //异常漏电
-		resultMap.put("t_abnormal_u", ""); //异常电压
-		resultMap.put("t_abnormal_z", "");//异常阻抗
-		resultMap.put("t_leakage_i", ""); //周期漏电
-		resultMap.put("t_short_i", "");//短路电流
+		//1表示t_short_i，2表示t_leakage_i，3表示t_ableakage_i，4表示t_abnormal_u,5表示t_abnormal_z，6表示t_power_quality
+		resultMap.put("1", "");//短路电流t_short_i     1
+		resultMap.put("2", ""); //周期漏电t_leakage_i  2
+		resultMap.put("3", ""); //异常漏电t_ableakage_i  3
+		resultMap.put("4", ""); //异常电压t_abnormal_u  4
+		resultMap.put("5", "");//异常阻抗t_abnormal_z   5
+		resultMap.put("6", "");//电源质量t_power_quality   6
 		for (String key : listMap.keySet()) {
 			List<String>  tempList = listMap.get(key);
 			resultMap.put(key,  StringUtils.join(tempList, ","));

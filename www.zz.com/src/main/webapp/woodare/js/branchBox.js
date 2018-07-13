@@ -45,6 +45,7 @@ function showList(rowId,tableBoxId,branchBoxId,meterboxId,meterboxEpuName,childr
 	 var widthVal = 800;
 	 var heightVal = 900;
 	 var temp = heightVal ;
+	 $("#falutDiv").css("width",widthVal+ "px").css("top",( temp - 500)+"px");
 	 parent.$("#tab4Iframe").attr("width", widthVal).attr("height", temp);
 //	 parent.$("#branchBoxDiv").css("height", "auto");
 //	 parent.$(".branchBox").css("width", (widthVal + 20)+"px").css("height", (heightVal - 150)+ "px");

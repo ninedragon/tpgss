@@ -177,6 +177,7 @@ var SVG_HELPER = (function() {
             wd = wd.toFixed(1);
         }
         $("#wd").val(wd); //文本框内容缩放级别值
+        $("#wdPercentage").val((wd * 100)+"%"); //文本框内容缩放级别值
         svgSnap.attr("transform", "scale(" + wd + " " + wd + ") translate(0 0)");
         // 画左侧标识
         svgSnap.append('text').attr("font-size", "36").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text("箱变").attr("x", 20).attr("y", 100);
@@ -213,6 +214,7 @@ var SVG_HELPER = (function() {
                     zoom = zoom.toFixed(1);
                 }
                 $("#wd").val(zoom); //文本框内容缩放级别值
+                $("#wdPercentage").val((zoom * 100)+"%"); //文本框内容缩放级别值
             },
             topoHeight: function() {
                 return svgSnap.attr("height");

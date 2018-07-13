@@ -15,11 +15,19 @@ import com.zz.common.dao.PowerQualityMapper;
 import com.zz.common.model.PowerQuality;
 import com.zz.common.utils.TimesegmentUtils;
 import com.zz.core.mybatis.BaseMybatisDao;
+import com.zz.core.mybatis.page.Pagination;
 import com.zz.fault.service.PowerQualityService;
 @Service
 public class PowerQualityServiceImpl extends BaseMybatisDao<PowerQualityMapper> implements PowerQualityService {
 	@Autowired
 	PowerQualityMapper owerQualityMapper;
+	@SuppressWarnings("unchecked")
+	@Override
+	public Pagination<PowerQuality> findByPage(Map<String, Object> resultMap, Integer pageNo, Integer pageSize) {
+		return super.findPage(resultMap, pageNo, pageSize);
+	}
+	
+	
 	@SuppressWarnings("static-access")
 	public List<PowerQuality> selectBranchboxUIPQ(String outgoingCabinetIds) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();

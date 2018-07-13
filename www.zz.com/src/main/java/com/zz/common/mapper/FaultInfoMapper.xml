@@ -9,12 +9,12 @@
     <id column="row_id" jdbcType="VARCHAR" property="row_id" />
     <result column="row_name" jdbcType="VARCHAR" property="row_name" />
     <result column="fault_type" jdbcType="VARCHAR" property="fault_type" />
-    <result column="occur_time" jdbcType="VARCHAR" property="occur_time" />
+    <result column="occur_time" jdbcType="TIMESTAMP" property="occur_time" />
     <result column="is_cancelled" jdbcType="VARCHAR" property="is_cancelled" />
     <result column="is_cancelled_name" jdbcType="VARCHAR" property="is_cancelled_name" />
     <result column="is_repaired" jdbcType="VARCHAR" property="is_repaired" />
     <result column="is_repaired_name" jdbcType="VARCHAR" property="is_repaired_name" />
-    <result column="repair_time" jdbcType="VARCHAR" property="repair_time" />
+    <result column="repair_time" jdbcType="TIMESTAMP" property="repair_time" />
     <result column="faultTypeName" jdbcType="VARCHAR" property="faultTypeName" />
     <result column="epu_province" jdbcType="VARCHAR" property="epu_province" />
     <result column="epu_city" jdbcType="VARCHAR" property="epu_city" />
@@ -76,7 +76,7 @@
 		temp.row_name,
 		temp.fault_base_id,
 		temp.fault_type,
-		from_unixtime(unix_timestamp(temp.occur_time),'%Y-%m-%d %H:%I:%S')  AS occur_time,
+		temp.occur_time,
 		temp.is_cancelled,
 		(
 			CASE
@@ -99,7 +99,7 @@
 				''
 			END
 		) AS is_repaired_name,
-		from_unixtime(unix_timestamp(temp.repair_time),'%Y-%m-%d %H:%I:%S') AS repair_time,
+		temp.repair_time,
 		temp.faultTypeName,
 		temp.epu_province,
 		temp.epu_city,
