@@ -375,7 +375,7 @@
 		C_DistrictBCDId,
 		C_AddressId,
 		C_FrameCmdId,
-		from_unixtime(unix_timestamp(C_RecordInsertTime),'%Y-%m-%d %H:%I:%S') AS C_RecordInsertTime,
+		C_RecordInsertTime,
 		C_FaultId,
 		ua,
 		ub,

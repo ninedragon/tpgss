@@ -18,26 +18,8 @@ public class ShortI {
     private Float i;
 
     private Date cRecordinserttime;
-    private String strCRecordinserttime;
 
     private Date occurtime;
-    private String strOccurtime;
-
-    public String getStrCRecordinserttime() {
-		return strCRecordinserttime;
-	}
-
-	public void setStrCRecordinserttime(String strCRecordinserttime) {
-		this.strCRecordinserttime = strCRecordinserttime;
-	}
-
-	public String getStrOccurtime() {
-		return strOccurtime;
-	}
-
-	public void setStrOccurtime(String strOccurtime) {
-		this.strOccurtime = strOccurtime;
-	}
 
 	public Integer getId() {
         return id;

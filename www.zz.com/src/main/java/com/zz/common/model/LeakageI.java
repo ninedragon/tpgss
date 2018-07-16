@@ -23,16 +23,6 @@ public class LeakageI {
 
     private Date cRecordinserttime;
     
-    private String strCRecordinserttime;
-
-    public String getStrCRecordinserttime() {
-		return strCRecordinserttime;
-	}
-
-	public void setStrCRecordinserttime(String strCRecordinserttime) {
-		this.strCRecordinserttime = strCRecordinserttime;
-	}
-
 	public Integer getId() {
         return id;
     }
