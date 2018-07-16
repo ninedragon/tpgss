@@ -131,6 +131,20 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>编号</td>
+                    <td>描述</td>
+                    <td>数据</td>
+                    <td>操作</td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>发送阻抗数据</td>
+                    <td>00123</td>
+                    <td>
+                        <button onclick="sendA4()">发送阻抗数据</button>
+                    </td>
+                </tr>
+                <tr>
                     <td>21</td>
                     <td>计算阻抗数据</td>
                     <td>00123</td>
@@ -245,6 +259,13 @@
         $.post('${basePath}/dad/sendA22.shtml', {name: 1}, function (data, textStatus, xhr) {
             /*optional stuff to do after success */
             console.log("异常漏电发送成功");
+        });
+    }
+
+    function sendA4() {
+        $.post('${basePath}/dad/sendA4.shtml', {name: 1}, function (data, textStatus, xhr) {
+            /*optional stuff to do after success */
+            console.log("阻抗数据发送成功");
         });
     }
 

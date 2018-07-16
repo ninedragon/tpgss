@@ -73,6 +73,11 @@ import com.zz.deviceAndData.service.DataCollectionService;
 			String json = JSON.toJSONString(ndtudata);
 			System.out.println(json);
 		}
+
+		if(buff[6]==0xA4) {
+			String json = JSON.toJSONString(ndtudata);
+			System.out.println(json);
+		}
 		Date nowtime = new Date();
 		SimpleDateFormat format0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		String time = format0.format(nowtime.getTime());// 这个就是把时间戳经过处理得到期望格式的时间

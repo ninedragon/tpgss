@@ -188,6 +188,15 @@ public class DADController extends BaseController {
 		String json="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0006681400140068A2160113000001010A00180712104532EA24213BFA16\"},\"eventTime\":\"20180628T073047Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
 		return sendA(json);
 	}
+
+	//【2.6】发送A4信号，发送阻抗数据
+	@RequestMapping(value = "sendA4")
+	@ResponseBody
+	String sendA4()  {
+		String json="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0006686700670068A4160113000001180712B7026F6269433E8A513E47A3183E0601F210A740DA3DE940D4E1013D02AAE1B83F08B1B7BB29653E3D03E219BD3F7BD658BB2DDF303D04DE7744401860044181B0193D059BBC7E40D65A1141FE90223D06785E52C04845313F95F7B83C9416\"},\"eventTime\":\"20180628T073047Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		return sendA(json);
+	}
+
 	/*
 	* 发送json数据
 	* */

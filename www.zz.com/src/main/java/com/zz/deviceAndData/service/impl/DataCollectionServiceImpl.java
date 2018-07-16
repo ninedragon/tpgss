@@ -133,11 +133,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             case "ShortI":// 短路电流
                 shortIMapper.insertSelective((ShortI) object);
                 String shortIrecordId = ((ShortI) object).getId() + "";
-                if (true) {// 【1】异常产生
                     insertShortIFault(object, shortIrecordId);// 11表示短路
-                } else {
-                    logger.error("终端上报的异常漏电数据在20mA和30mA之间，终端程序可能出现异常");
-                }
+
                 return errorCode;
             case "LeakageI":// 正常漏电电流
                 return leakageIMapper.insertSelective((LeakageI) object);
@@ -222,7 +219,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 }
 
                 return errorCode;
-            case "AbnormalZ":// 异常阻抗
+            case "t_abnormal_z":// 异常阻抗
                 return t_abnormalZMapper1.insertSelective((t_abnormal_z) object);
             case "PowerQuality":// 电能质量
                 return powerQualityMapper.insertSelective((PowerQuality) object);
@@ -263,21 +260,21 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             t_fault_nowExample t_fault_nowExample1 = new t_fault_nowExample();
             t_fault_nowExample1.setOrderByClause("occur_time DESC");
             t_fault_nowExample.Criteria criteria = t_fault_nowExample1.createCriteria();
-            criteria.andFault_typeEqualTo(t_fault_base1.getFault_type()).andKey_idEqualTo(t_fault_base1.getKey_id());
+            criteria.andFault_typeEqualTo(t_fault_base1.getFault_type()).andKey_idEqualTo(t_fault_base1.getKey_id()).andIs_repairedEqualTo(0);
             List<t_fault_now> t_fault_nows = t_fault_nowMapper1.selectByExample(t_fault_nowExample1);
             t_fault_baseMapper1.insertSelective(t_fault_base1);
             long id = t_fault_base1.getId();
             // 【2】插入now可选表,判断是不是同一个故障，不是则插入t_fault_now,是则不做变化
             t_fault_now t_fault_now1 = new t_fault_now();
             // 目前采用将不同的设备采用address区分
-            Boolean isSame = false;
+            Boolean isSame = false;//查出所有now所有未被修复的数据是否存在
 
             //【2.1】根据给定的去数据库查，有匹配就认定有相同的，
 
             if (t_fault_nows.size() > 0) {//有该故障且该故障未被修复
                 isSame = true;
             }
-            if (!isSame||t_fault_nows.get(0).getIs_repaired() == 1) {
+            if (!isSame || t_fault_nows.get(0).getIs_repaired() == 1) {
                 t_fault_now1.setType(t_fault_base1.getType());//表示表箱出现故障
                 t_fault_now1.setKey_id(t_fault_base1.getKey_id());
                 t_fault_now1.setFault_type(t_fault_base1.getFault_type());
@@ -292,23 +289,22 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 // 【3】插入source表
                 // 【3.1】记录故障id，recordid，name
                 t_fault_source t_fault_source1 = new t_fault_source();
-                t_fault_source1.setFault_id(t_fault_now1.getId() + "");
+                t_fault_source1.setFault_id(id + "");
                 t_fault_source1.setTable_name("3");
                 t_fault_source1.setRecord_id(recordId);
                 t_fault_sourceMapper1.insertSelective(t_fault_source1);
             } else {//如果相同则要看是否修复，未被修复走3.1
-                    // 【3.1】如果相同也要将source表添加该条记录，now表其实和
-                    t_fault_source t_fault_source1 = new t_fault_source();
-                    long nowid = t_fault_nows.get(0).getId();
-                    t_fault_source1.setFault_id(nowid + "");
-                    t_fault_source1.setTable_name("3");
-                    t_fault_source1.setRecord_id(recordId);
-                    t_fault_sourceMapper1.insertSelective(t_fault_source1);
+                // 【3.1】如果相同也要将source表添加该条记录，now表其实和
+                t_fault_source t_fault_source1 = new t_fault_source();
+                t_fault_source1.setFault_id(id + "");
+                t_fault_source1.setTable_name("3");
+                t_fault_source1.setRecord_id(recordId);
+                t_fault_sourceMapper1.insertSelective(t_fault_source1);
 
 
-                }
             }
         }
+    }
 
 
     /*
@@ -328,8 +324,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             t_meterExample.Criteria criteria = t_meterExample1.createCriteria();
             criteria.andC_AddressIdEqualTo(shortI.getcAddressid().toString()).andC_DistrictBCDIdEqualTo(shortI.getcDistrictbcdid()).andC_ChannelIdEqualTo(shortI.getcChannelid());
             List<t_meter> t_metersList = t_meterMapper1.selectByExample(t_meterExample1);//在资产相关表中查出id
-            t_fault_base1.setKey_id(t_metersList.get(0).getMeterId().toString());// TODO: 2018/6/25 目前在想到底是否要查ndtu表得到type
-            t_fault_base1.setFault_type(11);// 表示短路
+            if (t_metersList.size() > 0) {
+                t_fault_base1.setKey_id(t_metersList.get(0).getMeterId().toString());// TODO: 2018/6/25 目前在想到底是否要查ndtu表得到type
+            }
+            t_fault_base1.setFault_type(11);// 表示电表短路
 
         } else {
             t_fault_base1.setType(3);//表示分支箱异常
@@ -345,21 +343,21 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         t_fault_base1.setRepair_time(null);
         t_fault_base1.setIs_repaired(0);//否
         // 【2.1】先去数据库查一下
-        t_fault_baseExample t_fault_baseExample1 = new t_fault_baseExample();
-        t_fault_baseExample.Criteria criteria = t_fault_baseExample1.createCriteria();
-        criteria.andFault_typeEqualTo(t_fault_base1.getFault_type()).andKey_idEqualTo(t_fault_base1.getKey_id()).andFault_typeEqualTo(t_fault_base1.getFault_type());
-        List<t_fault_base> t_fault_bases = t_fault_baseMapper1.selectByExample(t_fault_baseExample1);
+        t_fault_nowExample t_fault_nowExample1 = new t_fault_nowExample();
+        t_fault_nowExample1.setOrderByClause("occur_time DESC");
+        t_fault_nowExample.Criteria criteria = t_fault_nowExample1.createCriteria();
+        criteria.andFault_typeEqualTo(t_fault_base1.getFault_type()).andKey_idEqualTo(t_fault_base1.getKey_id()).andIs_repairedEqualTo(0);
+        List<t_fault_now> t_fault_nows = t_fault_nowMapper1.selectByExample(t_fault_nowExample1);
         t_fault_baseMapper1.insertSelective(t_fault_base1);
         long id = t_fault_base1.getId();
         // 【2】插入now可选表,判断是不是同一个故障，不是则插入t_fault_now,是则不做变化
         t_fault_now t_fault_now1 = new t_fault_now();
-        // TODO: 2018/6/25  具体识别ndtu和bdtu的代码尚不实现，目前采用将不同的设备采用address区分
-        Boolean isSame = false;// TODO:  2018/6/25 怎么判断是不是同一个故障
+        Boolean isSame = false;//
         //【2.1】根据给定的去数据库查，查得到就认定有相同的
-        if (t_fault_bases.size() > 0) {
+        if (t_fault_nows.size() > 0) {
             isSame = true;
         }
-        if (!isSame) {
+        if (!isSame|| t_fault_nows.get(0).getIs_repaired() == 1) {
             t_fault_now1.setType(t_fault_base1.getType());//表示表箱出现故障
             t_fault_now1.setKey_id(t_fault_base1.getKey_id());
             t_fault_now1.setFault_type(t_fault_base1.getFault_type());
@@ -381,8 +379,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         } else {
             // 【3.1】如果相同也要将source表添加该条记录，now表其实和
             t_fault_source t_fault_source1 = new t_fault_source();
-            long nowid = t_fault_bases.get(0).getId();// TODO: 2018/6/27 在无重复的时候无问题，重复的时候会出现问题
-            t_fault_source1.setFault_id(nowid + "");
+            t_fault_source1.setFault_id(id + "");
             t_fault_source1.setTable_name("1");
             t_fault_source1.setRecord_id(recordId);
             t_fault_sourceMapper1.insertSelective(t_fault_source1);
@@ -429,7 +426,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             t_fault_now paramsMap = new t_fault_now();
             paramsMap.setIs_repaired(1);
             List<t_fault_now> t_fault_nows = t_fault_nowMapper1.selectByExample(t_fault_nowExample1);
-            if(t_fault_nows.size()>1){
+            if (t_fault_nows.size() > 1) {
                 logger.warn("故障表出现异常，相同设备类型相同故障有两个以上未被修复");
                 return;
             }
@@ -480,20 +477,32 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             t_fault_now paramsMap = new t_fault_now();
             paramsMap.setIs_repaired(1);
             List<t_fault_now> t_fault_nows = t_fault_nowMapper1.selectByExample(t_fault_nowExample1);
-            if(t_fault_nows.size()>1){
+            if (t_fault_nows.size() > 1) {
                 logger.warn("故障表出现异常，相同设备类型相同故障有两个以上未被修复");
-                return;
-            }
-            Date date = new Date();
-            Timestamp timeStamp = new Timestamp(date.getTime());
-            paramsMap.setRepair_time(timeStamp);
-            int updateCode = t_fault_nowMapper1.updateByExampleSelective(paramsMap, t_fault_nowExample1);
+                //直接把它全部修复吗，貌似可以啊
+                Date date = new Date();
+                Timestamp timeStamp = new Timestamp(date.getTime());
+                paramsMap.setRepair_time(timeStamp);
+                int updateCode = t_fault_nowMapper1.updateByExampleSelective(paramsMap, t_fault_nowExample1);
 
-            if (updateCode == 0) {
-                logger.error("终端上传的电压异常故障在数据库中无匹配，导致无法将故障置为恢复");
+                if (updateCode == 0) {
+                    logger.error("终端上传的电压异常故障在数据库中无匹配，导致无法将故障置为恢复");
+                } else {
+                    noticeServer(substainId);
+                    logger.info("数据库中有" + updateCode + "条故障被修复");
+                }
             } else {
-                noticeServer(substainId);
-                logger.info("数据库中有" + updateCode + "条故障被修复");
+                Date date = new Date();
+                Timestamp timeStamp = new Timestamp(date.getTime());
+                paramsMap.setRepair_time(timeStamp);
+                int updateCode = t_fault_nowMapper1.updateByExampleSelective(paramsMap, t_fault_nowExample1);
+
+                if (updateCode == 0) {
+                    logger.error("终端上传的电压异常故障在数据库中无匹配，导致无法将故障置为恢复");
+                } else {
+                    noticeServer(substainId);
+                    logger.info("数据库中有" + updateCode + "条故障被修复");
+                }
             }
         } else if ("AbnormalZ".equals(className)) {
         } else if ("PowerQuality".equals(className)) {
@@ -540,7 +549,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         t_fault_nowExample t_fault_nowExample1 = new t_fault_nowExample();
         t_fault_nowExample1.setOrderByClause("occur_time DESC");
         t_fault_nowExample.Criteria criteria = t_fault_nowExample1.createCriteria();
-        criteria.andFault_typeEqualTo(t_fault_base1.getFault_type()).andKey_idEqualTo(t_fault_base1.getKey_id());
+        criteria.andFault_typeEqualTo(t_fault_base1.getFault_type()).andKey_idEqualTo(t_fault_base1.getKey_id()).andIs_repairedEqualTo(0);
         List<t_fault_now> t_fault_nows = t_fault_nowMapper1.selectByExample(t_fault_nowExample1);
         t_fault_baseMapper1.insertSelective(t_fault_base1);
         long id = t_fault_base1.getId();
@@ -553,7 +562,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (t_fault_nows.size() > 0) {
             isSame = true;
         }
-        if (!isSame||t_fault_nows.get(0).getIs_repaired() == 1) {//故障不同或者故障相同但是被修复了，应该是去查now表是否有数据，而不是base
+        if (!isSame || t_fault_nows.get(0).getIs_repaired() == 1) {//故障不同或者故障相同但是被修复了，应该是去查now表是否有数据，而不是base
             t_fault_now1.setType(t_fault_base1.getType());//表示表箱出现故障
             t_fault_now1.setKey_id(t_fault_base1.getKey_id());
             t_fault_now1.setFault_type(t_fault_base1.getFault_type());
@@ -568,18 +577,17 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             // 【3】插入source表
             // 【3.1】记录故障id，recordid，name
             t_fault_source t_fault_source1 = new t_fault_source();
-            t_fault_source1.setFault_id(t_fault_now1.getId() + "");
+            t_fault_source1.setFault_id(id + "");
             t_fault_source1.setTable_name("4");
             t_fault_source1.setRecord_id(recordId);
             t_fault_sourceMapper1.insertSelective(t_fault_source1);
         } else {//如果未被修复则走这个流程，如果修复走另外的流程
-                // 【3.1】如果相同也要将source表添加该条记录，now表其实和
-                t_fault_source t_fault_source1 = new t_fault_source();
-                long nowid = t_fault_nows.get(0).getId();// 拿到最新的一条数据
-                t_fault_source1.setFault_id(nowid + "");
-                t_fault_source1.setTable_name("4");
-                t_fault_source1.setRecord_id(recordId);
-                t_fault_sourceMapper1.insertSelective(t_fault_source1);
+            // 【3.1】如果相同也要将source表添加该条记录，now表其实和
+            t_fault_source t_fault_source1 = new t_fault_source();
+            t_fault_source1.setFault_id(id + "");
+            t_fault_source1.setTable_name("4");
+            t_fault_source1.setRecord_id(recordId);
+            t_fault_sourceMapper1.insertSelective(t_fault_source1);
 
         }
     }
@@ -1024,7 +1032,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             tmp.setC_AddressId(deviceId);
             tmp.setC_FrameCmdId("A4");
             tmp.setRecordDateBCD(recorddatebcd);
-            tmp.setTSegmentId(buff[16]);
+            tmp.setTSegmentId(buff[16] + (buff[17] << 8));
             tmp.setUa(Ints2floatUtil.ints2float(buff, 18));
             tmp.setUb(Ints2floatUtil.ints2float(buff, 22));
             tmp.setUc(Ints2floatUtil.ints2float(buff, 26));
@@ -1077,7 +1085,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             tmp.setcAddressid(deviceId);
             tmp.setcFramecmdid("A5");
             tmp.setRecorddatebcd(recorddatebcd);
-            tmp.setTsegmentid(buff[16]);
+            tmp.setTsegmentid(buff[16] + (buff[17] << 8));
             tmp.setUa(Ints2floatUtil.ints2float(buff, 18));
             tmp.setUb(Ints2floatUtil.ints2float(buff, 22));
             tmp.setUc(Ints2floatUtil.ints2float(buff, 26));
