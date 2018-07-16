@@ -51,7 +51,7 @@
 		                },
 		                success: function (a) {
 		                    var length = a.length;
-		                    $('#epuProvince').html('<option value="">--请选择--</option>');
+		                    $('#saveDiv #epuProvince').html('<option value="">--请选择--</option>');		                  
 		                    for (var i = 0; i < length; i++) {
 		                        $('#epuProvince').append('<option value="' + a[i].provinceId + '">' + a[i].provinceNameCn + '</option>');
 		                    }
