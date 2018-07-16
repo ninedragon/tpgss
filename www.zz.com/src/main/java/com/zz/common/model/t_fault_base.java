@@ -19,6 +19,8 @@ public class t_fault_base {
 
     private Integer is_repaired;
 
+    private String substain_id;
+
     public Long getId() {
         return id;
     }
@@ -81,5 +83,13 @@ public class t_fault_base {
 
     public void setIs_repaired(Integer is_repaired) {
         this.is_repaired = is_repaired;
+    }
+
+    public String getSubstain_id() {
+        return substain_id;
+    }
+
+    public void setSubstain_id(String substain_id) {
+        this.substain_id = substain_id == null ? null : substain_id.trim();
     }
 }

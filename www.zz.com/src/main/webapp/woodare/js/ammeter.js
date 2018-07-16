@@ -858,9 +858,8 @@ function setFalut(){
 	    				$("#meterText_" + key+ " text").find("tspan").eq((count - 1)).text(faultTypeName);
 	    			}
 	    			updateClass("meterText_" + key+ " text", "error");
-	    			
 	    			updateClass("meterLine_" +key, "error");
-	    			updateClass(key + "_line_1", "error");
+//	    			updateClass(key + "_line_1", "error");
 	    			updateClass(key + "_line_2", "error");
 	    			updateClass(key + "_line", "error");
 	    		

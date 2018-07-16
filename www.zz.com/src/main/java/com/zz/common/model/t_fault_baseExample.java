@@ -594,6 +594,76 @@ public class t_fault_baseExample {
             addCriterion("is_repaired not between", value1, value2, "is_repaired");
             return (Criteria) this;
         }
+
+        public Criteria andSubstain_idIsNull() {
+            addCriterion("substain_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubstain_idIsNotNull() {
+            addCriterion("substain_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubstain_idEqualTo(String value) {
+            addCriterion("substain_id =", value, "substain_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubstain_idNotEqualTo(String value) {
+            addCriterion("substain_id <>", value, "substain_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubstain_idGreaterThan(String value) {
+            addCriterion("substain_id >", value, "substain_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubstain_idGreaterThanOrEqualTo(String value) {
+            addCriterion("substain_id >=", value, "substain_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubstain_idLessThan(String value) {
+            addCriterion("substain_id <", value, "substain_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubstain_idLessThanOrEqualTo(String value) {
+            addCriterion("substain_id <=", value, "substain_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubstain_idLike(String value) {
+            addCriterion("substain_id like", value, "substain_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubstain_idNotLike(String value) {
+            addCriterion("substain_id not like", value, "substain_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubstain_idIn(List<String> values) {
+            addCriterion("substain_id in", values, "substain_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubstain_idNotIn(List<String> values) {
+            addCriterion("substain_id not in", values, "substain_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubstain_idBetween(String value1, String value2) {
+            addCriterion("substain_id between", value1, value2, "substain_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubstain_idNotBetween(String value1, String value2) {
+            addCriterion("substain_id not between", value1, value2, "substain_id");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

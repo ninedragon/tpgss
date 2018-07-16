@@ -68,7 +68,7 @@ ul.left-nav ul.side-nav li:last-child{ border:0px;}
 ---------------------------------------- */
 .search{ width:100%; float:left; border-bottom:1px solid #EEE; padding:0px 0px 10px 0px;}
 .search lable{ float:left; height:32px; line-height:32px; margin:10px 20px 0px 0px;}
-.search lable span{ width:85px; float:left; font-size:14px; color:#333; text-align:left; font-weight:bold; margin:0px 10px 0px 0px;}
+.search lable span{  float:left; font-size:14px; color:#333; text-align:left; font-weight:bold; margin:0px 10px 0px 0px;}
 .search lable span.wd01{ width:115px;}
 .search lable select{ float:left; width:132px; height:32px; font-size:14px; color:#333; text-align:left; border:1px solid #CCC; -webkit-border-radius:5px;}
 .search lable input{ float:left; width:130px; height:30px; font-size:14px; color:#333; text-align:left; border:1px solid #CCC; -webkit-border-radius:5px; text-indent:5px;}

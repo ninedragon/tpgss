@@ -98,6 +98,48 @@
     from t_substain
     where substainId = #{substainId,jdbcType=VARCHAR}
   </select>
+
+  <select id="selectSubstainIdByNdtu" resultType="java.lang.String">
+    SELECT
+    substainId
+    FROM
+    t_substain
+    WHERE
+    substainId=
+    (SELECT
+    substainId
+    FROM
+    t_outgoingcabinet
+    WHERE
+    outgoingCabinetId = (
+    SELECT
+    outgoingCabinetId
+    FROM
+    t_branchbox
+    WHERE
+    t_branchbox.branchBoxId = (
+    SELECT
+    t_meterbox.branchBoxId
+    FROM
+    t_meterbox
+    WHERE
+    C_DistrictBCDId =#{0}
+    AND C_AddressId = #{1}
+    )
+    ))
+  </select>
+  <select id="selectSubstainIdByBdtu" resultType="java.lang.String">
+    SELECT
+t_outgoingcabinet.substainId
+
+FROM
+t_outgoingcabinet
+WHERE
+t_outgoingcabinet.C_DistrictBCDId = #{0} AND
+t_outgoingcabinet.C_AddressId = #{1}
+
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_substain
     where substainId = #{substainId,jdbcType=VARCHAR}

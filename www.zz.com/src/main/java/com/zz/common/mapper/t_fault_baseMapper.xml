@@ -10,6 +10,7 @@
     <result column="is_cancelled" property="is_cancelled" jdbcType="INTEGER" />
     <result column="repair_time" property="repair_time" jdbcType="TIMESTAMP" />
     <result column="is_repaired" property="is_repaired" jdbcType="INTEGER" />
+    <result column="substain_id" property="substain_id" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -70,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, type, key_id, fault_type, occur_time, is_cancelled, repair_time, is_repaired
+    id, type, key_id, fault_type, occur_time, is_cancelled, repair_time, is_repaired, 
+    substain_id
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zz.common.model.t_fault_baseExample" >
     select
@@ -105,10 +107,12 @@
   <insert id="insert" parameterType="com.zz.common.model.t_fault_base" >
     insert into t_fault_base (id, type, key_id, 
       fault_type, occur_time, is_cancelled, 
-      repair_time, is_repaired)
+      repair_time, is_repaired, substain_id
+      )
     values (#{id,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{key_id,jdbcType=VARCHAR}, 
       #{fault_type,jdbcType=INTEGER}, #{occur_time,jdbcType=TIMESTAMP}, #{is_cancelled,jdbcType=INTEGER}, 
-      #{repair_time,jdbcType=TIMESTAMP}, #{is_repaired,jdbcType=INTEGER})
+      #{repair_time,jdbcType=TIMESTAMP}, #{is_repaired,jdbcType=INTEGER}, #{substain_id,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.zz.common.model.t_fault_base" >
     insert into t_fault_base
@@ -137,6 +141,9 @@
       <if test="is_repaired != null" >
         is_repaired,
       </if>
+      <if test="substain_id != null" >
+        substain_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -162,6 +169,9 @@
       </if>
       <if test="is_repaired != null" >
         #{is_repaired,jdbcType=INTEGER},
+      </if>
+      <if test="substain_id != null" >
+        #{substain_id,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -198,6 +208,9 @@
       <if test="record.is_repaired != null" >
         is_repaired = #{record.is_repaired,jdbcType=INTEGER},
       </if>
+      <if test="record.substain_id != null" >
+        substain_id = #{record.substain_id,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -212,7 +225,8 @@
       occur_time = #{record.occur_time,jdbcType=TIMESTAMP},
       is_cancelled = #{record.is_cancelled,jdbcType=INTEGER},
       repair_time = #{record.repair_time,jdbcType=TIMESTAMP},
-      is_repaired = #{record.is_repaired,jdbcType=INTEGER}
+      is_repaired = #{record.is_repaired,jdbcType=INTEGER},
+      substain_id = #{record.substain_id,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -241,6 +255,9 @@
       <if test="is_repaired != null" >
         is_repaired = #{is_repaired,jdbcType=INTEGER},
       </if>
+      <if test="substain_id != null" >
+        substain_id = #{substain_id,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -252,7 +269,8 @@
       occur_time = #{occur_time,jdbcType=TIMESTAMP},
       is_cancelled = #{is_cancelled,jdbcType=INTEGER},
       repair_time = #{repair_time,jdbcType=TIMESTAMP},
-      is_repaired = #{is_repaired,jdbcType=INTEGER}
+      is_repaired = #{is_repaired,jdbcType=INTEGER},
+      substain_id = #{substain_id,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -375,7 +375,7 @@
 <div class="wapp-main">
 		<form method="post" action="" id="formId" class="form-inline">
 		
-	<h4>Ndtu设备列表</h4>	
+	<h4>NDTU设备列表</h4>	
     <!--搜索开始-->
 	<div class="search">
 	   <lable>

@@ -37,7 +37,8 @@
    		     <id column="id" jdbcType="VARCHAR" property="id" />
 		    <result column="type" jdbcType="VARCHAR" property="type" />
 		    <result column="epuName" jdbcType="VARCHAR" property="epuName" />
-		    <result column="faultType" jdbcType="VARCHAR" property="faultType" />
+		    <result column="fault_Type" jdbcType="VARCHAR" property="faultType" />
+		        <result column="faultTypeName" jdbcType="VARCHAR" property="faultTypeName" />
 		    <result column="occur_time" jdbcType="VARCHAR" property="occur_time" />
 		    <result column="is_cancelled" jdbcType="VARCHAR" property="is_cancelled" />
 		    <result column="is_repaired" jdbcType="VARCHAR" property="is_repaired" />
@@ -182,8 +183,7 @@
 			</foreach>
         </if>
 			 <![CDATA[ ${paramSQL} ]]>    
-	ORDER BY
-		temp.occur_time DESC
+	ORDER BY temp.occur_time DESC
     <include refid="limit_sql" />
   </select>
   <select id="findCount" resultMap="BaseResultMap" parameterType="java.util.Map" >
@@ -278,7 +278,19 @@
         ORDER BY CODE_TYPE,ORDER_NUM 
    </select>
     <select id="selectFaultByRootId" resultMap="FaultRenderingMap" parameterType="java.util.Map" >
-    	SELECT
+    	SELECT 
+    		temp.id,
+			temp.type,
+			temp.`key`,
+			temp.epuName,
+			temp.fault_type,
+			temp.faultTypeName,
+			temp.occur_time,
+			temp.is_cancelled,
+			temp.is_repaired,
+			temp.repair_time
+    	 FROM (
+    		SELECT
 				fault.id,
 				code_define1.`CODE` AS type,
 				fault.key_id AS `key`,
@@ -299,6 +311,7 @@
 				1 = 1
 			AND am.DEL_FLAG = '0'
 			AND epu.DEL_FLAG = '0'
+			 <![CDATA[ ${paramSQL} ]]>   
 			UNION
 				SELECT
 					fault.id,
@@ -319,7 +332,9 @@
 				WHERE
 					1 = 1
 				AND epu.DEL_FLAG = '0'
-				 <![CDATA[ ${paramSQL} ]]>    
+				 <![CDATA[ ${paramSQL} ]]>   
+    	)AS  temp
+    	 ORDER BY temp.occur_time 
     </select>
     <!-- 查询故障消息 -->
      <select id="selectFaultNews" resultMap="FaultRenderingMap" parameterType="java.util.Map" >

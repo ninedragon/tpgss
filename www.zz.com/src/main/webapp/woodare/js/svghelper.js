@@ -1,6 +1,6 @@
 var SVG_HELPER = (function() {
     var iv = 10;
-
+    var thisSvgObj = null;//当前SVG对象
     function drawSvg(svgModelData, el) {
         $("#Snap_Layer").remove();
         d3.namespace("xmlns:cge", "http://iec.ch/TC57/2005/SVG-schema#");
@@ -28,7 +28,6 @@ var SVG_HELPER = (function() {
         var x3 = leftPad;
         var x4 = leftPad;
         
-        var thisSvgObj = null;//当前SVG对象
         var branchboxXYArray = new Array();//分支箱XY坐标
         var keyArray = new Array();//故障定位所需key_id
         var keyJsonArray = new Array();//故障定位所需除电表所有节点信息
@@ -231,14 +230,11 @@ var SVG_HELPER = (function() {
                     $("#Snap_Layer").find("image[id='kaiguanxianImg_" + key + "']").attr("href", "../woodare/image/branchBoxError.png"); //分支箱/出线柜
                     updateBox(key, "error-box");
                     if (null != faultTypeName && "" != faultTypeName) {
-                        $("#textPath_" + key).text(epuName);
-                        $("#textPath_01_" + key).text("故障原因:" + faultTypeName);
+                    	chuxianguiTxt(key,epuName,"故障原因:" + faultTypeName,"error");
                     } else {
-                        $("#textPath_" + key).text(epuName);
-                        $("#textPath_01_" + key).text("TOPO错误数据(错误时间段次数:"+error_num+")");
+                    	chuxianguiTxt(key,epuName,"在"+error_num+"个时间段监测出错误","error");
+                        
                     }
-                    $("#textPath_" + key).attr("class", "error");
-                    $("#textPath_01_" + key).attr("class", "error");
                 }
             },
             boxWarning: function(id) {
@@ -251,8 +247,8 @@ var SVG_HELPER = (function() {
                     var epuName = json["epuName"];
                     updateBox(key, "");
                     $("#Snap_Layer").find("image[id='kaiguanxianImg_" + key + "']").attr("href", "../woodare/image/branchBox.png"); //分支箱/出线柜
-                    $("#textPath_" + key).text(epuName).attr("class", "");
-                    $("#textPath_01_" + key).text("").attr("class", "");
+                    chuxianguiTxt(key,epuName,"","");
+                    
                 }
             },
             kaiguanxianError: function(kaiguanxianErrorArray) {
@@ -269,17 +265,12 @@ var SVG_HELPER = (function() {
                     $("#kaiguanxian_line_" + key).find("path").attr("class", "error");
                     $("#Snap_Layer").find("image[id='meterboxImg_" + key + "']").attr("href", "../woodare/image/boxImgError.png"); //电表
                     $("#Snap_Layer").find("image[id='kaiguanxianImg_" + key + "']").attr("href", "../woodare/image/branchBoxError.png"); //分支箱/出线柜
-                    var count = $("#meterbox_" + key).find("text").length || 0;
                     $("#meterbox_" + key).find("text").attr("class", "error");
                     if (null != faultTypeName && faultTypeName != "") {
-                        $("#meterbox_" + key).find("text").eq((count - 1)).text("故障原因:" + faultTypeName);
+                        meterboxTxt(key,epuName,("故障原因:" + faultTypeName),"error");
                     } else {
-                        $("#meterbox_" + key).find("text").eq((count - 1)).text("");
-                        
-                        $("#textPath_" + key).text(epuName);
-                        $("#textPath_01_" + key).text("TOPO错误数据(错误时间段次数:"+error_num+")");
-                        $("#textPath_" + key).attr("class", "error");
-                        $("#textPath_01_" + key).attr("class", "error");
+                        meterboxTxt(key,epuName,"","");
+                        chuxianguiTxt(key,epuName,"在"+error_num+"个时间段监测出错误","error");
                     }
 
                 }
@@ -291,10 +282,7 @@ var SVG_HELPER = (function() {
                     var epuName = json["epuName"]||"";
                     var error_num = json["error_num"]||"";
                     updateKaiguanxian(key, "warning");
-                    $("#textPath_" + key).text(epuName);
-                    $("#textPath_01_" + key).text("TOPO错误数据(错误时间段次数:"+error_num+")");
-                    $("#textPath_" + key).attr("class", "warning");
-                    $("#textPath_01_" + key).attr("class", "warning");
+                    chuxianguiTxt(key,epuName,"在"+error_num+"个时间段监测出错误","warning");
                     
                     $("#Snap_Layer").find("image[id='kaiguanxianImg_" + key + "']").attr("href", "../woodare/image/branchBoxBlueError.png"); //分支箱/出线柜
                 }
@@ -310,9 +298,7 @@ var SVG_HELPER = (function() {
                     $("#kaiguanxian_line_" + key).find("path").attr("class", "");
                     $("#Snap_Layer").find("image[id='meterboxImg_" + key + "']").attr("href", "../woodare/image/boxImg.png"); //电表
                     $("#Snap_Layer").find("image[id='kaiguanxianImg_" + key + "']").attr("href", "../woodare/image/branchBox.png"); //分支箱/出线柜
-                    var count = $("#meterbox_" + key).find("text").length || 0;
-                    $("#meterbox_" + key).find("text").attr("class", "");
-                    $("#meterbox_" + key).find("text").eq((count - 1)).text("");
+                    meterboxTxt(key,epuName,"","");
                 }
             },
             /**
@@ -417,6 +403,60 @@ var SVG_HELPER = (function() {
         $("#chuxiangui_line01_" + id).find("rect").attr("class", cls);
         $("#chuxiangui_line01_" + id).find("path").attr("class", cls);
     }
+    
+     function chuxianguiTxt(key,epuName,epuNameError,cls){
+    	var x = $("#chuxiangui_" + key).attr("x");
+        var y = $("#chuxiangui_" + key).attr("y");
+        var k = 0;
+        x = parseInt(x);
+        y = parseInt(y);
+        if (epuName && epuName.length && !isNaN(x)) {
+            var size = 1;
+            thisSvgObj.select("g[id='chuxiangui_"+key+"']").each(function(){
+            	$(this).children("text").each(function(){
+            		$(this).remove();
+            	})
+            });
+            var g = thisSvgObj.select("g[id='chuxiangui_"+key+"']");
+            var yTemp = y + 18;
+            for (var i = 0; i < epuName.length / size; i++) {
+            	g.append('text').attr("font-size", "18").attr("class", cls).attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text(epuName.substring(i * size, i * size + size)).attr("x", (x- 30)).attr("y", yTemp + 20 * i);
+                k++;
+            }
+            var yTemp = y + 18;
+            for (var i = 0; i < epuNameError.length / size; i++) {
+            	var nameError ="";
+            	if(cls != "" && null != cls){
+            		nameError = epuNameError.substring(i * size, i * size + size);
+            	}
+            	g.append('text').attr("font-size", "18").attr("class", cls).attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text(nameError).attr("x", (x- 60)).attr("y", yTemp + 20 * i);
+                k++;
+            }
+        }
+    }
+     
+     function meterboxTxt(key,epuName,epuNameError,cls){
+     	var x = $("#meterbox_" + key).attr("x");
+         var y = $("#meterbox_" + key).attr("y");
+         var k = 0;
+         x = parseInt(x);
+         y = parseInt(y);
+         var k = 0;
+         epuName = epuName + epuNameError;
+         if (epuName && epuName.length) {
+             var size = 7;
+             thisSvgObj.select("g[id='meterbox_"+key+"']").each(function(){
+              	$(this).children("text").each(function(){
+              		$(this).remove();
+              	})
+              });
+              var g = thisSvgObj.select("g[id='meterbox_"+key+"']");
+             for (var i = 0; i < epuName.length / size; i++) {
+                 g.append('text').attr("font-size", "14").attr("class", cls).attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text(epuName.substring(i * size, i * size + size)).attr("x", x).attr("y", y + 108 + 20 * i);
+                 k++;
+             }
+         }
+     }
 
     function updateKaiguanxian(id, cls) {
         $("#kaiguanxian_" + id).find("rect").attr("class", cls);
@@ -440,17 +480,26 @@ var SVG_HELPER = (function() {
     }
 
     function createBox(layer, id, x, y, name, lines, type,svgModelData) {
-        var g = layer.append("g").attr("id", "chuxiangui_" + id);
+        var g = layer.append("g").attr("id", "chuxiangui_" + id).attr("x", x).attr("y", y);
         g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("stroke-dasharray", "5,5").attr("fill", "none").attr("x", x).attr("y", y).attr("width", 300).attr("height", 180).attr("id", "chuxiangui_rect_" + id);
 
-        g.append('path').attr("id", "chuxiangui_text_01_" + id).attr("d", "M" + (x - 55) + "," + y + " L" + (x - 55) + "," + (y + 300)).attr("stroke-width", 0);
-        var txt = g.append('text').attr("font-size", "18").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)");
-        txt.append('textPath').attr("id", "textPath_01_" + id).attr("xlink:href", "#chuxiangui_text_01_" + id).text("");
+//        g.append('path').attr("id", "chuxiangui_text_01_" + id).attr("d", "M" + (x - 55) + "," + y + " L" + (x - 55) + "," + (y + 300)).attr("stroke-width", 0);
+//        var txt = g.append('text').attr("font-size", "18").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)");
+//        txt.append('textPath').attr("id", "textPath_01_" + id).attr("xlink:href", "#chuxiangui_text_01_" + id).text("");
+//        
+//        g.append('path').attr("id", "chuxiangui_text_" + id).attr("d", "M" + (x - 30) + "," + y + " L" + (x - 30) + "," + (y + 300)).attr("stroke-width", 0);
+//        var txt = g.append('text').attr("font-size", "18").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)");
+//        txt.append('textPath').attr("id", "textPath_" + id).attr("xlink:href", "#chuxiangui_text_" + id).text(name);
         
-        g.append('path').attr("id", "chuxiangui_text_" + id).attr("d", "M" + (x - 30) + "," + y + " L" + (x - 30) + "," + (y + 300)).attr("stroke-width", 0);
-        var txt = g.append('text').attr("font-size", "18").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)");
-        txt.append('textPath').attr("id", "textPath_" + id).attr("xlink:href", "#chuxiangui_text_" + id).text(name);
-       
+        var k = 0;
+        if (name && name.length) {
+            var size = 1;
+            var yTemp = y + 18;
+            for (var i = 0; i < name.length / size; i++) {
+                g.append('text').attr("font-size", "18").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text(name.substring(i * size, i * size + size)).attr("x", (x- 30)).attr("y", yTemp + 20 * i);
+                k++;
+            }
+        }
      
         if (lines && lines.length) {
             var start = x + 180;
@@ -522,16 +571,16 @@ var SVG_HELPER = (function() {
  * 创建电表图标及文本展示
  **/
     function createMeterBox(layer, id, x, y, name) {
-        var g = layer.append("g").attr("id", "meterbox_" + id).attr("name", name);
+        var g = layer.append("g").attr("id", "meterbox_" + id).attr("name", name).attr("x", x).attr("y", y);
 
         var k = 0;
         if (name && name.length) {
-            var size = 8;
+            var size = 7;
             for (var i = 0; i < name.length / size; i++) {
                 g.append('text').attr("font-size", "14").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text(name.substring(i * size, i * size + size)).attr("x", x).attr("y", y + 108 + 20 * i);
                 k++;
             }
-            g.append('text').attr("font-size", "14").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text("").attr("x", x).attr("y", y + 108 + 20 * (k));
+//            g.append('text').attr("font-size", "14").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text("").attr("x", x).attr("y", y + 108 + 20 * (k));
         }
     }
 

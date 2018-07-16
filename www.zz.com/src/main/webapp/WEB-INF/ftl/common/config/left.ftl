@@ -33,8 +33,8 @@
      <li class="all">终端采集</li>
      <li class="<#if leftMenuview=='6'>   on </#if> big-js">设备管理</li>	
        <ul class="side-nav" <#if leftMenuview=='6'>  style="display:block" </#if>>
-     <li onClick="location.href='${basePath}/nDtu/showDtuList.shtml'">ndtu设备信息列表</li>
-      <li onClick="location.href='${basePath}/bDtu/showDtuList.shtml'">bdtu设备信息列表</li>
+     <li onClick="location.href='${basePath}/nDtu/showDtuList.shtml'">NDTU设备信息列表</li>
+      <li onClick="location.href='${basePath}/bDtu/showDtuList.shtml'">BDTU设备信息列表</li>
     </ul>
     <li class="<#if leftMenuview=='4'>   on </#if> big-js">资产管理</li>	
     <ul class="side-nav" <#if leftMenuview=='4'>  style="display:block" </#if>>

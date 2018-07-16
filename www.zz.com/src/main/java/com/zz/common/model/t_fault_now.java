@@ -21,6 +21,8 @@ public class t_fault_now {
 
     private String fault_base_id;
 
+    private String substain_id;
+
     public Long getId() {
         return id;
     }
@@ -91,5 +93,13 @@ public class t_fault_now {
 
     public void setFault_base_id(String fault_base_id) {
         this.fault_base_id = fault_base_id == null ? null : fault_base_id.trim();
+    }
+
+    public String getSubstain_id() {
+        return substain_id;
+    }
+
+    public void setSubstain_id(String substain_id) {
+        this.substain_id = substain_id == null ? null : substain_id.trim();
     }
 }

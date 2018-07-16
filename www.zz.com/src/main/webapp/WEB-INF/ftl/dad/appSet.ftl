@@ -66,7 +66,7 @@
                     <td>发送停电</td>
                     <td>00123</td>
                     <td>
-                        <button onclick="sendA3()">发送异常电压数据</button>
+                        <button onclick="sendA3()">发送停电数据</button>
                     </td>
                 </tr>
                 <tr>
@@ -106,6 +106,15 @@
                         <button onclick="sendA0()">发送短路数据A0</button>
                     </td>
                 </tr>
+                <tr>
+                    <td>21</td>
+                    <td>发送正常漏电数据</td>
+                    <td>00123</td>
+                    <td>
+                        <button onclick="sendA1()">发送正常漏电数据A1</button>
+                    </td>
+                </tr>
+                <tr>
                 <td>31</td>
                 <td>发送异常漏电数据</td>
                 <td>00123</td>
@@ -114,11 +123,11 @@
                 </td>
                 </tr>
                 <tr>
-                    <td>21</td>
-                    <td>发送短路数据（还未完成）</td>
+                    <td>31</td>
+                    <td>发送异常漏电恢复数据</td>
                     <td>00123</td>
                     <td>
-                        <button onclick="sendA0()">发送正常漏电数据</button>
+                        <button onclick="sendA22()">发送异常漏电恢复数据A22</button>
                     </td>
                 </tr>
                 <tr>
@@ -215,6 +224,27 @@
         $.post('${basePath}/dad/sendA0.shtml', {name: 1}, function (data, textStatus, xhr) {
             /*optional stuff to do after success */
             console.log("短路数据发送成功");
+        });
+    }
+
+    function sendA1() {
+        $.post('${basePath}/dad/sendA1.shtml', {name: 1}, function (data, textStatus, xhr) {
+            /*optional stuff to do after success */
+            console.log("正常漏电发送成功");
+        });
+    }
+
+    function sendA2() {
+        $.post('${basePath}/dad/sendA2.shtml', {name: 1}, function (data, textStatus, xhr) {
+            /*optional stuff to do after success */
+            console.log("异常漏电发送成功");
+        });
+    }
+
+    function sendA22() {
+        $.post('${basePath}/dad/sendA22.shtml', {name: 1}, function (data, textStatus, xhr) {
+            /*optional stuff to do after success */
+            console.log("异常漏电发送成功");
         });
     }
 

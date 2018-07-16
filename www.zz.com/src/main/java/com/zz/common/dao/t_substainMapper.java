@@ -27,4 +27,8 @@ public interface t_substainMapper {
     int updateByPrimaryKeySelective(t_substain record);
 
     int updateByPrimaryKey(t_substain record);
+
+    String  selectSubstainIdByNdtu(String dis, Integer add);
+
+    java.lang.String selectSubstainIdByBdtu(String dis, Integer add);
 }

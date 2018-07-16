@@ -315,6 +315,76 @@ public class t_meterExample {
             return (Criteria) this;
         }
 
+        public Criteria andMeter_noIsNull() {
+            addCriterion("meter_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeter_noIsNotNull() {
+            addCriterion("meter_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeter_noEqualTo(String value) {
+            addCriterion("meter_no =", value, "meter_no");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeter_noNotEqualTo(String value) {
+            addCriterion("meter_no <>", value, "meter_no");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeter_noGreaterThan(String value) {
+            addCriterion("meter_no >", value, "meter_no");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeter_noGreaterThanOrEqualTo(String value) {
+            addCriterion("meter_no >=", value, "meter_no");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeter_noLessThan(String value) {
+            addCriterion("meter_no <", value, "meter_no");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeter_noLessThanOrEqualTo(String value) {
+            addCriterion("meter_no <=", value, "meter_no");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeter_noLike(String value) {
+            addCriterion("meter_no like", value, "meter_no");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeter_noNotLike(String value) {
+            addCriterion("meter_no not like", value, "meter_no");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeter_noIn(List<String> values) {
+            addCriterion("meter_no in", values, "meter_no");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeter_noNotIn(List<String> values) {
+            addCriterion("meter_no not in", values, "meter_no");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeter_noBetween(String value1, String value2) {
+            addCriterion("meter_no between", value1, value2, "meter_no");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeter_noNotBetween(String value1, String value2) {
+            addCriterion("meter_no not between", value1, value2, "meter_no");
+            return (Criteria) this;
+        }
+
         public Criteria andHouse_idIsNull() {
             addCriterion("house_id is null");
             return (Criteria) this;
@@ -982,6 +1052,66 @@ public class t_meterExample {
 
         public Criteria andDEL_FLAGNotBetween(String value1, String value2) {
             addCriterion("DEL_FLAG not between", value1, value2, "DEL_FLAG");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeak_channel_idIsNull() {
+            addCriterion("leak_channel_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeak_channel_idIsNotNull() {
+            addCriterion("leak_channel_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeak_channel_idEqualTo(Integer value) {
+            addCriterion("leak_channel_id =", value, "leak_channel_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeak_channel_idNotEqualTo(Integer value) {
+            addCriterion("leak_channel_id <>", value, "leak_channel_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeak_channel_idGreaterThan(Integer value) {
+            addCriterion("leak_channel_id >", value, "leak_channel_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeak_channel_idGreaterThanOrEqualTo(Integer value) {
+            addCriterion("leak_channel_id >=", value, "leak_channel_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeak_channel_idLessThan(Integer value) {
+            addCriterion("leak_channel_id <", value, "leak_channel_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeak_channel_idLessThanOrEqualTo(Integer value) {
+            addCriterion("leak_channel_id <=", value, "leak_channel_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeak_channel_idIn(List<Integer> values) {
+            addCriterion("leak_channel_id in", values, "leak_channel_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeak_channel_idNotIn(List<Integer> values) {
+            addCriterion("leak_channel_id not in", values, "leak_channel_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeak_channel_idBetween(Integer value1, Integer value2) {
+            addCriterion("leak_channel_id between", value1, value2, "leak_channel_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeak_channel_idNotBetween(Integer value1, Integer value2) {
+            addCriterion("leak_channel_id not between", value1, value2, "leak_channel_id");
             return (Criteria) this;
         }
     }

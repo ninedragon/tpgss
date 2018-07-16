@@ -9,6 +9,8 @@ public class t_meter {
 
     private String meter_name;
 
+    private String meter_no;
+
     private String house_id;
 
     private String phase_remark;
@@ -28,6 +30,8 @@ public class t_meter {
     private String UPDATE_ID;
 
     private String DEL_FLAG;
+
+    private Integer leak_channel_id;
 
     public String getMeterId() {
         return meterId;
@@ -51,6 +55,14 @@ public class t_meter {
 
     public void setMeter_name(String meter_name) {
         this.meter_name = meter_name == null ? null : meter_name.trim();
+    }
+
+    public String getMeter_no() {
+        return meter_no;
+    }
+
+    public void setMeter_no(String meter_no) {
+        this.meter_no = meter_no == null ? null : meter_no.trim();
     }
 
     public String getHouse_id() {
@@ -131,5 +143,13 @@ public class t_meter {
 
     public void setDEL_FLAG(String DEL_FLAG) {
         this.DEL_FLAG = DEL_FLAG == null ? null : DEL_FLAG.trim();
+    }
+
+    public Integer getLeak_channel_id() {
+        return leak_channel_id;
+    }
+
+    public void setLeak_channel_id(Integer leak_channel_id) {
+        this.leak_channel_id = leak_channel_id;
     }
 }
