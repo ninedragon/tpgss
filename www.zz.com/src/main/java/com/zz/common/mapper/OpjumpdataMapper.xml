@@ -258,8 +258,8 @@ select * from
 (SELECT
 	t_zong.id
 FROM
-	(select * from t_opdata where C_ChannelId=#{zongchannelId,jdbcType=INTEGER} and C_OffLineVersion=#{offlineversion,jdbcType=VARCHAR}) t_zong,
-	(select * from t_opdata where C_ChannelId=#{cChannelId,jdbcType=INTEGER} and C_OffLineVersion=#{offlineversion,jdbcType=VARCHAR})  t_fen
+	(select * from t_opdata where C_ChannelId=#{zongchannelId,jdbcType=INTEGER} ) t_zong,
+	(select * from t_opdata where C_ChannelId=#{cChannelId,jdbcType=INTEGER} )  t_fen
 WHERE
 	t_fen.C_DistrictBCDId = t_zong.C_DistrictBCDId
 AND t_fen.C_AddressId = t_zong.C_AddressId -- ip一样
@@ -288,8 +288,6 @@ AND t_op.C_EESequenceId = t_opj.C_EESequenceId -- 序列号一样
 and t_op.C_DistrictBCDId =#{cDistrictbcdid,jdbcType=VARCHAR}
 AND t_op.C_AddressId = #{cAddressId,jdbcType=INTEGER} -- ip一样
 AND t_op.C_RecordDateBCD =  #{cRecorddatebcd,jdbcType=INTEGER} -- 时间一样
-and t_opj.C_OffLineVersion=#{offlineversion,jdbcType=VARCHAR}
-and t_op.C_OffLineVersion=#{offlineversion,jdbcType=VARCHAR}
 </select>
   <insert id="insert" parameterType="com.zz.common.model.Opjumpdata" >
     insert into t_opjumpdata (C_DistrictBCDId, C_AddressId, C_RecordDateBCD, 

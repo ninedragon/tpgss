@@ -156,7 +156,7 @@ public class DADController extends BaseController {
 	@ResponseBody
 	String sendA0()  {
 		//, @RequestBody NDTUData ndtudata
-        String	json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681300130068A021270100000101061806281355015856273DB216\"},\"eventTime\":\"20180628T060120Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+        String	json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681300130068A01601130000010101180716165102F769C642D316\"},\"eventTime\":\"20180628T060120Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
 		return sendA(json);
 	}
 

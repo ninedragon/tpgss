@@ -434,12 +434,7 @@ function faultClick(selectedFlag){
         				}
         			}
         		}
-        		if(null != boxErrorClearArray && boxErrorClearArray.length > 0 ){
-        			mySvg.boxClear(boxErrorClearArray);//清理出线柜/分支箱  渲染颜色等,
-        		}
-        		if(null != kaiguanxianErrorClearArray && kaiguanxianErrorClearArray.length > 0 ){
-        			mySvg.kaiguanxianClear(kaiguanxianErrorClearArray);//清理开关线渲染颜色等
-        		}
+        		
         		if(!selectedFlag){//点击时故障定位时，显示故障渲染
            		 	javaScriptObj.buttonAction = 1;
         			mySvg.kaiguanxianError(kaiguanxianErrorArray);//开关线 标红,
@@ -449,7 +444,12 @@ function faultClick(selectedFlag){
         			mySvg.kaiguanxianClear(kaiguanxianErrorArray);//清理开关线渲染颜色等
         			mySvg.boxClear(boxErrorArray);//清理出线柜/分支箱  渲染颜色等, 
         		}
-        		
+        		if(null != boxErrorClearArray && boxErrorClearArray.length > 0 ){
+        			mySvg.boxClear(boxErrorClearArray);//清理出线柜/分支箱  渲染颜色等,
+        		}
+        		if(null != kaiguanxianErrorClearArray && kaiguanxianErrorClearArray.length > 0 ){
+        			mySvg.kaiguanxianClear(kaiguanxianErrorClearArray);//清理开关线渲染颜色等
+        		}
         	 $("#loadingDiv").hide();
         } 
 	});

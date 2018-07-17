@@ -70,11 +70,16 @@ import com.zz.deviceAndData.service.DataCollectionService;
 		}
 
 		if(buff[6]==0xA1) {
-			String json = JSON.toJSONString(ndtudata);
+			String json  = JSON.toJSONString(ndtudata);
 			System.out.println(json);
 		}
 
 		if(buff[6]==0xA4) {
+			String json = JSON.toJSONString(ndtudata);
+			System.out.println(json);
+		}
+
+		if(buff[6]==0xA0) {
 			String json = JSON.toJSONString(ndtudata);
 			System.out.println(json);
 		}

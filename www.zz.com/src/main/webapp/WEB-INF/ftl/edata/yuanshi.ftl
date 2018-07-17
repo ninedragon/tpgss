@@ -68,22 +68,17 @@
         	<select  name="cEegrpid" id="cEegrpid" onchange="changeProvince(this);">
         	
         	<#if listEE?exists>
-					            <#list listEE as x>
-					                  <#if x_index!=0>
-					                  <option value="${x.v }">${x.n }</option>
-					                  </#if>
-				                </#list>   
+				<#list listEE as x>
+					  <#if x_index!=0>
+					  <option value="${x.v }">${x.n }</option>
+					  </#if>
+				</#list>
 			</#if>
             </select>
     	</lable>
         <lable>
         	<span>电器小类</span>
            <select  name="cEehexid" id="cEehexid" >
-            </select>
-    	</lable>
-        <lable>
-        	<span>电器小类</span>
-           	 <select  >
             </select>
     	</lable>
         <lable>
@@ -167,6 +162,8 @@ function changeProvince(obj){
        type: "POST",
        url: urlEE,
        success: function (data) {
+           console.log("显示问题");
+           console.log(data);
        if(data){
        		$("#cEehexid").html("");
        		for(var i =0;i<data.length;i++){
@@ -177,9 +174,10 @@ function changeProvince(obj){
        				var htmls = new Array();
        				for(var j = 0 ;j < cityList.length;j++){
        					var tempJson= cityList[j];
-       					htmls.push("<option value-=\"" + tempJson["v"] + "\">" + tempJson["n"] + "</option>");
+       					htmls.push("<option value=\"" + tempJson["v"] + "\">" + tempJson["n"] + "</option>");
        				}
        				$("#cEehexid").append(htmls.join(",",""));
+//       				$("#cEehexid").append(htmls.join(""));
        			}
        		}
        }

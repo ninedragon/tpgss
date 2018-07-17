@@ -50,16 +50,14 @@
 							if (faultList != null && faultList.length > 0) {
 								for (var i = 0; i < faultList.length; i++) {
 									var json = faultList[i];
-									 var cRecordinserttime = getTime(json,"cRecordinserttime","yyyy-MM-dd hh:mm:ss");
-									 var occurtime = getTime(json,"occurtime","yyyy-MM-dd hh:mm:ss");
 									tbody += '<tr>';
 									tbody += '<td align="center"><div>' + json.cDistrictbcdid + '</div></td>';
 									tbody += '<td align="center"><div>' + json.cAddressid + '</div></td>';
 									tbody += '<td align="center"><div>' + json.cChannelid + '</div></td>';
 									tbody += '<td align="center"><div>' + json.cFramecmdid + '</div></td>';
 									tbody += '<td align="center"><div>' + parseFloat(json.i || 0).toFixed(2) + '</div></td>';
-									tbody += '<td align="center"><div>' + cRecordinserttime + '</div></td>';
-									tbody += '<td align="center"><div>' + occurtime + '</div></td>';
+									tbody += '<td align="center"><div>' + json.strCRecordinserttime + '</div></td>';
+									tbody += '<td align="center"><div>' + json.strOccurtime + '</div></td>';
 									tbody += '<td align="center"><div>' + json.cFaultid + '</div></td>';
 									tbody += '</tr>';
 								}
@@ -142,7 +140,6 @@
 							if (faultList != null && faultList.length > 0) {
 								for (var i = 0; i < faultList.length; i++) {
 									var json = faultList[i];
-									var cRecordinserttime = getTime(json,"cRecordinserttime","yyyy-MM-dd hh:mm:ss");
 									tbody += '<tr>';
 									tbody += '<td align="center"><div>' + json.cDistrictbcdid + '</div></td>';
 									tbody += '<td align="center"><div>' + json.cAddressid + '</div></td>';
@@ -151,7 +148,7 @@
 									tbody += '<td align="center"><div>' + json.cFramecmdid + '</div></td>';
 									tbody += '<td align="center"><div>' + json.recorddatebcd + '</div></td>';
 									tbody += '<td align="center"><div>' + parseFloat(json.i || 0).toFixed(2) + '</div></td>';
-									tbody += '<td align="center"><div>' + cRecordinserttime + '</div></td>';
+									tbody += '<td align="center"><div>' + json.strCRecordinserttime + '</div></td>';
 									tbody += '<td align="center"><div>' + json.cFaultid + '</div></td>';
 									tbody += '</tr>';
 								}
@@ -236,8 +233,6 @@
 							if (faultList != null && faultList.length > 0) {
 								for (var i = 0; i < faultList.length; i++) {
 									var json = faultList[i];
-									var cRecordinserttime = getTime(json,"cRecordinserttime","yyyy-MM-dd hh:mm:ss");
-									var occurtime = getTime(json,"occurtime","yyyy-MM-dd hh:mm:ss");
 									tbody += '<tr>';
 									tbody += '<td align="center"><div>' + json.cDistrictbcdid + '</div></td>';
 									tbody += '<td align="center"><div>' + json.cAddressid + '</div></td>';
@@ -245,8 +240,8 @@
 									tbody += '<td align="center"><div>' + json.cFramecmdid + '</div></td>';
 									tbody += '<td align="center"><div>' + parseFloat(json.i || 0).toFixed(2) + '</div></td>';
 									tbody += '<td align="center"><div>' + json.isAbnormal + '</div></td>';
-									tbody += '<td align="center"><div>' + cRecordinserttime + '</div></td>';
-									tbody += '<td align="center"><div>' + occurtime + '</div></td>';
+									tbody += '<td align="center"><div>' + json.strCRecordinserttime + '</div></td>';
+									tbody += '<td align="center"><div>' + json.strOccurTime + '</div></td>';
 									tbody += '<td align="center"><div>' + json.cFaultid + '</div></td>';
 									tbody += '</tr>';
 								}
@@ -330,8 +325,6 @@
 							if (faultList != null && faultList.length > 0) {
 								for (var i = 0; i < faultList.length; i++) {
 									var json = faultList[i];
-									var cRecordinserttime = getTime(json,"cRecordinserttime","yyyy-MM-dd hh:mm:ss");
-									var occurtime = getTime(json,"occurtime","yyyy-MM-dd hh:mm:ss");
 									tbody += '<tr>';
 									tbody += '<td align="center"><div>' + json.cDistrictbcdid + '</div></td>';
 									tbody += '<td align="center"><div>' + json.cAddressid + '</div></td>';
@@ -339,8 +332,8 @@
 									tbody += '<td align="center"><div>' + parseFloat(json.ua || 0).toFixed(2) + '</div></td>';
 									tbody += '<td align="center"><div>' + parseFloat(json.ub || 0).toFixed(2) + '</div></td>';
 									tbody += '<td align="center"><div>' + parseFloat(json.uc || 0).toFixed(2) + '</div></td>';
-									tbody += '<td align="center"><div>' + cRecordinserttime + '</div></td>';
-									tbody += '<td align="center"><div>' + occurtime + '</div></td>';
+									tbody += '<td align="center"><div>' + json.strCRecordinserttime + '</div></td>';
+									tbody += '<td align="center"><div>' + json.strOccurTime + '</div></td>';
 									tbody += '<td align="center"><div>' + json.cFaultid + '</div></td>';
 									tbody += '<td align="center"><div>' + json.isAbnormal + '</div></td>';
 									tbody += '</tr>';
@@ -428,13 +421,12 @@
 							if (faultList != null && faultList.length > 0) {
 								for (var i = 0; i < faultList.length; i++) {
 									var json = faultList[i];
-									var cRecordInsertTime = getTime(json,"cRecordInsertTime","yyyy-MM-dd hh:mm:ss");
 									tbody += '<tr>';
 									tbody += '<td align="center"><div>' + json.cDistrictBCDId + '</div></td>';
 									tbody += '<td align="center"><div>' + json.cAddressId + '</div></td>';
 									tbody += '<td align="center"><div>' + json.cChannelId + '</div></td>';
 									tbody += '<td align="center"><div>' + json.cFrameCmdId + '</div></td>';
-									tbody += '<td align="center"><div>' + cRecordInsertTime + '</div></td>';
+									tbody += '<td align="center"><div>' + json.cRecordInsertTime + '</div></td>';
 									tbody += '<td align="center"><div>' + parseFloat(json.ua || 0).toFixed(2) + '</div></td>';
 									tbody += '<td align="center"><div>' + parseFloat(json.ub || 0).toFixed(2) + '</div></td>';
 									tbody += '<td align="center"><div>' + parseFloat(json.uc || 0).toFixed(2) + '</div></td>';
@@ -536,12 +528,11 @@
 							if (faultList != null && faultList.length > 0) {
 								for (var i = 0; i < faultList.length; i++) {
 									var json = faultList[i];
-									var cRecordinserttime = getTime(json,"cRecordinserttime","yyyy-MM-dd hh:mm:ss");
 									tbody += '<tr>';
 									tbody += '<td align="center"><div>' + json.cDistrictbcdid + '</div></td>';
 									tbody += '<td align="center"><div>' + json.cAddressid + '</div></td>';
 									tbody += '<td align="center"><div>' + json.cFramecmdid + '</div></td>';
-									tbody += '<td align="center"><div>' + cRecordinserttime + '</div></td>';
+									tbody += '<td align="center"><div>' + json.cRecordinserttime + '</div></td>';
 									tbody += '<td align="center"><div>' + json.cFaultid + '</div></td>';
 									tbody += '<td align="center"><div>' + parseFloat(json.ua || 0).toFixed(2) + '</div></td>';
 									tbody += '<td align="center"><div>' + parseFloat(json.ub || 0).toFixed(2) + '</div></td>';
@@ -610,16 +601,4 @@
 			parent.$("#messageBranchBox").show();
 		}
 	}
-	/**
-	*获取格式化的时间
-	*/
-	function getTime(json,key,formatStyle){
-		 var time = "";
-         if(json[key]){
-         	if(null != json[key] && "" != json[key]){
-         		time =  (new Date(json[key])).Format(formatStyle);
-         	}
-         }
-         return time;
-     }
 </script>

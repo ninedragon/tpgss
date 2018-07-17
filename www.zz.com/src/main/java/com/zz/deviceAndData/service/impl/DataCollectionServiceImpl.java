@@ -389,6 +389,14 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     private void updateFault(Object object) {
         //找到那个更新
         //扩展，可能因为别的问题，找不到，如果找不到需要打出日志
+        // 【1】参数是某条数据，根据类型进入逻辑
+        // 【1.1】异常电流恢复
+        // 【1.1.1】（根据传来的object）得到一个now和base的基本数据，
+        // 【1.1.2】更新base初始的那条信息和source
+        // 【1.1.3】
+        // 【1.1.1】
+        // 【1.1.1】
+        // 【1.1.1】
         // 【1】插入base表,将所有故障更新写在一个方法里
         String substainId = "";
         String className = object.getClass().getSimpleName();
@@ -419,9 +427,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             t_fault_nowExample t_fault_nowExample1 = new t_fault_nowExample();
             t_fault_nowExample.Criteria criteria = t_fault_nowExample1.createCriteria();
             List list1 = new ArrayList(3);
-            list1.add(11);
             list1.add(12);
-            list1.add(13);
             criteria.andFault_typeIn(list1).andKey_idEqualTo(t_fault_base2.getKey_id()).andTypeEqualTo(t_fault_base2.getType()).andIs_repairedEqualTo(0);
             t_fault_now paramsMap = new t_fault_now();
             paramsMap.setIs_repaired(1);

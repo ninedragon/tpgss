@@ -18,13 +18,31 @@ public class AbnormalU {
     private Float uc;
 
     private Date cRecordinserttime;
+    private String strCRecordinserttime;
 
     private Date occurtime;
+    private String strOccurTime;
     private Integer cFaultid;
 
     private Boolean isAbnormal;
 
     
+
+	public String getStrCRecordinserttime() {
+		return strCRecordinserttime;
+	}
+
+	public void setStrCRecordinserttime(String strCRecordinserttime) {
+		this.strCRecordinserttime = strCRecordinserttime;
+	}
+
+	public String getStrOccurTime() {
+		return strOccurTime;
+	}
+
+	public void setStrOccurTime(String strOccurTime) {
+		this.strOccurTime = strOccurTime;
+	}
 
 	public Integer getId() {
         return id;

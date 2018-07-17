@@ -10,7 +10,9 @@
     <result column="C_FrameCmdId" jdbcType="VARCHAR" property="cFramecmdid" />
     <result column="i" jdbcType="REAL" property="i" />
     <result column="C_RecordInsertTime" jdbcType="TIMESTAMP" property="cRecordinserttime" />
+    <result column="C_RecordInsertTime" jdbcType="VARCHAR" property="strCRecordinserttime" />
     <result column="occurTime" jdbcType="TIMESTAMP" property="occurtime" />
+    <result column="occurTime" jdbcType="VARCHAR" property="strOccurtime" />
   </resultMap>
       <sql id="limit_sql">
   	   <if test="page_sql != null and page_sql != ''">
@@ -159,8 +161,8 @@
 				C_ChannelId,
 				C_FrameCmdId,
 				i,
-				C_RecordInsertTime,
-				occurTime,
+				from_unixtime(unix_timestamp(C_RecordInsertTime),'%Y-%m-%d %H:%I:%S')   AS strCRecordinserttime,
+				from_unixtime(unix_timestamp(occurTime),'%Y-%m-%d %H:%I:%S')   AS strOccurTime,
 				C_FaultId
 			FROM
 				t_short_i

@@ -20,7 +20,25 @@ public class AbleakageI {
     private Boolean isAbnormal;
 
     private Date cRecordinserttime;
+    private String strCRecordinserttime;
     private Date occurtime;
+    private String strOccurTime;
+    
+    public String getStrCRecordinserttime() {
+		return strCRecordinserttime;
+	}
+
+	public void setStrCRecordinserttime(String strCRecordinserttime) {
+		this.strCRecordinserttime = strCRecordinserttime;
+	}
+
+	public String getStrOccurTime() {
+		return strOccurTime;
+	}
+
+	public void setStrOccurTime(String strOccurTime) {
+		this.strOccurTime = strOccurTime;
+	}
 
 	public Integer getId() {
         return id;

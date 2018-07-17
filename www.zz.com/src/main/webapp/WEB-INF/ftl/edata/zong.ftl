@@ -53,7 +53,7 @@
             <lable>
                 <span class="wd01">终端</span>
                 <select  name="cDistrictbcdid" id="cDistrictbcdid" onchange="getChannelId()">
-                    <option value="0001-0">0001-0-1</option>
+                    <option value="">--请选择--</option>
                     <#if dlist ??>
                      <#list dlist as x>                   
                     		 <option value="${x.cDistrictbcdid}-${x.cAddressid}">${x.cDistrictbcdid}-${x.cAddressid}-${x.cChannelnum}</option>
@@ -216,7 +216,6 @@ function drawChart(){
 					    var cDistrictbcdid = $('#cDistrictbcdid').val(),
 					           cChannelid = $('#cChannelid').val(),
 					           cRecorddatebcd = $('input[name="cRecorddatebcd"]').val(),
-					           C_OffLineVersion = $('input[name="C_OffLineVersion"]').val(),
 					           date1=$('#d11').val()+"用电量分析"
 					           ;
      
@@ -230,7 +229,7 @@ function drawChart(){
 					     var timeseg=new Array(97);
 					     var tzong=new Array(97);
 					     var tbianshi=new Array(97);        
-					   $.post('${basePath}/edata/getZongdata.shtml',{cDistrictbcdid:cDistrictbcdid,cChannelid:cChannelid,cRecorddatebcd:cRecorddatebcd,C_OffLineVersion:C_OffLineVersion},function(data){
+					   $.post('${basePath}/edata/getZongdata.shtml',{cDistrictbcdid:cDistrictbcdid,cChannelid:cChannelid,cRecorddatebcd:cRecorddatebcd},function(data){
 					   	var a = data.length;
 					   	if(a!=0)
 					   	{
@@ -516,14 +515,13 @@ function drawBChart(){
 					    var cDistrictbcdid = $('#cDistrictbcdid').val(),
 					           cChannelid = $('#cChannelid').val(),
 					           cRecorddatebcd = $('input[name="cRecorddatebcd"]').val(),
-					           date1=$('#d11').val()+"用电量分析",
-					            C_OffLineVersion = $('input[name="C_OffLineVersion"]').val()
+					           date1=$('#d11').val()+"用电量分析"
 					           ;
      
 					     myChart.showLoading(); 
 					     var tfen=[];
 					     var C_EEGrpName=[];
-					   $.post('${basePath}/edata/getFendata.shtml',{cDistrictbcdid:cDistrictbcdid,cChannelid:cChannelid,cRecorddatebcd:cRecorddatebcd,C_OffLineVersion:C_OffLineVersion},function(data){
+					   $.post('${basePath}/edata/getFendata.shtml',{cDistrictbcdid:cDistrictbcdid,cChannelid:cChannelid,cRecorddatebcd:cRecorddatebcd},function(data){
 					   	var a = data.length;
 					   	if(a!=0)
 					   	{
@@ -599,7 +597,6 @@ function drawDTable(){
   var cDistrictbcdid = $('#cDistrictbcdid').val(),
     cChannelid = $('#cChannelid').val(),
     cRecorddatebcd = $('input[name="cRecorddatebcd"]').val(),
-    C_OffLineVersion = $('input[name="C_OffLineVersion"]').val(),
     date1=$('#d11').val()+"用电量分析";
     layui.use('table', function(){
 	  var table = layui.table;
@@ -607,7 +604,7 @@ function drawDTable(){
 	    elem: '#test'
 	    ,url:'${basePath}/edata/getGriddata.shtml'
 	    ,method:"post"
-	    ,where:{cDistrictbcdid:cDistrictbcdid,cChannelid:cChannelid,cRecorddatebcd:cRecorddatebcd,C_OffLineVersion:C_OffLineVersion}
+	    ,where:{cDistrictbcdid:cDistrictbcdid,cChannelid:cChannelid,cRecorddatebcd:cRecorddatebcd}
 	    ,cols: [[
 	      {field:'cDistrictbcdid', width:100, title: '区域号', sort: true}
 	      ,{field:'cAddressid', width:100, title: '终端号',sort:true}
@@ -617,7 +614,6 @@ function drawDTable(){
 	      ,{field:'tzong', width:120, title: '总电量', sort: true}
 	      ,{field:'tbianshi', width:120, title: '辨识总电量', sort: true}
 	      ,{field:'ratio', width:100, title: '比率',sort:true}
-	      ,{field:'C_OffLineVersion', width:100, title: '版本号',sort:true}
 	    ]]
 	    ,page: true
 	  });

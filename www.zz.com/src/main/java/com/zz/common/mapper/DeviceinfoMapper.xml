@@ -80,28 +80,28 @@
     <select id="selectAllDeviceDis" resultMap="BaseResultMap" >
     select
     C_DistrictBCDId,C_AddressId ,C_ChannelNum
-    from t_deviceinfo
+    from t_ndtu
   </select>
   <select id="listDevcieInfo" resultMap="BaseResultMap" >
     select
       *    
-     from t_deviceinfo
+     from t_ndtu
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.zz.common.model.DeviceinfoKey" >
     select 
     <include refid="Base_Column_List" />
-    from t_deviceinfo
+    from t_ndtu
     where C_DistrictBCDId = #{cDistrictbcdid,jdbcType=VARCHAR}
       and C_AddressId = #{cAddressid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="com.zz.common.model.DeviceinfoKey" >
-    delete from t_deviceinfo
+    delete from t_ndtu
     where C_DistrictBCDId = #{cDistrictbcdid,jdbcType=VARCHAR}
       and C_AddressId = #{cAddressid,jdbcType=INTEGER}
   </delete>
 
   <insert id="insert" parameterType="com.zz.common.model.Deviceinfo" >
-    insert into t_deviceinfo (C_DistrictBCDId, C_AddressId, C_ChannelNum, 
+    insert into t_ndtu (C_DistrictBCDId, C_AddressId, C_ChannelNum,
       C_HardwareVer, C_SoftwareVer, C_FixIP, 
       C_LastComTime, C_SoftUpdateDate, C_InstallDate, 
       C_Desp)
@@ -111,7 +111,7 @@
       #{cDesp,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zz.common.model.Deviceinfo" >
-    insert into t_deviceinfo
+    insert into t_ndtu
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="cDistrictbcdid != null" >
         C_DistrictBCDId,
@@ -179,7 +179,7 @@
   </insert>
 
   <update id="updateByExampleSelective" parameterType="map" >
-    update t_deviceinfo
+    update t_ndtu
     <set >
       <if test="record.cDistrictbcdid != null" >
         C_DistrictBCDId = #{record.cDistrictbcdid,jdbcType=VARCHAR},
@@ -217,7 +217,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update t_deviceinfo
+    update t_ndtu
     set C_DistrictBCDId = #{record.cDistrictbcdid,jdbcType=VARCHAR},
       C_AddressId = #{record.cAddressid,jdbcType=INTEGER},
       C_ChannelNum = #{record.cChannelnum,jdbcType=INTEGER},
@@ -233,7 +233,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.zz.common.model.Deviceinfo" >
-    update t_deviceinfo
+    update t_ndtu
     <set >
       <if test="cChannelnum != null" >
         C_ChannelNum = #{cChannelnum,jdbcType=INTEGER},
@@ -264,7 +264,7 @@
       and C_AddressId = #{cAddressid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zz.common.model.Deviceinfo" >
-    update t_deviceinfo
+    update t_ndtu
     set C_ChannelNum = #{cChannelnum,jdbcType=INTEGER},
       C_HardwareVer = #{cHardwarever,jdbcType=VARCHAR},
       C_SoftwareVer = #{cSoftwarever,jdbcType=VARCHAR},
