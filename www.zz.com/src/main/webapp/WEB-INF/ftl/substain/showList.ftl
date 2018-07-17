@@ -33,14 +33,20 @@
 					});
 					return _delete(array);
 				}); */
-				so.initProvince();
+				
+				so.initProvince('${queryEpuProvince}','${queryEpuCity}','${queryEpuDistrict}','${queryEpuName}');
 				so.registEvent();
 				 initList();
+				var  mapMarkRowIdVar="${mapMarkRowId}";
+				var  mapMarkVar= "${mapMark}";
+				 if(mapMarkRowIdVar!="" && mapMarkVar=="1")
+					 {
+					 epuEdit.saveShow(mapMarkRowIdVar);
+					 }
 				
 			});
 			
-			so.initProvince= function () {
-			
+			so.initProvince= function (queryEpuProvince,queryEpuCity,queryEpuDistrict,queryEpuName) {
 		            $.ajax({
 		                type: "post",
 		                url:  "${basePath}/epu/getProvinces.shtml",
@@ -56,10 +62,92 @@
 		                    $('.search #epuProvince').html('<option value="">--请选择--</option>');
 		                    
 		                    for (var i = 0; i < length; i++) {
+		                    	if(queryEpuProvince!=null && queryEpuProvince!='' && queryEpuProvince==a[i].provinceId)
+		                    		{
+		                    		  $('.search #epuProvince').append('<option value="' + a[i].provinceId + '" selected="selected">' + a[i].provinceNameCn + '</option>');
+		            
+		                    		}
+		                    	else
+		                    		{
 		                            $('.search #epuProvince').append('<option value="' + a[i].provinceId + '">' + a[i].provinceNameCn + '</option>');
+		                    		}
 	                    }
 		                }
 		            });
+		            
+		      	  var i = $('#epuProvince option:selected').val();			
+				  $.ajax({
+		                type: "post",
+		                url:  "${basePath}/epu/getCity.shtml",
+		                data: {
+		                    "provinceId": i,
+		                    'districtFlag': 0
+		                },
+		                dataType: "json",
+		                async:false,
+		                cache: false,
+		                error: function (a,b,c) {
+		                },
+		                success: function (a) {
+		                    var length = a.length;
+		                    $('.search #epuCity').html('<option value="">--请选择--</option>');
+		                    for (var i = 0; i < length; i++) {
+		                    	if(queryEpuCity!=null && queryEpuCity!='' && queryEpuCity==a[i].cityCode)
+	                    		{
+	                    		  
+	                    		  $('.search #epuCity').append('<option value="' + a[i].cityCode + '" selected="selected">'+ a[i].cityNameCn + '</option>');
+	                    		}
+	                    	else
+	                    		{
+	                    		  $('.search #epuCity').append('<option value="' + a[i].cityCode + '">' + a[i].cityNameCn + '</option>');
+	                    		}
+		                      
+		                    }
+		                }
+			    });
+				  
+				  var j = $('.search #epuCity option:selected').val();
+					// 第四级
+					$.ajax({
+						type : "post",
+						url : "${basePath}/epu/getCityDistrict.shtml",
+						data : {
+							"cityId" : j
+						},
+						dataType : "json",
+						cache : false,
+						error : function(a, b, c) {
+						},
+						success : function(a) {
+							var length = a.length;
+							$('.search #epuDistrict').html(
+									'<option value="">--请选择--</option>');
+							for (var i = 0; i < length; i++) {
+								
+								
+								if(queryEpuDistrict!=null && queryEpuDistrict!='' && queryEpuDistrict==a[i].cityCode)
+	                    		{
+									$('.search #epuDistrict').append(
+											'<option value="' + a[i].cityCode
+											+ '" selected="selected">' + a[i].cityNameCn
+													+ '</option>');
+	                    		}
+	                    	else
+	                    		{
+	                    		$('.search #epuDistrict').append(
+										'<option value="' + a[i].cityCode
+												+ '">' + a[i].cityNameCn
+												+ '</option>');
+	                    		}
+							
+							}
+						}
+					});
+		            
+					if(queryEpuName!=null && queryEpuName!='' )
+						{
+						$('.search #epuName').val(queryEpuName);
+						}
 			};
 			
 			  so.registEvent=function registEvent() {
@@ -629,9 +717,18 @@
 						var epuDistrict=$("#saveDiv #epuDistrict").val();				
 						var epuName=$("#saveDiv #epuName").val();
 						var epuLocal=$("#saveDiv #epuLocal").val();
+						
+						var queryEpuProvince =$('.search #epuProvince').val()==null?"":$('.search #epuProvince').val();						
+						var queryEpuCity =$('.search #epuCity').val()==null?"":$('.search #epuCity').val();
+					    var queryEpuDistrict =$('.search #epuDistrict').val()==null?"":$('.search #epuDistrict').val();
+						var queryEpuName =$('.search #epuName').val()==null?"":$('.search #epuName').val();
+						
 						var url="${basePath}/html/mapMark.html";
 						url+="?rowId=" + rowId+"&cityName="+encodeURI(cityName)+"&epuProvince="+epuProvince+"&epuCity="+epuCity;
 						url+="&epuDistrict=" + epuDistrict+"&epuName="+encodeURI(epuName)+"&epuLocal="+encodeURI(epuLocal);
+						url+="&queryEpuProvince=" + queryEpuProvince+"&queryEpuCity="+encodeURI(queryEpuCity)+"&queryEpuDistrict="+encodeURI(queryEpuDistrict);
+						url+="&queryEpuName=" + queryEpuName;
+						url+="&mapMark=1";
 						//url+="&epuParentId=" + epuParentId+"&districtId="+districtId+"&addressId="+addressId+"&channelId="+channelId+"&lineId="+encodeURI(lineId);
 					 window.location=url;
 				 };
@@ -654,10 +751,18 @@
 						var epuDistrict=data.epuInfos[0].epuDistrict;			
 						var epuName=data.epuInfos[0].epuName;
 						var epuLocal=data.epuInfos[0].epuLocal;
+						
+						var queryEpuProvince =$('.search #epuProvince').val()==null?"":$('.search #epuProvince').val();						
+						var queryEpuCity =$('.search #epuCity').val()==null?"":$('.search #epuCity').val();
+					    var queryEpuDistrict =$('.search #epuDistrict').val()==null?"":$('.search #epuDistrict').val();
+						var queryEpuName =$('.search #epuName').val()==null?"":$('.search #epuName').val();
 						url="${basePath}/html/mapMark.html";
 						url+="?rowId=" + rowId+"&cityName="+encodeURI(cityName)+"&epuProvince="+epuProvince+"&epuCity="+epuCity;
 						url+="&epuDistrict=" + epuDistrict+"&epuName="+encodeURI(epuName)+"&epuLocal="+encodeURI(epuLocal);
-					    window.location=url;
+						url+="&queryEpuProvince=" + queryEpuProvince+"&queryEpuCity="+encodeURI(queryEpuCity)+"&queryEpuDistrict="+encodeURI(queryEpuDistrict);
+						url+="&queryEpuName=" + queryEpuName;
+						url+="&mapMark=0";
+						window.location=url;
                            }						
 						},
 						error: function (data) 

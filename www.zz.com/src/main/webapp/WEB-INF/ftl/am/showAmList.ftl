@@ -594,6 +594,7 @@
     amEdit.channelId;
     amEdit.leakChannelId;
     amEdit.epuId;
+    amEdit.phaseRemark;
 
    
 			/* so.init(function(){
@@ -603,7 +604,28 @@
 			}); */
 			//初始化页面数据
 			amEdit.initPage =function initPage() {
-	                    
+				
+				 $('#amDiv #phaseRemark').val(amEdit.phaseRemark);
+				/* $('#amDiv #phaseRemark').each(function(){
+
+					   if( $(this).val() == amEdit.phaseRemark){
+
+					        $(this).val();
+					    }
+					}); */
+               /*  for (var i = 0; i < length; i++) {
+                	if(amEdit.phaseRemark==a[i].provinceId)
+                		{
+                		   $('#amDiv #phaseRemark').append('<option value="' + a[i].provinceId + '" selected="selected">' + a[i].provinceNameCn + '</option>');
+                		}else
+                			
+                		{
+                			   $('#amDiv #phaseRemark').append('<option value="' + a[i].provinceId + '">' + a[i].provinceNameCn + '</option>');
+                		}
+                 
+                }   */
+				
+				
 				// 省份
 		            $.ajax({
 		                type: "post",
@@ -1136,7 +1158,7 @@
 										   amEdit.addressId=epuInfo.addressId;
 										  amEdit.channelId=epuInfo.channelId;
 										  amEdit.leakChannelId=epuInfo.leakChannelId;
-										
+										  amEdit.phaseRemark=epuInfo.phaseRemark;
 								    $("#amDiv").show();
 								    amEdit.initPage();
 				                    amEdit.registEvent();	
@@ -1286,7 +1308,12 @@
             
             <lable>
                <span>相别</span>
-               <input name="phaseRemark"  id="phaseRemark" type="text" class="text request" title="电表号" maxlength="100">                         
+                 <select name="phaseRemark" id="phaseRemark" class="text requiredSelect" title="相别">
+                   <option value="">--请选择--</option>                   
+			        <option value="A">A</option>
+			        <option value="B">B</option>
+			         <option value="C">C</option>
+                 </select>                       
             </lable>      
            <lable>
                 <span>关联终端编号</span>

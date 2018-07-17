@@ -138,6 +138,7 @@
             <if test="epuDistrict != null and epuDistrict !=''">
           and  epu.epu_district = #{epuDistrict,jdbcType=VARCHAR} 
           </if>
+          order by epu_name
   </select>
   
   

@@ -75,12 +75,18 @@ public class EpuController extends BaseController {
 		return new ModelAndView("epu/mapMark");
 	}*/
 	@RequestMapping(value="showSubstainList")
-	public ModelAndView showSubstainList(ModelMap map){	
+	public ModelAndView showSubstainList(ModelMap map,String rowId,String mapMark,HttpServletRequest request){	
 		
 		ModelAndView modelAndView = new  ModelAndView("substain/showList");
 		modelAndView.addObject("leftMenuview", "4");//显示左侧菜单 0 个人中心 1用户中心 2 权限管理 3用电曲线数据 4设备管理 5实时监控
 		UUser token =  userService.selectByPrimaryKey(TokenManager.getToken().getId());
 		modelAndView.addObject("token", token);//左侧上方管理员信息
+		modelAndView.addObject("mapMarkRowId", rowId==null?"":rowId);//
+		modelAndView.addObject("mapMark", mapMark==null?"":mapMark);//
+		modelAndView.addObject("queryEpuProvince", request.getParameter("queryEpuProvince")==null?"":request.getParameter("queryEpuProvince"));//
+		modelAndView.addObject("queryEpuCity",  request.getParameter("queryEpuCity")==null?"":request.getParameter("queryEpuCity"));//
+		modelAndView.addObject("queryEpuDistrict",  request.getParameter("queryEpuDistrict")==null?"":request.getParameter("queryEpuDistrict"));//
+		modelAndView.addObject("queryEpuName",  request.getParameter("queryEpuName")==null?"":request.getParameter("queryEpuName"));//
 		return modelAndView;
 	}
 	

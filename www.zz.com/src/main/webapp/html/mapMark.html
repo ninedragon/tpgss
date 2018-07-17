@@ -127,8 +127,16 @@
 	    this.length -= 1;  
 	}; */
 	
-	function back() {	
-	  window.location= $("#basePath").val()+"/epu/showSubstainList.shtml?rowId=" + $("#rowId").val();
+	function back() {
+
+   		var url=$("#basePath").val()+"/epu/showSubstainList.shtml";
+   		url+="?rowId=" + $("#rowId").val();
+   	    url+="&mapMark=" + $("#mapMark").val();
+   		url+="&queryEpuProvince=" + $("#queryEpuProvince").val();
+   		url+="&queryEpuCity=" + $("#queryEpuCity").val();
+   		url+="&queryEpuDistrict=" + $("#queryEpuDistrict").val();
+   		url+="&queryEpuName=" + $("#queryEpuName").val();
+	    window.location= url;
 	}
         function save() {
               var data = [];
@@ -170,7 +178,14 @@
 						data :param,
 						success : function(data) {
 						        alert('保存成功');
-						         window.location= $("#basePath").val()+"/epu/showSubstainList.shtml?rowId=" + data.rowId;						
+						        var url=$("#basePath").val()+"/epu/showSubstainList.shtml";
+							   		url+="?rowId=" +data.rowId;
+							   		url+="&mapMark=" + $("#mapMark").val();
+							   		url+="&queryEpuProvince=" + $("#queryEpuProvince").val();
+							   		url+="&queryEpuCity=" + $("#queryEpuCity").val();
+							   		url+="&queryEpuDistrict=" + $("#queryEpuDistrict").val();
+							   		url+="&queryEpuName=" + $("#queryEpuName").val();
+						         window.location= url;						
 						}			
 					});      
         }
@@ -243,6 +258,18 @@
    		$("#addressId").val(addressId);
    		$("#channelId").val(channelId); 
    		$("#lineId").val(lineId); */
+   		
+   		  var queryEpuProvince=GetArgsFromHref(window.location.href,"queryEpuProvince");
+   	     var  queryEpuCity=GetArgsFromHref(window.location.href,"queryEpuCity");
+   	    var queryEpuDistrict=decodeURI(GetArgsFromHref(window.location.href,"queryEpuDistrict"), "UTF-8");
+   	    var queryEpuName=decodeURI(GetArgsFromHref(window.location.href,"queryEpuName"), "UTF-8");
+   	      var mapMark=decodeURI(GetArgsFromHref(window.location.href,"mapMark"), "UTF-8");
+   	    
+   	    $("#queryEpuProvince").val(queryEpuProvince);
+   		$("#queryEpuCity").val(queryEpuCity);
+   		$("#queryEpuDistrict").val(queryEpuDistrict);
+   		$("#queryEpuName").val(queryEpuName);
+   		$("#mapMark").val(mapMark);
             var w = $(window).width();
             var h = $(window).height();
             // var map = new BMap.Map("allmap"); 
@@ -358,6 +385,13 @@
          <input  type="hidden" id="epuXscale" name="epuXscale"  value="">
            <input  type="hidden" id="epuYscale" name="epuYscale"  value="">
          <input type="hidden" id="epuLocal" name="epuLocal"  value=""/>
+         
+           <input  type="hidden" id="queryEpuProvince" name="queryEpuProvince"  value="">
+         <input type="hidden" id="queryEpuCity" name="queryEpuCity"  value=""/>
+         <input  type="hidden" id="queryEpuDistrict" name="queryEpuDistrict"  value="">
+         <input  type="hidden" id="queryEpuName" name="queryEpuName"  value="">
+         
+          <input  type="hidden" id="mapMark" name="mapMark"  value="">
          <!-- <input  type="hidden" id="epuParentId" name="epuParentId"  value="">
          <input type="hidden" id="districtId" name="districtId"  value=""/>
          <input  type="hidden" id="addressId" name="addressId"  value=""> -->
