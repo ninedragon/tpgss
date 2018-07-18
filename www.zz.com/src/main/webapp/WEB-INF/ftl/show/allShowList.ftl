@@ -17,6 +17,7 @@
 	<script  src="${basePath}/js/common/layer/layer.js"></script>
 	<script  src="${basePath}/js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script  src="${basePath}/js/shiro.demo.js"></script>
+	 <script src="${basePath}/woodare/js/dateFormat.js"></script>
 	<link rel="stylesheet" href="${basePath}/woodare/css/zTreeStyle/zTreeStyle.css" type="text/css" />
 	<script type="text/javascript" src="${basePath}/woodare/js/jquery.ztree.core.min.js"></script>
 	<script type="text/javascript">

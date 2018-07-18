@@ -89,6 +89,8 @@ public class FaultController extends BaseController {
 		}
 		map.put("row_name", faultInfo.getRow_name());
 		map.put("fault_type", faultInfo.getFault_type());
+		map.put("is_repaired", faultInfo.getIs_repaired());
+		map.put("str_occur_time", faultInfo.getStr_occur_time());
 		Pagination<FaultInfo> page = faultService.findByPage(map,pageNo,pageSize);
 		Map<String, Object> mapReturn  = new HashMap<String, Object>();
 		mapReturn.put("page", page);

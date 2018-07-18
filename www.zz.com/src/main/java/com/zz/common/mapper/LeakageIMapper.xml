@@ -12,8 +12,7 @@
     <result column="RecordDateBCD" jdbcType="INTEGER" property="recorddatebcd" />
     <result column="i" jdbcType="REAL" property="i" />
     <result column="C_RecordInsertTime" jdbcType="TIMESTAMP" property="cRecordinserttime" />
-    <result column="C_RecordInsertTime" jdbcType="TIMESTAMP" property="strCRecordinserttime" />
-  </resultMap>
+    </resultMap>
     <sql id="limit_sql">
   	   <if test="page_sql != null and page_sql != ''">
       	${page_sql}
@@ -172,7 +171,7 @@
 				C_FrameCmdId,
 				RecordDateBCD,
 				i,
-				from_unixtime(unix_timestamp(C_RecordInsertTime),'%Y-%m-%d %H:%I:%S')   AS strCRecordinserttime,
+				C_RecordInsertTime,
 				C_FaultId
 			FROM
 				t_leakage_i

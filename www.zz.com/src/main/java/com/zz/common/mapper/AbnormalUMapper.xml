@@ -10,9 +10,7 @@
     <result column="ub" jdbcType="REAL" property="ub" />
     <result column="uc" jdbcType="REAL" property="uc" />
     <result column="C_RecordInsertTime" jdbcType="TIMESTAMP" property="cRecordinserttime" />
-    <result column="C_RecordInsertTime" jdbcType="VARCHAR" property="strCRecordinserttime" />
     <result column="occurTime" jdbcType="TIMESTAMP" property="occurtime" />
-    <result column="occurTime" jdbcType="VARCHAR" property="strOccurTime" />
     <result column="C_FaultId" jdbcType="INTEGER" property="cFaultid" />
     <result column="is_abnormal" jdbcType="BIT" property="isAbnormal" />
   </resultMap>
@@ -182,8 +180,8 @@
 				ua,
 				ub,
 				uc,
-				from_unixtime(unix_timestamp(C_RecordInsertTime),'%Y-%m-%d %H:%I:%S')   AS strCRecordinserttime,
-				from_unixtime(unix_timestamp(occurTime),'%Y-%m-%d %H:%I:%S')   AS strOccurTime,
+				C_RecordInsertTime,
+				occurTime,
 				C_FaultId,
 				is_abnormal
 

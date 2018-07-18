@@ -23,6 +23,14 @@
 	<link   rel="shortcut icon" href="../favicon.ico" />
 	<link href="../js/common/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
 	<link href="../css/common/base.css" rel="stylesheet"/>
+	
+	
+	<script type="text/javascript" src="../woodare/js/jquery-3.3.1.min.js"></script>
+
+<script  src="../js/common/layer/layer.js"></script>
+<script  src="../js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script  src="../js/shiro.demo.js"></script>
+<script language="javascript" type="text/javascript" src="../js/My97DatePicker/WdatePicker.js"></script>
   </head>
   <body>
   	<input type="hidden" id="action" name="action" value="ammeter">
@@ -76,6 +84,18 @@
 	          <span>故障原因</span>
 	          <select id="fault_type" name="fault_type"></select>
 	        </lable>
+	         <lable>
+        	<span>是否修复</span>
+        	<select id="is_repaired" name="is_repaired">
+        		<option value="">--请选择--</option>
+        		<option value="1">已修复</option>
+        		<option value="0">未修复</option>
+        	</select>
+         </lable>
+         <lable>
+        	<span>故障发生时间</span>
+         	 <input id="str_occur_time" type="text" name="str_occur_time" value="" onClick="WdatePicker()"/>
+         </lable>
 	        <div class="but-nav">
 	        	<button type="button"  onclick="javascript:initList();"       class="btn btn-primary" style="background-color: #169274;">查询</button>
 	        </div>
@@ -118,12 +138,7 @@
 	</div>
 </div>
 <!--loading结束/-->
-<script type="text/javascript" src="../woodare/js/jquery-3.3.1.min.js"></script>
 
-<script  src="../js/common/layer/layer.js"></script>
-<script  src="../js/common/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script  src="../js/shiro.demo.js"></script>
-<script language="javascript" type="text/javascript" src="../js/My97DatePicker/WdatePicker.js"></script>
 <script src="../woodare/js/dateFormat.js"></script>
 <script src="../woodare/js/faultLocationList.js"></script>
 

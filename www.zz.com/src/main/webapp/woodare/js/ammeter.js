@@ -321,7 +321,7 @@ function showTop(data,rowId,tableBoxId){
 	 svgSnap.attr("width", widthVal).attr("height", temp)
 	 parent.$("#tableBoxDiv").css("overflow", "auto");
 	 parent.$(".ammeter").css("width", "650px");
-	 $("#falutDiv").css("width", "950px").css("top",( temp - 500)+"px");
+	 $("#falutDiv").css("width", "950px").css("top",( temp - 700)+"px");
 	 parent.$("#tab3Iframe").attr("height", (temp));
 	 
 	 javaScriptObj.svgObj = layerSnap;
@@ -823,6 +823,12 @@ function setFalut(){
 	    		}
 	    	}
 	    	var bool = ($.trim( $(window.parent.$("#"+javaScriptObj.substationId+"Iframe")).contents().find(".a-hov span[class='on']").text()) == "故障定位");//主面板点击了故障定位,则渲染电表故障
+	    	if(!bool){//主面板未点击了故障定位,则清除渲染电表故障
+	    		clearFalut(faultNowMeterArray,faultNowMeterBoxArray);
+		    }
+	    	if((null != faultNowMeterErrorArray && faultNowMeterErrorArray.length >0) || (null != faultNowMeterBoxErrorArray && faultNowMeterBoxErrorArray.length >0) ){
+	    		clearFalut(faultNowMeterErrorArray,faultNowMeterBoxErrorArray);
+	    	}
 	    	if(bool){
 	    		//处理表箱
 	    		for(var i = 0;i < faultNowMeterBoxArray.length ;i++){
@@ -865,12 +871,6 @@ function setFalut(){
 	    		
 	    		}
 	    	}  
-	    	if(!bool){//主面板未点击了故障定位,则清除渲染电表故障
-	    		clearFalut(faultNowMeterArray,faultNowMeterBoxArray);
-		    }
-	    	if((null != faultNowMeterErrorArray && faultNowMeterErrorArray.length >0) || (null != faultNowMeterBoxErrorArray && faultNowMeterBoxErrorArray.length >0) ){
-	    		clearFalut(faultNowMeterErrorArray,faultNowMeterBoxErrorArray);
-	    	}
 		    $("#loadingDiv").hide();
        } 
 	});

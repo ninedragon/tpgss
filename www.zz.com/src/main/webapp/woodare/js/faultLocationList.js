@@ -61,6 +61,8 @@ function initList(pageNo) {
             row_name: $.trim($("#row_name").val()),
             fault_type: $.trim($("#fault_type").val()),
             strKeyArray : $.trim($("#strKeyArray").val()||""),
+            str_occur_time : $.trim($("#str_occur_time").val()||""),
+            is_repaired : $.trim($("#is_repaired").val()||""),
             action : $.trim($("#action").val()||""),
             pageNo: pageNo,
             pageSize: 10
@@ -130,7 +132,9 @@ function initList(pageNo) {
  * 故障来源
  * **/
 function showFaultBase(fault_base_id,cation){
+	$("#loadingDiv").show();
 	$.post(getRootPath_web() + '/fault/ajax_faultDetails',{fault_base_id:fault_base_id,cation:cation},function(result){
+		$("#loadingDiv").hide();
 		if(cation == "all"){
 			$("#showFaultBase").html(result).show();
 		}else  if(cation == "topo"){

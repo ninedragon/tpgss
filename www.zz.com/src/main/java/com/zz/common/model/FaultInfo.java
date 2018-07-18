@@ -12,6 +12,7 @@ public class FaultInfo implements Serializable {
 	private String row_name;
 	private String fault_type;
 	private Date  occur_time;
+	private String  str_occur_time;
 	private String  is_cancelled;
 	private String  is_cancelled_name;
 	private String  is_repaired;
@@ -27,6 +28,13 @@ public class FaultInfo implements Serializable {
 	private String  epu_district_name;
 	private String  epu_type_name;
 	private String  fault_base_id;
+	
+	public String getStr_occur_time() {
+		return str_occur_time;
+	}
+	public void setStr_occur_time(String str_occur_time) {
+		this.str_occur_time = str_occur_time;
+	}
 	public String getRow_id() {
 		return row_id;
 	}

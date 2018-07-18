@@ -35,13 +35,25 @@
 	<h4>故障定位列表</h4>	
     <!--搜索开始-->
 	<div class="search">
-	    	 <lable>
+	    <lable>
         	<span>设备名称</span>
           <input id="row_name" type="text" name="row_name" value="" /></lable>
     	<lable>       
         	<span>故障原因 </span>
           <select id="fault_type" name="fault_type"></select>
     	</lable>
+    	 <lable>
+        	<span>是否修复</span>
+        	<select id="is_repaired" name="is_repaired">
+        		<option value="">--请选择--</option>
+        		<option value="1">已修复</option>
+        		<option value="0">未修复</option>
+        	</select>
+         </lable>
+         <lable>
+        	<span>故障发生时间</span>
+         	 <input id="str_occur_time" type="text" name="str_occur_time" value="" onClick="WdatePicker()"/>
+         </lable>
         <div class="but-nav">
           <button type="button" onclick="javascript:initList();" class="btn btn-primary" style="background-color: #169274;">查询</button></div>
 	</div>
