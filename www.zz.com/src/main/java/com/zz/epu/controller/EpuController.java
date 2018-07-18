@@ -160,7 +160,7 @@ public class EpuController extends BaseController {
 	
 	@RequestMapping("queryEpu")
 	@ResponseBody
-	public Object queryEpu(HttpServletRequest request,HttpSession session,TEpuInfo epuinfo) {		 
+	public Object queryEpu(HttpServletRequest request,HttpSession session,TEpuInfo epuinfo) {
 		List <TEpuInfo> epuInfos = epuService.selectEpuInfoByMark(epuinfo);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("epuInfos", epuInfos);
@@ -515,11 +515,12 @@ public class EpuController extends BaseController {
 	  }
 	
 	
-	@RequestMapping("showEpuInfo") 
+/*	@RequestMapping("showEpuInfo") 
 	@ResponseBody
 	public List<Item> showEpuInfo(HttpServletRequest request,String pId){ 
 		 TEpuInfo tEpuInfo=new TEpuInfo();
 		 tEpuInfo.setEpuDistrict(pId);
+		 tEpuInfo.setIsMarkFlag("1");
 		 List <TEpuInfo> epuInfoList = epuService.selectEpuInfoByMark(tEpuInfo);
 	    List<Item> list = new ArrayList<Item>(epuInfoList.size());
 	    for(TEpuInfo p : epuInfoList){
@@ -534,12 +535,12 @@ public class EpuController extends BaseController {
 	        item.setEpuProvince(p.getEpuProvince());
 	        item.setEpuDistrict(p.getEpuDistrict());
 	        item.setEpuLocal(p.getEpuLocal());
-	        item.setEpuXscale(p.getEpuXscale().toString());
-	        item.setEpuYscale(p.getEpuYscale().toString());
+	        item.setEpuXscale(p.getEpuXscale()!=null?p.getEpuXscale().toString():null);
+	        item.setEpuYscale(p.getEpuYscale()!=null?p.getEpuYscale().toString():null);
 	        list.add(item);
 	    }
 	       return list; 
-	  }
+	  }*/
 	
 	
 	
@@ -598,8 +599,8 @@ public class EpuController extends BaseController {
 				        item3.setEpuProvince(p3.getEpuProvince());
 				        item3.setEpuDistrict(p3.getEpuDistrict());
 				        item3.setEpuLocal(p3.getEpuLocal());
-				        item3.setEpuXscale(p3.getEpuXscale().toString());
-				        item3.setEpuYscale(p3.getEpuYscale().toString());
+				        item3.setEpuXscale(p3.getEpuXscale()!=null?p3.getEpuXscale().toString():null);
+				        item3.setEpuYscale(p3.getEpuYscale()!=null?p3.getEpuYscale().toString():null);
 				        list.add(item3);
 				    }
 			        

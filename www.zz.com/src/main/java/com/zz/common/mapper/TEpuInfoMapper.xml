@@ -128,7 +128,11 @@
             epu_parent_type_name
 			FROM
 				view_epu_info epu
-          where 1=1 and  epu.DEL_FLAG='0' and epu.epu_type='M0001' and epu.epu_xscale IS NOT NULL and  epu.epu_Yscale IS NOT NULL 
+          where 1=1 and  epu.DEL_FLAG='0' and epu.epu_type='M0001' 
+         <!--   <if test="isMarkFlag != null and isMarkFlag !=''">
+           and epu.epu_xscale IS NOT NULL and  epu.epu_Yscale IS NOT NULL
+          </if> -->
+          
             <if test="rowId != null and rowId !=''">
           and  epu.row_id = #{rowId,jdbcType=VARCHAR} 
           </if>

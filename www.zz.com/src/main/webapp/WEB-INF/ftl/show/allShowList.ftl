@@ -260,7 +260,7 @@
         var epuYscale=$("#epuYscale").val();
         <!--不需要重新加载地图，刷新标注信息。-->
         <!--mapID.contentWindow.addMarker(rowId,cityName,rowId,epuName,epuLocal,epuXscale,epuYscale);-->
-          mapID.contentWindow.locationMark(epuXscale, epuYscale);	
+          mapID.contentWindow.locationMark(epuXscale, epuYscale,cityName);
 		$(".all li").each(function(){
 			var thisRowId = $(this).attr("id").replace("tab_","");
 			$("#"+thisRowId+"tabShow").hide();<!--除地图其他TAB全部隐藏-->
