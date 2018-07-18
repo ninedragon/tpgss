@@ -34,7 +34,7 @@ public class FaultServiceImpl extends BaseMybatisDao<FaultInfoMapper> implements
 	}
 
 	public List<CodeInfo> selectTypeList(List<String> codeTypeList) {
-		return faultInfoMapper.selectTypeList(codeTypeList);
+		return faultInfoMapper.selectTypeList(codeTypeList);  
 	}
 
 	public List<FaultRendering> selectFaultByRootId(Map<String, Object> map) {
