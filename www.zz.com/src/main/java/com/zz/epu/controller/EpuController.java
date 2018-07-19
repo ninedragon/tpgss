@@ -601,6 +601,7 @@ public class EpuController extends BaseController {
 				        item3.setEpuLocal(p3.getEpuLocal());
 				        item3.setEpuXscale(p3.getEpuXscale()!=null?p3.getEpuXscale().toString():null);
 				        item3.setEpuYscale(p3.getEpuYscale()!=null?p3.getEpuYscale().toString():null);
+				        item3.setSubstainIdFault(p3.getSubstainIdFault());
 				        list.add(item3);
 				    }
 			        

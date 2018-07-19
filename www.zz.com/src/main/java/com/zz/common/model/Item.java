@@ -7,12 +7,21 @@ public class Item implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+    private String substainIdFault;//
+
+	public String getSubstainIdFault() {
+		return substainIdFault;
+	}
+	public void setSubstainIdFault(String substainIdFault) {
+		this.substainIdFault = substainIdFault;
+	}
 	private String id;
     private String pId;
     private String pName;
     private String epuXscale;
     private String epuYscale;
     private String epuLocal;
+
     public String getEpuXscale() {
 		return epuXscale;
 	}

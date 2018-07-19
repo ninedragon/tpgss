@@ -9,12 +9,17 @@
     <result column="C_DistrictBCDId" property="c_DistrictBCDId" jdbcType="VARCHAR" />
     <result column="C_AddressId" property="c_AddressId" jdbcType="VARCHAR" />
     <result column="C_ChannelId" property="c_ChannelId" jdbcType="INTEGER" />
+    <result column="C_ChannelId_b" property="c_ChannelId_b" jdbcType="INTEGER" />
+    <result column="C_ChannelId_c" property="c_ChannelId_c" jdbcType="INTEGER" />
     <result column="line_id" property="line_id" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="CREATE_TIME" jdbcType="TIMESTAMP" />
     <result column="CREATE_ID" property="CREATE_ID" jdbcType="VARCHAR" />
     <result column="UPDATE_TIME" property="UPDATE_TIME" jdbcType="TIMESTAMP" />
     <result column="UPDATE_ID" property="UPDATE_ID" jdbcType="VARCHAR" />
     <result column="DEL_FLAG" property="DEL_FLAG" jdbcType="VARCHAR" />
+    <result column="epu_province" property="epu_province" jdbcType="VARCHAR" />
+    <result column="epu_city" property="epu_city" jdbcType="VARCHAR" />
+    <result column="epu_district" property="epu_district" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -76,7 +81,8 @@
   </sql>
   <sql id="Base_Column_List" >
     branchBoxId, outgoingCabinetId, epu_name, epu_local, C_DistrictBCDId, C_AddressId, 
-    C_ChannelId, line_id, CREATE_TIME, CREATE_ID, UPDATE_TIME, UPDATE_ID, DEL_FLAG
+    C_ChannelId, C_ChannelId_b, C_ChannelId_c, line_id, CREATE_TIME, CREATE_ID, UPDATE_TIME, 
+    UPDATE_ID, DEL_FLAG, epu_province, epu_city, epu_district
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zz.common.model.t_branchboxExample" >
     select
@@ -111,14 +117,18 @@
   <insert id="insert" parameterType="com.zz.common.model.t_branchbox" >
     insert into t_branchbox (branchBoxId, outgoingCabinetId, epu_name, 
       epu_local, C_DistrictBCDId, C_AddressId, 
-      C_ChannelId, line_id, CREATE_TIME, 
-      CREATE_ID, UPDATE_TIME, UPDATE_ID, 
-      DEL_FLAG)
+      C_ChannelId, C_ChannelId_b, C_ChannelId_c, 
+      line_id, CREATE_TIME, CREATE_ID, 
+      UPDATE_TIME, UPDATE_ID, DEL_FLAG, 
+      epu_province, epu_city, epu_district
+      )
     values (#{branchBoxId,jdbcType=VARCHAR}, #{outgoingCabinetId,jdbcType=VARCHAR}, #{epu_name,jdbcType=VARCHAR}, 
       #{epu_local,jdbcType=VARCHAR}, #{c_DistrictBCDId,jdbcType=VARCHAR}, #{c_AddressId,jdbcType=VARCHAR}, 
-      #{c_ChannelId,jdbcType=INTEGER}, #{line_id,jdbcType=VARCHAR}, #{CREATE_TIME,jdbcType=TIMESTAMP}, 
-      #{CREATE_ID,jdbcType=VARCHAR}, #{UPDATE_TIME,jdbcType=TIMESTAMP}, #{UPDATE_ID,jdbcType=VARCHAR}, 
-      #{DEL_FLAG,jdbcType=VARCHAR})
+      #{c_ChannelId,jdbcType=INTEGER}, #{c_ChannelId_b,jdbcType=INTEGER}, #{c_ChannelId_c,jdbcType=INTEGER}, 
+      #{line_id,jdbcType=VARCHAR}, #{CREATE_TIME,jdbcType=TIMESTAMP}, #{CREATE_ID,jdbcType=VARCHAR}, 
+      #{UPDATE_TIME,jdbcType=TIMESTAMP}, #{UPDATE_ID,jdbcType=VARCHAR}, #{DEL_FLAG,jdbcType=VARCHAR}, 
+      #{epu_province,jdbcType=VARCHAR}, #{epu_city,jdbcType=VARCHAR}, #{epu_district,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.zz.common.model.t_branchbox" >
     insert into t_branchbox
@@ -144,6 +154,12 @@
       <if test="c_ChannelId != null" >
         C_ChannelId,
       </if>
+      <if test="c_ChannelId_b != null" >
+        C_ChannelId_b,
+      </if>
+      <if test="c_ChannelId_c != null" >
+        C_ChannelId_c,
+      </if>
       <if test="line_id != null" >
         line_id,
       </if>
@@ -161,6 +177,15 @@
       </if>
       <if test="DEL_FLAG != null" >
         DEL_FLAG,
+      </if>
+      <if test="epu_province != null" >
+        epu_province,
+      </if>
+      <if test="epu_city != null" >
+        epu_city,
+      </if>
+      <if test="epu_district != null" >
+        epu_district,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -185,6 +210,12 @@
       <if test="c_ChannelId != null" >
         #{c_ChannelId,jdbcType=INTEGER},
       </if>
+      <if test="c_ChannelId_b != null" >
+        #{c_ChannelId_b,jdbcType=INTEGER},
+      </if>
+      <if test="c_ChannelId_c != null" >
+        #{c_ChannelId_c,jdbcType=INTEGER},
+      </if>
       <if test="line_id != null" >
         #{line_id,jdbcType=VARCHAR},
       </if>
@@ -202,6 +233,15 @@
       </if>
       <if test="DEL_FLAG != null" >
         #{DEL_FLAG,jdbcType=VARCHAR},
+      </if>
+      <if test="epu_province != null" >
+        #{epu_province,jdbcType=VARCHAR},
+      </if>
+      <if test="epu_city != null" >
+        #{epu_city,jdbcType=VARCHAR},
+      </if>
+      <if test="epu_district != null" >
+        #{epu_district,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -235,6 +275,12 @@
       <if test="record.c_ChannelId != null" >
         C_ChannelId = #{record.c_ChannelId,jdbcType=INTEGER},
       </if>
+      <if test="record.c_ChannelId_b != null" >
+        C_ChannelId_b = #{record.c_ChannelId_b,jdbcType=INTEGER},
+      </if>
+      <if test="record.c_ChannelId_c != null" >
+        C_ChannelId_c = #{record.c_ChannelId_c,jdbcType=INTEGER},
+      </if>
       <if test="record.line_id != null" >
         line_id = #{record.line_id,jdbcType=VARCHAR},
       </if>
@@ -253,6 +299,15 @@
       <if test="record.DEL_FLAG != null" >
         DEL_FLAG = #{record.DEL_FLAG,jdbcType=VARCHAR},
       </if>
+      <if test="record.epu_province != null" >
+        epu_province = #{record.epu_province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.epu_city != null" >
+        epu_city = #{record.epu_city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.epu_district != null" >
+        epu_district = #{record.epu_district,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -267,12 +322,17 @@
       C_DistrictBCDId = #{record.c_DistrictBCDId,jdbcType=VARCHAR},
       C_AddressId = #{record.c_AddressId,jdbcType=VARCHAR},
       C_ChannelId = #{record.c_ChannelId,jdbcType=INTEGER},
+      C_ChannelId_b = #{record.c_ChannelId_b,jdbcType=INTEGER},
+      C_ChannelId_c = #{record.c_ChannelId_c,jdbcType=INTEGER},
       line_id = #{record.line_id,jdbcType=VARCHAR},
       CREATE_TIME = #{record.CREATE_TIME,jdbcType=TIMESTAMP},
       CREATE_ID = #{record.CREATE_ID,jdbcType=VARCHAR},
       UPDATE_TIME = #{record.UPDATE_TIME,jdbcType=TIMESTAMP},
       UPDATE_ID = #{record.UPDATE_ID,jdbcType=VARCHAR},
-      DEL_FLAG = #{record.DEL_FLAG,jdbcType=VARCHAR}
+      DEL_FLAG = #{record.DEL_FLAG,jdbcType=VARCHAR},
+      epu_province = #{record.epu_province,jdbcType=VARCHAR},
+      epu_city = #{record.epu_city,jdbcType=VARCHAR},
+      epu_district = #{record.epu_district,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -298,6 +358,12 @@
       <if test="c_ChannelId != null" >
         C_ChannelId = #{c_ChannelId,jdbcType=INTEGER},
       </if>
+      <if test="c_ChannelId_b != null" >
+        C_ChannelId_b = #{c_ChannelId_b,jdbcType=INTEGER},
+      </if>
+      <if test="c_ChannelId_c != null" >
+        C_ChannelId_c = #{c_ChannelId_c,jdbcType=INTEGER},
+      </if>
       <if test="line_id != null" >
         line_id = #{line_id,jdbcType=VARCHAR},
       </if>
@@ -316,6 +382,15 @@
       <if test="DEL_FLAG != null" >
         DEL_FLAG = #{DEL_FLAG,jdbcType=VARCHAR},
       </if>
+      <if test="epu_province != null" >
+        epu_province = #{epu_province,jdbcType=VARCHAR},
+      </if>
+      <if test="epu_city != null" >
+        epu_city = #{epu_city,jdbcType=VARCHAR},
+      </if>
+      <if test="epu_district != null" >
+        epu_district = #{epu_district,jdbcType=VARCHAR},
+      </if>
     </set>
     where branchBoxId = #{branchBoxId,jdbcType=VARCHAR}
   </update>
@@ -327,12 +402,17 @@
       C_DistrictBCDId = #{c_DistrictBCDId,jdbcType=VARCHAR},
       C_AddressId = #{c_AddressId,jdbcType=VARCHAR},
       C_ChannelId = #{c_ChannelId,jdbcType=INTEGER},
+      C_ChannelId_b = #{c_ChannelId_b,jdbcType=INTEGER},
+      C_ChannelId_c = #{c_ChannelId_c,jdbcType=INTEGER},
       line_id = #{line_id,jdbcType=VARCHAR},
       CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
       CREATE_ID = #{CREATE_ID,jdbcType=VARCHAR},
       UPDATE_TIME = #{UPDATE_TIME,jdbcType=TIMESTAMP},
       UPDATE_ID = #{UPDATE_ID,jdbcType=VARCHAR},
-      DEL_FLAG = #{DEL_FLAG,jdbcType=VARCHAR}
+      DEL_FLAG = #{DEL_FLAG,jdbcType=VARCHAR},
+      epu_province = #{epu_province,jdbcType=VARCHAR},
+      epu_city = #{epu_city,jdbcType=VARCHAR},
+      epu_district = #{epu_district,jdbcType=VARCHAR}
     where branchBoxId = #{branchBoxId,jdbcType=VARCHAR}
   </update>
 </mapper>

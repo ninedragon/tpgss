@@ -585,6 +585,126 @@ public class t_branchboxExample {
             return (Criteria) this;
         }
 
+        public Criteria andC_ChannelId_bIsNull() {
+            addCriterion("C_ChannelId_b is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_bIsNotNull() {
+            addCriterion("C_ChannelId_b is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_bEqualTo(Integer value) {
+            addCriterion("C_ChannelId_b =", value, "c_ChannelId_b");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_bNotEqualTo(Integer value) {
+            addCriterion("C_ChannelId_b <>", value, "c_ChannelId_b");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_bGreaterThan(Integer value) {
+            addCriterion("C_ChannelId_b >", value, "c_ChannelId_b");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_bGreaterThanOrEqualTo(Integer value) {
+            addCriterion("C_ChannelId_b >=", value, "c_ChannelId_b");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_bLessThan(Integer value) {
+            addCriterion("C_ChannelId_b <", value, "c_ChannelId_b");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_bLessThanOrEqualTo(Integer value) {
+            addCriterion("C_ChannelId_b <=", value, "c_ChannelId_b");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_bIn(List<Integer> values) {
+            addCriterion("C_ChannelId_b in", values, "c_ChannelId_b");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_bNotIn(List<Integer> values) {
+            addCriterion("C_ChannelId_b not in", values, "c_ChannelId_b");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_bBetween(Integer value1, Integer value2) {
+            addCriterion("C_ChannelId_b between", value1, value2, "c_ChannelId_b");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_bNotBetween(Integer value1, Integer value2) {
+            addCriterion("C_ChannelId_b not between", value1, value2, "c_ChannelId_b");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_cIsNull() {
+            addCriterion("C_ChannelId_c is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_cIsNotNull() {
+            addCriterion("C_ChannelId_c is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_cEqualTo(Integer value) {
+            addCriterion("C_ChannelId_c =", value, "c_ChannelId_c");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_cNotEqualTo(Integer value) {
+            addCriterion("C_ChannelId_c <>", value, "c_ChannelId_c");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_cGreaterThan(Integer value) {
+            addCriterion("C_ChannelId_c >", value, "c_ChannelId_c");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_cGreaterThanOrEqualTo(Integer value) {
+            addCriterion("C_ChannelId_c >=", value, "c_ChannelId_c");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_cLessThan(Integer value) {
+            addCriterion("C_ChannelId_c <", value, "c_ChannelId_c");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_cLessThanOrEqualTo(Integer value) {
+            addCriterion("C_ChannelId_c <=", value, "c_ChannelId_c");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_cIn(List<Integer> values) {
+            addCriterion("C_ChannelId_c in", values, "c_ChannelId_c");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_cNotIn(List<Integer> values) {
+            addCriterion("C_ChannelId_c not in", values, "c_ChannelId_c");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_cBetween(Integer value1, Integer value2) {
+            addCriterion("C_ChannelId_c between", value1, value2, "c_ChannelId_c");
+            return (Criteria) this;
+        }
+
+        public Criteria andC_ChannelId_cNotBetween(Integer value1, Integer value2) {
+            addCriterion("C_ChannelId_c not between", value1, value2, "c_ChannelId_c");
+            return (Criteria) this;
+        }
+
         public Criteria andLine_idIsNull() {
             addCriterion("line_id is null");
             return (Criteria) this;
@@ -982,6 +1102,216 @@ public class t_branchboxExample {
 
         public Criteria andDEL_FLAGNotBetween(String value1, String value2) {
             addCriterion("DEL_FLAG not between", value1, value2, "DEL_FLAG");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_provinceIsNull() {
+            addCriterion("epu_province is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_provinceIsNotNull() {
+            addCriterion("epu_province is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_provinceEqualTo(String value) {
+            addCriterion("epu_province =", value, "epu_province");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_provinceNotEqualTo(String value) {
+            addCriterion("epu_province <>", value, "epu_province");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_provinceGreaterThan(String value) {
+            addCriterion("epu_province >", value, "epu_province");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_provinceGreaterThanOrEqualTo(String value) {
+            addCriterion("epu_province >=", value, "epu_province");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_provinceLessThan(String value) {
+            addCriterion("epu_province <", value, "epu_province");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_provinceLessThanOrEqualTo(String value) {
+            addCriterion("epu_province <=", value, "epu_province");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_provinceLike(String value) {
+            addCriterion("epu_province like", value, "epu_province");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_provinceNotLike(String value) {
+            addCriterion("epu_province not like", value, "epu_province");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_provinceIn(List<String> values) {
+            addCriterion("epu_province in", values, "epu_province");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_provinceNotIn(List<String> values) {
+            addCriterion("epu_province not in", values, "epu_province");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_provinceBetween(String value1, String value2) {
+            addCriterion("epu_province between", value1, value2, "epu_province");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_provinceNotBetween(String value1, String value2) {
+            addCriterion("epu_province not between", value1, value2, "epu_province");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_cityIsNull() {
+            addCriterion("epu_city is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_cityIsNotNull() {
+            addCriterion("epu_city is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_cityEqualTo(String value) {
+            addCriterion("epu_city =", value, "epu_city");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_cityNotEqualTo(String value) {
+            addCriterion("epu_city <>", value, "epu_city");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_cityGreaterThan(String value) {
+            addCriterion("epu_city >", value, "epu_city");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_cityGreaterThanOrEqualTo(String value) {
+            addCriterion("epu_city >=", value, "epu_city");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_cityLessThan(String value) {
+            addCriterion("epu_city <", value, "epu_city");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_cityLessThanOrEqualTo(String value) {
+            addCriterion("epu_city <=", value, "epu_city");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_cityLike(String value) {
+            addCriterion("epu_city like", value, "epu_city");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_cityNotLike(String value) {
+            addCriterion("epu_city not like", value, "epu_city");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_cityIn(List<String> values) {
+            addCriterion("epu_city in", values, "epu_city");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_cityNotIn(List<String> values) {
+            addCriterion("epu_city not in", values, "epu_city");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_cityBetween(String value1, String value2) {
+            addCriterion("epu_city between", value1, value2, "epu_city");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_cityNotBetween(String value1, String value2) {
+            addCriterion("epu_city not between", value1, value2, "epu_city");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_districtIsNull() {
+            addCriterion("epu_district is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_districtIsNotNull() {
+            addCriterion("epu_district is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_districtEqualTo(String value) {
+            addCriterion("epu_district =", value, "epu_district");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_districtNotEqualTo(String value) {
+            addCriterion("epu_district <>", value, "epu_district");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_districtGreaterThan(String value) {
+            addCriterion("epu_district >", value, "epu_district");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_districtGreaterThanOrEqualTo(String value) {
+            addCriterion("epu_district >=", value, "epu_district");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_districtLessThan(String value) {
+            addCriterion("epu_district <", value, "epu_district");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_districtLessThanOrEqualTo(String value) {
+            addCriterion("epu_district <=", value, "epu_district");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_districtLike(String value) {
+            addCriterion("epu_district like", value, "epu_district");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_districtNotLike(String value) {
+            addCriterion("epu_district not like", value, "epu_district");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_districtIn(List<String> values) {
+            addCriterion("epu_district in", values, "epu_district");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_districtNotIn(List<String> values) {
+            addCriterion("epu_district not in", values, "epu_district");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_districtBetween(String value1, String value2) {
+            addCriterion("epu_district between", value1, value2, "epu_district");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpu_districtNotBetween(String value1, String value2) {
+            addCriterion("epu_district not between", value1, value2, "epu_district");
             return (Criteria) this;
         }
     }

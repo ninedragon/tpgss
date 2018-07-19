@@ -17,6 +17,10 @@ public class t_branchbox {
 
     private Integer c_ChannelId;
 
+    private Integer c_ChannelId_b;
+
+    private Integer c_ChannelId_c;
+
     private String line_id;
 
     private Date CREATE_TIME;
@@ -28,6 +32,12 @@ public class t_branchbox {
     private String UPDATE_ID;
 
     private String DEL_FLAG;
+
+    private String epu_province;
+
+    private String epu_city;
+
+    private String epu_district;
 
     public String getBranchBoxId() {
         return branchBoxId;
@@ -85,6 +95,22 @@ public class t_branchbox {
         this.c_ChannelId = c_ChannelId;
     }
 
+    public Integer getC_ChannelId_b() {
+        return c_ChannelId_b;
+    }
+
+    public void setC_ChannelId_b(Integer c_ChannelId_b) {
+        this.c_ChannelId_b = c_ChannelId_b;
+    }
+
+    public Integer getC_ChannelId_c() {
+        return c_ChannelId_c;
+    }
+
+    public void setC_ChannelId_c(Integer c_ChannelId_c) {
+        this.c_ChannelId_c = c_ChannelId_c;
+    }
+
     public String getLine_id() {
         return line_id;
     }
@@ -131,5 +157,29 @@ public class t_branchbox {
 
     public void setDEL_FLAG(String DEL_FLAG) {
         this.DEL_FLAG = DEL_FLAG == null ? null : DEL_FLAG.trim();
+    }
+
+    public String getEpu_province() {
+        return epu_province;
+    }
+
+    public void setEpu_province(String epu_province) {
+        this.epu_province = epu_province == null ? null : epu_province.trim();
+    }
+
+    public String getEpu_city() {
+        return epu_city;
+    }
+
+    public void setEpu_city(String epu_city) {
+        this.epu_city = epu_city == null ? null : epu_city.trim();
+    }
+
+    public String getEpu_district() {
+        return epu_district;
+    }
+
+    public void setEpu_district(String epu_district) {
+        this.epu_district = epu_district == null ? null : epu_district.trim();
     }
 }

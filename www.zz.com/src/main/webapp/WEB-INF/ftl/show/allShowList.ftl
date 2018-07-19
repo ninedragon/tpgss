@@ -76,6 +76,7 @@
            $("#epuLocal").val(treeNode.epuLocal);
            $("#epuXscale").val(treeNode.epuXscale);
            $("#epuYscale").val(treeNode.epuYscale);
+           $("#substainIdFault").val(treeNode.substainIdFault);
            thisPageAddTab(treeNode.id,treeNode.name);
         }	  
 	 }
@@ -114,6 +115,7 @@
 	           $("#epuLocal").val(treeNode.epuLocal);
 	           $("#epuXscale").val(treeNode.epuXscale);
 	           $("#epuYscale").val(treeNode.epuYscale);
+	           $("#substainIdFault").val(treeNode.substainIdFault);
 	          <!--初始化箱变节点数据   	 -->
 	          thisPageAddTab(treeNode.id,treeNode.name);			
 			
@@ -298,6 +300,7 @@
 	        <input type="hidden" id="epuCity" name="epuCity"  value=""/>
 	        <input type="hidden" id="cityName" name="cityName"  value=""/>
 	        <input type="hidden" id="epuDistrict" name="epuDistrict"  value=""/>
+	        <input type="hidden" id="substainIdFault" name="substainIdFault"  value=""/>
 	    </form>
 	    <!--动态信息开始-->
 	    <div class="date-mode">

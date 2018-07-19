@@ -20,7 +20,7 @@
     <script>
 
    
-        function addMarker(id, name,epuLocal, x, y) {
+        function addMarker(id, name,epuLocal, x, y,substainIdFault) {
             var p = new BMap.Point(x, y);
             var marker = new BMap.Marker(p);//, px = map.pointToPixel(p);
             M.addOverlay(marker);
@@ -49,7 +49,11 @@
              p=new BMap.Point(e.point.lng, e.point.lat)
                  M.openInfoWindow(infoWindow,p ); //开启信息窗口  
              });  
-            var iconPath=$("#basePath").val()+'/image/point.gif';
+            var iconPath=$("#basePath").val()+'/image/icon_blue.png';
+            if(substainIdFault!='' && substainIdFault!=null)
+            {
+            iconPath=$("#basePath").val()+'/image/icon_red.png';
+            }
             var icon = new BMap.Icon(iconPath,  new BMap.Size(20, 20), {
                 //anchor: new BMap.Size(10, 22)
             });
@@ -306,7 +310,7 @@
                   text: '在此添加标注',
                   callback: function (p) {
                   var name =($("#epuName").val()==null||$("#epuName").val())==''?'未命名':$("#epuName").val();
-                      addMarker($("#rowId").val(), name,epuLocal, p.lng, p.lat);
+                      addMarker($("#rowId").val(), name,epuLocal, p.lng, p.lat,'');
                   }
               }
             ];
@@ -342,7 +346,7 @@
 						         if(x!=null)
 						         	{						        
 						         	  //  map.centerAndZoom($("#city").val(), 13);
-                               			addMarker(data.epuInfos[0].rowId,data.epuInfos[0].epuName, data.epuInfos[0].epuLocal,data.epuInfos[0].epuXscale,data.epuInfos[0].epuYscale);
+                               			addMarker(data.epuInfos[0].rowId,data.epuInfos[0].epuName, data.epuInfos[0].epuLocal,data.epuInfos[0].epuXscale,data.epuInfos[0].epuYscale,data.epuInfos[0].substainIdFault);
                                		     map.centerAndZoom(new BMap.Point(data.epuInfos[0].epuXscale, data.epuInfos[0].epuYscale), 13);               // 创建Map实例
                                		}else
                                		{

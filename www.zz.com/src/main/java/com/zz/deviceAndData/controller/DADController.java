@@ -117,46 +117,74 @@ public class DADController extends BaseController {
 
 	//【2】模拟终端发送信号
 	//【2.1】发送A3信号
-	@RequestMapping(value = "sendA3")
+	@RequestMapping(value = "sendB3")
 	@ResponseBody
-	String sendA3()  {
-		String json="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"000A681A001A0068A316011300000101180711230041FA72C4412C6AA93EBB50083FA316\"},\"eventTime\":\"20180711T150046Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+	String sendB3()  {
+		String json="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"000A681A001A0068A316010700000101180711230041FA72C4412C6AA93EBB50083F9716\"},\"eventTime\":\"20180711T150046Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
 		return sendA(json);
 	}
 
 	//【2.2】发送A32信号,缺相数据
-	@RequestMapping(value = "sendA32")
+	@RequestMapping(value = "sendB32")
 	@ResponseBody
-	String sendA32()  {
+	String sendB32()  {
 		//, @RequestBody NDTUData ndtudata
 //		String	json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0006681400140068A2212701000001010A0118062814302200000000A416\"},\"eventTime\":\"20180628T063434Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
-		String json="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681A001A0068A31601130000010118071120110732D06943FE79653ED650183E7B16\"},\"eventTime\":\"20180711T121143Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		String json="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681A001A0068A31601070000010118071120110732D06943FE79653ED650183E6F16\"},\"eventTime\":\"20180711T121143Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		return sendA(json);
+	}
+
+	//【2.2】发送A321信号,只缺C相数据
+	@RequestMapping(value = "sendB321")
+	@ResponseBody
+	String sendB321()  {
+		//, @RequestBody NDTUData ndtudata
+//		String	json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0006681400140068A2212701000001010A0118062814302200000000A416\"},\"eventTime\":\"20180628T063434Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		String json="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681A001A0068A31601070000010118071120110732D0694332D06943D650183E0316\"},\"eventTime\":\"20180711T121143Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
 		return sendA(json);
 	}
 
 	//【2.3】发送A33信号，超限数据
-	@RequestMapping(value = "sendA33")
+	@RequestMapping(value = "sendB33")
 	@ResponseBody
-	String sendA33()  {
-		String json="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0045681A001A0068A316011300000101180712103659A1656743CAAC3443761D34434616\"},\"eventTime\":\"20180712T023705Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+	String sendB33()  {
+		String json="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0045681A001A0068A316010700000101180712103659A1656743CAAC3443761D34433A16\"},\"eventTime\":\"20180712T023705Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
 		return sendA(json);
 	}
 
 	//【2.3】发送A34信号，电压恢复数据
-	@RequestMapping(value = "sendA34")
+	@RequestMapping(value = "sendB34")
 	@ResponseBody
-	String sendA34()  {//, @RequestBody NDTUData ndtudata
+	String sendB34()  {//, @RequestBody NDTUData ndtudata
 //		String	json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0006681400140068A2212701000001010A0118062814302200000000A416\"},\"eventTime\":\"20180628T063434Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
-		String json="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681A001A0068A31601130000010018071120110732D06943FE79653ED650183E7A16\"},\"eventTime\":\"20180711T121143Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		String json="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681A001A0068A31601070000010018071120110732D06943FE79653ED650183E6E16\"},\"eventTime\":\"20180711T121143Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
 		return sendA(json);
 	}
 
 	//【2.5】发送A0信号，短路信号
-	@RequestMapping(value = "sendA0")
+	@RequestMapping(value = "sendB0")
 	@ResponseBody
-	String sendA0()  {
+	String sendB0()  {
 		//, @RequestBody NDTUData ndtudata
-        String	json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681300130068A01601130000010101180716165102F769C642D316\"},\"eventTime\":\"20180628T060120Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+        String	json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681300130068A01601070000010101180716165102F769C642C716\"},\"eventTime\":\"20180628T060120Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		return sendA(json);
+	}
+
+	//【2.5】发送A0信号，短路信号
+	@RequestMapping(value = "sendB02")
+	@ResponseBody
+	String sendB02()  {
+		//, @RequestBody NDTUData ndtudata
+		String	json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681300130068A01601070000010102180716165102F769C642C816\"},\"eventTime\":\"20180628T060120Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		return sendA(json);
+	}
+
+	//【2.5】发送A0信号，短路信号
+	@RequestMapping(value = "sendB03")
+	@ResponseBody
+	String sendB03()  {
+		//, @RequestBody NDTUData ndtudata
+		String	json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681300130068A01601070000010103180716165102F769C642C916\"},\"eventTime\":\"20180628T060120Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
 		return sendA(json);
 	}
 
@@ -189,6 +217,59 @@ public class DADController extends BaseController {
 		return sendA(json);
 	}
 
+	//【2.1】发送A3信号
+	@RequestMapping(value = "sendA3")
+	@ResponseBody
+	String sendA3()  {
+		String json="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"000A681A001A0068A316011300000101180711230041FA72C4412C6AA93EBB50083FA316\"},\"eventTime\":\"20180711T150046Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		return sendA(json);
+	}
+
+	//【2.2】发送A32信号,缺相数据
+	@RequestMapping(value = "sendA32")
+	@ResponseBody
+	String sendA32()  {
+		//, @RequestBody NDTUData ndtudata
+//		String	json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0006681400140068A2212701000001010A0118062814302200000000A416\"},\"eventTime\":\"20180628T063434Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		String json="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681A001A0068A31601130000010118071120110732D06943FE79653ED650183E7B16\"},\"eventTime\":\"20180711T121143Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		return sendA(json);
+	}
+
+	//【2.2】发送A321信号,只缺C相数据
+	@RequestMapping(value = "sendA321")
+	@ResponseBody
+	String sendA321()  {
+		//, @RequestBody NDTUData ndtudata
+//		String	json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0006681400140068A2212701000001010A0118062814302200000000A416\"},\"eventTime\":\"20180628T063434Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		String json="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681A001A0068A31601130000010118071120110732D0694332D06943D650183E0F16\"},\"eventTime\":\"20180711T121143Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		return sendA(json);
+	}
+
+	//【2.3】发送A33信号，超限数据
+	@RequestMapping(value = "sendA33")
+	@ResponseBody
+	String sendA33()  {
+		String json="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0045681A001A0068A316011300000101180712103659A1656743CAAC3443761D34434616\"},\"eventTime\":\"20180712T023705Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		return sendA(json);
+	}
+
+	//【2.3】发送A34信号，电压恢复数据
+	@RequestMapping(value = "sendA34")
+	@ResponseBody
+	String sendA34()  {//, @RequestBody NDTUData ndtudata
+//		String	json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0006681400140068A2212701000001010A0118062814302200000000A416\"},\"eventTime\":\"20180628T063434Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		String json="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681A001A0068A31601130000010018071120110732D06943FE79653ED650183E7A16\"},\"eventTime\":\"20180711T121143Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		return sendA(json);
+	}
+
+	//【2.5】发送A0信号，短路信号
+	@RequestMapping(value = "sendA0")
+	@ResponseBody
+	String sendA0()  {
+		//, @RequestBody NDTUData ndtudata
+		String	json ="{\"deviceId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"gatewayId\":\"74094ae8-27e9-462e-a521-9e6e821cca86\",\"notifyType\":\"deviceDataChanged\",\"service\":{\"data\":{\"reportData\":\"0000681300130068A01601130000010101180716165102F769C642D316\"},\"eventTime\":\"20180628T060120Z\",\"serviceId\":\"ElecticMeterBasic\",\"serviceType\":\"ElecticMeterBasic\"}}";
+		return sendA(json);
+	}
 	//【2.6】发送A4信号，发送阻抗数据
 	@RequestMapping(value = "sendA4")
 	@ResponseBody

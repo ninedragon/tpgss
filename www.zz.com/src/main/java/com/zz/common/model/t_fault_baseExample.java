@@ -664,6 +664,136 @@ public class t_fault_baseExample {
             addCriterion("substain_id not between", value1, value2, "substain_id");
             return (Criteria) this;
         }
+
+        public Criteria andIs_sameIsNull() {
+            addCriterion("is_same is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_sameIsNotNull() {
+            addCriterion("is_same is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_sameEqualTo(Boolean value) {
+            addCriterion("is_same =", value, "is_same");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_sameNotEqualTo(Boolean value) {
+            addCriterion("is_same <>", value, "is_same");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_sameGreaterThan(Boolean value) {
+            addCriterion("is_same >", value, "is_same");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_sameGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_same >=", value, "is_same");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_sameLessThan(Boolean value) {
+            addCriterion("is_same <", value, "is_same");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_sameLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_same <=", value, "is_same");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_sameIn(List<Boolean> values) {
+            addCriterion("is_same in", values, "is_same");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_sameNotIn(List<Boolean> values) {
+            addCriterion("is_same not in", values, "is_same");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_sameBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_same between", value1, value2, "is_same");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_sameNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_same not between", value1, value2, "is_same");
+            return (Criteria) this;
+        }
+
+        public Criteria andFault_base_idIsNull() {
+            addCriterion("fault_base_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFault_base_idIsNotNull() {
+            addCriterion("fault_base_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFault_base_idEqualTo(String value) {
+            addCriterion("fault_base_id =", value, "fault_base_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andFault_base_idNotEqualTo(String value) {
+            addCriterion("fault_base_id <>", value, "fault_base_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andFault_base_idGreaterThan(String value) {
+            addCriterion("fault_base_id >", value, "fault_base_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andFault_base_idGreaterThanOrEqualTo(String value) {
+            addCriterion("fault_base_id >=", value, "fault_base_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andFault_base_idLessThan(String value) {
+            addCriterion("fault_base_id <", value, "fault_base_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andFault_base_idLessThanOrEqualTo(String value) {
+            addCriterion("fault_base_id <=", value, "fault_base_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andFault_base_idLike(String value) {
+            addCriterion("fault_base_id like", value, "fault_base_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andFault_base_idNotLike(String value) {
+            addCriterion("fault_base_id not like", value, "fault_base_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andFault_base_idIn(List<String> values) {
+            addCriterion("fault_base_id in", values, "fault_base_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andFault_base_idNotIn(List<String> values) {
+            addCriterion("fault_base_id not in", values, "fault_base_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andFault_base_idBetween(String value1, String value2) {
+            addCriterion("fault_base_id between", value1, value2, "fault_base_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andFault_base_idNotBetween(String value1, String value2) {
+            addCriterion("fault_base_id not between", value1, value2, "fault_base_id");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

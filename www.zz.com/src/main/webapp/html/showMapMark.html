@@ -39,7 +39,7 @@
 	           }    		
 	    }
 	    //添加标注 没有选择城市默认会显示上海市所有的标注数据，此时 穿过来的参数 rowId 为空。
-        function addMarker(rowId,epuCityName,id, name,epuLocal, x, y) {
+        function addMarker(rowId,epuCityName,id, name,epuLocal, x, y,substainIdFault) {
             var p = new BMap.Point(x, y);
             var marker = new BMap.Marker(p);//, px = map.pointToPixel(p);
             //显示单个标注信息，先删除原有的，再添加
@@ -74,7 +74,11 @@
             marker.addEventListener("click", function () {  
                 M.openInfoWindow(infoWindow, p); //开启信息窗口  
             });
-            var iconPath=$("#basePath").val()+'/image/point.gif';
+            var iconPath=$("#basePath").val()+'/image/icon_blue.png';
+            if(substainIdFault!='' && substainIdFault!=null)
+            {
+            iconPath=$("#basePath").val()+'/image/icon_red.png';
+            }
             var icon = new BMap.Icon(iconPath,  new BMap.Size(20, 20), {
                 // anchor: new BMap.Size(10, 22)
             });
@@ -165,6 +169,7 @@
    		var epuCity =parent.$("#epuCity").val();
    		var cityName =parent.$("#cityName").val();
    		var epuDistrict =parent.$("#epuDistrict").val();
+   		var substainIdFault =parent.$("#substainIdFault").val();
    		if((rowId==null || rowId=="")  &&  (cityName==null || cityName==""))
    		{
    		//默认城市上海
@@ -227,7 +232,7 @@
 						success : function(data) {
 							if(data.epuInfos.length>0)
 							{
-                             addMarker(rowId,data.epuInfos[0].epuCityName,data.epuInfos[0].rowId,data.epuInfos[0].epuName, data.epuInfos[0].epuLocal, data.epuInfos[0].epuXscale,data.epuInfos[0].epuYscale);
+                             addMarker(rowId,data.epuInfos[0].epuCityName,data.epuInfos[0].rowId,data.epuInfos[0].epuName, data.epuInfos[0].epuLocal, data.epuInfos[0].epuXscale,data.epuInfos[0].epuYscale,data.epuInfos[0].substainIdFault);
                            
                            }						
 						},
@@ -254,7 +259,7 @@
 						var len =data.epuInfos.length;
 				         for(var i=0;i<len;i++)
 				         {					   
-                            addMarker('',data.epuInfos[i].epuCityName,data.epuInfos[i].rowId,data.epuInfos[i].epuName,data.epuInfos[i].epuLocal, data.epuInfos[i].epuXscale,data.epuInfos[i].epuYscale);
+                            addMarker('',data.epuInfos[i].epuCityName,data.epuInfos[i].rowId,data.epuInfos[i].epuName,data.epuInfos[i].epuLocal, data.epuInfos[i].epuXscale,data.epuInfos[i].epuYscale,data.epuInfos[i].substainIdFault);
                           }						
 						},
 						error: function (data) 

@@ -15,6 +15,18 @@ public class TEpuInfo implements Serializable {
 	  public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	  private String substainIdFault;//
+
+		public String getSubstainIdFault() {
+			if(substainIdFault==null)
+			{
+				substainIdFault="";
+			}
+			return substainIdFault;
+		}
+		public void setSubstainIdFault(String substainIdFault) {
+			this.substainIdFault = substainIdFault;
+		}
 	private String addressId;
 	  private String channelId;
 	  private String channelIdThree;

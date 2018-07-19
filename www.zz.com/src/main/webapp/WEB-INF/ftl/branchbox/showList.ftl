@@ -59,7 +59,7 @@
 			};			
 			  so.registEvent=function registEvent() {
 				  $('.search #epuProvince').change(function () {
-					  var i = $('#epuProvince option:selected').val();			
+					  var i = $('.search #epuProvince option:selected').val();			
 				  $.ajax({
 		                type: "post",
 		                url:  "${basePath}/epu/getCity.shtml",

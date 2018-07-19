@@ -21,6 +21,10 @@ public class t_fault_base {
 
     private String substain_id;
 
+    private Boolean is_same;
+
+    private String fault_base_id;
+
     public Long getId() {
         return id;
     }
@@ -91,5 +95,21 @@ public class t_fault_base {
 
     public void setSubstain_id(String substain_id) {
         this.substain_id = substain_id == null ? null : substain_id.trim();
+    }
+
+    public Boolean getIs_same() {
+        return is_same;
+    }
+
+    public void setIs_same(Boolean is_same) {
+        this.is_same = is_same;
+    }
+
+    public String getFault_base_id() {
+        return fault_base_id;
+    }
+
+    public void setFault_base_id(String fault_base_id) {
+        this.fault_base_id = fault_base_id == null ? null : fault_base_id.trim();
     }
 }

@@ -71,10 +71,18 @@
                 </tr>
                 <tr>
                     <td>2</td>
-                    <td>发送缺相数据</td>
+                    <td>发送BC缺相数据</td>
                     <td></td>
                     <td>
-                        <button onclick="sendA32()">发送缺相数据</button>
+                        <button onclick="sendA32()">发送BC缺相数据</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>发送只缺C相数据</td>
+                    <td></td>
+                    <td>
+                        <button onclick="sendA321()">发送只缺C相数据</button>
                     </td>
                 </tr>
                 <tr>
@@ -115,12 +123,12 @@
                     </td>
                 </tr>
                 <tr>
-                <td>31</td>
-                <td>发送异常漏电数据</td>
-                <td>00123</td>
-                <td>
-                    <button onclick="sendA2()">发送异常漏电数据A2</button>
-                </td>
+                    <td>31</td>
+                    <td>发送异常漏电数据</td>
+                    <td>00123</td>
+                    <td>
+                        <button onclick="sendA2()">发送异常漏电数据A2</button>
+                    </td>
                 </tr>
                 <tr>
                     <td>31</td>
@@ -131,10 +139,89 @@
                     </td>
                 </tr>
                 <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <button></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>发送bdtu停电</td>
+                    <td>00123</td>
+                    <td>
+                        <button onclick="sendB3()">发送bdtu停电数据</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>发送BC缺相数据</td>
+                    <td></td>
+                    <td>
+                        <button onclick="sendB32()">发送bdtu的BC缺相数据</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>发送只缺C相数据</td>
+                    <td></td>
+                    <td>
+                        <button onclick="sendB321()">发送bdtu的只缺C相数据</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>发送超限数据</td>
+                    <td></td>
+                    <td>
+                        <button onclick="sendB33()">发送bdtu的超限数据</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>发送电压异常恢复数据</td>
+                    <td></td>
+                    <td>
+                        <button onclick="sendB34()">发送bdtu电压恢复数据</button>
+                    </td>
+                <tr>
                     <td>编号</td>
                     <td>描述</td>
                     <td>数据</td>
                     <td>操作</td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>发送短路数据</td>
+                    <td>00123</td>
+                    <td>
+                        <button onclick="sendB0()">发送bdtu A相短路数据A0</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>发送短路数据</td>
+                    <td>00123</td>
+                    <td>
+                        <button onclick="sendB02()">发送bdtu B相短路数据A0</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>发送短路数据</td>
+                    <td>00123</td>
+                    <td>
+                        <button onclick="sendB03()">发送bdtu C相短路数据A0</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <button></button>
+                    </td>
                 </tr>
                 <tr>
                     <td>21</td>
@@ -219,10 +306,17 @@
         });
     }
 
+    function sendA321() {
+        $.post('${basePath}/dad/sendA321.shtml', {name: 1}, function (data, textStatus, xhr) {
+            /*optional stuff to do after success */
+            console.log("只缺C相数据发送成功");
+        });
+    }
+
     function sendA33() {
         $.post('${basePath}/dad/sendA33.shtml', {name: 1}, function (data, textStatus, xhr) {
             /*optional stuff to do after success */
-            console.log("缺相数据发送成功");
+            console.log("缺BC相数据发送成功");
         });
     }
 
@@ -258,7 +352,64 @@
     function sendA22() {
         $.post('${basePath}/dad/sendA22.shtml', {name: 1}, function (data, textStatus, xhr) {
             /*optional stuff to do after success */
-            console.log("异常漏电发送成功");
+            console.log("异常漏电恢复发送成功");
+        });
+    }
+
+    function sendB3() {
+        $.post('${basePath}/dad/sendB3.shtml', {name: 1}, function (data, textStatus, xhr) {
+            /*optional stuff to do after success */
+            console.log("断电数据发送成功");
+        });
+    }
+
+    function sendB32() {
+        $.post('${basePath}/dad/sendB32.shtml', {name: 1}, function (data, textStatus, xhr) {
+            /*optional stuff to do after success */
+            console.log("缺相数据发送成功");
+        });
+    }
+
+    function sendB321() {
+        $.post('${basePath}/dad/sendB321.shtml', {name: 1}, function (data, textStatus, xhr) {
+            /*optional stuff to do after success */
+            console.log("只缺C相数据发送成功");
+        });
+    }
+
+    function sendB33() {
+        $.post('${basePath}/dad/sendB33.shtml', {name: 1}, function (data, textStatus, xhr) {
+            /*optional stuff to do after success */
+            console.log("缺BC相数据发送成功");
+        });
+    }
+
+    function sendB34() {
+        $.post('${basePath}/dad/sendB34.shtml', {name: 1}, function (data, textStatus, xhr) {
+            /*optional stuff to do after success */
+            console.log("电压恢复正常数据发送成功");
+        });
+    }
+
+
+    function sendB0() {
+        $.post('${basePath}/dad/sendB0.shtml', {name: 1}, function (data, textStatus, xhr) {
+            /*optional stuff to do after success */
+            console.log("短路数据发送成功");
+        });
+    }
+
+    function sendB02() {
+        $.post('${basePath}/dad/sendB02.shtml', {name: 1}, function (data, textStatus, xhr) {
+            /*optional stuff to do after success */
+            console.log("B相短路数据发送成功");
+        });
+    }
+
+    function sendB03() {
+        $.post('${basePath}/dad/sendB03.shtml', {name: 1}, function (data, textStatus, xhr) {
+            /*optional stuff to do after success */
+            console.log("C相短路数据发送成功");
         });
     }
 

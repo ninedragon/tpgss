@@ -51,9 +51,9 @@
 		                },
 		                success: function (a) {
 		                    var length = a.length;
-		                    $('#saveDiv #epuProvince').html('<option value="">--请选择--</option>');		                  
+		                    $('.search #epuProvince').html('<option value="">--请选择--</option>');		                  
 		                    for (var i = 0; i < length; i++) {
-		                        $('#epuProvince').append('<option value="' + a[i].provinceId + '">' + a[i].provinceNameCn + '</option>');
+		                        $('.search #epuProvince').append('<option value="' + a[i].provinceId + '">' + a[i].provinceNameCn + '</option>');
 		                    }
 		                }
 		            });
@@ -78,8 +78,8 @@
 				});
 			}
 			 so.registEvent=function registEvent() {
-				  $('#epuProvince').change(function () {
-					  var i = $('#epuProvince option:selected').val();			
+				  $('.search #epuProvince').change(function () {
+					  var i = $('.search #epuProvince option:selected').val();			
 				  $.ajax({
 		                type: "post",
 		                url:  "${basePath}/epu/getCity.shtml",
@@ -94,14 +94,14 @@
 		                },
 		                success: function (a) {
 		                    var length = a.length;
-		                    $('#epuCity').html('<option value="">--请选择--</option>');
+		                    $('.search #epuCity').html('<option value="">--请选择--</option>');
 		                    for (var i = 0; i < length; i++) {
-		                        $('#epuCity').append('<option value="' + a[i].cityCode + '">' + a[i].cityNameCn + '</option>');
+		                        $('.search #epuCity').append('<option value="' + a[i].cityCode + '">' + a[i].cityNameCn + '</option>');
 		                    }
 		                }
 			    });
 			 });
-					$("#epuCity").change(
+					$(".search #epuCity").change(
 							function() {
 								var i = $('#epuCity option:selected').val();
 								// 第四级
@@ -117,10 +117,10 @@
 									},
 									success : function(a) {
 										var length = a.length;
-										$('#epuDistrict').html(
+										$('.search #epuDistrict').html(
 												'<option value="">--请选择--</option>');
 										for (var i = 0; i < length; i++) {
-											$('#epuDistrict').append(
+											$('.search #epuDistrict').append(
 													'<option value="' + a[i].cityCode
 															+ '">' + a[i].cityNameCn
 															+ '</option>');
@@ -165,11 +165,11 @@
 			            dataType: 'json',
 			            async:false,
 			            data: {			          
-			            	epuProvince: $("#epuProvince").val(),
-			            	epuCity: $("#epuCity").val(),
-			            	epuDistrict: $("#epuDistrict").val(),
-			            	ammeterName: $("#ammeterName").val(),
-			                districtId: $("#districtId").val(),
+			            	epuProvince: $(".search #epuProvince").val(),
+			            	epuCity: $(".search #epuCity").val(),
+			            	epuDistrict: $(".search #epuDistrict").val(),
+			            	ammeterName: $(".search #ammeterName").val(),
+			                districtId: $(".search #districtId").val(),
 			                pageNo:pageNo,
 			            	pageSize:10
 			            },
