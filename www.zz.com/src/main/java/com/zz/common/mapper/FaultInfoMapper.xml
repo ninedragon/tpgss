@@ -132,13 +132,13 @@
 				epu.epu_district_name,
 				code_define1.CODE_NAME AS epu_type_name
 			FROM
-				t_fault_now AS fault
+				t_fault_base AS fault
 			INNER JOIN t_meter am ON fault.key_id = am.meterId
 			LEFT JOIN t_sy_code_define AS code_define ON code_define.`CODE` = fault.fault_type
 			LEFT JOIN t_sy_code_define AS code_define1 ON code_define1.`CODE` = 'M0005'
 			LEFT JOIN view_epu_info epu ON am.meterBoxId = epu.row_id
 			WHERE
-				1 = 1
+				1 = 1 	AND fault.is_same = 0
 			AND am.DEL_FLAG = '0'
 			AND epu.DEL_FLAG = '0'
 			UNION
@@ -162,11 +162,11 @@
 					epu.epu_district_name,
 					epu.epu_type_name
 				FROM
-					t_fault_now AS fault
+					t_fault_base AS fault
 				LEFT JOIN t_sy_code_define AS code_define ON code_define.`CODE` = fault.fault_type
 				LEFT JOIN view_epu_info epu ON fault.key_id = epu.row_id
 				WHERE
-					1 = 1
+					1 = 1 	AND fault.is_same = 0
 				AND epu.DEL_FLAG = '0'
 		) AS temp
 		WHERE 1=1
@@ -217,13 +217,13 @@
 				epu.epu_district_name,
 				code_define1.CODE_NAME AS epu_type_name
 			FROM
-				t_fault_now AS fault
+				t_fault_base AS fault
 			INNER JOIN t_meter am ON fault.key_id = am.meterId
 			LEFT JOIN t_sy_code_define AS code_define ON code_define.`CODE` = fault.fault_type
 			LEFT JOIN t_sy_code_define AS code_define1 ON code_define1.`CODE` = 'M0005'
 			LEFT JOIN view_epu_info epu ON am.meterBoxId = epu.row_id
 			WHERE
-				1 = 1
+				1 = 1 	AND fault.is_same = 0
 			AND am.DEL_FLAG = '0'
 			AND epu.DEL_FLAG = '0'
 			UNION
@@ -247,11 +247,11 @@
 					epu.epu_district_name,
 					epu.epu_type_name
 				FROM
-					t_fault_now AS fault
+					t_fault_base AS fault
 				LEFT JOIN t_sy_code_define AS code_define ON code_define.`CODE` = fault.fault_type
 				LEFT JOIN view_epu_info epu ON fault.key_id = epu.row_id
 				WHERE
-					1 = 1
+					1 = 1 	AND fault.is_same = 0
 				AND epu.DEL_FLAG = '0'
 		) AS temp
 		WHERE 1=1
@@ -314,13 +314,13 @@
 				fault.is_repaired,
 				fault.repair_time
 			FROM
-				t_fault_now AS fault
+				t_fault_base AS fault
 			INNER JOIN t_meter am ON fault.key_id = am.meterId
 			LEFT JOIN t_sy_code_define AS code_define ON code_define.`CODE` = fault.fault_type
 			LEFT JOIN t_sy_code_define AS code_define1 ON code_define1.`CODE` = 'M0005'
 			LEFT JOIN view_epu_info epu ON am.meterBoxId = epu.row_id
 			WHERE
-				1 = 1
+				1 = 1 	AND fault.is_same = 0
 			AND am.DEL_FLAG = '0'
 			AND epu.DEL_FLAG = '0'
 			 <![CDATA[ ${paramSQL} ]]>   
@@ -338,11 +338,11 @@
 					fault.repair_time
 				
 				FROM
-					t_fault_now AS fault
+					t_fault_base AS fault
 				LEFT JOIN t_sy_code_define AS code_define ON code_define.`CODE` = fault.fault_type
 				LEFT JOIN view_epu_info epu ON fault.key_id = epu.row_id
 				WHERE
-					1 = 1
+					1 = 1 	AND fault.is_same = 0
 				AND epu.DEL_FLAG = '0'
 				 <![CDATA[ ${paramSQL} ]]>    
     	)AS  temp
@@ -358,7 +358,7 @@
 				SELECT
 					substain_id
 				FROM
-					t_fault_now WHERE is_repaired='0' AND is_cancelled='0'
+					t_fault_base WHERE is_repaired='0' AND is_cancelled='0' 	AND is_same = 0
 				GROUP BY
 					substain_id
 			) TEMP

@@ -88,16 +88,16 @@ function initList(pageNo) {
                         	}
                         }
                         tbody += '<tr>';
-                        tbody += '<td align="center"><div>' + json.row_name + '</div></td>';
-                        tbody += '<td align="center"><div>' + json.epu_type_name + '</div></td>';
-                        tbody += '<td align="center"><div>' + json.faultTypeName + '</div></td>';
+                        tbody += '<td align="center"><div>' + (json.row_name || "") + '</div></td>';
+                        tbody += '<td align="center"><div>' + (json.epu_type_name || "") + '</div></td>';
+                        tbody += '<td align="center"><div>' + (json.faultTypeName || "") + '</div></td>';
                         tbody += '<td align="center"><div>' + occur_time + '</div></td>';
-                        tbody += '<td align="center"><div>' + json.is_cancelled_name + '</div></td>';
-                        tbody += '<td align="center"><div>' + json.is_repaired_name + '</div></td>';
+                        tbody += '<td align="center"><div>' + (json.is_cancelled_name || "") + '</div></td>';
+                        tbody += '<td align="center"><div>' + (json.is_repaired_name || "") + '</div></td>';
                         tbody += '<td align="center"><div>' + repair_time + '</div></td>';
-                        tbody += '<td align="center"><div>' + json.epu_province_name + '</div></td>';
-                        tbody += '<td align="center"><div>' + json.epu_city_name + '</div></td>';
-                        tbody += '<td align="center"><div>' + json.epu_district_name + '</div></td>';
+                        tbody += '<td align="center"><div>' + (json.epu_province_name|| "") + '</div></td>';
+                        tbody += '<td align="center"><div>' + (json.epu_city_name || "") + '</div></td>';
+                        tbody += '<td align="center"><div>' + (json.epu_district_name || "") + '</div></td>';
                         tbody += '<td align="center"><div><a href="javascript:showFaultBase(\''+json.fault_base_id+'\',\''+cation+'\');">故障来源</a></div></td>';
                         tbody += '</tr>';
                     }
