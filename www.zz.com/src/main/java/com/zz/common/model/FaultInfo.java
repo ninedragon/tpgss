@@ -8,6 +8,7 @@ public class FaultInfo implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private String id;
 	private String row_id;
 	private String row_name;
 	private String fault_type;
@@ -29,6 +30,12 @@ public class FaultInfo implements Serializable {
 	private String  epu_type_name;
 	private String  fault_base_id;
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getStr_occur_time() {
 		return str_occur_time;
 	}

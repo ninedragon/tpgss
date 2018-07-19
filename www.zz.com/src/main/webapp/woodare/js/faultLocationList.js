@@ -98,7 +98,7 @@ function initList(pageNo) {
                         tbody += '<td align="center"><div>' + (json.epu_province_name|| "") + '</div></td>';
                         tbody += '<td align="center"><div>' + (json.epu_city_name || "") + '</div></td>';
                         tbody += '<td align="center"><div>' + (json.epu_district_name || "") + '</div></td>';
-                        tbody += '<td align="center"><div><a href="javascript:showFaultBase(\''+json.fault_base_id+'\',\''+cation+'\');">故障来源</a></div></td>';
+                        tbody += '<td align="center"><div><a href="javascript:showFaultBase(\''+json.id+'\',\''+cation+'\');">故障来源</a></div></td>';
                         tbody += '</tr>';
                     }
                     var a = page.pageHtml;
