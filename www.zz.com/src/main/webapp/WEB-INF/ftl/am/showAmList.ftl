@@ -1320,8 +1320,8 @@
                  </select>                       
             </lable>      
            <lable>
-                 <span style="width:115px;">NDTU区域编号</span>
-                  <input name="districtId" id="districtId"   type="text" class="text request" title="NDTU区域编号" readonly="readonly">
+                 <span style="width:115px;">NDTU区域码</span>
+                  <input name="districtId" id="districtId"   type="text" class="text request" title="NDTU区域码" readonly="readonly">
             </lable>
              <lable>
                  <span style="width:115px;">NDTU终端地址号</span>

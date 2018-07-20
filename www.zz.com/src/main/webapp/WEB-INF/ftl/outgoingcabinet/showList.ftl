@@ -1186,8 +1186,8 @@
                          
             </lable>
             <lable>
-                 <span style="width:115px;">BDTU区域编号</span>
-                <select name="districtId" id="districtId" class="text requiredSelect" title="BDTU区域编号"></select>
+                 <span style="width:115px;">BDTU区域码</span>
+                <select name="districtId" id="districtId" class="text requiredSelect" title="BDTU区域码"></select>
             </lable>
              <lable>
                  <span style="width:115px;">BDTU终端地址号</span>

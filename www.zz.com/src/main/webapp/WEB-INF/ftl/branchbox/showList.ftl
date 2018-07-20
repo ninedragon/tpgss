@@ -1205,8 +1205,8 @@
                 <input name="epuLocal"  id="epuLocal" type="text" class="text request" title="设备位置" maxlength="100">                         
             </lable>
             <lable>
-                <span style="width:125px;">BDTU区域编号</span>
-                  <input name="districtId" id="districtId"   type="text" class="text request" title="BDTU区域编号" readonly="readonly">
+                <span style="width:125px;">BDTU区域码</span>
+                  <input name="districtId" id="districtId"   type="text" class="text request" title="BDTU区域码" readonly="readonly">
             </lable>
              <lable>
                 <span style="width:125px;">BDTU终端地址号</span>

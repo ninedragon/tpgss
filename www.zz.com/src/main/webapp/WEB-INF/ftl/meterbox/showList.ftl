@@ -1171,8 +1171,8 @@
                          
             </lable>
              <lable>
-                 <span style="width:115px;">NDTU区域编号</span>
-                <select name="districtId" id="districtId" class="text requiredSelect" title="NDTU区域编号"></select>
+                 <span style="width:115px;">NDTU区域码</span>
+                <select name="districtId" id="districtId" class="text requiredSelect" title="NDTU区域码"></select>
             </lable>
              <lable>
                  <span style="width:115px;">NDTU终端地址号</span>
