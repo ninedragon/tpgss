@@ -186,7 +186,9 @@
 			                            tbody += '<td align="center"><div>' + epuList[i].epuProvinceName+ '</div></td>';
 			                            tbody += '<td align="center"><div>' + epuList[i].epuCityName + '</div></td>';
 			                            tbody += '<td align="center"><div>' + epuList[i].epuDistrictName+ '</div></td>';			                        			                            
-			                            tbody += '<td align="center"><div>' + epuList[i].ammeterName+ '</div></td>';
+			                            tbody += '<td align="center"><div>' + epuList[i].ammeterId+ '</div></td>';
+			                            tbody += '<td align="center"><div>' + epuList[i].houseId+ '</div></td>';
+			                            tbody += '<td align="center"><div>' + epuList[i].phaseRemark+ '</div></td>';
 			                            tbody += '<td align="center"><div>' +epuList[i].epuName + '</div></td>';
 			                            tbody += '<td align="center"><div>' +epuList[i].districtId+((epuList[i].addressId==null || epuList[i].addressId=='' )?'':"-" +epuList[i].addressId) +((epuList[i].channelId==null || epuList[i].channelId=='' )?'':"-" +epuList[i].channelId)+ '</div></td>';			                          
 			                             
@@ -1240,8 +1242,10 @@
 				<th>省份</th>
 				<th>城市</th>
 				<th>区县</th>
-				<th>设备名称</th>
-				<th>上级设备</th>
+				 <th>电表号</th>
+				 <th>门牌号</th>
+				  <th>相别</th>
+				<th>所属表箱</th>
 				<th>终端设备</th>												
 				<th>状态</th>
 				<th>操作</th>			
@@ -1268,31 +1272,31 @@
 	  <input name="rowId" type="hidden" id="rowId"  value="">
        <div class="edit" style="height:auto">
              <lable>
-                <span>省份</span>
+                 <span style="width:115px;">省份</span>
                 <select name="epuProvince" id="epuProvince" class="text requiredSelect" title="省份"></select>
             </lable>
              <lable>
-                <span>城市</span>
+                 <span style="width:115px;">城市</span>
                 <select name="epuCity" id="epuCity" class="text requiredSelect" title="城市">
 								</select>
             </lable>
             <lable>
-                <span>区县</span>
+                 <span style="width:115px;">区县</span>
                 <select name="epuDistrict" id="epuDistrict" class="text requiredSelect" title="区县">
 								</select>
             </lable>
             
             <lable>
-               <span>所属表箱</span>
+                <span style="width:115px;">所属表箱</span>
                <select name="epuId" id="epuId" class="text requiredSelect" title="所属表箱">
 								</select>
             </lable>       
             <lable>
-               <span>电表名称</span>
+                <span style="width:115px;">电表名称</span>
                 <input name="ammeterName" id="ammeterName"   type="text" class="text request" title="电表名称" maxlength="100">
             </lable>
              <lable>
-               <span>电表号</span>
+                <span style="width:115px;">电表号</span>
                 <#if epuInfo??>
                 <input name="ammeterId"  id="ammeterId"  value="${epuInfo.ammeterId!''}" type="text" class="text request" title="电表号" maxlength="100">
                 <#else>
@@ -1301,13 +1305,13 @@
             </lable>
             
             <lable>
-                 <span>门牌号</span>
+                  <span style="width:115px;">门牌号</span>
                <input name="houseId"  id="houseId" type="text" class="text request" title="门牌号" maxlength="100">
                           
             </lable>
             
             <lable>
-               <span>相别</span>
+                <span style="width:115px;">相别</span>
                  <select name="phaseRemark" id="phaseRemark" class="text requiredSelect" title="相别">
                    <option value="">--请选择--</option>                   
 			        <option value="A">A</option>
@@ -1316,19 +1320,19 @@
                  </select>                       
             </lable>      
            <lable>
-                <span>关联终端编号</span>
-                  <input name="districtId" id="districtId"   type="text" class="text request" title="关联终端编号" readonly="readonly">
+                 <span style="width:115px;">NDTU区域编号</span>
+                  <input name="districtId" id="districtId"   type="text" class="text request" title="NDTU区域编号" readonly="readonly">
             </lable>
              <lable>
-                <span>关联终端地址号</span>
-                  <input name="addressId" id="addressId"   type="text" class="text request" title="关联终端地址号" readonly="readonly">
+                 <span style="width:115px;">NDTU终端地址号</span>
+                  <input name="addressId" id="addressId"   type="text" class="text request" title="NDTU终端地址号" readonly="readonly">
             </lable>
              <lable>
-                <span>关联终端通道号</span>
-                <select name="channelId" id="channelId" class="text requiredSelect" title="关联终端通道号"></select>
+                 <span style="width:115px;">NDTU终端通道号</span>
+                <select name="channelId" id="channelId" class="text requiredSelect" title="NDTU终端通道号"></select>
             </lable>
            	 <lable>
-                <span>漏电通道号</span>
+                 <span style="width:115px;">漏电通道号</span>
                 <select name="leakChannelId" id="leakChannelId" class="text" title="漏电通道号"></select>
             </lable>
              <div class="but-nav" style="margin:0px 0px 20px 0px">

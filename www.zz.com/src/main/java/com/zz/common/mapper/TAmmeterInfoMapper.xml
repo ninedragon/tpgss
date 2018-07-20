@@ -291,7 +291,7 @@
         LOWER(am.C_ChannelId) like  LOWER(CONCAT("%",#{findContent,jdbcType=VARCHAR},"%"))
         )
       </if>	
-    order by am.CREATE_TIME desc
+    order by am.UPDATE_TIME desc
     <include refid="limit_sql" />
   </select>
   <select id="findCount" resultMap="BaseResultMap" >

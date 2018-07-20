@@ -553,7 +553,7 @@ function drawDTable(){
 	    ,method:"post"
 	    ,where:{cDistrictbcdid:cDistrictbcdid,cChannelid:cChannelid,cRecorddatebcd:cRecorddatebcd,C_OffLineVersion:C_OffLineVersion}
 	    ,cols: [[
-	      {field:'cDistrictbcdid', width:100, title: '区域号', sort: true}
+	      {field:'cDistrictbcdid', width:100, title: '区域编号', sort: true}
 	      ,{field:'cAddressid', width:100, title: '终端号',sort:true}
 	      ,{field:'cChannelid', width:100, title: '通道号', sort: true}
 	      ,{field:'cRecorddatebcd', width:120, title: '日期',sort:true}

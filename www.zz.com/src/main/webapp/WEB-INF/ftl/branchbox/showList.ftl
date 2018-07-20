@@ -1180,52 +1180,52 @@
 	    <input name="epuNameBefore" type="hidden" id="epuNameBefore"  value="">
         <div class="edit" style="height:auto">
              <lable>
-                <span style="width:108px;">省份</span>
+                <span style="width:125px;">省份</span>
                 <select name="epuProvince" id="epuProvince" class="text requiredSelect" title="省份"></select>
             </lable>
              <lable>
-                <span style="width:108px;">城市</span>
+                <span style="width:125px;">城市</span>
                 <select name="epuCity" id="epuCity" class="text requiredSelect" title="城市">
 								</select>
             </lable>
             <lable>
-                <span style="width:108px;">区县</span>
+                <span style="width:125px;">区县</span>
                 <select name="epuDistrict" id="epuDistrict" class="text requiredSelect" title="区县"></select>
             </lable>     
             <lable>
-                <span style="width:108px;">上级设备名称</span>
+                <span style="width:125px;">上级设备名称</span>
                 <select name="epuParentId" id="epuParentId" class="text requiredSelect" title="上级设备名称"></select>
             </lable>     
             <lable>
-                <span style="width:108px;">设备名称</span>
+                <span style="width:125px;">设备名称</span>
                 <input name="epuName" id="epuName"   type="text" class="text request" title="设备名称" maxlength="100">
             </lable>        
             <lable>
-                <span style="width:108px;">设备位置</span>
+                <span style="width:125px;">设备位置</span>
                 <input name="epuLocal"  id="epuLocal" type="text" class="text request" title="设备位置" maxlength="100">                         
             </lable>
             <lable>
-                <span style="width:108px;">关联终端编号</span>
-                  <input name="districtId" id="districtId"   type="text" class="text request" title="关联终端编号" readonly="readonly">
+                <span style="width:125px;">BDTU区域编号</span>
+                  <input name="districtId" id="districtId"   type="text" class="text request" title="BDTU区域编号" readonly="readonly">
             </lable>
              <lable>
-                <span style="width:108px;">关联终端地址号</span>
-                  <input name="addressId" id="addressId"   type="text" class="text request" title="关联终端地址号" readonly="readonly">
+                <span style="width:125px;">BDTU终端地址号</span>
+                  <input name="addressId" id="addressId"   type="text" class="text request" title="BDTU终端地址号" readonly="readonly">
             </lable>
              <lable >
-                <span style="width:108px;">关联终端通道号1</span>
-                <select name="channelId" id="channelId" class="text requiredSelect" title="关联终端通道号1"></select>
+                <span style="width:125px;">BDTU终端通道号1</span>
+                <select name="channelId" id="channelId" class="text requiredSelect" title="BDTU终端通道号1"></select>
             </lable>
               <lable>
-                <span style="width:108px;">关联终端通道号2</span>
-                <select name="channelIdTwo" id="channelIdTwo" class="text requiredSelect" title="关联终端通道号2"></select>
+                <span style="width:125px;">BDTU终端通道号2</span>
+                <select name="channelIdTwo" id="channelIdTwo" class="text requiredSelect" title="BDTU终端通道号2"></select>
             </lable>
               <lable >
-                <span style="width:108px;">关联终端通道号3</span>
-                <select name="channelIdThree" id="channelIdThree" class="text requiredSelect" title="关联终端通道号3"></select>
+                <span style="width:125px;">BDTU终端通道号3</span>
+                <select name="channelIdThree" id="channelIdThree" class="text requiredSelect" title="BDTU终端通道号3"></select>
             </lable>
               <lable>
-                <span style="width:108px;">线缆号</span>
+                <span style="width:125px;">线缆号</span>
                 <input name="lineId" id="lineId"   type="text" class="text request" title="线缆号" maxlength="100">
             </lable>
              <div class="but-nav" style="margin:0px 0px 20px 0px">

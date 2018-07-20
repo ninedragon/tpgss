@@ -408,6 +408,7 @@
     <include refid="Base_Column_List" />
     from view_epu_info
     where epu_type = #{epuType,jdbcType=VARCHAR} and epu_district = #{epuDistrict,jdbcType=VARCHAR} and DEL_FLAG='0' 
+    order by epu_name
   </select>
   <delete id="deleteByPrimaryKey" parameterType="com.zz.common.model.TEpuInfo">
     <!--

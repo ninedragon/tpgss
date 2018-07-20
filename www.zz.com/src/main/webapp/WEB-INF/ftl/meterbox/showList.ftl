@@ -1116,7 +1116,7 @@
 							<th>所在位置</th>
 							<th>设备名称</th>
 							<th>上级设备</th>
-							<th>线缆号</th>							
+							<th>终端设备</th>							
 							<th>状态</th>
 							<th>操作</th>
 				
@@ -1144,43 +1144,43 @@
 	    <input name="epuNameBefore" type="hidden" id="epuNameBefore"  value="">
          <div class="edit" style="height:auto">
              <lable>
-                <span>省份</span>
+                 <span style="width:115px;">省份</span>
                 <select name="epuProvince" id="epuProvince" class="text requiredSelect" title="省份"></select>
             </lable>
              <lable>
-                <span>城市</span>
+                 <span style="width:115px;">城市</span>
                 <select name="epuCity" id="epuCity" class="text requiredSelect" title="城市">
 								</select>
             </lable>
             <lable>
-                <span>区县</span>
+                 <span style="width:115px;">区县</span>
                 <select name="epuDistrict" id="epuDistrict" class="text requiredSelect" title="区县">
 								</select>
             </lable>
              <lable>
-                <span>上级设备名称</span>
+                 <span style="width:115px;">上级设备名称</span>
                 <select name="epuParentId" id="epuParentId" class="text requiredSelect" title="上级设备名称"></select>
             </lable>
             <lable>
-                <span>设备名称</span>
+                 <span style="width:115px;">设备名称</span>
                 <input name="epuName" id="epuName"   type="text" class="text request" title="设备名称" maxlength="100">
             </lable>       
             <lable>
-                <span>设备位置</span>
+                 <span style="width:115px;">设备位置</span>
                 <input name="epuLocal"  id="epuLocal" type="text" class="text request" title="设备位置" maxlength="100">
                          
             </lable>
              <lable>
-                <span>关联终端编号</span>
-                <select name="districtId" id="districtId" class="text requiredSelect" title="关联终端编号"></select>
+                 <span style="width:115px;">NDTU区域编号</span>
+                <select name="districtId" id="districtId" class="text requiredSelect" title="NDTU区域编号"></select>
             </lable>
              <lable>
-                <span>关联终端地址号</span>
-                <select name="addressId" id="addressId" class="text requiredSelect" title="关联终端地址号">
+                 <span style="width:115px;">NDTU终端地址号</span>
+                <select name="addressId" id="addressId" class="text requiredSelect" title="NDTU终端地址号">
 								</select>
             </lable>
              <lable>
-                <span>关联终端通道数</span>
+                <span style="width:115px;">NDTU终端通道数</span>
                 <input name="channelId" id="channelId"   type="text" class="text request"  readonly="readonly">
             </lable>             
 	         <div class="but-nav" style="margin:0px 0px 20px 0px">

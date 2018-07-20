@@ -379,7 +379,7 @@
     <!--搜索开始-->
 	<div class="search">
 	   <lable>
-        	<span>区域号:</span>
+        	<span>区域编号:</span>
         	 <input name="cDistrictbcdid" id="cDistrictbcdid" type="text"    />
     	</lable>
     	   <lable>
@@ -420,7 +420,7 @@
             <tr>  <th><input  type="checkbox" id="checkAll"></th>
                             <th>操作</th>  
 							<th>命令</th>
-							<th>区域号</th>
+							<th>区域编号</th>
 							<th>地址号</th>
 							<th>通道数</th>
 							<th>硬件版本</th>
@@ -455,8 +455,8 @@
 	 
         <div class="edit" style="height:auto">
              <lable>
-                <span>区域号</span>
-                  <input name="cDistrictbcdid" id="cDistrictbcdid"   type="text" class="text request" title="区域号" maxlength="100"/>
+                <span>区域编号</span>
+                  <input name="cDistrictbcdid" id="cDistrictbcdid"   type="text" class="text request" title="区域编号" maxlength="100"/>
             </lable>
              <lable>
                 <span>地址号</span>
