@@ -61,6 +61,16 @@ public class AbnormalZServiceImpl extends BaseMybatisDao<AbnormalZMapper> implem
 	        for (AbnormalZ abnormalZ : list)
 	        {
 	        	String phaseRemark = abnormalZ.getPhaseRemark();//1:A 2:B 3:C
+	        	if(StringUtils.isNotEmpty(phaseRemark)){
+	        		phaseRemark = phaseRemark.toUpperCase();
+	        		if("A".equals(phaseRemark)){
+	        			abnormalZ.setPhaseRemark("1");
+	        		}else if("B".equals(phaseRemark)){
+	        			abnormalZ.setPhaseRemark("2");
+	        		}else if("C".equals(phaseRemark)){
+	        			abnormalZ.setPhaseRemark("3");
+	        		}
+	        	}
 	            if (map.get(phaseRemark) == null)
 	            {
 	                modelList = new ArrayList<AbnormalZ>();

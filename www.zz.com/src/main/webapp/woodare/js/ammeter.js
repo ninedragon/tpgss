@@ -321,7 +321,7 @@ function showTop(data,rowId,tableBoxId){
 	 svgSnap.attr("width", widthVal).attr("height", temp)
 	 parent.$("#tableBoxDiv").css("overflow", "auto");
 	 parent.$(".ammeter").css("width", "650px");
-	 $("#falutDiv").css("width", "950px").css("top",( temp - 700)+"px");
+	 $("#falutDiv").css("width", "950px").css("top",( temp - 450)+"px");
 	 parent.$("#tab3Iframe").attr("height", (temp));
 	 
 	 javaScriptObj.svgObj = layerSnap;
@@ -395,28 +395,38 @@ function ammterTableUipq(meterBoxId,ammterXYArray){
 		        				}
 		        			}
         				}else{
+        					 var u_value = 0;
+        					 var i_value = 0;
+        					 var p_value = 0;
+        					 var q_value = 0;
         					//清除TABLE
+        					 setammeterTable(javaScriptObj.svgObj,key,x,y,u_value,i_value,p_value,q_value);
         				}
         			}else{
+        				 var u_value = 0;
+    					 var i_value = 0;
+    					 var p_value = 0;
+    					 var q_value = 0;
         				//清除TABLE
+        				 setammeterTable(javaScriptObj.svgObj,key,x,y,u_value,i_value,p_value,q_value);
         			}
         		}
         	}
         	//处理表箱表格
-			 var  ua = 0;
-			 var  ia = 0;
-			 var  pa = 0;
-			 var qa = 0;
-			 var ub = 0;
-			 var ib = 0;
-			 var pb = 0;
-			 var qb = 0;
-			 var uc = 0;
-			 var ic = 0;
-			 var pc = 0;
-			 var qc = 0;
         	if(meterBoxList){
 				if(null != meterBoxList && meterBoxList.length > 0){
+					 var  ua = 0;
+					 var  ia = 0;
+					 var  pa = 0;
+					 var qa = 0;
+					 var ub = 0;
+					 var ib = 0;
+					 var pb = 0;
+					 var qb = 0;
+					 var uc = 0;
+					 var ic = 0;
+					 var pc = 0;
+					 var qc = 0;
 		        	for(var i = 0;i < meterBoxList.length;i++){
 		        		var json = meterBoxList[i];
 		        		var phaseRemark = json["phaseRemark"];
@@ -440,9 +450,35 @@ function ammterTableUipq(meterBoxId,ammterXYArray){
 		        	setCabinetsXTable(javaScriptObj.svgObj,meterBoxId,javaScriptObj.meterBoxXYJSON.X,javaScriptObj.meterBoxXYJSON.Y,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 				}else{
 					//清除表箱表格
+					 var  ua = 0;
+					 var  ia = 0;
+					 var  pa = 0;
+					 var qa = 0;
+					 var ub = 0;
+					 var ib = 0;
+					 var pb = 0;
+					 var qb = 0;
+					 var uc = 0;
+					 var ic = 0;
+					 var pc = 0;
+					 var qc = 0;
+					 setCabinetsXTable(javaScriptObj.svgObj,meterBoxId,javaScriptObj.meterBoxXYJSON.X,javaScriptObj.meterBoxXYJSON.Y,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 				}
         	}else{
         		//清除表箱表格
+        		 var  ua = 0;
+				 var  ia = 0;
+				 var  pa = 0;
+				 var qa = 0;
+				 var ub = 0;
+				 var ib = 0;
+				 var pb = 0;
+				 var qb = 0;
+				 var uc = 0;
+				 var ic = 0;
+				 var pc = 0;
+				 var qc = 0;
+				 setCabinetsXTable(javaScriptObj.svgObj,meterBoxId,javaScriptObj.meterBoxXYJSON.X,javaScriptObj.meterBoxXYJSON.Y,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
         	}
             $(".loading").hide();
         },

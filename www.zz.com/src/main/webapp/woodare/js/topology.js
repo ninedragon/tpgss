@@ -160,9 +160,35 @@ function branchboxTableUipq(obj){
 			        			obj.showTabData(obj.thisSvgObj, key, x, y, count, index, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
 	        				}else{
 	        					//清除TABLE
+	        					var  ua = 0;
+	        					var  ia = 0;
+	        					var  pa = 0;
+	        					var qa = 0;
+	        					var ub = 0;
+	        					var ib = 0;
+	        					var pb = 0;
+	        					var qb = 0;
+	        					var uc = 0;
+	        					var ic = 0;
+	        					var pc = 0;
+	        					var qc = 0;
+	        					obj.showTabData(obj.thisSvgObj, key, x, y, count, index, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
 	        				}
 	        			}else{
 	        				//清除TABLE
+	        				var  ua = 0;
+        					var  ia = 0;
+        					var  pa = 0;
+        					var qa = 0;
+        					var ub = 0;
+        					var ib = 0;
+        					var pb = 0;
+        					var qb = 0;
+        					var uc = 0;
+        					var ic = 0;
+        					var pc = 0;
+        					var qc = 0;
+        					obj.showTabData(obj.thisSvgObj, key, x, y, count, index, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
 	        			}
 	        		}
 	        	}

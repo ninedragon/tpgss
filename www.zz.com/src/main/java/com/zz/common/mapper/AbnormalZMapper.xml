@@ -64,6 +64,8 @@
 			t_meter.meter_name,
 			t_meter.phase_remark,
 			t_abnormal_z.ua,
+			t_abnormal_z.ub,
+			t_abnormal_z.uc,
 			t_abnormal_z.i,
 			t_abnormal_z.p,
 			t_abnormal_z.q

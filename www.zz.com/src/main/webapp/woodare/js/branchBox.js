@@ -45,7 +45,7 @@ function showList(rowId,tableBoxId,branchBoxId,meterboxId,meterboxEpuName,childr
 	 var widthVal = 800;
 	 var heightVal = 900;
 	 var temp = heightVal ;
-	 $("#falutDiv").css("width",widthVal+ "px").css("top",( temp - 500)+"px");
+//	 $("#falutDiv").css("width",widthVal+ "px").css("top",( temp - 500)+"px");
 	 parent.$("#tab4Iframe").attr("width", widthVal).attr("height", temp);
 //	 parent.$("#branchBoxDiv").css("height", "auto");
 //	 parent.$(".branchBox").css("width", (widthVal + 20)+"px").css("height", (heightVal - 150)+ "px");
@@ -103,42 +103,7 @@ function selectMeterBoxUIPQ(meterboxId){
 			        			  qc = parseFloat(json["q"] ||0).toFixed(2);
 			        		}
 			        	}
-			        	var uipqHtml = "";
-			        	uipqHtml +="<h4>UIPQ列表</h4>	";
-						  uipqHtml +=" <div class=\"table-box\">";
-						  uipqHtml +="  <table width=\"100%\">";
-						  uipqHtml +="  <tr>";
-						  uipqHtml +="	<th></th>";
-						  uipqHtml +="	<th>U</th>";
-						  uipqHtml +="	<th>I</th>";				
-						  uipqHtml +="	<th>P</th>";			
-						  uipqHtml +="	<th>Q</th>";				
-						  uipqHtml +="</tr>";
-						  
-						 uipqHtml += '<tr>';
-						 uipqHtml += '<td align="center"><div>A</div></td>';
-						 uipqHtml += '<td align="center"><div>' + ua + '</div></td>';
-						 uipqHtml += '<td align="center"><div>' + ia+ '</div></td>';
-						 uipqHtml += '<td align="center"><div>' + pa+ '</div></td>';
-						 uipqHtml += '<td align="center"><div>' + qa+ '</div></td>';
-						 uipqHtml += '</tr>';	
-						 uipqHtml += '<tr>';
-						 uipqHtml += '<td align="center"><div>B</div></td>';
-						 uipqHtml += '<td align="center"><div>' + ub + '</div></td>';
-						 uipqHtml += '<td align="center"><div>' + ib+ '</div></td>';
-						 uipqHtml += '<td align="center"><div>' + pb+ '</div></td>';
-						 uipqHtml += '<td align="center"><div>' + qb+ '</div></td>';
-						 uipqHtml += '</tr>';	
-						 uipqHtml += '<tr>';
-						 uipqHtml += '<td align="center"><div>C</div></td>';
-						 uipqHtml += '<td align="center"><div>' + uc + '</div></td>';
-						 uipqHtml += '<td align="center"><div>' + ic+ '</div></td>';
-						 uipqHtml += '<td align="center"><div>' + pc+ '</div></td>';
-						 uipqHtml += '<td align="center"><div>' + qc+ '</div></td>';
-						 uipqHtml += '</tr>';	
-						 uipqHtml +=" </table>";
-						  uipqHtml +=" </div>";
-						  $("#uipqDiv").html(uipqHtml);
+			        	
 			        	
 					}else{
 						//清除表箱表格
@@ -146,6 +111,42 @@ function selectMeterBoxUIPQ(meterboxId){
 	        	}else{
 	        		//清除表箱表格
 	        	}
+	        	var uipqHtml = "";
+	        	uipqHtml +="<h4>UIPQ列表</h4>	";
+				  uipqHtml +=" <div class=\"table-box\">";
+				  uipqHtml +="  <table width=\"100%\">";
+				  uipqHtml +="  <tr>";
+				  uipqHtml +="	<th></th>";
+				  uipqHtml +="	<th>U</th>";
+				  uipqHtml +="	<th>I</th>";				
+				  uipqHtml +="	<th>P</th>";			
+				  uipqHtml +="	<th>Q</th>";				
+				  uipqHtml +="</tr>";
+				  
+				 uipqHtml += '<tr>';
+				 uipqHtml += '<td align="center"><div>A</div></td>';
+				 uipqHtml += '<td align="center"><div>' + ua + '</div></td>';
+				 uipqHtml += '<td align="center"><div>' + ia+ '</div></td>';
+				 uipqHtml += '<td align="center"><div>' + pa+ '</div></td>';
+				 uipqHtml += '<td align="center"><div>' + qa+ '</div></td>';
+				 uipqHtml += '</tr>';	
+				 uipqHtml += '<tr>';
+				 uipqHtml += '<td align="center"><div>B</div></td>';
+				 uipqHtml += '<td align="center"><div>' + ub + '</div></td>';
+				 uipqHtml += '<td align="center"><div>' + ib+ '</div></td>';
+				 uipqHtml += '<td align="center"><div>' + pb+ '</div></td>';
+				 uipqHtml += '<td align="center"><div>' + qb+ '</div></td>';
+				 uipqHtml += '</tr>';	
+				 uipqHtml += '<tr>';
+				 uipqHtml += '<td align="center"><div>C</div></td>';
+				 uipqHtml += '<td align="center"><div>' + uc + '</div></td>';
+				 uipqHtml += '<td align="center"><div>' + ic+ '</div></td>';
+				 uipqHtml += '<td align="center"><div>' + pc+ '</div></td>';
+				 uipqHtml += '<td align="center"><div>' + qc+ '</div></td>';
+				 uipqHtml += '</tr>';	
+				 uipqHtml +=" </table>";
+				  uipqHtml +=" </div>";
+				  $("#uipqDiv").html(uipqHtml);
 	            $(".loading").hide();
 	        },
 	        error: function() {
