@@ -177,8 +177,11 @@
 		<if test="row_name != '' and row_name != null"> 
 	       	AND LOWER(temp.row_name) like  LOWER(CONCAT("%",#{row_name,jdbcType=VARCHAR},"%")) 
 	     </if>	
-	      <if test="fault_type != '' and fault_type != null">  
-	        AND temp.fault_type=  #{fault_type,jdbcType=VARCHAR}
+	      <if test="faultTypeList != '' and faultTypeList != null">  
+		      AND temp.fault_type IN 
+	          <foreach collection="faultTypeList" index="index" item="item" open="(" separator="," close=")">  
+	            #{item}  
+	        </foreach>
 	      </if>	
 	      <if test="is_repaired != '' and is_repaired != null">  
 	        AND temp.is_repaired=  #{is_repaired,jdbcType=INTEGER}
@@ -193,7 +196,7 @@
 			</foreach>
         </if>
 			 <![CDATA[ ${paramSQL} ]]>    
-	ORDER BY temp.occur_time DESC
+	ORDER BY temp.occur_time DESC,temp.fault_type
     <include refid="limit_sql" />
   </select>
   <select id="findCount" resultMap="BaseResultMap" parameterType="java.util.Map" >
@@ -262,35 +265,38 @@
 		<if test="row_name != '' and row_name != null"> 
 	       	AND LOWER(temp.row_name) like  LOWER(CONCAT("%",#{row_name,jdbcType=VARCHAR},"%")) 
 	     </if>	
-	      <if test="fault_type != '' and fault_type != null">  
-	        AND temp.fault_type=  #{fault_type,jdbcType=VARCHAR}
+ 		<if test="faultTypeList != '' and faultTypeList != null">  
+		      AND temp.fault_type IN 
+	          <foreach collection="faultTypeList" index="index" item="item" open="(" separator="," close=")">  
+	            #{item}  
+	        </foreach>
 	      </if>	
-	       <if test="str_occur_time != '' and str_occur_time != null">  
-	        AND DATE_FORMAT(temp.occur_time,'%Y-%m-%d')= #{str_occur_time,jdbcType=VARCHAR}
-	      </if>	
-	       <if test="is_repaired != '' and is_repaired != null">  
+	      <if test="is_repaired != '' and is_repaired != null">  
 	        AND temp.is_repaired=  #{is_repaired,jdbcType=INTEGER}
+	      </if>	
+	      <if test="str_occur_time != '' and str_occur_time != null">  
+	        AND DATE_FORMAT(temp.occur_time,'%Y-%m-%d')= #{str_occur_time,jdbcType=VARCHAR}
 	      </if>	
 	      <if test="keyList!=null and keyList.size()>0">
 		       AND temp.key_id IN 
-            <foreach collection="keyList" item="key" index="index" open="(" separator=","  close=")"> 
+	        <foreach collection="keyList" item="key" index="index" open="(" separator=","  close=")"> 
 			   #{key}
 			</foreach>
         </if>
 			 <![CDATA[ ${paramSQL} ]]>    
   </select> 
-   <select id="selectTypeList" resultMap="CodeTypeResultMap" parameterType="java.util.List">
+   <select id="selectTypeList" resultMap="CodeTypeResultMap" parameterType="java.util.Map">
    		SELECT
    			CODE,
-			CODE_NAME,
+			concat(REMARK , CODE_NAME )AS CODE_NAME,
 			CODE_TYPE,
-			CODE_TYPE_CN,
-			REMARK
+			CODE_TYPE_CN
    		FROM t_sy_code_define
    		WHERE CODE_TYPE IN 
-          <foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+          <foreach collection="codeTypeList" index="index" item="item" open="(" separator="," close=")">  
             #{item}  
         </foreach>
+         <![CDATA[ ${paramSQL} ]]>    
         ORDER BY CODE_TYPE,ORDER_NUM 
    </select>
     <select id="selectFaultByRootId" resultMap="FaultRenderingMap" parameterType="java.util.Map" >
