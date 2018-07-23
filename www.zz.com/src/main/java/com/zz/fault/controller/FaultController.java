@@ -1,7 +1,9 @@
 package com.zz.fault.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -203,10 +205,11 @@ public class FaultController extends BaseController {
 	 * 根据传递的KEY获取TOPO错误信息
 	 * 
 	 * @param rootId
+	 * @throws ParseException 
 	 */
 	@RequestMapping("selectTopoErrorByKeys")
 	@ResponseBody
-	public List<TopoErrorInfo> selectTopoErrorByKeys(HttpServletRequest request) {
+	public List<TopoErrorInfo> selectTopoErrorByKeys(HttpServletRequest request) throws ParseException {
 		List<TopoErrorInfo> list = new ArrayList<TopoErrorInfo>();
 		String strBranchboxIDArray = request.getParameter("strBranchboxIDArray");
 		String branchbox_sql = "";
@@ -225,7 +228,12 @@ public class FaultController extends BaseController {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("paramSQL", branchbox_sql);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
-		String record_date = sdf.format(new Date());
+		Date beginDate = new Date();
+		Calendar date = Calendar.getInstance();
+		date.setTime(beginDate);
+		date.set(Calendar.DATE, date.get(Calendar.DATE) - 1);//topo错误查询异常数据时，找前一天数据
+		Date endDate = sdf.parse(sdf.format(date.getTime()));
+		String record_date = sdf.format(endDate);
 		paramMap.put("record_date", record_date);
 		List<TopoErrorInfo> listBranchbox = this.faultService.selectBranchboxErrorByKeys(paramMap);
 		for (TopoErrorInfo topoErrorInfo : listBranchbox) {

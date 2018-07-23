@@ -372,7 +372,7 @@
 			t_cal_z.is_valid
 		FROM
 			t_meterbox
-		INNER JOIN t_cal_z ON t_meterbox.C_AddressId = t_cal_z.C_AddressId
+		LEFT JOIN t_cal_z ON t_meterbox.C_AddressId = t_cal_z.C_AddressId
 		AND t_meterbox.C_DistrictBCDId = t_cal_z.C_DistrictBCDId
 		WHERE
 			t_meterbox.DEL_FLAG = '0' 

@@ -285,8 +285,8 @@ var SVG_HELPER = (function() {
                 }
             },
             kaiguanxianEvaluate: function(kaiguanxianErrorArray) {
-                for (var i = 0; i < kaiguanxianErrorArray.length; i++) {
-                    var json = kaiguanxianErrorArray[i];
+                for (var z = 0; z < kaiguanxianErrorArray.length; z++) {
+                    var json = kaiguanxianErrorArray[z];
                     var key = json["key"];
                     var epuName = json["epuName"]|| "";
                     var za =json["za"] || 0;

@@ -271,17 +271,17 @@ function showTop(data,rowId,tableBoxId){
 	    		         var tableBoTxtX = tempBranchBoxX - 25;
 	    		         var tableBoTxtY = cabinetsY + 10;
 	    		         //组织表箱图标
-	    		         var svgimg = setSvgimg("45","45", "../woodare/image/tableBox.png",(tableBoTxtX),(tableBoTxtY),("meterBoxImg_"+i_epuParentId));
+	    		         var svgimg = setSvgimg("70","70", "../woodare/image/boxImg.png",(tableBoTxtX -10),(tableBoTxtY - 27),("meterBoxImg_"+i_epuParentId));
 		  		         $("#ammeter_Layer").append(svgimg);
 	    		         var i_epuName = i_json["epuName"]||"";
-	    		         var textNewlineArr = textNewline(i_epuName,6,tableBoTxtX- 50,tableBoTxtY-5,20);
+	    		         var textNewlineArr = textNewline(i_epuName,6,tableBoTxtX- 50,(tableBoTxtY - 33),20);
 	    		         splitRemarks(layerSnap,"meterBoxText_" + i_epuParentId,textNewlineArr[0],0 ,0,"fText",12,true);//表箱文本内容
 	    		         //table
 	    		       //展示table信息
-	    		         javaScriptObj.meterBoxXYJSON ={KEY:i_epuParentId,X:(tempBranchBoxX+30), Y : cabinetsY + 160};
+	    		         javaScriptObj.meterBoxXYJSON ={KEY:i_epuParentId,X:(tempBranchBoxX+30), Y : cabinetsY + 135};
 	    		         
 	    		        	//出线柜分割备注
-	    		        	splitRemarks(layerSnap,"cabinetsID","表箱",70,(cabinetsY+40),"fText",24);
+	    		        	splitRemarks(layerSnap,"cabinetsID","表箱",70,(cabinetsY),"fText",24);
 	    		        	//出线柜往下画线
 	    		        	var lowerCabinetsLineX = tempBranchBoxX;//下宽度（出线柜下处宽度）
 	    		        	var lowerCabinetsLineY = cabinetsY + 100;//下高（分线柜下处高度）
@@ -922,7 +922,7 @@ function setFalut(){
 	    			var epuName = json["epuName"];
 	    			  var faultTypeName = json["faultTypeName"];
 	    			//找到异常表箱图标，设置
-	    			$("#ammeter_Layer").find("image[id='meterBoxImg_"+key+"']").attr("href","../woodare/image/tableBoxError.png");
+	    			$("#ammeter_Layer").find("image[id='meterBoxImg_"+key+"']").attr("href","../woodare/image/boxImgError.png");
 	    			 var count = $("#meterBoxText_"+key).find("text tspan").length||0;
 	    			if(null != faultTypeName && faultTypeName != ""){
 	    				$("#meterBoxText_" + key+ " text").find("tspan").eq((count - 2)).text("故障原因:" );
@@ -979,7 +979,7 @@ function clearFalut(faultNowMeterArray,faultNowMeterBoxArray){
 		var epuName = json["epuName"];
 		  var faultTypeName = json["faultTypeName"];
 		//找到异常表箱图标，设置
-		$("#ammeter_Layer").find("image[id='meterBoxImg_"+key+"']").attr("href","../woodare/image/tableBox.png");
+		$("#ammeter_Layer").find("image[id='meterBoxImg_"+key+"']").attr("href","../woodare/image/boxImg.png");
 		var count = $("#meterBoxText_"+key).find("text tspan").length||0;
 		if(null != faultTypeName && faultTypeName != ""){
 			$("#meterBoxText_" + key+ " text").find("tspan").eq((count - 2)).text("");
