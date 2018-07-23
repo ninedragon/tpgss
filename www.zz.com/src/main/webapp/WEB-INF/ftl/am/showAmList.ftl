@@ -179,8 +179,26 @@
 			                    var epuList = page.list;
 			                    if (epuList!=null && epuList.length>0) {
 			                        var tbody = '';
-			                        for (var i = 0; i < epuList.length; i++) {			                            
-			       
+			                        for (var i = 0; i < epuList.length; i++) {	
+			                        	var phaseRemark="";
+			                        	if(epuList[i].phaseRemark!=null && epuList[i].phaseRemark!="" )
+			                        		{
+			                        		
+				                        		if(epuList[i].phaseRemark=="1")
+				                        		{
+				                        			phaseRemark="A";
+				                        		}
+				                        		else if(epuList[i].phaseRemark=="2")
+				                        		{
+				                        			phaseRemark="B";
+				                        		}
+				                        		else if(epuList[i].phaseRemark=="3"){
+				                        			phaseRemark="C";
+				                        		}
+			                        		
+			                        		}
+			                        
+			                        	
 			                            tbody += '<tr>';
 			                        /*    tbody += '<td align="center"><input value="'+epuList[i].rowId+'" check="box" type="checkbox" /></td>';   */           
 			                            tbody += '<td align="center"><div>' + epuList[i].epuProvinceName+ '</div></td>';
@@ -188,7 +206,7 @@
 			                            tbody += '<td align="center"><div>' + epuList[i].epuDistrictName+ '</div></td>';			                        			                            
 			                            tbody += '<td align="center"><div>' + epuList[i].ammeterId+ '</div></td>';
 			                            tbody += '<td align="center"><div>' + epuList[i].houseId+ '</div></td>';
-			                            tbody += '<td align="center"><div>' + epuList[i].phaseRemark+ '</div></td>';
+			                            tbody += '<td align="center"><div>' + phaseRemark+ '</div></td>';
 			                            tbody += '<td align="center"><div>' +epuList[i].epuName + '</div></td>';
 			                            tbody += '<td align="center"><div>' +epuList[i].districtId+((epuList[i].addressId==null || epuList[i].addressId=='' )?'':"-" +epuList[i].addressId) +((epuList[i].channelId==null || epuList[i].channelId=='' )?'':"-" +epuList[i].channelId)+ '</div></td>';			                          
 			                             
