@@ -42,12 +42,8 @@ function showList(rowId,tableBoxId,branchBoxId,meterboxId,meterboxEpuName,childr
 		 javaScriptObj.interval = myVar;
 		 
 	//设置弹出层画面高宽
-	 var widthVal = 800;
-	 var heightVal = 900;
-	 var temp = heightVal ;
-	 parent.$("#tab4Iframe").attr("width", widthVal).attr("height", temp);
+	 parent.$("#tab4Iframe").attr("height", "900px");
 	 parent.$("#branchBoxDiv").css("height", "auto");
-	 parent.$(".branchBox").css("width", "850px");
 }
 
 function selectMeterBoxUIPQ(meterboxId){
