@@ -94,7 +94,7 @@
 			            	cInstalldateBegin: $(".search #cInstalldateBegin").val(),
 			            	cInstalldateEnd: $(".search #cInstalldateEnd").val(),
 			            	pageNo:pageNo,
-			            	pageSize:10
+			            	pageSize:10 
 			            },     
 			            success: function (data) {
 			            	var page=data.page;
