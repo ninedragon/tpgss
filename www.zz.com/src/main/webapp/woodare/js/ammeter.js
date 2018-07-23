@@ -256,7 +256,6 @@ function showTop(data, rowId, tableBoxId) {
 					//电表循环 -end
 					} else {
 						parent.$("#tableBoxDiv").css("overflow", "auto");
-						$("#falutDiv").css("width", "950px");
 						return false;
 					}
 				}
@@ -341,7 +340,7 @@ function showTop(data, rowId, tableBoxId) {
 	var temp = heightVal + 600;
 	svgSnap.attr("width", widthVal).attr("height", temp)
 	parent.$("#tableBoxDiv").css("overflow", "auto");
-	$("#falutDiv").css("top", (temp - 720) + "px");
+	$("#falutDiv").css("top", (temp - 650) + "px");
 	parent.$("#tab3Iframe").attr("height", (temp));
 
 	javaScriptObj.svgObj = layerSnap;
