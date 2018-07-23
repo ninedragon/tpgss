@@ -526,6 +526,9 @@ var SVG_HELPER = (function() {
               });
               var g = thisSvgObj.select("g[id='meterbox_"+key+"']");
               g.append('title').text(epuName);
+              if(epuName.length > 39){
+            	  epuName = epuName.substring(0,39)+"...";
+              }
              for (var i = 0; i < epuName.length / size; i++) {
                  g.append('text').attr("font-size", "14").attr("cursor", "pointer").attr("text-align", "center").attr("class", cls).attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text(epuName.substring(i * size, i * size + size)).attr("x", x).attr("y", y + 108 + 20 * i);
                  k++;
@@ -660,6 +663,9 @@ var SVG_HELPER = (function() {
         var k = 0;
         if (name && name.length) {
             var size = 7;
+            if(name.length > 39){
+            	name = name.substring(0,39)+"...";
+            }
             for (var i = 0; i < name.length / size; i++) {
                 g.append('text').attr("font-size", "14").attr("cursor", "pointer").attr("text-align", "center").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text(name.substring(i * size, i * size + size)).attr("x", x).attr("y", y + 108 + 20 * i);
                 k++;
