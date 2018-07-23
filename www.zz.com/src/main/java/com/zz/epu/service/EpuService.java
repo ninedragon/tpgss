@@ -98,6 +98,10 @@ public interface EpuService {
  	 
  	  // 获取所有查询条件
  	 public Map<String, Object> selectEpuchannelIdByAddressIdAndDistrictId(String epuType,String districtId,String addressId);
-      
-
+ 	 
+ 	 
+	  // 校验 bdtu 设备的区域码和地址号,是否已经被设备使用，如果使用，则无法再编辑修改
+	 public Map<String, Object> queryBdutUseDistrictIdAndAddressId(String districtId,String addressId);
+	  // 校验 Ndtu 设备的区域码和地址号,是否已经被设备使用，如果使用，则无法再编辑修改
+	 public Map<String, Object> queryNdutUseDistrictIdAndAddressId(String districtId,String addressId);
 }

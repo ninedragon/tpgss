@@ -3,7 +3,7 @@
 <!-- <html> -->
   <head>
     <base href="${basePath}">
-    <title>V2-bdtu设备列表</title>
+    <title>V2-BDTU设备列表</title>
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 	<meta name="apple-mobile-web-app-capable" content="yes">
@@ -310,7 +310,13 @@
 				$("#saveDiv #cInstalldate").val('');												
 				$("#saveDiv #nbdeviceid").val('');
 				$("#saveDiv #cDesp").val('');
+				
+				$("#saveDiv #cDistrictbcdid").attr("disabled",false );
+				$("#saveDiv #cAddressid").attr("disabled",false );
+				$("#saveDiv #cChannelnum").attr("disabled",false );		
 				$("#saveDiv").show();
+				$("#saveDiv #epuTitle").html("新增BDTU设备");
+				$("#saveDiv #showMsg").html("");
 				 /*  epAdd.initProvince();
 				  epAdd.registEvent(); */
 			}
@@ -338,25 +344,57 @@
 								id:id
 							
 							},
-							success : function(data) {
-							
+							success : function(data) {							
+								
 							  var  epuInfo=data.dtu;
-										$("#saveDiv #id").val(epuInfo.id );				
-										$("#saveDiv #cDistrictbcdid").val(epuInfo.cDistrictbcdid );
-										$("#saveDiv #cAddressid").val(epuInfo.cAddressid );
-									    
-									    
-									    $("#saveDiv #cChannelnum").val(epuInfo.cChannelnum );				
-										$("#saveDiv #cHardwarever").val(epuInfo.cHardwarever );
-										$("#saveDiv #cSoftwarever").val(epuInfo.cSoftwarever );
-										
-										$("#saveDiv #cFixip").val(epuInfo.cFixip );				
-										$("#saveDiv #cInstalldate").val(epuInfo.cInstalldate );
-										$("#saveDiv #nbdeviceid").val(epuInfo.nbdeviceid );
-								       $("#saveDiv #cDesp").val(epuInfo.cDesp );						
-								        $("#saveDiv").show();
-								  
-				                       $("#loadingDiv").hide();							
+							  // 校验 bdtu 和ndtu 设备的区域码和地址号,是否已经被设备使用，如果使用，则无法再编辑修改
+							  $.ajax({
+									url : "${basePath}/epu/queryBdutUseDistrictIdAndAddressId.shtml",
+									type : 'POST',
+									dataType : 'json',
+									async : false,
+									data : {
+										   districtId: epuInfo.cDistrictbcdid,
+							                addressId: epuInfo.cAddressid
+									
+									},
+									success : function(data) {
+									
+										 var queryNum = data.queryNum;
+											if(queryNum>0)
+											{
+												$("#saveDiv #cDistrictbcdid").attr("disabled",true );
+												$("#saveDiv #cAddressid").attr("disabled",true );
+												 $("#saveDiv #cChannelnum").attr("disabled",true );	
+												 $("#saveDiv #showMsg").html("该BDTU设备已经被使用.区域码,地址号,通道数不能修改！");	
+											}
+											else												
+											{
+												$("#saveDiv #cDistrictbcdid").attr("disabled",false );
+												$("#saveDiv #cAddressid").attr("disabled",false );
+												$("#saveDiv #cChannelnum").attr("disabled",false );	
+												$("#saveDiv #showMsg").html("");	
+											}
+									
+											$("#saveDiv #id").val(epuInfo.id );				
+											$("#saveDiv #cDistrictbcdid").val(epuInfo.cDistrictbcdid );
+											$("#saveDiv #cAddressid").val(epuInfo.cAddressid );
+										    
+										    
+										    $("#saveDiv #cChannelnum").val(epuInfo.cChannelnum );				
+											$("#saveDiv #cHardwarever").val(epuInfo.cHardwarever );
+											$("#saveDiv #cSoftwarever").val(epuInfo.cSoftwarever );
+											
+											$("#saveDiv #cFixip").val(epuInfo.cFixip );				
+											$("#saveDiv #cInstalldate").val(epuInfo.cInstalldate );
+											$("#saveDiv #nbdeviceid").val(epuInfo.nbdeviceid );
+									       $("#saveDiv #cDesp").val(epuInfo.cDesp );						
+									        $("#saveDiv").show();
+									        $("#saveDiv #epuTitle").html("编辑BDTU设备");
+					                       $("#loadingDiv").hide();		
+									}        
+									});
+												
 							}        
 							});
 							}
@@ -453,10 +491,11 @@
 <!--弹层开始-->
 <div class="wapp-layer"  id="saveDiv">
       <div class="box" style="height:auto">
-	<h4>新增bdtu设备<span class="close-js"  onclick="$('#saveDiv').hide();">关闭</span></h4>
+	<h4><div id='epuTitle'>新增BDTU设备</div><span class="close-js"  onclick="$('#saveDiv').hide();">关闭</span></h4>
 	  <input name="id" type="hidden" id="id"  value="">
-	 
+	  <font color="red"><lable id="showMsg" style='font-size:15px;'></lable></font>
         <div class="edit" style="height:auto">
+       
              <lable>
                 <span>区域码</span>
                   <input name="cDistrictbcdid" id="cDistrictbcdid"   type="text" class="text request" title="区域码" maxlength="100"/>

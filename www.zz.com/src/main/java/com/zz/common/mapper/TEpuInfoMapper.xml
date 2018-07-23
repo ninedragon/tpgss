@@ -789,4 +789,28 @@
 	and 
 	order by C_AddressId
   </select>
+  
+  
+     <select id="queryBdutUseDistrictIdAndAddressId" parameterType="java.lang.String" resultMap="BaseResultMap">
+     SELECT
+			district_id
+		FROM
+			view_epu_info
+     WHERE
+	district_id =  #{districtId,jdbcType=VARCHAR}
+   AND address_id = #{addressId,jdbcType=VARCHAR}
+   and epu_Type ='M0002'
+  </select>
+  
+  
+  <select id="queryNdutUseDistrictIdAndAddressId" parameterType="java.lang.String" resultMap="BaseResultMap">
+     SELECT
+			district_id
+		FROM
+			view_epu_info
+    WHERE
+	district_id =  #{districtId,jdbcType=VARCHAR}
+   AND address_id = #{addressId,jdbcType=VARCHAR}
+   and epu_Type ='M0004'
+  </select>
 </mapper>

@@ -629,4 +629,17 @@ public class EpuController extends BaseController {
 	public Object selectEpuchannelIdByAddressIdAndDistrictId(String epuType,String districtId,String addressId) {
 		return epuService.selectEpuchannelIdByAddressIdAndDistrictId(epuType,districtId,addressId);
 	}
+	
+	
+	@RequestMapping("queryBdutUseDistrictIdAndAddressId")
+	@ResponseBody
+	public Object queryBdutUseDistrictIdAndAddressId(String districtId,String addressId) {
+		return epuService.queryBdutUseDistrictIdAndAddressId(districtId,addressId);
+	}
+	
+	@RequestMapping("queryNdutUseDistrictIdAndAddressId")
+	@ResponseBody
+	public Object queryNdutUseDistrictIdAndAddressId(String districtId,String addressId) {
+		return epuService.queryNdutUseDistrictIdAndAddressId(districtId,addressId);
+	}
 }
