@@ -49,7 +49,7 @@ function showTop(rowId){
 	        		 $("#falutDiv").css("top",( mySvg.topoHeight()- 600)+"px");
 	        		 //加载故障
 	        		 so.initFaultTypeList();
-	        		 //填充隐藏域strBranchboxIDArray，topo错误所需分支箱KEY_ID
+	        		 //填充隐藏域strBranchboxIDArray，所需分支箱KEY_ID
         			 javaScriptObj.branchboxIDArray =  mySvg.branchboxIDArray;
         			 //填充隐藏域strKeyArray，故障定位所需KEY_ID
         			 var strKeyArray = "";
@@ -73,11 +73,16 @@ function showTop(rowId){
 	        			 clearInterval(myVar);//清除定时器
 	        			 var timeoutVar =  setTimeout(function(){
 	        				 clearInterval(timeoutVar);//清除定时器
-	        				 showTop(rowId);
+//	        				 showTop(rowId);
+	        				 //加载表格
+	    	        		 branchboxTableUipq(mySvg);
 	        			 }, (1000 * 20) );//(1000 * 20) 延迟20秒
 	        			
 	        	     },(1000 * 60 * 5));//(1000 * 60 * 4)
 	        		 javaScriptObj.interval = myVar;
+//	        		//单击按钮执行 说明:表格5分钟轮询后执行showTop()函数，重新生成SVG,这里需要对应还原
+//	        		 var txtValue = $("#"+javaScriptObj.substationId+"Iframe").contents().find(".a-hov span[class='on']").text();
+//	        		 clickButton(txtValue,false);
 	        	 }
 	        } 
 		});
@@ -116,24 +121,25 @@ function branchboxTableUipq(obj){
 	        		for(var i = 0 ;i < branchboxXYArray.length; i++){
 	        			var branchboxXY_json = branchboxXYArray[i]; 
 	        			var key = branchboxXY_json["KEY"];
+	        			obj.clearTabData(key);//清除表格
 	        			var x = branchboxXY_json["X"];
 	        			var y = branchboxXY_json["Y"];
 	        			var count = branchboxXY_json["COUNT"];
 	        			var index = branchboxXY_json["INDEX"];
 	        			if(data){
 	        				if(null != data && data.length > 0){
-	        					var  ua = 0;
-	        					var  ia = 0;
-	        					var  pa = 0;
-	        					var qa = 0;
-	        					var ub = 0;
-	        					var ib = 0;
-	        					var pb = 0;
-	        					var qb = 0;
-	        					var uc = 0;
-	        					var ic = 0;
-	        					var pc = 0;
-	        					var qc = 0;
+	        					var  ua = "无";
+	        					var  ia = "无";
+	        					var  pa = "无";
+	        					var qa = "无";
+	        					var ub = "无";
+	        					var ib = "无";
+	        					var pb = "无";
+	        					var qb = "无";
+	        					var uc = "无";
+	        					var ic = "无";
+	        					var pc = "无";
+	        					var qc = "无";
 			        			for(var j = 0 ;j < data.length; j++){
 			        				var j_json = data[j];
 			        				var branchBoxId = j_json["branchBoxId"];
@@ -160,34 +166,34 @@ function branchboxTableUipq(obj){
 			        			obj.showTabData(obj.thisSvgObj, key, x, y, count, index, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
 	        				}else{
 	        					//清除TABLE
-	        					var  ua = 0;
-	        					var  ia = 0;
-	        					var  pa = 0;
-	        					var qa = 0;
-	        					var ub = 0;
-	        					var ib = 0;
-	        					var pb = 0;
-	        					var qb = 0;
-	        					var uc = 0;
-	        					var ic = 0;
-	        					var pc = 0;
-	        					var qc = 0;
+	        					var  ua = "无";
+	        					var  ia = "无";
+	        					var  pa = "无";
+	        					var qa = "无";
+	        					var ub = "无";
+	        					var ib = "无";
+	        					var pb = "无";
+	        					var qb = "无";
+	        					var uc = "无";
+	        					var ic = "无";
+	        					var pc = "无";
+	        					var qc = "无";
 	        					obj.showTabData(obj.thisSvgObj, key, x, y, count, index, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
 	        				}
 	        			}else{
 	        				//清除TABLE
-	        				var  ua = 0;
-        					var  ia = 0;
-        					var  pa = 0;
-        					var qa = 0;
-        					var ub = 0;
-        					var ib = 0;
-        					var pb = 0;
-        					var qb = 0;
-        					var uc = 0;
-        					var ic = 0;
-        					var pc = 0;
-        					var qc = 0;
+	        				var  ua = "无";
+        					var  ia = "无";
+        					var  pa = "无";
+        					var qa = "无";
+        					var ub = "无";
+        					var ib = "无";
+        					var pb = "无";
+        					var qb = "无";
+        					var uc = "无";
+        					var ic = "无";
+        					var pc = "无";
+        					var qc = "无";
         					obj.showTabData(obj.thisSvgObj, key, x, y, count, index, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
 	        			}
 	        		}
@@ -256,15 +262,9 @@ $(function() {
 		}else{
 			$(this).addClass("on");
 		}
-		if(txtValue == "故障定位"){
-			faultClick(selectedFlag);
-		}else if(txtValue == "TOPO错误数据"){
-			clickTopoError(selectedFlag);
-		}else{
-			javaScriptObj.buttonAction = 0;
-			//TOPO错误数据和故障数据样式清除
-       	 clickTopoStyle(javaScriptObj.keyJsonArray);
-		}
+		//单击按钮执行
+		clickButton(txtValue,selectedFlag);
+		
 	});
 	  //绑定事件
 	var obj =  parent.$(".all li[class='on']");
@@ -276,7 +276,22 @@ $(function() {
 	//加载Websocket
 	loadWebsocket();
 });
-
+/**
+ * 单击按钮执行
+ * **/
+function clickButton(txtValue,selectedFlag){
+	if(txtValue == "故障定位"){
+		faultClick(selectedFlag);
+	}else if(txtValue == "TOPO错误数据"){
+		clickTopoError(selectedFlag);
+	}else if(txtValue == "健康度评价"){
+		clickEvaluate(selectedFlag);
+	}else{
+		javaScriptObj.buttonAction = 0;
+		//TOPO错误数据和故障数据样式清除
+   	 clickTopoStyle(javaScriptObj.keyJsonArray);
+	}
+}
 /**加载Websocket
  * **/
 function loadWebsocket(){
@@ -387,6 +402,48 @@ function clickTopoStyle(keyJsonArray){
 			 }
 		 }
 	 }
+}
+/**
+ * 
+ * 居民健康度评价
+ * **/
+function clickEvaluate(selectedFlag){
+	 var strKeyArray = "";
+	 if(javaScriptObj.branchboxIDArray){
+		 if(null != javaScriptObj.branchboxIDArray && javaScriptObj.branchboxIDArray.length > 0){
+			 strKeyArray = javaScriptObj.branchboxIDArray.join(",");
+		 }
+	 }
+	$("#loadingDiv").show();
+	$.ajax({ 
+		 type: "post",
+        url:  getRootPath_web() + "/fault/queryCalZList.shtml",
+        data: {
+       	 strKeyArray : strKeyArray
+        },
+        async:true,
+        dataType: "json",
+        cache: false,
+        success: function(allData){ 
+       	//样式清除
+       	 if(javaScriptObj.buttonAction ==1){
+       		 clickTopoStyle(javaScriptObj.keyJsonArray);
+       	 }
+       	 if(allData){
+       		 if(null != allData && allData.length > 0){
+       			 if(!selectedFlag){
+       				javaScriptObj.buttonAction = 1;
+       				 mySvg.kaiguanxianEvaluate(allData);//显示阻抗
+       			 }else{
+       				javaScriptObj.buttonAction = 0;
+       				mySvg.kaiguanxianClear(allData);//清空阻抗
+       	       	 }
+       		 }
+       	 }
+       
+       	 $("#loadingDiv").hide();
+       } 
+	});
 }
 /**
  * 故障定位

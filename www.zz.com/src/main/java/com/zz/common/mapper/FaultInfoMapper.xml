@@ -67,6 +67,18 @@
 		    <result column="table_name" jdbcType="VARCHAR" property="table_name" />
 		    <result column="record_id" jdbcType="VARCHAR" property="record_id" />
    </resultMap>
+    <resultMap id="CalZMap" type="com.zz.common.model.CalZInfo">
+    		  <id column="id" jdbcType="VARCHAR" property="id" />
+		    <result column="meterBoxId" jdbcType="VARCHAR" property="key" />
+		    <result column="epu_name" jdbcType="VARCHAR" property="epuName" />
+		    <result column="za" jdbcType="VARCHAR" property="za" />
+		    <result column="zb" jdbcType="VARCHAR" property="zb" />
+		    <result column="zc" jdbcType="VARCHAR" property="zc" />
+		    <result column="record_date" jdbcType="TIMESTAMP" property="record_date" />
+		    <result column="is_valid" jdbcType="VARCHAR" property="is_valid" />
+   </resultMap>
+   
+   
      <sql id="limit_sql">
   	   <if test="page_sql != null and page_sql != ''">
       	${page_sql}
@@ -177,12 +189,6 @@
 		<if test="row_name != '' and row_name != null"> 
 	       	AND LOWER(temp.row_name) like  LOWER(CONCAT("%",#{row_name,jdbcType=VARCHAR},"%")) 
 	     </if>	
-	      <if test="faultTypeList != '' and faultTypeList != null">  
-		      AND temp.fault_type IN 
-	          <foreach collection="faultTypeList" index="index" item="item" open="(" separator="," close=")">  
-	            #{item}  
-	        </foreach>
-	      </if>	
 	      <if test="is_repaired != '' and is_repaired != null">  
 	        AND temp.is_repaired=  #{is_repaired,jdbcType=INTEGER}
 	      </if>	
@@ -199,6 +205,7 @@
 	ORDER BY temp.occur_time DESC,temp.fault_type
     <include refid="limit_sql" />
   </select>
+  
   <select id="findCount" resultMap="BaseResultMap" parameterType="java.util.Map" >
  	SELECT
 		count(temp.row_id)
@@ -265,12 +272,6 @@
 		<if test="row_name != '' and row_name != null"> 
 	       	AND LOWER(temp.row_name) like  LOWER(CONCAT("%",#{row_name,jdbcType=VARCHAR},"%")) 
 	     </if>	
- 		<if test="faultTypeList != '' and faultTypeList != null">  
-		      AND temp.fault_type IN 
-	          <foreach collection="faultTypeList" index="index" item="item" open="(" separator="," close=")">  
-	            #{item}  
-	        </foreach>
-	      </if>	
 	      <if test="is_repaired != '' and is_repaired != null">  
 	        AND temp.is_repaired=  #{is_repaired,jdbcType=INTEGER}
 	      </if>	
@@ -283,7 +284,7 @@
 			   #{key}
 			</foreach>
         </if>
-			 <![CDATA[ ${paramSQL} ]]>    
+			 <![CDATA[ ${paramSQL} ]]>  
   </select> 
    <select id="selectTypeList" resultMap="CodeTypeResultMap" parameterType="java.util.Map">
    		SELECT
@@ -358,6 +359,27 @@
     	)AS  temp
     	 ORDER BY temp.occur_time  DESC
     </select>
+    <!-- 查询分支箱下所有表箱的阻抗信息 -->
+    <select id="queryCalZList" resultMap="CalZMap" parameterType="java.util.Map" >
+    	SELECT
+			t_cal_z.id,
+			t_meterbox.meterBoxId AS `key`,
+			t_meterbox.epu_name AS epuName,
+			t_cal_z.za,
+			t_cal_z.zb,
+			t_cal_z.zc,
+			t_cal_z.record_date,
+			t_cal_z.is_valid
+		FROM
+			t_meterbox
+		INNER JOIN t_cal_z ON t_meterbox.C_AddressId = t_cal_z.C_AddressId
+		AND t_meterbox.C_DistrictBCDId = t_cal_z.C_DistrictBCDId
+		WHERE
+			t_meterbox.DEL_FLAG = '0' 
+		AND t_cal_z.record_date =#{record_date,jdbcType=INTEGER}
+		 <![CDATA[ ${paramSQL} ]]>    
+    </select>
+    
     <!-- 查询故障消息 -->
      <select id="selectFaultNews" resultMap="FaultRenderingMap" parameterType="java.util.Map" >
      	SELECT
@@ -386,6 +408,7 @@
    			FROM t_branchbox_error
 			INNER JOIN t_branchbox ON t_branchbox_error.key_id = t_branchbox.branchBoxId
 			WHERE 1 = 1
+			AND t_branchbox_error.record_date =#{record_date,jdbcType=INTEGER}
 			 <![CDATA[ ${paramSQL} ]]>    
     </select>
      <select id="selectMeterboxErrorByKeys" resultMap="TopoErrorRelMap" parameterType="java.util.Map" >
@@ -400,6 +423,7 @@
 				t_meterbox_error
 			INNER JOIN t_meterbox ON t_meterbox_error.key_id = t_meterbox.meterBoxId
 			WHERE 1 = 1  AND branchbox_error_id = #{branchbox_error_id,jdbcType=VARCHAR}
+			AND t_meterbox_error.record_date =#{record_date,jdbcType=INTEGER}
      </select>
      <select id="getFaultSourceList" resultMap="FaultSourceMap" parameterType="java.lang.String">
      		SELECT

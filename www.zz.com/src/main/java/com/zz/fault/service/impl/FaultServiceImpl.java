@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zz.common.dao.FaultInfoMapper;
+import com.zz.common.model.CalZInfo;
 import com.zz.common.model.CodeInfo;
 import com.zz.common.model.FaultInfo;
 import com.zz.common.model.FaultRendering;
@@ -33,14 +34,16 @@ public class FaultServiceImpl extends BaseMybatisDao<FaultInfoMapper> implements
 		return super.findPage(resultMap, pageNo, pageSize);
 	}
 
-	public List<CodeInfo> selectTypeList(List<String> codeTypeList) {
-		return faultInfoMapper.selectTypeList(codeTypeList);  
+	public List<CodeInfo> selectTypeList(Map<String, Object> map) {
+		return faultInfoMapper.selectTypeList(map);  
 	}
 
 	public List<FaultRendering> selectFaultByRootId(Map<String, Object> map) {
 		return faultInfoMapper.selectFaultByRootId(map);
 	}
-
+	 public List<CalZInfo> queryCalZList(Map<String, Object> map){
+		 return faultInfoMapper.queryCalZList(map);
+	 }
 	public List<FaultRendering> selectFaultNews(Map<String, Object> map) {
 		return faultInfoMapper.selectFaultNews(map);
 	}

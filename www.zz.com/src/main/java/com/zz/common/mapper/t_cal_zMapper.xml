@@ -93,6 +93,22 @@
     from t_cal_z
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="cal_topo" parameterType="com.zz.common.model.cal_topo_bo" useCache="false"
+          statementType="CALLABLE" resultType="java.lang.String" >
+    <![CDATA[
+        call cal_topoerror(
+        #{branch_box_id,mode=IN,jdbcType=VARCHAR},
+        #{record_date,mode=IN,jdbcType=INTEGER});
+        ]]>
+  </select>
+
+  <select id="cal_topo_all" parameterType="com.zz.common.model.cal_topo_bo" useCache="false"
+          statementType="CALLABLE" resultType="java.lang.String" >
+    <![CDATA[
+        call cal_branchid_date()
+
+        ]]>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from t_cal_z
     where id = #{id,jdbcType=BIGINT}

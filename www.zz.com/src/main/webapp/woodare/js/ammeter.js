@@ -99,6 +99,22 @@ function getSymbolByType(type) {
 			r: [0, 90]
 		};
 		break;
+	case 'meterBox':
+		data = {
+			id: "MeterBox_PD_电表",
+			x: 12,
+			y: 12,
+			r: [0, 90]
+		};
+		break;
+	case 'meterBox1':
+		data = {
+			id: "MeterBox_PD_电表1",
+			x: 12,
+			y: 12,
+			r: [0, 90]
+		};
+		break;
 	default:
 		break;
 	}
@@ -181,13 +197,16 @@ function showTop(data,rowId,tableBoxId){
 	        			 			keyArray.push(x_rowId);
 	        			 			//展示电表 
 	        			 			ammeterX = ammeterX + gird;
-	        			 			//组织电表图标
-	        		  		        var svgimg = setSvgimg("45","45", "../woodare/image/meter.png", (ammeterX + 10),(ammeterY + 10),("meterImg_"+x_rowId));
-	        		  		        $("#ammeter_Layer").append(svgimg);
+//	        			 			//组织电表图标
+//	        		  		        var svgimg = setSvgimg("45","45", "../woodare/image/meter.png", (ammeterX + 10),(ammeterY + 10),("meterImg_"+x_rowId));
+//	        		  		        $("#ammeter_Layer").append(svgimg);
+	        			 			setCreateUseEl_meter(layerSnap,"meterCircle_"+x_rowId,"meterBox",(ammeterX-23),(ammeterY - 3));
+	        			 			//电表号
+	        			 			 splitRemarks(layerSnap,"meter_no_" + x_rowId,x_json["ammeterId"],(ammeterX +60) ,(ammeterY+40),"fText",10,false);
 	 	    						//电表文本引入
 	    		        			 var ammeterTxtX = ammeterX + 70;
 	    		        			 var ammeterTxtY = ammeterY + 35;
-	    		        			 var textNewlineArr = textNewline(x_name,6,ammeterTxtX-20,ammeterTxtY + 20,20);
+	    		        			 var textNewlineArr = textNewline(x_name,6,ammeterTxtX-20,ammeterTxtY + 25,20);
 	    		    		         splitRemarks(layerSnap,"meterText_" + x_rowId,textNewlineArr[0],0 ,0,"fText",12,true);//电表文本文本内容
 	    		    		         //table
 	    		    		         var table_ammeterY = textNewlineArr[1] + 180;
@@ -317,12 +336,12 @@ function showTop(data,rowId,tableBoxId){
 	}
 	 var widthVal = (ammeterX + 350);
 	 var heightVal = (table_ammeterY + 150);
-	  var temp = heightVal + 400 ;
+	  var temp = heightVal + 600 ;
 	 svgSnap.attr("width", widthVal).attr("height", temp)
 	 parent.$("#tableBoxDiv").css("overflow", "auto");
 	 parent.$(".ammeter").css("width", "650px");
 	 $("#falutDiv").css("width", "950px").css("top",( temp - 450)+"px");
-	 parent.$("#tab3Iframe").attr("height", (temp));
+	 parent.$("#tab3Iframe").attr("width", "1200").attr("height", (temp));
 	 
 	 javaScriptObj.svgObj = layerSnap;
 	 //加载故障
@@ -395,18 +414,18 @@ function ammterTableUipq(meterBoxId,ammterXYArray){
 		        				}
 		        			}
         				}else{
-        					 var u_value = 0;
-        					 var i_value = 0;
-        					 var p_value = 0;
-        					 var q_value = 0;
+        					 var u_value = "无";
+        					 var i_value = "无";
+        					 var p_value = "无";
+        					 var q_value = "无";
         					//清除TABLE
         					 setammeterTable(javaScriptObj.svgObj,key,x,y,u_value,i_value,p_value,q_value);
         				}
         			}else{
-        				 var u_value = 0;
-    					 var i_value = 0;
-    					 var p_value = 0;
-    					 var q_value = 0;
+        				 var u_value = "无";
+    					 var i_value = "无";
+    					 var p_value = "无";
+    					 var q_value = "无";
         				//清除TABLE
         				 setammeterTable(javaScriptObj.svgObj,key,x,y,u_value,i_value,p_value,q_value);
         			}
@@ -415,24 +434,24 @@ function ammterTableUipq(meterBoxId,ammterXYArray){
         	//处理表箱表格
         	if(meterBoxList){
 				if(null != meterBoxList && meterBoxList.length > 0){
-					 var  ua = 0;
-					 var  ia = 0;
-					 var  pa = 0;
-					 var qa = 0;
-					 var ub = 0;
-					 var ib = 0;
-					 var pb = 0;
-					 var qb = 0;
-					 var uc = 0;
-					 var ic = 0;
-					 var pc = 0;
-					 var qc = 0;
+					 var  ua = "无";
+					 var  ia = "无";
+					 var  pa = "无";
+					 var qa = "无";
+					 var ub = "无";
+					 var ib = "无";
+					 var pb = "无";
+					 var qb = "无";
+					 var uc = "无";
+					 var ic = "无";
+					 var pc = "无";
+					 var qc = "无";
 		        	for(var i = 0;i < meterBoxList.length;i++){
 		        		var json = meterBoxList[i];
 		        		var phaseRemark = json["phaseRemark"];
 		        		if(phaseRemark == 1 || phaseRemark == "1"){
 		        			  ua = parseFloat(json["u"] || 0).toFixed(2);
-		        			  ia = parseFloat(json["i"] || 0).toFixed(2);
+		        			  ia = parseFloat(json["i"] || "无").toFixed(2);
 		        			  pa = parseFloat(json["p"] ||0).toFixed(2);
 		        			  qa = parseFloat(json["q"] ||0).toFixed(2);
 		        		}else if(phaseRemark == 2 || phaseRemark == "2"){
@@ -450,34 +469,34 @@ function ammterTableUipq(meterBoxId,ammterXYArray){
 		        	setCabinetsXTable(javaScriptObj.svgObj,meterBoxId,javaScriptObj.meterBoxXYJSON.X,javaScriptObj.meterBoxXYJSON.Y,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 				}else{
 					//清除表箱表格
-					 var  ua = 0;
-					 var  ia = 0;
-					 var  pa = 0;
-					 var qa = 0;
-					 var ub = 0;
-					 var ib = 0;
-					 var pb = 0;
-					 var qb = 0;
-					 var uc = 0;
-					 var ic = 0;
-					 var pc = 0;
-					 var qc = 0;
+					 var  ua = "无";
+					 var  ia = "无";
+					 var  pa = "无";
+					 var qa = "无";
+					 var ub = "无";
+					 var ib = "无";
+					 var pb = "无";
+					 var qb = "无";
+					 var uc = "无";
+					 var ic = "无";
+					 var pc = "无";
+					 var qc = "无";
 					 setCabinetsXTable(javaScriptObj.svgObj,meterBoxId,javaScriptObj.meterBoxXYJSON.X,javaScriptObj.meterBoxXYJSON.Y,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
 				}
         	}else{
         		//清除表箱表格
-        		 var  ua = 0;
-				 var  ia = 0;
-				 var  pa = 0;
-				 var qa = 0;
-				 var ub = 0;
-				 var ib = 0;
-				 var pb = 0;
-				 var qb = 0;
-				 var uc = 0;
-				 var ic = 0;
-				 var pc = 0;
-				 var qc = 0;
+        		 var  ua = "无";
+				 var  ia = "无";
+				 var  pa = "无";
+				 var qa = "无";
+				 var ub = "无";
+				 var ib = "无";
+				 var pb = "无";
+				 var qb = "无";
+				 var uc = "无";
+				 var ic = "无";
+				 var pc = "无";
+				 var qc = "无";
 				 setCabinetsXTable(javaScriptObj.svgObj,meterBoxId,javaScriptObj.meterBoxXYJSON.X,javaScriptObj.meterBoxXYJSON.Y,ua,ia,pa,qa,ub,ib,pb,qb,uc,ic,pc,qc);
         	}
             $(".loading").hide();
@@ -527,6 +546,35 @@ function setCreateUseEl(layerSnap,id,type,x,y){
 		y: y,
 		scale: 1
 	});
+}
+
+/**
+ * 引入电表图状
+ * **/
+function setCreateUseEl_meter(layerSnap,id,type,x,y){
+	createUseEl_meter(layerSnap, {
+		id :id,
+		type: type
+	}, {
+		x: x,
+		y: y,
+		scale: 1
+	});
+}
+function createUseEl_meter(layer, data, position) {
+	position.rotate= position.rotate||0;
+	data.id = data.id || "";
+	var x = position.x;
+	var y = position.y;
+	var g = layer.append("g").attr("id", data.id).attr("x",x).attr("y",y);
+	var symbol = getSymbolByType(data.type)
+	var transX = 0;
+	var transY = 0;
+	var rotate = position.rotate
+	var gridTemp = 100;
+	var rotateX = x + gridTemp / 2;
+	var rotateY = y + gridTemp / 2;
+	 g.append('use').attr("width", gridTemp).attr("height", gridTemp).attr("transform","scale(" + position.scale + ") translate(" + transX + " " + transY + ") rotate(" + position.rotate + " " + rotateX + " " + rotateY + ")").attr("xlink:href", "#" + symbol.id ).attr("x", x).attr("y", y).attr("class", data.cls);
 }
 
 /**
@@ -875,7 +923,7 @@ function setFalut(){
 	    			  var faultTypeName = json["faultTypeName"];
 	    			//找到异常表箱图标，设置
 	    			$("#ammeter_Layer").find("image[id='meterBoxImg_"+key+"']").attr("href","../woodare/image/tableBoxError.png");
-	    			var count = $("#meterBoxText_"+key).find("text tspan").length||0;
+	    			 var count = $("#meterBoxText_"+key).find("text tspan").length||0;
 	    			if(null != faultTypeName && faultTypeName != ""){
 	    				$("#meterBoxText_" + key+ " text").find("tspan").eq((count - 2)).text("故障原因:" );
 	    				$("#meterBoxText_" + key+ " text").find("tspan").eq((count - 1)).text(faultTypeName);
@@ -893,7 +941,14 @@ function setFalut(){
 	    			var epuName = json["epuName"];
 	    			  var faultTypeName = json["faultTypeName"];
 	    			//找到异常电表图标，设置
-	    			$("#ammeter_Layer").find("image[id='meterImg_"+key+"']").attr("href","../woodare/image/meterError.png");
+	    			  var x = $("#meterCircle_" + key).attr("x");
+	    			  var y = $("#meterCircle_" + key).attr("y");
+	    			  //移除原始框
+	    			  $("#meterCircle_"+key).remove();
+	    			  //添加红色框
+	    			  setCreateUseEl_meter(javaScriptObj.svgObj,"meterCircle_"+key,"meterBox1",x,y);
+	    			  updateClass("meter_no_" + key+ " text", "error");//电表号置为红色
+	    			  
 	    			var count = $("#meterText_"+key).find("text tspan").length||0;
 	    			if(null != faultTypeName && faultTypeName != ""){
 	    				$("#meterText_" + key+ " text").find("tspan").eq((count - 2)).text("故障原因:" );
@@ -942,7 +997,15 @@ function clearFalut(faultNowMeterArray,faultNowMeterBoxArray){
 		var faultType = json["faultType"];
 		var epuName = json["epuName"];
 		  var faultTypeName = json["faultTypeName"];
-		$("#ammeter_Layer").find("image[id='meterImg_"+key+"']").attr("href","../woodare/image/meter.png");
+//		$("#ammeter_Layer").find("image[id='meterImg_"+key+"']").attr("href","../woodare/image/meter.png");
+		  var x = $("#meterCircle_" + key).attr("x");
+		  var y = $("#meterCircle_" + key).attr("y");
+		  //移除原始框
+		  $("#meterCircle_"+key).remove();
+		  //添加红色框
+		  setCreateUseEl_meter(javaScriptObj.svgObj,"meterCircle_"+key,"meterBox",x,y);
+		  updateClass("meter_no_" + key+ " text", "fText");//电表号置为黑色色
+		  
 		var count = $("#meterText_"+key).find("text tspan").length||0;
 		
 		$("#meterText_" + key+ " text").find("tspan").eq((count - 2)).text("");

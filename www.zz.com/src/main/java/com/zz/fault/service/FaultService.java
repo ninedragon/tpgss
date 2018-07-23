@@ -3,6 +3,7 @@ package com.zz.fault.service;
 import java.util.List;
 import java.util.Map;
 
+import com.zz.common.model.CalZInfo;
 import com.zz.common.model.CodeInfo;
 import com.zz.common.model.FaultInfo;
 import com.zz.common.model.FaultRendering;
@@ -14,9 +15,10 @@ public interface FaultService {
 	Pagination<FaultInfo> findByPage(Map<String, Object> resultMap, Integer pageNo,
 			Integer pageSize);
 	
-    public List<CodeInfo> selectTypeList(List<String> codeTypeList);
+    public List<CodeInfo> selectTypeList(Map<String, Object> map);
     
     public List<FaultRendering> selectFaultByRootId(Map<String, Object> map);
+    public List<CalZInfo> queryCalZList(Map<String, Object> map);
     
     public List<FaultRendering> selectFaultNews(Map<String, Object> map);
     

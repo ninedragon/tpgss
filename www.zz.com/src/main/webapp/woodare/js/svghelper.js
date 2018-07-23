@@ -167,10 +167,11 @@ var SVG_HELPER = (function() {
                 });
             });
         });
-        svgSnap.attr("width", w1 + leftPad + 100);
+        var tempWidth = w1 + leftPad + (100 * outgoingCabinetArray.length);
+        svgSnap.attr("width", tempWidth);
         var rowId = parent.$(".all li[class='on']").attr("id").replace("tab_", "");
         parent.$("#" + rowId + "Iframe").attr("height", svgSnap.attr("height")); //设置主体IFRAME的宽度
-        parent.$("#" + rowId + "Iframe").attr("width", w1 + leftPad + 100); //设置主体IFRAME的宽度
+        parent.$("#" + rowId + "Iframe").attr("width", tempWidth); //设置主体IFRAME的宽度
         var wd = parseFloat($("#wd").val() || 1);
         if (wd < 1) {
             wd = wd.toFixed(1);
@@ -226,7 +227,11 @@ var SVG_HELPER = (function() {
                     var epuName = json["epuName"];
                     var faultType = json["faultType"];
                     var faultTypeName = json["faultTypeName"];
-                    var error_num = json["error_num"] ||"";
+                    var error_num = json["error_num"];
+                    if(error_num == 0 ){
+                    	chuxianguiTxt(key,epuName,"在"+error_num+"个时间段监测出错误","NO");
+                   	 	continue;
+                   }
                     $("#Snap_Layer").find("image[id='kaiguanxianImg_" + key + "']").attr("href", "../woodare/image/branchBoxError.png"); //分支箱/出线柜
                     updateBox(key, "error-box");
                     if (null != faultTypeName && "" != faultTypeName) {
@@ -259,7 +264,11 @@ var SVG_HELPER = (function() {
                     var epuName = json["epuName"];
                     var faultType = json["faultType"];
                     var faultTypeName = json["faultTypeName"];
-                    var error_num = json["error_num"] ||"";
+                    var error_num = json["error_num"];
+                    if(error_num == 0){
+                    	 chuxianguiTxt(key,epuName,"在"+error_num+"个时间段监测出错误","NO");
+                   	 	continue;
+                   }
                     updateKaiguanxian(key, "error");
                     $("#kaiguanxian_line_" + key).find("rect").attr("class", "error");
                     $("#kaiguanxian_line_" + key).find("path").attr("class", "error");
@@ -275,12 +284,59 @@ var SVG_HELPER = (function() {
 
                 }
             },
+            kaiguanxianEvaluate: function(kaiguanxianErrorArray) {
+                for (var i = 0; i < kaiguanxianErrorArray.length; i++) {
+                    var json = kaiguanxianErrorArray[i];
+                    var key = json["key"];
+                    var epuName = json["epuName"]|| "";
+                    var za =json["za"] || 0;
+                    var zb =json["zb"] || 0;
+                    var zc =json["zc"] || 0;
+                    var is_valid =json["is_valid"]||"";//代表是否有足够支撑数据计算结果，0表示没有结果，1表示计算出来了结果
+                	var x = $("#meterbox_" + key).attr("x");
+                    var y = $("#meterbox_" + key).attr("y");
+                    var k = 0;
+                    x = parseInt(x);
+                    y = parseInt(y);
+                    var k = 0;
+                    if((""!=is_valid && null !=is_valid)&& (is_valid == "0" || is_valid == 0)){
+                    	epuName = epuName + "阻抗无法计算";
+                    }
+                    if (epuName && epuName.length) {
+                        var size = 7;
+                        thisSvgObj.select("g[id='meterbox_"+key+"']").each(function(){
+                         	$(this).children("text").each(function(){
+                         		$(this).remove();
+                         	});
+                         	$(this).children("title").remove();
+                         });
+                         var g = thisSvgObj.select("g[id='meterbox_"+key+"']");
+                        for (var i = 0; i < epuName.length / size; i++) {
+                            g.append('text').attr("font-size", "14").attr("class", "").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text(epuName.substring(i * size, i * size + size)).attr("x", x).attr("y", y + 108 + 20 * i);
+                            k++;
+                        }
+                        if((""!=is_valid && null !=is_valid)&& (is_valid == "1" || is_valid == 1)){
+                        	epuName = epuName + "     A相阻抗："+za+"（Ω）;B相阻抗："+zb+"（Ω）;C相阻抗："+zc+"（Ω）;"
+                        	g.append('text').attr("font-size", "12").attr("class", "").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text("A相："+za+"Ω").attr("x", x).attr("y", y + 108 + 20 * (k));
+                        	g.append('text').attr("font-size", "12").attr("class", "").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text("B相："+zb+"Ω").attr("x", x).attr("y", y + 108 + 20 * (k+1));
+                        	g.append('text').attr("font-size", "12").attr("class", "").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text("C相："+zc+"Ω").attr("x", x).attr("y", y + 108 + 20 * (k+2));
+                        }
+                        g.append('title').text(epuName);
+                    }
+
+                    
+                }
+            },
             kaiguanxianWarning: function(kaiguanxianWarningArray) {
                 for (var i = 0; i < kaiguanxianWarningArray.length; i++) {
                     var json = kaiguanxianWarningArray[i];
                     var key = json["key"];
                     var epuName = json["epuName"]||"";
-                    var error_num = json["error_num"]||"";
+                    var error_num = json["error_num"];
+                    if(error_num == 0 ){
+                    	 chuxianguiTxt(key,epuName,"在"+error_num+"个时间段监测出错误","NO");
+                    	 continue;
+                    }
                     updateKaiguanxian(key, "warning");
                     chuxianguiTxt(key,epuName,"在"+error_num+"个时间段监测出错误","warning");
                     
@@ -384,6 +440,9 @@ var SVG_HELPER = (function() {
                         }
                     }
                 },
+                clearTabData:function(key){
+                	$("#table_id_"+key).remove();
+                },
             keyArray : keyArray,
             keyJsonArray : keyJsonArray,
             branchboxIDArray : branchboxIDArray,
@@ -407,30 +466,44 @@ var SVG_HELPER = (function() {
      function chuxianguiTxt(key,epuName,epuNameError,cls){
     	var x = $("#chuxiangui_" + key).attr("x");
         var y = $("#chuxiangui_" + key).attr("y");
+        var type = $("#chuxiangui_" + key).attr("type");
         var k = 0;
         x = parseInt(x);
         y = parseInt(y);
-        if (epuName && epuName.length && !isNaN(x)) {
-            var size = 1;
+        if (epuName && epuName.length > 0  && !isNaN(x)) {
             thisSvgObj.select("g[id='chuxiangui_"+key+"']").each(function(){
             	$(this).children("text").each(function(){
             		$(this).remove();
             	})
+            	$(this).children("title").remove();//清除原始标题
             });
             var g = thisSvgObj.select("g[id='chuxiangui_"+key+"']");
+            g.append('title').text((epuName+epuNameError));//标题
+            
+            var k = 0;
+            var size = 1;
             var yTemp = y + 18;
-            for (var i = 0; i < epuName.length / size; i++) {
-            	g.append('text').attr("font-size", "18").attr("class", cls).attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text(epuName.substring(i * size, i * size + size)).attr("x", (x- 30)).attr("y", yTemp + 20 * i);
-                k++;
+            var tempNum = 0;
+            var column = 0;
+            epuName = epuName +epuNameError;
+            if(epuName.length > 15 && type == "M0002"){
+            	epuName= epuName.substring(0,15)+"...";
             }
-            var yTemp = y + 18;
-            for (var i = 0; i < epuNameError.length / size; i++) {
-            	var nameError ="";
-            	if(cls != "" && null != cls){
-            		nameError = epuNameError.substring(i * size, i * size + size);
-            	}
-            	g.append('text').attr("font-size", "18").attr("class", cls).attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text(nameError).attr("x", (x- 60)).attr("y", yTemp + 20 * i);
-                k++;
+            var splitNameLength = epuName.length;
+            for (var i = 0; i < epuName.length / size; i++) {
+            	var xValue = (x- 30);
+        		if((i % 9) == 0 && i > 0){
+        			tempNum = 0;
+        			column ++;
+        		}
+        		if(column > 0){
+        			xValue = xValue - ( 25 * column);
+        		}
+        		var yValue =  yTemp + 20 * tempNum;
+        		var nameValue = epuName.substring(i * size, i * size + size);
+        		g.append('text').attr("font-size", "14").attr("cursor", "pointer").attr("text-align", "center").attr("class", cls).attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text(nameValue).attr("x",xValue).attr("y",yValue);
+        		k++;
+                tempNum ++;
             }
         }
     }
@@ -448,11 +521,13 @@ var SVG_HELPER = (function() {
              thisSvgObj.select("g[id='meterbox_"+key+"']").each(function(){
               	$(this).children("text").each(function(){
               		$(this).remove();
-              	})
+              	});
+              	$(this).children("title").remove();//清除原始标题
               });
               var g = thisSvgObj.select("g[id='meterbox_"+key+"']");
+              g.append('title').text(epuName);
              for (var i = 0; i < epuName.length / size; i++) {
-                 g.append('text').attr("font-size", "14").attr("class", cls).attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text(epuName.substring(i * size, i * size + size)).attr("x", x).attr("y", y + 108 + 20 * i);
+                 g.append('text').attr("font-size", "14").attr("cursor", "pointer").attr("text-align", "center").attr("class", cls).attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text(epuName.substring(i * size, i * size + size)).attr("x", x).attr("y", y + 108 + 20 * i);
                  k++;
              }
          }
@@ -480,7 +555,7 @@ var SVG_HELPER = (function() {
     }
 
     function createBox(layer, id, x, y, name, lines, type,svgModelData) {
-        var g = layer.append("g").attr("id", "chuxiangui_" + id).attr("x", x).attr("y", y);
+        var g = layer.append("g").attr("id", "chuxiangui_" + id).attr("x", x).attr("y", y).attr("type",type);
         g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("stroke-dasharray", "5,5").attr("fill", "none").attr("x", x).attr("y", y).attr("width", 300).attr("height", 180).attr("id", "chuxiangui_rect_" + id);
 
 //        g.append('path').attr("id", "chuxiangui_text_01_" + id).attr("d", "M" + (x - 55) + "," + y + " L" + (x - 55) + "," + (y + 300)).attr("stroke-width", 0);
@@ -495,12 +570,29 @@ var SVG_HELPER = (function() {
         if (name && name.length) {
             var size = 1;
             var yTemp = y + 18;
+            var tempNum = 0;
+            var column = 0;
+            g.append('title').text(name);
+            if(type == "M0002"){
+	            if(name.length > 15 ){
+	            	name= name.substring(0,15)+"...";
+	            }
+            }
             for (var i = 0; i < name.length / size; i++) {
-                g.append('text').attr("font-size", "18").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text(name.substring(i * size, i * size + size)).attr("x", (x- 30)).attr("y", yTemp + 20 * i);
+            	var xValue = (x- 30);
+        		if((i % 9) == 0 && i > 0){
+        			tempNum = 0;
+        			column ++;
+        		}
+        		if(column > 0){
+        			xValue = xValue - ( 25 * column);
+        		}
+        		var yValue =  yTemp + 20 * tempNum;
+                g.append('text').attr("font-size", "14").attr("cursor", "pointer").attr("text-align", "center").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text(name.substring(i * size, i * size + size)).attr("x", xValue).attr("y",yValue);
                 k++;
+                tempNum ++;
             }
         }
-     
         if (lines && lines.length) {
             var start = x + 180;
             var end = x;
@@ -564,6 +656,7 @@ var SVG_HELPER = (function() {
         var tableBoxId = parent.$("#tableBoxId").val(); //获取箱变根ID
         parent.$("#messageBranchBox").show();
         var iframeID = parent.$("#tab4Iframe")[0]; //获取iframe的ID
+        iframeID.contentWindow.clearQueryParam();//清空
         iframeID.contentWindow.showList(rowId, tableBoxId,  branchBoxId, meterboxId, meterboxEpuName,svgModelData);
     }
 
@@ -572,12 +665,12 @@ var SVG_HELPER = (function() {
  **/
     function createMeterBox(layer, id, x, y, name) {
         var g = layer.append("g").attr("id", "meterbox_" + id).attr("name", name).attr("x", x).attr("y", y);
-
+        g.append('title').text(name);
         var k = 0;
         if (name && name.length) {
             var size = 7;
             for (var i = 0; i < name.length / size; i++) {
-                g.append('text').attr("font-size", "14").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text(name.substring(i * size, i * size + size)).attr("x", x).attr("y", y + 108 + 20 * i);
+                g.append('text').attr("font-size", "14").attr("cursor", "pointer").attr("text-align", "center").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text(name.substring(i * size, i * size + size)).attr("x", x).attr("y", y + 108 + 20 * i);
                 k++;
             }
 //            g.append('text').attr("font-size", "14").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text("").attr("x", x).attr("y", y + 108 + 20 * (k));
@@ -604,9 +697,10 @@ var SVG_HELPER = (function() {
     /**
  * 组织画TABLE文本
  * **/
-    function setCabinetsXTable(layerSnap, id, cabinetsX, cabinetsY, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc) {
+    function setCabinetsXTable(layer, id, cabinetsX, cabinetsY, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc) {
     	var idTableNull_X = cabinetsX;
     	var idTableNull_Y = cabinetsY - 150;
+    	   var layerSnap = layer.append("g").attr("id","table_id_" +id);
     	setCreateUseEl(layerSnap,"idTitleNull" + id, "tableList1",idTableNull_X + 32,idTableNull_Y);//空框
     	
     	var idTableU_X = cabinetsX + 58;

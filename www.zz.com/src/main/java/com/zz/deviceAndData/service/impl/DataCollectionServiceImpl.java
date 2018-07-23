@@ -158,15 +158,27 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 String recordId = ((AbnormalU) object).getId() + "";
                 AbnormalU abnormalU = (AbnormalU) object;//object每次都要写转换看着累，就先转了算了
                 Boolean isAbnormal = (abnormalU).getIsAbnormal();
+                Float ua = abnormalU.getUa();// a相电压
+                Float ub = abnormalU.getUb();// b相电压
+                Float uc = abnormalU.getUc();// c相电压
+                Float uabcAbnoramlMax = 0f;// 电压最大值
+                Float uabcAbnoramlMin = 0f;// 电压最小值
                 Float uaBound = 100f;// a 相临界值
                 Float ubcBound = 100f;// b 相临界值
-                Float uabcAbnoramlMax = 240f;// 电压最大值
-                Float uabcAbnoramlMin = 200f;// 电压最小值
+                uabcAbnoramlMax = 253f;// 电压最大值
+                uabcAbnoramlMin = 187f;// 电压最小值
                 Boolean isPowerFailure = (abnormalU.getUa() <= ubcBound);
                 Boolean isPhaseLoss = (abnormalU.getUb() <= ubcBound) || (abnormalU.getUc() <= ubcBound);
                 Boolean b_is_loss = (abnormalU.getUb() <= ubcBound) && (abnormalU.getUc() > ubcBound);
                 Boolean c_is_loss = (abnormalU.getUc() <= ubcBound) && (abnormalU.getUb() > ubcBound);
                 Boolean bc_is_loss = (abnormalU.getUc() <= ubcBound) && (abnormalU.getUb() <= ubcBound);
+                Boolean a_is_overflow=(ua<uabcAbnoramlMin||ua>uabcAbnoramlMax)&&(ub>uabcAbnoramlMin&&ub<uabcAbnoramlMax)&&(uc>uabcAbnoramlMin&&uc<uabcAbnoramlMax);
+                Boolean b_is_overflow=(ua>uabcAbnoramlMin&&ua<uabcAbnoramlMax)&&(ub>uabcAbnoramlMin||ub<uabcAbnoramlMax)&&(uc>uabcAbnoramlMin&&uc<uabcAbnoramlMax);
+                Boolean c_is_overflow=(ua<uabcAbnoramlMin&&ua>uabcAbnoramlMax)&&(ub>uabcAbnoramlMin&&ub<uabcAbnoramlMax)&&(uc<uabcAbnoramlMin||uc>uabcAbnoramlMax);
+                Boolean ab_is_overflow=(ua<uabcAbnoramlMin||ua>uabcAbnoramlMax)&&(ub<uabcAbnoramlMin||ub>uabcAbnoramlMax)&&(uc>uabcAbnoramlMin&&uc<uabcAbnoramlMax);
+                Boolean ac_is_overflow=(ua<uabcAbnoramlMin||ua>uabcAbnoramlMax)&&(ub>uabcAbnoramlMin&&ub<uabcAbnoramlMax)&&(uc<uabcAbnoramlMin||uc>uabcAbnoramlMax);
+                Boolean bc_is_overflow=(ua>uabcAbnoramlMin&&ua<uabcAbnoramlMax)&&(ub>uabcAbnoramlMin||ub<uabcAbnoramlMax)&&(uc>uabcAbnoramlMin||uc<uabcAbnoramlMax);
+                Boolean abc_is_overflow=(ua<uabcAbnoramlMin||ua>uabcAbnoramlMax)&&(ub<uabcAbnoramlMin||ub>uabcAbnoramlMax)&&(uc<uabcAbnoramlMin||uc>uabcAbnoramlMax);
                 Boolean isOverFlow = (abnormalU.getUa() < uabcAbnoramlMin) || (abnormalU.getUa() > uabcAbnoramlMax) || (abnormalU.getUb() < uabcAbnoramlMin) || (abnormalU.getUb() > uabcAbnoramlMax) || (abnormalU.getUc() < uabcAbnoramlMin) || (abnormalU.getUc() > uabcAbnoramlMax);
 //                停电：A相电压小于100V时认为停电；
 //                缺相：B、C相电压小于100V时认为缺相；
@@ -188,15 +200,26 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                                 insertFaultPowerFailure(object, recordId, 223);
                             }
                         } else if (isOverFlow) {
-                            System.out.println("超限");// 目前看来逻辑好像和停电是一样的
-                            insertFaultPowerFailure(object, recordId, 23);
+                            if (a_is_overflow) {
+                                insertFaultPowerFailure(object, recordId, 231);
+                            } else if (b_is_overflow) {
+                                insertFaultPowerFailure(object, recordId, 232);
+                            } else if (c_is_overflow) {
+                                insertFaultPowerFailure(object, recordId, 233);
+                            } else if (ac_is_overflow) {
+                                insertFaultPowerFailure(object, recordId, 234);
+                            } else if (ab_is_overflow) {
+                                insertFaultPowerFailure(object, recordId, 235);
+                            } else if (bc_is_overflow) {
+                                insertFaultPowerFailure(object, recordId, 236);
+                            } else if (abc_is_overflow) {
+                                insertFaultPowerFailure(object, recordId, 237);
+                            }
                         }
                     } else {// 【2】异常被修复
                         //【2.1】故障修改：只需要更新now故障表就行，没有问题的话
                         //【2.2】通知websocket服务端
                         updateFault(object, recordId);
-
-
                     }
                 } else if (deviceType == 7) {// 表示bdtu
                     if (isAbnormal) {// 【1】异常产生
@@ -443,7 +466,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             }
             // 【2】插入source表，得先找到那些未被修复的非重复的故障的数据,同时直接将每条数据的id得到设置为base的id
             t_fault_source t_fault_source1 = new t_fault_source();
-            t_fault_source1.setTable_name("4");
+            t_fault_source1.setTable_name("3");
             t_fault_source1.setRecord_id(recordId);
             for (int i = 0; i < t_fault_bases.size(); i++) {
                 t_fault_source1.setFault_id(t_fault_bases.get(i).getId() + "");
@@ -590,17 +613,17 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (t_fault_bases.size() == 1) {//表示存在重复数据，不需要进行更新操作
             t_fault_base1.setIs_same(true);
             t_fault_base1.setFault_base_id(t_fault_bases.get(0).getId().toString());
-        } else if (t_fault_bases.size() == 0) {// 表示无重复数据，此时也需要先更新缺相的其它异常
-            // a.如果异常为22开头，则需要更新其它的异常
-            // 找到 key_id,faulttype 以22开头，且不等于传进来的fault_type
+        } else if (t_fault_bases.size() == 0) {// 表示无重复数据，此时也需要先更新缺相or超限的其它异常
+            // a.如果异常为22，23,42,43开头，则需要更新其它的异常
+            // 找到 key_id,faulttype 以22，23,42,43开头，且不等于传进来的fault_type
             // 更新is_repaired，repair_time
-            if ((fault_type + "").startsWith("22") || (fault_type + "").startsWith("42")) {// 缺相异常
+            if ((fault_type + "").startsWith("22") || (fault_type + "").startsWith("23") ||(fault_type + "").startsWith("42") ||(fault_type + "").startsWith("43")) {// 缺相异常
                 t_fault_baseExample t_fault_baseExample2 = new t_fault_baseExample();
                 t_fault_baseExample.Criteria criteria2 = t_fault_baseExample2.createCriteria();
-                if ((fault_type + "").startsWith("22")) {
-                    criteria2.andKey_idEqualTo(t_fault_base1.getKey_id()).andFault_typeBetween(220, 229).andFault_typeNotEqualTo(t_fault_base1.getFault_type()).andIs_sameEqualTo(false);
-                } else if ((fault_type + "").startsWith("42")) {
-                    criteria2.andKey_idEqualTo(t_fault_base1.getKey_id()).andFault_typeBetween(420, 429).andFault_typeNotEqualTo(t_fault_base1.getFault_type()).andIs_sameEqualTo(false);
+                if ((fault_type + "").startsWith("22") || (fault_type + "").startsWith("23") ) {
+                    criteria2.andKey_idEqualTo(t_fault_base1.getKey_id()).andFault_typeBetween(220, 239).andFault_typeNotEqualTo(t_fault_base1.getFault_type()).andIs_sameEqualTo(false);
+                } else if ((fault_type + "").startsWith("42") ||(fault_type + "").startsWith("43")) {
+                    criteria2.andKey_idEqualTo(t_fault_base1.getKey_id()).andFault_typeBetween(420, 439).andFault_typeNotEqualTo(t_fault_base1.getFault_type()).andIs_sameEqualTo(false);
                 }
                 t_fault_base paramsMap = new t_fault_base();
                 paramsMap.setIs_repaired(1);
@@ -609,12 +632,19 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 paramsMap.setRepair_time(timeStamp);
                 int updateCode = t_fault_baseMapper1.updateByExampleSelective(paramsMap, t_fault_baseExample2);
                 if (updateCode == 0) {
-                    logger.info("终端的缺相异常故障目前只有一个");
+                    logger.info("终端的缺相or超限异常故障目前只有一个");
                 } else {
-                    logger.info("数据库中有" + updateCode + "条缺相故障被修复");
+                    logger.info("数据库中有" + updateCode + "条缺相or超限故障被修复");//
+                    // 【2】插入source表，得先找到那些未被修复的非重复的故障的数据,同时直接将每条数据的id得到设置为base的id
+                    t_fault_source t_fault_source1 = new t_fault_source();
+                    t_fault_source1.setTable_name("4");
+                    t_fault_source1.setRecord_id(recordId);
+                    for (int i = 0; i < t_fault_bases.size(); i++) {
+                        t_fault_source1.setFault_id(t_fault_bases.get(i).getId() + "");
+                        t_fault_sourceMapper1.insertSelective(t_fault_source1);
+                    }
                 }
             }
-
             // b.设置开始的base故障为false
             t_fault_base1.setIs_same(false);
         }

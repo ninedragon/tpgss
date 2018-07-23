@@ -239,6 +239,31 @@
                         <button onclick="calZ()">计算阻抗数据</button>
                     </td>
                 </tr>
+                <tr>
+                    <td>编号</td>
+                    <td>描述</td>
+                    <td>数据</td>
+                    <td>操作</td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>计算某天某箱变的topo错误数据</td>
+                    <td>箱变id<input type="text" id="branch_box_id" value="057b42dd-d020-4219-9823-e8481aa44d61"><br>日期<input type="text" id="record_date" value="180720"></td>
+                    <td>
+                        <button onclick="cal_topo()">计算topo数据</button>
+                    </td>
+
+                    <td id="cal_topo_state_msg">213123</td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>计算前一天所有箱变的topo错误数据</td>
+                    <td></td>
+                    <td>
+                        <button onclick="cal_topo_all()">计算topo数据</button>
+                    </td>
+                    <td id="cal_topo_all_state_msg">213123</td>
+                </tr>
             </table>
 
         </div>
@@ -424,6 +449,42 @@
         $.post('${basePath}/dad/calZ.shtml', {name: 1}, function (data, textStatus, xhr) {
             /*optional stuff to do after success */
             console.log("测试阻抗数据");
+        });
+
+    }
+
+    function cal_topo() {
+        // 【1】传入参数即可
+        var branch_box_id=$("#branch_box_id").val(),
+        record_date=$("#record_date").val();
+        $("#cal_topo_state_msg").html('<font color="red"> 正在计算。。。</font>');
+        $.post('${basePath}/dad/cal_topo.shtml', {branch_box_id: branch_box_id,record_date:record_date}, function (data, textStatus, xhr) {
+            /*optional stuff to do after success */
+            if (data==1)
+            {
+                $("#cal_topo_state_msg").html('<font color="green"> 计算完毕！</font>！');
+            }else{
+                $("#cal_topo_state_msg").html('<font color="red"> 计算失败。。。</font>');
+            }
+            console.log("计算topo数据");
+        });
+
+    }
+
+    function cal_topo_all() {
+        // 【1】传入参数即可
+        $("#cal_topo_all_state_msg").html('<font color="red"> 正在计算。。。</font>！');
+
+        $.post('${basePath}/dad/cal_topo_all.shtml', {}, function (data, textStatus, xhr) {
+            /*optional stuff to do after success */
+            if (data==1)
+            {
+                $("#cal_topo_all_state_msg").html('<font color="green"> 计算完成！</font>！');
+            }
+            else{
+                $("#cal_topo_all_state_msg").html('<font color="red"> 计算失败。。。</font>');
+            }
+            console.log("计算前天所有topo数据");
         });
 
     }

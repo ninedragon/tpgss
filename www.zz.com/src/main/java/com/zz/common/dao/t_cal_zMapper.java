@@ -1,5 +1,6 @@
 package com.zz.common.dao;
 
+import com.zz.common.model.cal_topo_bo;
 import com.zz.common.model.t_cal_z;
 import com.zz.common.model.t_cal_zExample;
 import java.util.List;
@@ -27,4 +28,8 @@ public interface t_cal_zMapper {
     int updateByPrimaryKeySelective(t_cal_z record);
 
     int updateByPrimaryKey(t_cal_z record);
+
+    String cal_topo(cal_topo_bo topo_bo);
+
+    String cal_topo_all();
 }

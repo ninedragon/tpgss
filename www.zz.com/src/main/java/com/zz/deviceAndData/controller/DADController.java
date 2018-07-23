@@ -7,7 +7,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.zz.common.dao.t_cal_zMapper;
+import com.zz.common.model.cal_topo_bo;
 import com.zz.deviceAndData.service.ImpedanceService;
+import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -42,6 +45,8 @@ public class DADController extends BaseController {
 	UUserService userService;
 	@Autowired
 	ImpedanceService impedanceService;
+	@Autowired
+	t_cal_zMapper t_cal_zMapper1;
 	private String filename;
 
 	/**
@@ -323,6 +328,28 @@ public class DADController extends BaseController {
 	@ResponseBody
 	public String calZ(String json) {
 //		impedanceService.calImpedance(1);
+		return "1";
+	}
+
+	@RequestMapping(value = "cal_topo")
+	@ResponseBody
+	public String cal_topo(cal_topo_bo topo_bo) {
+//		impedanceService.calImpedance(1);
+
+		t_cal_zMapper1.cal_topo(topo_bo);
+		return "1";
+	}
+
+	@RequestMapping(value = "cal_topo_all")
+	@ResponseBody
+	public String cal_topo_all() {
+//		impedanceService.calImpedance(1);
+		try {
+			t_cal_zMapper1.cal_topo_all();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "0";
+		}
 		return "1";
 	}
 }

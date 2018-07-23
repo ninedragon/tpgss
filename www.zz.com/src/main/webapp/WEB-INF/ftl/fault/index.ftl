@@ -40,8 +40,10 @@
           <input id="row_name" type="text" name="row_name" value="" /></lable>
     	<lable>       
         	<span>故障原因 </span>
-          <select id="fault_type" name="fault_type"></select>
+          <select id="fault_type" name="fault_type" onchange="changeFault(this);"></select>
     	</lable>
+    	<!-- 二级故障原因 -->
+    	<lable id="secondLevelFalut"></lable>
     	 <lable>
         	<span>是否修复</span>
         	<select id="is_repaired" name="is_repaired">

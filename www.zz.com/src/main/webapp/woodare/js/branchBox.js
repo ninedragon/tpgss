@@ -45,14 +45,9 @@ function showList(rowId,tableBoxId,branchBoxId,meterboxId,meterboxEpuName,childr
 	 var widthVal = 800;
 	 var heightVal = 900;
 	 var temp = heightVal ;
-//	 $("#falutDiv").css("width",widthVal+ "px").css("top",( temp - 500)+"px");
 	 parent.$("#tab4Iframe").attr("width", widthVal).attr("height", temp);
-//	 parent.$("#branchBoxDiv").css("height", "auto");
-//	 parent.$(".branchBox").css("width", (widthVal + 20)+"px").css("height", (heightVal - 150)+ "px");
-	 
 	 parent.$("#branchBoxDiv").css("height", "auto");
 	 parent.$(".branchBox").css("width", "850px");
-//	$("#falutDiv").css("width", "950px");
 }
 
 function selectMeterBoxUIPQ(meterboxId){
@@ -69,18 +64,18 @@ function selectMeterBoxUIPQ(meterboxId){
 	        },
 	        success: function(meterBoxList) {
 	        	//处理表箱表格
-				 var  ua = 0;
-				 var  ia = 0;
-				 var  pa = 0;
-				 var qa = 0;
-				 var ub = 0;
-				 var ib = 0;
-				 var pb = 0;
-				 var qb = 0;
-				 var uc = 0;
-				 var ic = 0;
-				 var pc = 0;
-				 var qc = 0;
+				 var  ua = "无";
+				 var  ia = "无";
+				 var  pa = "无";
+				 var qa = "无";
+				 var ub = "无";
+				 var ib = "无";
+				 var pb = "无";
+				 var qb = "无";
+				 var uc = "无";
+				 var ic = "无";
+				 var pc = "无";
+				 var qc = "无";
 	        	if(meterBoxList){
 					if(null != meterBoxList && meterBoxList.length > 0){
 			        	for(var i = 0;i < meterBoxList.length;i++){
