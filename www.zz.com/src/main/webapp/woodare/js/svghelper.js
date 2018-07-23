@@ -673,7 +673,6 @@ var SVG_HELPER = (function() {
                 g.append('text').attr("font-size", "14").attr("cursor", "pointer").attr("text-align", "center").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text(name.substring(i * size, i * size + size)).attr("x", x).attr("y", y + 108 + 20 * i);
                 k++;
             }
-//            g.append('text').attr("font-size", "14").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)").text("").attr("x", x).attr("y", y + 108 + 20 * (k));
         }
     }
 

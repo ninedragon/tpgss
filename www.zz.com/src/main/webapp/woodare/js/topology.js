@@ -73,16 +73,12 @@ function showTop(rowId){
 	        			 clearInterval(myVar);//清除定时器
 	        			 var timeoutVar =  setTimeout(function(){
 	        				 clearInterval(timeoutVar);//清除定时器
-//	        				 showTop(rowId);
 	        				 //加载表格
 	    	        		 branchboxTableUipq(mySvg);
 	        			 }, (1000 * 20) );//(1000 * 20) 延迟20秒
 	        			
 	        	     },(1000 * 60 * 5));//(1000 * 60 * 4)
 	        		 javaScriptObj.interval = myVar;
-//	        		//单击按钮执行 说明:表格5分钟轮询后执行showTop()函数，重新生成SVG,这里需要对应还原
-//	        		 var txtValue = $("#"+javaScriptObj.substationId+"Iframe").contents().find(".a-hov span[class='on']").text();
-//	        		 clickButton(txtValue,false);
 	        	 }
 	        } 
 		});
@@ -315,6 +311,12 @@ function loadWebsocket(){
     	 if(evnt.data.indexOf("faultRendering") !=-1){
     		 var json = JSON.parse(evnt.data);
     		 if(json.key == javaScriptObj.substationId){
+    			 $(".a-hov span").each(function(){//执行故障定位指令时默认选中
+    					$(this).removeClass("on");
+    					if('故障定位' ==  $(this).text()){
+    						$(this).addClass("on");
+    					}
+    				});
 	    		 //故障渲染
 	    		 faultClick(undefined);
     		 }
@@ -323,7 +325,7 @@ function loadWebsocket(){
      };
      websocket.onerror = function(evnt) {};
      websocket.onclose = function(evnt) {
-    	 alert("与服务器断开了链接!");
+//    	 alert("与服务器断开了链接!");
      }
 }
 

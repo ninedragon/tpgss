@@ -119,7 +119,7 @@
 	};
 	websocket.onerror = function(evnt) {};
 	websocket.onclose = function(evnt) {
-		 alert("与服务器断开了链接!");
+// 		 alert("与服务器断开了链接!");
 	}
 </script>
 </#if>
