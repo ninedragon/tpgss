@@ -332,7 +332,7 @@
 	    <!--动态信息结束/-->
 	</div>
 	<!--主体结束/-->
-	<!--分支箱弹层开始-->
+	<!--分支箱弹层开始 -->
 	<div class="wapp-layer"  id="messageBranchBox" >
 		<div class="box tips mrr branchBox" style="left:5%;width: 90%;">
 	    	<h4 style="text-indent:0%; "><label style="width:90%" ><p id='branchBoxName' style="word-wrap:break-word; word-break:break-all;padding: 0px 0px 0px 10px;"></p></label><span class="close-js" onclick="$('#tab4Iframe')[0].contentWindow.closeBranchBox();">关闭</span></h4>
