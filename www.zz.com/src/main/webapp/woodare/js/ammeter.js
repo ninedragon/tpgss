@@ -1089,7 +1089,7 @@ function subStringName(epuName, type) {
 	if ("" != type && null != type) {
 		var splitCount = 21;
 		if (type == "M0004") {
-			splitCount = 32;
+			splitCount = 39;
 		}
 		if (epuName.length > splitCount) {
 			epuName = epuName.substring(0, splitCount) + "...";
