@@ -95,7 +95,7 @@
 			            	cInstalldateEnd: $(".search #cInstalldateEnd").val(),
 			            	pageNo:pageNo,
 			            	pageSize:10
-			            },  
+			            },     
 			            success: function (data) {
 			            	var page=data.page;
 			                if (page != null ) {
