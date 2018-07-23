@@ -176,7 +176,7 @@ var SVG_HELPER = (function() {
         if (wd < 1) {
             wd = wd.toFixed(1);
         }
-        $("#wd").val(wd); //文本框内容缩放级别值
+        $("#wd").val(wd); //文本框内容缩放级别值 
         $("#wdPercentage").val((wd * 100)+"%"); //文本框内容缩放级别值
         svgSnap.attr("transform", "scale(" + wd + " " + wd + ") translate(0 0)");
         // 画左侧标识

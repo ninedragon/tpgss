@@ -1038,7 +1038,7 @@ function loadWebsocket() {
 
 
 /**
-* 创建电表图标及文本展示
+* 创建电表图标及文本展示 
 **/
 function createMeterText(layer, id, x, y, type, name) {
 	var g = layer.append("g").attr("id", id).attr("name", name).attr("x", x).attr("y", y);
