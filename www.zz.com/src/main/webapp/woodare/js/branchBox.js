@@ -41,7 +41,7 @@ function showList(rowId,tableBoxId,branchBoxId,meterboxId,meterboxEpuName,childr
 	     },(1000 * 60 * 5));//(1000 * 60 * 4)
 		 javaScriptObj.interval = myVar;
 		 
-	//设置弹出层画面高宽
+	//设置弹出层画面高宽 
 	 parent.$("#tab4Iframe").attr("height", "900px");
 	 parent.$("#branchBoxDiv").css("height", "auto");
 }
