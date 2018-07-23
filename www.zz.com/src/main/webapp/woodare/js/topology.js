@@ -27,7 +27,7 @@ var javaScriptObj = {
 		interval:null//定时器资源
 }
 /**
- * 展示拓扑 
+ * 展示拓扑  
  * **/
 function showTop(rowId){
 	if(null != rowId && "" != rowId){
