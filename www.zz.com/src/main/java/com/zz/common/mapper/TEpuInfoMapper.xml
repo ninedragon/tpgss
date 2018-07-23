@@ -644,9 +644,9 @@
       <if test="epuName != null and epuName !=''">
         epu_name = #{epuName,jdbcType=VARCHAR},
       </if>
-      <if test="epuLocal != null and epuLocal !=''">
+     
         epu_local = #{epuLocal,jdbcType=VARCHAR},
-      </if>
+   
       <if test="epuProvince != null and epuProvince !=''">
         epu_province = #{epuProvince,jdbcType=VARCHAR},
       </if>

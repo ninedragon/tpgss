@@ -576,6 +576,7 @@
 				$("#amDiv #phaseRemark").val('');
 			
 				$("#amDiv").show();
+				$("#amDiv #epuTitle").html("新增电表");
 				  amAdd.initProvince();
 				  amAdd.initDistrict();
 				   amAdd.registEvent();
@@ -1162,6 +1163,7 @@
 										  amEdit.leakChannelId=epuInfo.leakChannelId;
 										  amEdit.phaseRemark=epuInfo.phaseRemark;
 								    $("#amDiv").show();
+								    $("#amDiv #epuTitle").html("编辑电表");
 								    amEdit.initPage();
 				                    amEdit.registEvent();	
 				                     $("#loadingDiv").hide();
@@ -1268,7 +1270,7 @@
 <!--弹层开始-->
 <div class="wapp-layer"  id="amDiv">
 	    <div class="box" style="height:auto">
-	<h4>新增电表<span class="close-js"  onclick="$('#amDiv').hide();">关闭</span></h4>
+	<h4 ><div id='epuTitle'>新增电表</div><span class="close-js"  onclick="$('#amDiv').hide();">关闭</span></h4>
 	  <input name="rowId" type="hidden" id="rowId"  value="">
        <div class="edit" style="height:auto">
              <lable>
@@ -1314,9 +1316,9 @@
                 <span style="width:115px;">相别</span>
                  <select name="phaseRemark" id="phaseRemark" class="text requiredSelect" title="相别">
                    <option value="">--请选择--</option>                   
-			        <option value="A">A</option>
-			        <option value="B">B</option>
-			         <option value="C">C</option>
+			        <option value="1">A</option>
+			        <option value="2">B</option>
+			         <option value="3">C</option>
                  </select>                       
             </lable>      
            <lable>

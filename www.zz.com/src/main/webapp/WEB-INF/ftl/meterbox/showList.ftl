@@ -568,6 +568,7 @@
 				$("#saveDiv #addressId").val('');
 				$("#saveDiv #channelId").val('');
 				$("#saveDiv").show();
+				  $("#saveDiv #epuTitle").html("新增表箱");
 				  epAdd.initProvince();
 				  epAdd.registEvent();
 			}
@@ -1035,6 +1036,7 @@
 										   epuEdit.addressId=epuInfo.addressId;
 										  epuEdit.channelId=epuInfo.channelId;
 								    $("#saveDiv").show();
+								    $("#saveDiv #epuTitle").html("编辑表箱");
 								    epuEdit.initPage();
 				                    epuEdit.registEvent();	
 				                     $("#loadingDiv").hide();							
@@ -1139,7 +1141,7 @@
 <!--弹层开始-->
 <div class="wapp-layer"  id="saveDiv">
      <div class="box" style="height:auto">
-	<h4>新增表箱<span class="close-js"  onclick="$('#saveDiv').hide();">关闭</span></h4>
+	<h4><div id='epuTitle'>新增表箱</div><span class="close-js"  onclick="$('#saveDiv').hide();">关闭</span></h4>
 	  <input name="rowId" type="hidden" id="rowId"  value="">
 	    <input name="epuNameBefore" type="hidden" id="epuNameBefore"  value="">
          <div class="edit" style="height:auto">
@@ -1167,7 +1169,7 @@
             </lable>       
             <lable>
                  <span style="width:115px;">设备位置</span>
-                <input name="epuLocal"  id="epuLocal" type="text" class="text request" title="设备位置" maxlength="100">
+                <input name="epuLocal"  id="epuLocal" type="text" class="text " title="设备位置" maxlength="100">
                          
             </lable>
              <lable>
