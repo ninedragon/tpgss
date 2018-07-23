@@ -557,15 +557,6 @@ var SVG_HELPER = (function() {
     function createBox(layer, id, x, y, name, lines, type,svgModelData) {
         var g = layer.append("g").attr("id", "chuxiangui_" + id).attr("x", x).attr("y", y).attr("type",type);
         g.append('rect').attr("stroke-width", 1).attr("stroke", "#000").attr("stroke-dasharray", "5,5").attr("fill", "none").attr("x", x).attr("y", y).attr("width", 300).attr("height", 180).attr("id", "chuxiangui_rect_" + id);
-
-//        g.append('path').attr("id", "chuxiangui_text_01_" + id).attr("d", "M" + (x - 55) + "," + y + " L" + (x - 55) + "," + (y + 300)).attr("stroke-width", 0);
-//        var txt = g.append('text').attr("font-size", "18").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)");
-//        txt.append('textPath').attr("id", "textPath_01_" + id).attr("xlink:href", "#chuxiangui_text_01_" + id).text("");
-//        
-//        g.append('path').attr("id", "chuxiangui_text_" + id).attr("d", "M" + (x - 30) + "," + y + " L" + (x - 30) + "," + (y + 300)).attr("stroke-width", 0);
-//        var txt = g.append('text').attr("font-size", "18").attr("stroke", "rgb(0,0,0)").attr("fill", "rgb(0,0,0)");
-//        txt.append('textPath').attr("id", "textPath_" + id).attr("xlink:href", "#chuxiangui_text_" + id).text(name);
-        
         var k = 0;
         if (name && name.length) {
             var size = 1;
