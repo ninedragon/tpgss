@@ -168,6 +168,7 @@ var SVG_HELPER = (function() {
             });
         });
         var tempWidth = w1 + leftPad + (100 * outgoingCabinetArray.length);
+        tempWidth = tempWidth < 900 ? 900 :tempWidth;
         svgSnap.attr("width", tempWidth);
         var rowId = parent.$(".all li[class='on']").attr("id").replace("tab_", "");
         parent.$("#" + rowId + "Iframe").attr("height", svgSnap.attr("height")); //设置主体IFRAME的宽度
