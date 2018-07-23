@@ -390,10 +390,10 @@ var SVG_HELPER = (function() {
                             setCabinetsXTable(layerSnap, rowId, tempX - 350, tempY + 200, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
                             break;
                         case 2:
-                            setCabinetsXTable(layerSnap, rowId, tempX - 80, tempY + 10, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
+                            setCabinetsXTable(layerSnap, rowId, tempX - 160, tempY + 10, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
                             break;
                         case 3:
-                            setCabinetsXTable(layerSnap, rowId, tempX + 150, tempY + 10, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
+                            setCabinetsXTable(layerSnap, rowId, tempX + 130, tempY + 10, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
                             break;
                         case 4:
                             setCabinetsXTable(layerSnap, rowId, tempX + 280, tempY + 200, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
@@ -405,13 +405,13 @@ var SVG_HELPER = (function() {
                             setCabinetsXTable(layerSnap, rowId, tempX - 350, tempY + 200, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
                             break;
                         case 2:
-                            setCabinetsXTable(layerSnap, rowId, tempX - 190, tempY + 10, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
+                            setCabinetsXTable(layerSnap, rowId, tempX - 150, tempY + 10, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
                             break;
                         case 3:
-                            setCabinetsXTable(layerSnap, rowId, tempX + 30, tempY + 10, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
+                            setCabinetsXTable(layerSnap, rowId, tempX + 120, tempY + 10, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
                             break;
                         case 4:
-                            setCabinetsXTable(layerSnap, rowId, tempX + 250, tempY + 10, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
+                            setCabinetsXTable(layerSnap, rowId, tempX + 390, tempY + 10, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
                             break;
                         case 5:
                             setCabinetsXTable(layerSnap, rowId, tempX + 350, tempY + 200, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
@@ -423,16 +423,16 @@ var SVG_HELPER = (function() {
                             setCabinetsXTable(layerSnap, rowId, tempX - 400, tempY + 200, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
                             break;
                         case 2:
-                            setCabinetsXTable(layerSnap, rowId, tempX - 350, tempY + 10, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
+                            setCabinetsXTable(layerSnap, rowId, tempX - 420, tempY + 10, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
                             break;
                         case 3:
-                            setCabinetsXTable(layerSnap, rowId, tempX - 140, tempY + 10, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
+                            setCabinetsXTable(layerSnap, rowId, tempX - 150, tempY + 10, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
                             break;
                         case 4:
-                            setCabinetsXTable(layerSnap, rowId, tempX + 70, tempY + 10, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
+                            setCabinetsXTable(layerSnap, rowId, tempX + 120, tempY + 10, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
                             break;
                         case 5:
-                            setCabinetsXTable(layerSnap, rowId, tempX + 280, tempY + 10, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
+                            setCabinetsXTable(layerSnap, rowId, tempX + 390, tempY + 10, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
                             break;
                         case 6:
                             setCabinetsXTable(layerSnap, rowId, tempX + 350, tempY + 200, ua, ia, pa, qa, ub, ib, pb, qb, uc, ic, pc, qc);
